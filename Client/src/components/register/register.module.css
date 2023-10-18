@@ -1,0 +1,17 @@
+.inputs {
+  background-color: rgba(255, 235, 205, 0.233) !important;
+  border: 10px 5px 5px 5px;
+}
+.inputs::placeholder,
+label {
+  color: white;
+}
+
+.inputs:hover {
+  border-color: rgb(224, 78, 98) !important;
+  border-width: 2px !important;
+}
+
+.inputs:focus {
+  background-color: rgba(255, 255, 255, 0.144) !important;
+}
