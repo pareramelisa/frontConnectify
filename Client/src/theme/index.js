@@ -19,12 +19,5 @@ export const theme = createTheme({
       fontStyle: 'italic',
     },
   },
-  MuiButton: {
-    rounded: {
-     backgroundColor: 'red',
-      fontSize: 12, 
-      borderRadius: '40px',
-    },
-  },
 });
 
