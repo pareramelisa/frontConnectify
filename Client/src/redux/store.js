@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
-import ads from "./adsSlice";
-import professionals from "./professionalSlice";
+import ads from "./actions/adsSlice";
+import professionals from "./actions/professionalSlice";
 
 export default configureStore({
   reducer: {

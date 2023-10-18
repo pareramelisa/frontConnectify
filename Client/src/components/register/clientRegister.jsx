@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import style from "./register.module.css";
+// import style from "./clientRegister.module.css";
 
 const ClientRegister = () => {
   const [clientRegister, setclientRegister] = useState({
@@ -31,7 +31,7 @@ const ClientRegister = () => {
         width="16"
         height="16"
         fill="currentColor"
-        class="bi bi-eye-fill"
+        // class="bi bi-eye-fill"
         viewBox="0 0 16 16"
       >
         <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
@@ -47,7 +47,7 @@ const ClientRegister = () => {
         width="16"
         height="16"
         fill="currentColor"
-        class="bi bi-eye-slash-fill"
+        // class="bi bi-eye-slash-fill"
         viewBox="0 0 16 16"
       >
         <path
@@ -67,52 +67,44 @@ const ClientRegister = () => {
     return (
       <div>
         <form onSubmit={(e) => handleSubmit(e)}>
-          <label class="form-label lead" htmlFor="First Name">
-            First Name
-          </label>
+          <label htmlFor="First Name">First Name</label>
           <input
             type="text"
             name="name"
-            class={`form-control ${style.inputs}`}
+            // class={`form-control ${style.inputs}`}
             value={clientRegister.fullName}
             onChange={handleChange}
             placeholder="First Name"
           />
-          <label class="form-label lead" htmlFor="lastName">
-            Last Name
-          </label>
+          <label htmlFor="lastName">Last Name</label>
           <input
             type="text"
             name="lastName"
-            class={`form-control ${style.inputs}`}
+            // class={`form-control ${style.inputs}`}
             value={clientRegister.lastName}
             onChange={handleChange}
             placeholder="lastName"
           />
-          <label class="form-label lead" htmlFor="username">
-            Username
-          </label>
+          <label htmlFor="username">Username</label>
           <input
             type="text"
             name="username"
-            class={`form-control ${style.inputs}`}
+            // class={`form-control ${style.inputs}`}
             value={clientRegister.username}
             onChange={handleChange}
             placeholder="Username"
           />
-          <label class="form-label lead" htmlFor="email">
-            Email :
-          </label>
+          <label htmlFor="email">Email :</label>
           <input
             type="email"
             name="email"
             value={clientRegister.email}
-            class={`form-control ${style.inputs}`}
+            // class={`form-control ${style.inputs}`}
             onChange={handleChange}
             placeholder="Email"
           />
           <div
-            class="mt-3"
+            // class="mt-3"
             style={{
               textAlign: "left",
               width: "100%",
@@ -120,19 +112,17 @@ const ClientRegister = () => {
               position: "relative",
             }}
           >
-            <label class="form-label lead" htmlFor="password">
-              Password :{" "}
-            </label>
+            <label htmlFor="password">Password : </label>
             <input
               type={passwordType ? "text" : "password"}
               value={clientRegister.password}
               name="password"
-              class={`form-control ${style.inputs}`}
+              // class={`form-control ${style.inputs}`}
               onChange={handleChange}
               placeholder="Password"
             />
             <button
-              class={style.iconPassword}
+              // class={style.iconPassword}
               id="hide"
               type="button"
               onClick={(e) => handleHide(e)}
@@ -140,7 +130,7 @@ const ClientRegister = () => {
               {passwordType ? iconVisible : iconInvisible}
             </button>
           </div>
-          <div class="col-xs-6 m-3">
+          <div>
             <button
               type="submit"
               style={{
@@ -149,7 +139,7 @@ const ClientRegister = () => {
                 paddingBlock: "10px",
                 marginBottom: "20px",
               }}
-              className={style.button}
+              // className={style.button}
             >
               Submit
             </button>
