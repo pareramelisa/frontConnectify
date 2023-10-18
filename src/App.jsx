@@ -1,3 +1,4 @@
+import { DetailTest } from "./components/DetailTest";
 import { ProfTest } from "./components/ProfTest";
 
 function App() {
@@ -5,7 +6,8 @@ function App() {
     <>
       <div>
         <h1>Front Connectify</h1>
-        <ProfTest />
+        {/* <ProfTest /> */}
+        <DetailTest />
       </div>
     </>
   );
