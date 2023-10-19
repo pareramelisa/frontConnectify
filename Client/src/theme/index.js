@@ -9,6 +9,7 @@ export const theme = createTheme({
     error: { main: '#FF495C'}
   },
   typography: {
+    fontFamily: 'Poppins, sans-serif',
     subtitle1: {
       fontSize: 12, 
     },
@@ -16,7 +17,7 @@ export const theme = createTheme({
       fontWeight: 500,
     },
     button: {
-      fontStyle: 'italic',
+      fontStyle: 'bold',
     },
   },
 });
