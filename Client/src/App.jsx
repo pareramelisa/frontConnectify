@@ -1,7 +1,7 @@
 import isoLogo from './assets/logo.svg'
 import connectifyLogo from '/connectify.svg'
 import './App.css'
-import ButtonUsage from './components/NavBar/NavBar'
+
 
 function App() {
  
@@ -14,7 +14,7 @@ function App() {
         </a>
       </div>
       <img src={connectifyLogo} className="logo" alt="Connectify logo" />
-      <ButtonUsage/>
+  
 
     </>
     
