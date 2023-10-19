@@ -8,7 +8,7 @@ function Navbar() {
   return (
     <AppBar position="static">
       <Toolbar >
-        
+        <p>client</p>
         <Button color="inherit" component={Link} to="/home">
           Home
         </Button>
