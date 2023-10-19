@@ -15,9 +15,6 @@ export const theme = createTheme({
     body1: {
       fontWeight: 500,
     },
-    button: {
-      fontStyle: 'italic',
-    },
   },
 });
 

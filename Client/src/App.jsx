@@ -2,7 +2,8 @@ import isoLogo from './assets/logo.svg'
 import connectifyLogo from '/connectify.svg'
 import './App.css'
 
-import NavBar from './components/register/NavBar/NavBar'
+import NavBar from './components/NavBar/NavBar'
+import { Footer } from './components/Footer/Footer'
 
 
 function App() {
@@ -17,6 +18,7 @@ function App() {
         </a>
       </div>
       <img src={connectifyLogo} className="logo" alt="Connectify logo" /> */}
+    <Footer/>
     </>
     
   )
