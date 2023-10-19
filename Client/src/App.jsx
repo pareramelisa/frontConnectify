@@ -5,7 +5,7 @@ import {Landing, Home, LoginClient, RegistrationClient, DetailExpertAds,
   BuyPage, SuccessPay, AccountClient, PurchasesHistory, Favorites} from "./views/indexViews"
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar/NavPreview';
-  
+import React from 'react';  
 
 function App() {
   const location = useLocation();
