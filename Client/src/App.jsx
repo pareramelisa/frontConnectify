@@ -1,15 +1,25 @@
-import isoLogo from './assets/logo.svg'
-import connectifyLogo from '/connectify.svg'
-import './App.css'
-import {Landing, Home, LoginClient, RegistrationClient, DetailExpertAds, 
-  BuyPage, SuccessPay, AccountClient, PurchasesHistory, Favorites} from "./views/indexViews"
-import { Routes, Route, useLocation } from 'react-router-dom';
-import Navbar from './components/Navbar/NavPreview';
-import React from 'react';  
+import isoLogo from "./assets/logo.svg";
+import connectifyLogo from "/connectify.svg";
+import "./App.css";
+import {
+  Landing,
+  Home,
+  LoginClient,
+  RegistrationClient,
+  DetailExpertAds,
+  BuyPage,
+  SuccessPay,
+  AccountClient,
+  PurchasesHistory,
+  Favorites,
+} from "./views/indexViews";
+import { Routes, Route, useLocation } from "react-router-dom";
+import Navbar from "./components/Navbar/NavPreview";
+import React from "react";
 
 function App() {
   const location = useLocation();
-  const isLandingPage = location.pathname === '/'; // Comprueba si estás en la página de inicio
+  const isLandingPage = location.pathname === "/"; // Comprueba si estás en la página de inicio
 
   return (
     <>
