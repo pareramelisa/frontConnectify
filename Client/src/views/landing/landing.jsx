@@ -1,7 +1,7 @@
 // import isoLogo from "./assets/logo.svg";
-import isoLogo from "../assets/logo.svg";
-import connectifyLogo from "../../public/connectify.svg";
-import "../App.css";
+import isoLogo from "../../assets/logo.svg";
+import connectifyLogo from "../../assets/connectify.svg";
+import "./landing.css";
 
 const Landing = () => {
   return (
