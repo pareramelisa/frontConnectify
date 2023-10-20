@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
 
+const PUBLIC_KEY = process.env.PUBLIC_KEY;
+
 
 function mercadoPago({price, description}) {
 
@@ -25,8 +27,7 @@ function mercadoPago({price, description}) {
      
     
 
-    //!Cambiar Public Key de MercadoPago usando .env...
-    initMercadoPago("TEST-50156f30-252b-4623-bbba-ed453620d49f");
+    initMercadoPago(PUBLIC_KEY);
 
     //Mercado Pago functions
     const createPreference = async ()=>{
