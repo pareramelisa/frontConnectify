@@ -6,14 +6,15 @@ import {Landing, Home, LoginClient, RegistrationClient, DetailExpertAds,
 import { Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar/NavPreview';
 import React from 'react';  
+import Login from './components/Login/Login'
 
 function App() {
-  const location = useLocation();
-  const isLandingPage = location.pathname === '/'; // Comprueba si estás en la página de inicio
+  // const location = useLocation();
+  // const isLandingPage = location.pathname === '/'; // Comprueba si estás en la página de inicio
 
   return (
     <>
-      {isLandingPage ? ( // Renderiza la barra de navegación solo si no estás en la página de inicio
+      {/* {isLandingPage ? ( // Renderiza la barra de navegación solo si no estás en la página de inicio
         <>
           <img src={connectifyLogo} alt="Logo" className="logo" />
           <img src={isoLogo} alt="Logo" className="logo" />
@@ -34,7 +35,8 @@ function App() {
           <Route path="/purchases" element={<PurchasesHistory />} />
           <Route path="/favorites" element={<Favorites />} />
         </Routes>
-      </div>
+      </div> */}
+      <Login/>
     </>
   );
 }
