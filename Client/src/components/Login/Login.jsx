@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from "@mui/material";
 import { useState } from "react";
 import { fetchUserLogin } from "../../redux/Slices/loginSlice";
 import {useDispatch, useSelector} from 'react-redux'
@@ -28,10 +28,20 @@ const Login = () => {
     setForm({ ...form, [propiedad]: valor });
   };
 
+  const handleChangeType = (e) => {
+    const propiedad = 'types'
+    const valor = e.target.defaultValue;
+
+    setForm({ ...form, [propiedad]: valor });
+  }
+
   const onSubmit = async (e) => {
     e.preventDefault()
     await dispatch(fetchUserLogin(form))
   }
+  
+  console.log(user);
+  console.log(form);
 
   return (
     <>
@@ -66,15 +76,15 @@ const Login = () => {
             onChange={handleChange}
             value={form.password}
           />
-          <TextField
-            label="Type"
-            variant="outlined"
-            id="types"
-            type="types"
-            fullWidth
-            onChange={handleChange}
-            value={form.types}
-          />
+          <FormControl>
+            <FormLabel id="user-login">
+              <RadioGroup defaultValue='Cliente' name="radio-buttons-user-login" row onChange={handleChangeType}>
+                <FormControlLabel value='client' id="types" control={<Radio/>} label='Cliente' />
+                <FormControlLabel value='professional' id="types" control={<Radio/>} label='Profesional' />
+                <FormControlLabel value='admin' id="types" control={<Radio/>} label='Administrador' />
+              </RadioGroup>
+            </FormLabel>
+          </FormControl>
         </div>
 
         <Button variant="outlined" type="submit" sx={{ mt: 2 }}>
