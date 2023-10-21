@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import store from "./redux/store.js";
 import { CssBaseline, ThemeProvider } from '@mui/material';
 import { theme } from './theme/index.js';
-import { Routes, BrowserRouter } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <Provider store={store}>
