@@ -1,4 +1,4 @@
 # CODEOWNERS file
 # drexleer and melisa are code owners
 
-@Drexleer @pareramelisa
+frontConnectify/Client @Drexleer @pareramelisa
