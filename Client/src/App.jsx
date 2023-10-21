@@ -1,10 +1,9 @@
 import './App.css';
-import React from 'react';
 import { useSelector} from 'react-redux'; 
 import { Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import Navbar from './components/Navbar/NavPreview';
+import Landing from './components/Landing/Landing';
 import {
-  Landing,
   Home,
   LoginClient,
   RegistrationClient,
@@ -65,7 +64,7 @@ function App() {
       {isLandingPage ? null : <Navbar role={userRole} />}
       <div className="App">
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={Landing} />
           <Route path="/home" element={<Home />} />
           <Route path="/client/login" element={<LoginClient />} />
           <Route path="/client/registration" element={<RegistrationClient />} />
