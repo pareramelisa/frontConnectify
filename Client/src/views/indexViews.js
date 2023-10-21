@@ -1,28 +1,28 @@
 import Landing from "./Landing/Landing";
 import Home from "./Home/Home";
-import LoginClient from "./LoginClient/LoginClient";
-import RegistrationClient from "./RegistrationClient/RegistrationClient"
-import DetailExpertAds from "./DetailExpertAds/DetailExpertAds"
-import BuyPage from "./BuyPage/BuyPage"
-import SuccessPay from "./SuccessPay/SuccessPay"
-import AccountClient from "./AccountClient/AccountClient"
-import PurchasesHistory from "./PurchasesHistory/PurchasesHistory"
-import Favorites from "./Favorites/Favorites"
+import LoginClient from "./ClientRoad/LoginClient/LoginClient";
+import RegistrationClient from "./ClientRoad/RegistrationClient/RegistrationClient"
+import DetailExpertAds from "./ClientRoad/DetailExpertAds/DetailExpertAds"
+import BuyPage from "./ClientRoad/BuyPage/BuyPage"
+import SuccessPay from "./ClientRoad/SuccessPay/SuccessPay"
+import AccountClient from "./ClientRoad/AccountClient/AccountClient"
+import PurchasesHistory from "./ClientRoad/PurchasesHistory/PurchasesHistory"
+import Favorites from "./ClientRoad/Favorites/Favorites"
 
 //rutas expert
 
-import LoginExpert from "./LoginExpert/LoginExpert"
-import RegistrationExpert from "./RegistrationExpert/RegistrationExpert"
-import ProfileExpertCreate from "./ProfileExpertCreate/ProfileExpertCreate"
-import AdsCreate from "./AdsCreate/AdsCreate"
-import AdsEdit from "./AdsEdit/AdsEdit"
-import ProfileExpert from "./ProfileExpert/ProfileExpert"
-import ProfileExpertEdit from "./ProfileExpertEdit/ProfileExpertEdit"
+import LoginExpert from "./Expert/LoginExpert/LoginExpert"
+import RegistrationExpert from "./Expert/RegistrationExpert/RegistrationExpert"
+import ProfileExpertCreate from "./Expert/ProfileExpertCreate/ProfileExpertCreate"
+import AdsCreate from "./Expert/AdsCreate/AdsCreate"
+import AdsEdit from "./Expert/AdsEdit/AdsEdit"
+import ProfileExpert from "./Expert/ProfileExpert/ProfileExpert"
+import ProfileExpertEdit from "./Expert/ProfileExpertEdit/ProfileExpertEdit"
 
 //rutas admin
 
-import LoginAdmin from "./LoginAdmin/LoginAdmin";
-import Dashboard from "./Dashboard/Dashboard";
+import LoginAdmin from "./Admin/LoginAdmin/LoginAdmin";
+import Dashboard from "./Admin/Dashboard/Dashboard";
 
 export {Landing, Home, LoginClient, RegistrationClient, DetailExpertAds, 
     BuyPage, SuccessPay, AccountClient, PurchasesHistory, Favorites,

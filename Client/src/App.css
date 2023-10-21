@@ -6,21 +6,10 @@
   
 }
 
-.logo-spiner {
-  height: 16em;
-  padding: .5em;
-  will-change: transform;
-  transition: transform 300ms;
-  background-color: transparent;
+.App,
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
 }
-
-.logo-spiner:hover {
-  transform: rotate(360deg);
-}
-
-.logo {
-  height: 10em;
-  background-color: transparent;
-}
-
 
