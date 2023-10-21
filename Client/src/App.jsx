@@ -26,7 +26,9 @@ import {
 } from "./views/indexViews";
 
 function App() {
-  const userRole = useSelector((state) => state.user.userRole); 
+  const userRole = useSelector((state) => state.usersLogin.user); 
+  const location = useLocation();
+  const isLandingPage = location.pathname === '/'; 
 
 
   const roleRoutes = {
@@ -56,8 +58,7 @@ function App() {
     )
   };
 
-  const location = useLocation();
-  const isLandingPage = location.pathname === '/'; // Comprueba si estás en la página de inicio
+  // Comprueba si estás en la página de inicio
 
   return (
     <>
@@ -74,7 +75,7 @@ function App() {
           {roleRoutes[userRole]}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </div> */}
+      </div>
     </>
   );
 }
