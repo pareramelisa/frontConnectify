@@ -74,7 +74,7 @@ function App() {
           {roleRoutes[userRole]}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
-      </div> */}
+      </div>
     </>
   );
 }
