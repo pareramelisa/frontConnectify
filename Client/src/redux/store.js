@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
-import adsSlice from "./actions/adsSlice";
-import professionalSlice from "./actions/professionalSlice";
-import userSlice from "./actions/userSlice";
+import adsSlice from "./Slices/adsSlice";
+import professionalSlice from "./Slices/professionalSlice";
+import userLoginSlice from "./Slices/loginSlice";
+import userRegisterSlice from "./Slices/loginSlice";
 
 export default configureStore({
   reducer: {
     ads: adsSlice,
     professionals: professionalSlice,
-    user: userSlice,
+    usersLogin: userLoginSlice,
+    usersRegister: userRegisterSlice,
   },
 });
