@@ -1,11 +1,9 @@
-//import { Container, Typography, Button } from '@mui/material';
+import React from 'react'
 
-function Landing() {
+export default function Landing() {
   return (
     <div>
-        <h1>HOLA</h1>
+        <h1>HGOLA</h1>
     </div>
-  );
+  )
 }
-
-export default Landing;
