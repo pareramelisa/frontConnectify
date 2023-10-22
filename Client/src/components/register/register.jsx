@@ -14,6 +14,9 @@ const RegistrationClient = () => {
           email: "",
           password: "",
           confirmPassword: "",
+          profession: "",
+          workingRange: "",
+          description: "",
           image: "",
           address: { province: "", location: "" },
         };
@@ -39,6 +42,8 @@ const RegistrationClient = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    // if(profession==="") "submit to clients DB"
+    // if(profession!=="") "submit to professionals DB"
   }; //a conectar cuando esté el redux andando
 
   // useEffect(() => {
