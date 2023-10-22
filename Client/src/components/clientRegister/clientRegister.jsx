@@ -1,5 +1,6 @@
 import { debounce } from "lodash";
 import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
 const RegistrationClient = () => {
   const [clientRegister, setClientRegister] = useState(() => {
@@ -17,6 +18,9 @@ const RegistrationClient = () => {
           address: { province: "", location: "" },
         };
   });
+
+  const routeLocation = useLocation();
+  const ifProfRoute = routeLocation.pathname === "/professional/registration";
 
   const [passwordType, setPasswordType] = useState(false);
 
@@ -140,6 +144,34 @@ const RegistrationClient = () => {
           onChange={handleChange}
           placeholder="Location"
         />
+        {ifProfRoute && (
+          <div>
+            <label htmlFor="profession">Profession</label>
+            <input
+              type="text"
+              name="profession"
+              value={clientRegister.profession}
+              onChange={handleChange}
+              placeholder="profession"
+            />
+            <label htmlFor="description">Description</label>
+            <input
+              type="text"
+              name="description"
+              value={clientRegister.description}
+              onChange={handleChange}
+              placeholder="description"
+            />
+            <label htmlFor="workingRange">Working Range</label>
+            <input
+              type="text"
+              name="workingRange"
+              value={clientRegister.workingRange}
+              onChange={handleChange}
+              placeholder="working range"
+            />
+          </div>
+        )}
         <label htmlFor="image">Image</label>
         <input
           type="file"

@@ -36,7 +36,11 @@ function App() {
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<LoginClient />} />
-          <Route path="/registrationClients" element={<RegistrationClient />} />
+          <Route path="/client/registration" element={<RegistrationClient />} />
+          <Route
+            path="/professional/registration"
+            element={<RegistrationClient />}
+          />
           <Route path="/detail/:profesional_id" element={<DetailExpertAds />} />
           <Route path="/buyPage/:profesional_id" element={<BuyPage />} />
           <Route path="/successPay" element={<SuccessPay />} />
