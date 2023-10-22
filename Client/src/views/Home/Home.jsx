@@ -1,5 +1,5 @@
 
-import {Ads} from "../../components/Ads/Ads"
+import Ads from "../../components/Ads/Ads"
 
 
 const Home = () => {

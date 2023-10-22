@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAds, selectAds } from "../../redux/Slices/adsSlice";
 import  Professional  from "../Card/Professional"
 import { useEffect } from "react";
-
+import style from "./Ads.module.css"
 
 function Ads() {
   const dispatch = useDispatch();
@@ -15,17 +15,17 @@ function Ads() {
 
   console.log(ads);
    return (
-    <div>
+    <div className={style.card}>
       {ads.map((ad) => (
         <Professional
           key={ad._id}
-          name={ad.name}
-          lastName={ad.lastName}
-          location={ad.creator[0].address.location} // Ajustar la ubicación
+          name={ad.creator[0].name}
+          lastName={ad.creator[0].lastName}
+          location={ad.creator[0].location} // Ajustar la ubicación
           description={ad.description}
           price={ad.price}
-          profession={ad.profession.join(", ")} // Ajustar la profesión
-          image={ad.image}
+          profession={ad.profession} // Ajustar la profesión
+          image={ad.creator[0].image}
         />
       ))}
     </div>
