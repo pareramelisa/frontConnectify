@@ -1,12 +1,9 @@
-
-import Ads from "../../components/Ads/Ads"
-
+import Ads from '../../components/Ads/Ads';
 
 const Home = () => {
 
     return (
         <>
-        <h1>vista home</h1>
         <Ads/>
         </>
     )
