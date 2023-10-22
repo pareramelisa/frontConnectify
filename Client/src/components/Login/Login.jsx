@@ -1,11 +1,20 @@
 import { Box, Button, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from "@mui/material";
+import GoogleIcon from '@mui/icons-material/Google';
 import { useState } from "react";
 import { fetchUserLogin } from "../../redux/Slices/loginSlice";
 import {useDispatch, useSelector} from 'react-redux';
+import {useAuth0} from '@auth0/auth0-react'
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
   const dispatch = useDispatch()
   const user = useSelector(state => state.usersLogin.user)
+
+  const navigate = useNavigate();
+
+  const {loginWithRedirect, isAuthenticated } = useAuth0()
+
+  console.log(isAuthenticated);
 
   const [form, setForm] = useState({
     email: "",
@@ -38,6 +47,11 @@ const Login = () => {
     e.preventDefault()
     await dispatch(fetchUserLogin(form))
   }
+
+  const handlerLoginGoogle = () => {
+    loginWithRedirect()
+  }
+
   
   console.log(user);
   console.log(form);
@@ -50,6 +64,14 @@ const Login = () => {
         onSubmit={onSubmit}
         autoComplete="off"
       >
+        {
+          !isAuthenticated && (
+          <div>
+          <Button variant="contained" disableElevation startIcon={<GoogleIcon/>} onClick={handlerLoginGoogle}>Google</Button>
+          </div>
+          )
+        }
+        
         <div>
           <TextField
             label="Email"

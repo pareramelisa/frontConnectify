@@ -4,14 +4,31 @@ import './Landing.css';
 import Logo from '../../assets/connectify.svg'
 import Logo2 from '../../assets/logo.svg'
 import SearchBar from './Utils/Searchbar';
+import {useAuth0} from '@auth0/auth0-react'
 
 function LandingPage() {
   
   const navigate = useNavigate();
 
+  const {logout, isAuthenticated } = useAuth0()
+
+  const handlerLogoutGoogle = () => {
+    logout()
+  }
+
   return (
     <div className='container'>
       <div className='landing'>
+      {
+        isAuthenticated && (
+        <Button
+        variant="contained"
+        color="primary"
+        onClick={handlerLogoutGoogle}
+        className='button'
+        >
+        Logout
+      </Button>)}
       <div className='container-logo'>
         <img src={Logo2} alt='Logo' className='logo2'/>
         <img src={Logo} alt='Logo' className='logo'/>
@@ -22,18 +39,10 @@ function LandingPage() {
       <Button
         variant="contained"
         color="primary"
-        onClick={()=> {navigate("/login")}}
+        onClick={!isAuthenticated ? ()=> {navigate("/login")} : ()=> {navigate("/home")}}
         className='button'
         >
-        Ir al Login
-      </Button>
-      <Button
-        variant="outlined"
-        color="secondary"
-        onClick={()=> {navigate("/home")}}
-        className='button'
-        >
-        Ir a la Página Principal
+        {!isAuthenticated ? "Ir a Login" : "Ir a Home" }
       </Button>
       <SearchBar/>
       </div>
