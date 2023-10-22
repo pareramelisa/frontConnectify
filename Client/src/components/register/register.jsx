@@ -1,163 +1,207 @@
-import React, { useState } from "react";
-import style from "./register.module.css";
+import { debounce } from "lodash";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 
-const ClientRegister = () => {
-  const [clientRegister, setclientRegister] = useState({
-    Name: "",
-    lastName: "",
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    image: "",
-    address: { province: "", location: "" },
+const RegistrationClient = () => {
+  const [clientRegister, setClientRegister] = useState(() => {
+    const localStorageData = localStorage.getItem("clientRegisterData");
+    return localStorageData
+      ? JSON.parse(localStorageData)
+      : {
+          name: "",
+          lastName: "",
+          username: "",
+          email: "",
+          password: "",
+          confirmPassword: "",
+          image: "",
+          address: { province: "", location: "" },
+        };
   });
+
+  const routeLocation = useLocation();
+  const ifProfRoute = routeLocation.pathname === "/professional/registration";
+
   const [passwordType, setPasswordType] = useState(false);
-  const handleHide = (e) => {
-    const icon = e.target.id;
 
-    if (icon === "hide") {
-      if (passwordType) {
-        setPasswordType(false);
-      } else {
-        setPasswordType(true);
+  const renderPasswordToggle = () => (
+    <button type="button" onClick={handleHidePassword}>
+      {passwordType ? "Hide" : "Show"}
+    </button>
+  );
+  const handleHidePassword = () => {
+    setPasswordType(!passwordType);
+  };
+
+  const [province, setProvince] = useState(clientRegister.address.province);
+  const [location, setLocation] = useState(clientRegister.address.location);
+  //a ajustar en funcion de cómo venga la API de provincias y localidades...
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  }; //a conectar cuando esté el redux andando
+
+  // useEffect(() => {
+  //   localStorage.setItem("clientRegisterData", JSON.stringify(clientRegister));
+  // }, [clientRegister]);
+
+  const debouncedLocalStorageUpdate = debounce((data) => {
+    localStorage.setItem("clientRegisterData", JSON.stringify(data));
+  }, 1000); // actualiza cada segundo para no detonar el browser...
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    if (name.startsWith("address.")) {
+      const field = name.split(".")[1];
+      if (field === "province") {
+        setProvince(value);
+      } else if (field === "location") {
+        setLocation(value);
       }
+
+      setClientRegister({
+        ...clientRegister,
+        address: {
+          ...clientRegister.address,
+          [field]: value,
+        },
+      });
+    } else {
+      setClientRegister({ ...clientRegister, [name]: value });
     }
-    const iconVisible = (
-      <svg
-        onClick={handleHide}
-        xmlns="http://www.w3.org/2000/svg"
-        id="hide1"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-eye-fill"
-        viewBox="0 0 16 16"
-      >
-        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0z" />
-        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8zm8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7z" />
-      </svg>
-    );
+    debouncedLocalStorageUpdate(clientRegister);
+  };
 
-    const iconInvisible = (
-      <svg
-        onClick={handleHide}
-        xmlns="http://www.w3.org/2000/svg"
-        id="hide1"
-        width="16"
-        height="16"
-        fill="currentColor"
-        class="bi bi-eye-slash-fill"
-        viewBox="0 0 16 16"
-      >
-        <path
-          d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7.029 7.029 0 0 0 2.79-.588zM5.21 3.088A7.028 7.028 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474L5.21 3.089z"
-          onClick={handleHide}
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setClientRegister({
+        ...clientRegister,
+        image: URL.createObjectURL(file), // a probar cuando se conecte con cloudinary
+      });
+    }
+  };
+  return (
+    <div>
+      <form onSubmit={(e) => handleSubmit(e)}>
+        <label htmlFor="name">First Name</label>
+        <input
+          type="text"
+          name="name"
+          value={clientRegister.name}
+          onChange={handleChange}
+          placeholder="First Name"
         />
-        <path
-          d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829l-2.83-2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12-.708.708z"
-          onClick={handleHide}
+        <label htmlFor="lastName">Last Name</label>
+        <input
+          type="text"
+          name="lastName"
+          value={clientRegister.lastName}
+          onChange={handleChange}
+          placeholder="lastName"
         />
-      </svg>
-    );
-
-    const handleSubmit = (e) => {
-      e.preventDefault();
-    };
-    return (
-      <div>
-        <form onSubmit={(e) => handleSubmit(e)}>
-          <label class="form-label lead" htmlFor="First Name">
-            First Name
-          </label>
+        <label htmlFor="username">Username</label>
+        <input
+          type="text"
+          name="username"
+          value={clientRegister.username}
+          onChange={handleChange}
+          placeholder="Username"
+        />
+        <label htmlFor="email">Email :</label>
+        <input
+          type="email"
+          name="email"
+          value={clientRegister.email}
+          onChange={handleChange}
+          placeholder="Email"
+        />
+        <div>
+          <label htmlFor="password">Password : </label>
           <input
-            type="text"
-            name="name"
-            class={`form-control ${style.inputs}`}
-            value={clientRegister.fullName}
+            type={passwordType ? "text" : "password"}
+            value={clientRegister.password}
+            name="password"
             onChange={handleChange}
-            placeholder="First Name"
+            placeholder="Password"
           />
-          <label class="form-label lead" htmlFor="lastName">
-            Last Name
-          </label>
-          <input
-            type="text"
-            name="lastName"
-            class={`form-control ${style.inputs}`}
-            value={clientRegister.lastName}
-            onChange={handleChange}
-            placeholder="lastName"
+          {renderPasswordToggle()}
+        </div>
+        <label htmlFor="address.province">Province</label>
+        <input
+          type="text"
+          name="address.province"
+          value={province}
+          onChange={handleChange}
+          placeholder="Province"
+        />
+        <label htmlFor="address.location">Location</label>
+        <input
+          type="text"
+          name="address.location"
+          value={location}
+          onChange={handleChange}
+          placeholder="Location"
+        />
+        {ifProfRoute && (
+          <div>
+            <label htmlFor="profession">Profession</label>
+            <input
+              type="text"
+              name="profession"
+              value={clientRegister.profession}
+              onChange={handleChange}
+              placeholder="profession"
+            />
+            <label htmlFor="description">Description</label>
+            <input
+              type="text"
+              name="description"
+              value={clientRegister.description}
+              onChange={handleChange}
+              placeholder="description"
+            />
+            <label htmlFor="workingRange">Working Range</label>
+            <input
+              type="text"
+              name="workingRange"
+              value={clientRegister.workingRange}
+              onChange={handleChange}
+              placeholder="working range"
+            />
+          </div>
+        )}
+        <label htmlFor="image">Image</label>
+        <input
+          type="file"
+          accept="image/*"
+          name="image"
+          onChange={handleImageUpload}
+        />
+        {clientRegister.image && (
+          <img
+            src={clientRegister.image}
+            alt="Uploaded Image"
+            style={{ maxWidth: "100px" }}
           />
-          <label class="form-label lead" htmlFor="username">
-            Username
-          </label>
-          <input
-            type="text"
-            name="username"
-            class={`form-control ${style.inputs}`}
-            value={clientRegister.username}
-            onChange={handleChange}
-            placeholder="Username"
-          />
-          <label class="form-label lead" htmlFor="email">
-            Email :
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={clientRegister.email}
-            class={`form-control ${style.inputs}`}
-            onChange={handleChange}
-            placeholder="Email"
-          />
-          <div
-            class="mt-3"
+        )}
+        <div>
+          <button
+            type="submit"
             style={{
-              textAlign: "left",
               width: "100%",
-              gridArea: "password",
-              position: "relative",
+              paddingInline: "35px",
+              paddingBlock: "10px",
+              marginBottom: "20px",
             }}
           >
-            <label class="form-label lead" htmlFor="password">
-              Password :{" "}
-            </label>
-            <input
-              type={passwordType ? "text" : "password"}
-              value={clientRegister.password}
-              name="password"
-              class={`form-control ${style.inputs}`}
-              onChange={handleChange}
-              placeholder="Password"
-            />
-            <button
-              class={style.iconPassword}
-              id="hide"
-              type="button"
-              onClick={(e) => handleHide(e)}
-            >
-              {passwordType ? iconVisible : iconInvisible}
-            </button>
-          </div>
-          <div class="col-xs-6 m-3">
-            <button
-              type="submit"
-              style={{
-                width: "100%",
-                paddingInline: "35px",
-                paddingBlock: "10px",
-                marginBottom: "20px",
-              }}
-              className={style.button}
-            >
-              Submit
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  };
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 };
 
-export default ClientRegister;
+export default RegistrationClient;
