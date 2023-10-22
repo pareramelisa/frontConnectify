@@ -1,7 +1,12 @@
 .search {
     display: flex;
+    align-items: center;
 }
 
 .container-inputs {
-    padding: 0.5em;
+    padding: 0.2em;
+}
+
+.searchButton {
+height:50px;
 }
