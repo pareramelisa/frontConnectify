@@ -1,13 +1,38 @@
+/* eslint-disable react/prop-types */
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
 import { CardActionArea, CardActions } from "@mui/material";
-import imagePrueba from "./profesional.jpg";
+
 import { Link } from "react-router-dom";
 
-export default function CardProfessional() {
+// Professional.propTypes = {
+//   name: PropTypes.string.isRequired,
+//   lastName: PropTypes.string.isRequired,
+//   location: PropTypes.string,
+//   description: PropTypes.string,
+//   price: PropTypes.number,
+//   profession: PropTypes.string,
+//   image: PropTypes.string,
+//   rating: PropTypes.number,
+//   categories: PropTypes.arrayOf(PropTypes.string),
+// };
+
+ const Professional = ({name,
+  lastName,
+  location,
+  
+  description,
+  price,
+  profession,
+  image,
+  //rating,
+  categories,}) => {
+  
+
+ {
   return (
     <Link to="/detail/:profesional_id">
       <Card sx={{ maxWidth: 345, position: "relative" }}>
@@ -15,7 +40,7 @@ export default function CardProfessional() {
           <CardMedia
             component="img"
             height="350px"
-            image={imagePrueba}
+            image={image}
             alt="prueba"
             style={{ position: "relative" }}
           />
@@ -34,7 +59,8 @@ export default function CardProfessional() {
               textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
             }}
           >
-            Mario Perez
+            {name}
+            {lastName}
           </Typography>
           <Typography
             variant="h6"
@@ -50,23 +76,24 @@ export default function CardProfessional() {
               top: "auto",
             }}
           >
-            Lanús
+            {location}
           </Typography>
           <CardContent>
             <Typography gutterBottom variant="h5" component="div">
               ⭐5.0 (20 reviews)
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Corporis
-              quam doloremque pariatur nesciunt iusto iste ducimus deserunt
-              assumenda expedita!
+              {description}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Categories: {categories}
             </Typography>
           </CardContent>
         </CardActionArea>
         <CardActions sx={{ display: "flex", justifyContent: "space-between" }}>
           <div>
             <Badge
-              badgeContent="Lawyer"
+              badgeContent={profession}
               color="primary"
               style={{ marginRight: "25px" }}
             >
@@ -87,7 +114,7 @@ export default function CardProfessional() {
             </Badge>
           </div>
           <Badge
-            badgeContent="From $10K"
+            badgeContent={price}
             color="primary"
             style={{ marginLeft: "auto", marginRight: "35px" }}
           >
@@ -103,3 +130,6 @@ export default function CardProfessional() {
     </Link>
   );
 }
+}
+
+export default Professional
