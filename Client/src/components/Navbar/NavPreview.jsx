@@ -1,49 +1,73 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import Button from '@mui/material/Button';
 
-function Navbar() {
+function Navbar({ role }) {
   return (
-    <AppBar position="static">
-      <Toolbar >
-        <p>client</p>
-        <Button color="inherit" component={Link} to="/home">
-          Home
-        </Button>
-        <Button color="inherit" component={Link} to="/login">
-          Iniciar Sesión
-        </Button>
-        <Button color="inherit"  component={Link} to="/registrationClients">
-          Registro de Clientes
-        </Button>
-        <Button color="inherit" component={Link} to="/favorites">
-          Favoritos
-        </Button>
-        <Button color="inherit" component={Link} to="/detail/profesional_id">
-          Detalle del Profesional
-        </Button>
-        <Button color="inherit" component={Link} to="/buyPage/profesional_id">
-          Comprar
-        </Button>
-        <Button color="inherit" component={Link} to="/successPay">
-          Pago Exitoso
-        </Button>
-        <Button color="inherit" component={Link} to="/accountClient">
-          Cuenta de Cliente
-        </Button>
-        <Button color="inherit" component={Link} to="/purchases">
-          Historial de Compras
-        </Button>
-        
-        <Button color="inherit" component={Link} to="/">
-          Salir
-        </Button>
-        
-      </Toolbar>
-    </AppBar>
+    <nav>
+      {role === 'client' && (
+        <ul>
+
+          <li>
+            <Link to="/client/favorites">Favoritos</Link>
+          </li>
+          <li>
+            <Link to="/client/detail/profesional_id">Detalle del Profesional</Link>
+          </li>
+          <li>
+            <Link to="/client/buyPage/profesional_id">Comprar</Link>
+          </li>
+          <li>
+            <Link to="/client/successPay">Pago Exitoso</Link>
+          </li>
+          <li>
+            <Link to="/client/account">Cuenta de Cliente</Link>
+          </li>
+          <li>
+            <Link to="/client/purchases">Historial de Compras</Link>
+          </li>
+          <li>
+            <Link to="/">Salir</Link>
+          </li>
+        </ul>
+      )}
+
+      {role === 'expert' && (
+        <ul>
+          
+          <li>
+            <Link to="/professional/profileCreate">Crear Perfil</Link>
+          </li>
+          <li>
+            <Link to="/professional/adsCreate">Crear Anuncio</Link>
+          </li>
+          <li>
+            <Link to="/professional/adsEdit/ad_id">Editar Anuncio</Link>
+          </li>
+          <li>
+            <Link to="/professional/profile">Perfil de Experto</Link>
+          </li>
+          <li>
+            <Link to="/professional/profileEdit">Editar Perfil</Link>
+          </li>
+          <li>
+            <Link to="/">Salir</Link>
+          </li>
+        </ul>
+      )}
+
+      {role === 'admin' && (
+        <ul>
+          <li>
+            <Link to="/admin/dashboard">Dashboard</Link>
+          </li>
+          <li>
+            <Link to="/">Salir</Link>
+          </li>
+        </ul>
+      )}
+    </nav>
   );
 }
 
 export default Navbar;
+
