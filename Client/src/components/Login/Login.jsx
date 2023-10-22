@@ -1,8 +1,7 @@
-import React from "react";
 import { Box, Button, TextField, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from "@mui/material";
 import { useState } from "react";
 import { fetchUserLogin } from "../../redux/Slices/loginSlice";
-import {useDispatch, useSelector} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux';
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -44,7 +43,7 @@ const Login = () => {
   console.log(form);
 
   return (
-    <>
+    <div style={{display: "flex", alignItems: "center", padding: "3em", flexDirection: "column"}}>
       <h2>Inicio Sesion</h2>
       <Box
         component="form"
@@ -91,7 +90,7 @@ const Login = () => {
           Submit
         </Button>
       </Box>
-    </>
+    </div>
   );
 };
 
