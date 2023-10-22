@@ -1,4 +1,5 @@
-import CardProfessional from '../../components/Card/Card';
+import Ads from '../../components/Ads/Ads';
+
 
 
 const Home = () => {
@@ -6,7 +7,7 @@ const Home = () => {
     return (
         <>
         <h1>vista home</h1>
-        <CardProfessional/>
+        <Ads/>
         </>
     )
 }
