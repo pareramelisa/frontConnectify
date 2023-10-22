@@ -2,7 +2,7 @@ import { debounce } from "lodash";
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 
-const RegistrationClient = () => {
+const Registration = () => {
   const [clientRegister, setClientRegister] = useState(() => {
     const localStorageData = localStorage.getItem("clientRegisterData");
     return localStorageData
@@ -209,4 +209,4 @@ const RegistrationClient = () => {
   );
 };
 
-export default RegistrationClient;
+export default Registration;
