@@ -12,9 +12,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     <BrowserRouter>
       <CssBaseline />
       <ThemeProvider theme={theme}>
-        
         <App />
-       
       </ThemeProvider>
       </BrowserRouter>
   </Provider>
