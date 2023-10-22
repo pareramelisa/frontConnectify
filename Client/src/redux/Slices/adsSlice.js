@@ -1,20 +1,40 @@
-import { createSlice } from "@reduxjs/toolkit";
+/* eslint-disable no-useless-catch */
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
 
-export const adsSlice = createSlice({
-    name: "ads",
-    initialState: {
-        ads: [],
-        detail:{}
-    },
-    reducers: {
-        getAllAds: (state, action)=>{
-            state.ads= action.payload
-        },
-        getAdsById: (state, action)=>{
-            state.detail= action.payload
-    }}
-})
+// Define una función asincrónica para cargar los anuncios
+export const fetchAds = createAsyncThunk("ads/fetchAds", async () => {
+  
+  try {
+    const endpoint = "http://localhost:3001/ads";
 
-export const {getAllAds, getAdsById} = adsSlice.actions
+    const response = await axios.get(endpoint);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+});
 
-export default adsSlice.reducer
+const adsSlice = createSlice({
+  name: "ads",
+  initialState: { ads: [], status: "idle", error: null },
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchAds.pending, (state) => {
+        state.status = "loading";
+      })
+      .addCase(fetchAds.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.ads = action.payload;
+      })
+      .addCase(fetchAds.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.error.message;
+      });
+  },
+});
+
+export const selectAds = (state) => state.ads.ads;
+
+export default adsSlice.reducer;
