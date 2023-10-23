@@ -1,10 +1,10 @@
 
-import Ads from "../../components/ProfessionalCard/ProfessionalCard"
+import Ads from "../../components/ProfessionalCard/ProfessionalCard";
 
 const Home = () => {
   return (
     <div>
-      <Ads />
+      <Ads/>
     </div>
   );
 };
