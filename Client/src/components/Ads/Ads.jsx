@@ -4,6 +4,7 @@ import Professional from "../Card/Professional";
 import { useEffect } from "react";
 import style from "./Ads.module.css";
 
+
 function Ads() {
   const dispatch = useDispatch();
   const ads = useSelector(selectAds);

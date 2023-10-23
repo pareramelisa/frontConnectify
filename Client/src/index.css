@@ -2,7 +2,6 @@
   font-family: 'Poppins, sans-serif'; /* Aplica Poppins a toda la aplicación */
   line-height: 1.5;
   font-weight: 400;
-  
 }
 
 a {
@@ -12,14 +11,6 @@ a {
 }
 a:hover {
   color: #24272B;
-}
-
-body {
-  margin: 0;
-  display: flex;
-  place-items: center;
-  min-width: 320px;
-  min-height: 100vh;
 }
 
 h1 {
