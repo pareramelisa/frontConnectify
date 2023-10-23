@@ -28,7 +28,7 @@ const Professional = ({
               height="350px"
               image={image}
               alt="prueba"
-              style={{  }}
+              style={{}}
             />
             <Typography
               gutterBottom
