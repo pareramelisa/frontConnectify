@@ -5,6 +5,7 @@ import Logo from '../../assets/connectify.svg'
 import Logo2 from '../../assets/logo.svg'
 import SearchBar from './Utils/Searchbar';
 import {useAuth0} from '@auth0/auth0-react'
+import CreateAdForm from '../CreateAds/createAds';
 
 function LandingPage() {
   
@@ -52,6 +53,7 @@ function LandingPage() {
       <span>Profe de Ingles</span>
       <span>5.0</span>
       </div>
+      <CreateAdForm/>
     </div>
   );
 }
