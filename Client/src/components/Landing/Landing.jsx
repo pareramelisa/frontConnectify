@@ -5,6 +5,7 @@ import Logo from '../../assets/connectify.svg'
 import Logo2 from '../../assets/logo.svg'
 import SearchBar from './Utils/SearchBar/SearchBar';
 import { useAuth0 } from '@auth0/auth0-react'
+import { AiOutlineHome } from 'react-icons/ai'
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -34,6 +35,16 @@ function LandingPage() {
         <Typography variant="h5" color="#545454">
           Encuentra a los mejores profesionales para tus necesidades.
         </Typography>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => { navigate("/home") }}
+        className='button'
+      >
+        <AiOutlineHome style={{fontSize:"2em"}}/>
+      </Button>
+      </div>
+      <SearchBar />
         <Button
           variant="contained"
           color="primary"
@@ -42,16 +53,6 @@ function LandingPage() {
         >
           {!isAuthenticated ? "Ir a Login" : "Ir a Home"}
         </Button>
-      </div>
-      <SearchBar />
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => { navigate("/login") }}
-        className='button'
-      >
-        Accede a tu cuenta
-      </Button>
     </div>
   );
 }
