@@ -5,34 +5,19 @@ import CardMedia from "@mui/material/CardMedia";
 import Typography from "@mui/material/Typography";
 import Badge from "@mui/material/Badge";
 import { CardActionArea, CardActions } from "@mui/material";
-
 import { Link } from "react-router-dom";
 
-// Professional.propTypes = {
-//   name: PropTypes.string.isRequired,
-//   lastName: PropTypes.string.isRequired,
-//   location: PropTypes.string,
-//   description: PropTypes.string,
-//   price: PropTypes.number,
-//   profession: PropTypes.string,
-//   image: PropTypes.string,
-//   rating: PropTypes.number,
-//   categories: PropTypes.arrayOf(PropTypes.string),
-// };
-
- const Professional = ({name,
+const Professional = ({
+  name,
   lastName,
   location,
-  
   description,
-  price,
+  //price,
   profession,
   image,
-  //rating,
-  categories,}) => {
-  
-
- {
+  categories,
+}) => {
+  let nombre = `${name} ${lastName}`;
   return (
     <Link to="/detail/:profesional_id">
       <Card sx={{ maxWidth: 345, position: "relative" }}>
@@ -50,17 +35,16 @@ import { Link } from "react-router-dom";
             component="div"
             style={{
               position: "absolute",
-              bottom: "160px", // Ajusta el valor para la posición vertical
-              left: "10px", // Ajusta el valor para la posición horizontal
-              color: "#fff", // Color del texto
-              padding: "10px", // Ajusta el espacio alrededor del texto
+              bottom: "160px",
+              left: "10px",
+              color: "#fff",
+              padding: "10px",
               borderRadius: "5px",
               fontWeight: "bold",
               textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
             }}
           >
-            {name}
-            {lastName}
+            {nombre}
           </Typography>
           <Typography
             variant="h6"
@@ -113,23 +97,10 @@ import { Link } from "react-router-dom";
               ></div>
             </Badge>
           </div>
-          <Badge
-            badgeContent={price}
-            color="primary"
-            style={{ marginLeft: "auto", marginRight: "35px" }}
-          >
-            <div
-              style={{
-                padding: "40px",
-                borderRadius: "5px",
-              }}
-            ></div>
-          </Badge>
         </CardActions>
       </Card>
     </Link>
   );
-}
-}
+};
 
-export default Professional
+export default Professional;
