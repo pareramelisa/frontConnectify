@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { createAd } from "../../redux/Slices/createAdsSlice";
 import TextField from '@mui/material/TextField';
@@ -9,19 +9,26 @@ import { InputLabel } from "@mui/material";
 function CreateAdForm() {
   const dispatch = useDispatch();
 
-  const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    location: "",
-    price: "",
-    requiredSkills: [],
-    postingDate: "",
-    expirationDate: "",
-    categories: [],
-    contractType: "",
-    workLocation: "",
-    profession: "",
+  const [formData, setFormData] = useState(() => {
+    const savedFormData = localStorage.getItem('formData');
+    return savedFormData ? JSON.parse(savedFormData) : {
+      title: "",
+      description: "",
+      location: "",
+      price: "",
+      requiredSkills: [],
+      postingDate: "",
+      expirationDate: "",
+      categories: [],
+      contractType: "",
+      workLocation: "",
+      profession: "",
+    };
   });
+
+  useEffect(() => {
+    localStorage.setItem('formData', JSON.stringify(formData));
+  }, [formData]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
