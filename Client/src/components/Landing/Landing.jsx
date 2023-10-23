@@ -3,7 +3,7 @@ import { Button, Typography } from '@mui/material';
 import './Landing.css';
 import Logo from '../../assets/connectify.svg'
 import Logo2 from '../../assets/logo.svg'
-import SearchBar from './Utils/Searchbar';
+import SearchBar from './Utils/SearchBar/SearchBar';
 import { useAuth0 } from '@auth0/auth0-react'
 
 function LandingPage() {
