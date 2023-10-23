@@ -9,11 +9,11 @@ function Ads() {
   console.log(Ads)
   const dispatch = useDispatch();
   const ads = useSelector(selectAds);
-  console.log(Ads)
+  
   useEffect(() => {
     dispatch(fetchAds());
   }, [dispatch]);
-  console.log(Ads)
+
   return (
     <div className={style.card}>
       {ads.map((ad) => (
