@@ -2,14 +2,15 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { TextField, Button, Menu, MenuItem } from '@mui/material';
 import './Searchbar.css';
+import SearchIcon from '@mui/icons-material/Search';
 
 const SearchBar = () => {
   const [anchorEl1, setAnchorEl1] = useState(null);
   const [anchorEl2, setAnchorEl2] = useState(null);
   const [profession, setProfession] = useState('');
   const [location, setLocation] = useState('');
-  const options1 = ['Plomero', 'Electricista', 'Profesor', 'Programador', 'Mecánico'];
-  const options2 = ['Colombia', 'Ecuador', 'Argentina', 'Chile'];
+  const options1 = ['Abogado', 'Técnico Aire Acondicionado','Plomero', 'Electricista', 'Profesor', 'Programador', 'Diseñor Gráfico'];
+  const options2 = ["Buenos Aires", "C.A.B.A.", "Catamarca", "Chaco", "Chubut", "Córdoba", "Corrientes", "Entre Ríos", "Formosa", "Jujuy", "La Pampa", "La Rioja", "Mendoza", "Misiones", "Neuquén", "Río Negro", "Salta", "San Juan", "San Luis", "Santa Cruz", "Santa Fe", "Santiago del Estero", "Tierra del Fuego"];
 
   const navigate = useNavigate();
 
@@ -50,7 +51,7 @@ const SearchBar = () => {
           type="text"
           value={profession}
           onClick={handleOpen1}
-          label="Selecciona una opción"
+          label="Buscá por profesión"
           variant="outlined"
         />
         <Menu
@@ -75,7 +76,7 @@ const SearchBar = () => {
           type="text"
           value={location}
           onClick={handleOpen2}
-          label="Selecciona una opción"
+          label="Buscar por ubicación"
           variant="outlined"
         />
         <Menu
@@ -95,8 +96,8 @@ const SearchBar = () => {
           ))}
         </Menu>
       </div>
-      <Button variant="contained" onClick={handleSearch} className='submit'>
-        Buscar
+      <Button variant="contained" onClick={handleSearch} className='searchButton'>
+      <SearchIcon />
       </Button>
     </div>
   );
