@@ -5,7 +5,7 @@ import Professional from "../Card/Professional";
 import style from "./ProfessionalCard.module.css";
 
 function Ads() {
-  console.log(Ads);
+  
   const dispatch = useDispatch();
   const ads = useSelector(selectAds);
 
