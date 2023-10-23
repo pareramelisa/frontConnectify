@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAds, selectAds } from "../../redux/Slices/adsSlice";
-import Professional from "../Card/Professional";
 import { useEffect } from "react";
+import Professional from "../Card/Professional";
 import style from "./Ads.module.css";
 
 
