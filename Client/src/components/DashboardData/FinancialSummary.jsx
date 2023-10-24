@@ -8,10 +8,10 @@ const FinancialSummary = () => {
 
   return (
     <div className="financial-summary">
-      <h2>Financial Summary</h2>
-      <p>Revenue: ${revenue}</p>
-      <p>Expenses: ${expenses}</p>
-      <p>Net Profit: ${profit}</p>
+      <h2>Resumen Financiero</h2>
+      <p>Ganancias: ${revenue}</p>
+      <p>Desembolsos: ${expenses}</p>
+      <p>Ganancia Neta: ${profit}</p>
     </div>
   );
 };

@@ -19,13 +19,13 @@ const TransactionList = () => {
 
   return (
     <div className="transaction-list">
-      <h2>List of Recent Transactions</h2>
+      <h2>Lista de Transacciones Recientes</h2>
       <ul>
         {transactions.map((transaction) => (
           <li key={transaction.id}>
             <p>{transaction.description}</p>
-            <p>Amount: ${transaction.amount}</p>
-            <p>Date: {transaction.date}</p>
+            <p>Monto: ${transaction.amount}</p>
+            <p>Fecha: {transaction.date}</p>
           </li>
         ))}
       </ul>
