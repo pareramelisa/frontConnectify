@@ -31,7 +31,9 @@ export const fetchUserRegister = (userData, type) => {
         console.log(error);
       }
     } else if (type === "professional") {
-      const endpoint = "https://connectifyback-dp-production.up.railway.app/client/register";
+
+      const endpoint = "https://connectifyback-dp-production.up.railway.app/professional/register";
+
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
@@ -53,7 +55,7 @@ export const fetchUserDelete = (id, userData, type) => {
         console.log(error);
       }
     } else if (type === "professional") {
-      const endpoint = `https://connectifyback-dp-production.up.railway.app/client/${id}/delete`;
+      const endpoint = `https://connectifyback-dp-production.up.railway.app/professional/${id}/delete`;
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));

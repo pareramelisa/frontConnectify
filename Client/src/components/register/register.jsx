@@ -1,8 +1,16 @@
 import { debounce } from "lodash";
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+// import { useLocation, useHistory } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
+import { fetchUserRegister } from "../../redux/Slices/registerSlice";
+import style from "./register.module.css";
+import { Checkbox } from "@mui/material";
 
 const Registration = () => {
+  const navigate = useNavigate();
+  // localStorage.clear();
   const [clientRegister, setClientRegister] = useState(() => {
     const localStorageData = localStorage.getItem("clientRegisterData");
     return localStorageData
@@ -13,17 +21,19 @@ const Registration = () => {
           username: "",
           email: "",
           password: "",
-          confirmPassword: "",
-          profession: "",
-          workingRange: "",
+          // confirmPassword: "",
+          profession: [],
+          workingRange: { province: "", location: "" },
           description: "",
-          image: "",
+          // image: "",
           address: { province: "", location: "" },
+          remoteWork: false,
         };
   });
 
   const routeLocation = useLocation();
   const ifProfRoute = routeLocation.pathname === "/professional/registration";
+  const ifClientRoute = routeLocation.pathname === "/client/registration";
 
   const [passwordType, setPasswordType] = useState(false);
 
@@ -36,57 +46,119 @@ const Registration = () => {
     setPasswordType(!passwordType);
   };
 
-  const [province, setProvince] = useState(clientRegister.address.province);
-  const [location, setLocation] = useState(clientRegister.address.location);
+  // const [province, setProvince] = useState(clientRegister.address.province);
+  // const [location, setLocation] = useState(clientRegister.address.location);
   //a ajustar en funcion de cómo venga la API de provincias y localidades...
 
+  const dispatch = useDispatch();
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if(profession==="") "submit to clients DB"
-    // if(profession!=="") "submit to professionals DB"
-  }; //a conectar cuando esté el redux andando
+    formData.append(
+      "json_data",
+      new Blob([JSON.stringify(clientRegister)], { type: "application/json" })
+    );
+    if (clientRegister.profession.length === 0)
+      dispatch(fetchUserRegister(clientRegister, "client"));
+    if (clientRegister.profession !== "")
+      dispatch(fetchUserRegister(clientRegister, "professional"));
+    localStorage.removeItem("clientRegisterData");
+    navigate("/login");
+  };
 
-  // useEffect(() => {
-  //   localStorage.setItem("clientRegisterData", JSON.stringify(clientRegister));
-  // }, [clientRegister]);
+  useEffect(() => {
+    localStorage.setItem("clientRegisterData", JSON.stringify(clientRegister));
+  }, [clientRegister]);
 
-  const debouncedLocalStorageUpdate = debounce((data) => {
-    localStorage.setItem("clientRegisterData", JSON.stringify(data));
-  }, 1000); // actualiza cada segundo para no detonar el browser...
-
+  // const debouncedLocalStorageUpdate = debounce((data) => {
+  //   localStorage.setItem("clientRegisterData", JSON.stringify(data));
+  // }, 1000);
+  const formData = new FormData();
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, type, value } = e.target;
+    if (type === "checkbox") console.log(e.target.checked);
+    setClientRegister({ ...clientRegister, [name]: e.target.checked });
+    const nameArray = name.split(".");
 
-    if (name.startsWith("address.")) {
-      const field = name.split(".")[1];
-      if (field === "province") {
-        setProvince(value);
-      } else if (field === "location") {
-        setLocation(value);
-      }
-
+    if (nameArray.length === 2) {
+      const [outer, inner] = nameArray;
       setClientRegister({
         ...clientRegister,
-        address: {
-          ...clientRegister.address,
-          [field]: value,
+        [outer]: {
+          ...clientRegister[outer],
+          [inner]: value,
         },
       });
     } else {
       setClientRegister({ ...clientRegister, [name]: value });
     }
-    debouncedLocalStorageUpdate(clientRegister);
+    console.log(clientRegister);
+    console.log(formData);
   };
+  // debouncedLocalStorageUpdate(clientRegister);
+  // };
 
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
+      formData.append("image", file);
       setClientRegister({
         ...clientRegister,
         image: URL.createObjectURL(file), // a probar cuando se conecte con cloudinary
       });
     }
+    console.log("Image file name: " + file.name);
+    console.log("Image file size: " + file.size + " bytes");
+    console.log("Image file type: " + file.type);
+    const imageFile = formData.get("image");
+    const imgElement = document.createElement("img");
+    imgElement.src = URL.createObjectURL(file);
   };
+
+  const areAllProfFieldsCompleted = () => {
+    const {
+      name,
+      lastName,
+      username,
+      email,
+      password,
+      address,
+      workingRange,
+      profession,
+      description,
+      image,
+    } = clientRegister;
+
+    return (
+      name &&
+      lastName &&
+      username &&
+      email &&
+      password &&
+      address.province &&
+      address.location &&
+      workingRange.province &&
+      workingRange.location &&
+      profession &&
+      description &&
+      image
+    );
+  };
+  const areAllClienFieldsCompleted = () => {
+    const { name, lastName, username, email, password, address, image } =
+      clientRegister;
+
+    return (
+      name &&
+      lastName &&
+      username &&
+      email &&
+      password &&
+      address.province &&
+      address.location &&
+      image
+    );
+  };
+
   return (
     <div>
       <form onSubmit={(e) => handleSubmit(e)}>
@@ -133,24 +205,46 @@ const Registration = () => {
           />
           {renderPasswordToggle()}
         </div>
-        <label htmlFor="address.province">Province</label>
-        <input
-          type="text"
-          name="address.province"
-          value={province}
-          onChange={handleChange}
-          placeholder="Province"
-        />
-        <label htmlFor="address.location">Location</label>
-        <input
-          type="text"
-          name="address.location"
-          value={location}
-          onChange={handleChange}
-          placeholder="Location"
-        />
+        <div>
+          <h2>Address</h2>
+          <label htmlFor="address.province">Province</label>
+          <input
+            type="text"
+            name="address.province"
+            value={clientRegister.address.province}
+            onChange={handleChange}
+            placeholder="Province"
+          />
+          <label htmlFor="address.location">Location</label>
+          <input
+            type="text"
+            name="address.location"
+            value={clientRegister.address.location}
+            onChange={handleChange}
+            placeholder="Location"
+          />
+        </div>
         {ifProfRoute && (
           <div>
+            <div>
+              <h2>Working Range</h2>
+              <label htmlFor="workingRange.province">Province</label>
+              <input
+                type="text"
+                name="workingRange.province"
+                value={clientRegister.workingRange.province}
+                onChange={handleChange}
+                placeholder="Province"
+              />
+              <label htmlFor="workingRange.location">Location</label>
+              <input
+                type="text"
+                name="workingRange.location"
+                value={clientRegister.workingRange.location}
+                onChange={handleChange}
+                placeholder="Location"
+              />
+            </div>
             <label htmlFor="profession">Profession</label>
             <input
               type="text"
@@ -167,13 +261,13 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="description"
             />
-            <label htmlFor="workingRange">Working Range</label>
+            <label htmlFor="remoteWork">Remote Work</label>
             <input
-              type="text"
-              name="workingRange"
-              value={clientRegister.workingRange}
+              type="checkbox"
+              // id="myCheckbox"
+              name="remoteWork"
+              value={clientRegister.remoteWork}
               onChange={handleChange}
-              placeholder="working range"
             />
           </div>
         )}
@@ -192,17 +286,32 @@ const Registration = () => {
           />
         )}
         <div>
-          <button
-            type="submit"
-            style={{
-              width: "100%",
-              paddingInline: "35px",
-              paddingBlock: "10px",
-              marginBottom: "20px",
-            }}
-          >
-            Submit
-          </button>
+          {areAllProfFieldsCompleted() && (
+            <button
+              type="submit"
+              style={{
+                width: "100%",
+                paddingInline: "35px",
+                paddingBlock: "10px",
+                marginBottom: "20px",
+              }}
+            >
+              Submit
+            </button>
+          )}
+          {areAllClienFieldsCompleted() && ifClientRoute && (
+            <button
+              type="submit"
+              style={{
+                width: "100%",
+                paddingInline: "35px",
+                paddingBlock: "10px",
+                marginBottom: "20px",
+              }}
+            >
+              Submit
+            </button>
+          )}
         </div>
       </form>
     </div>

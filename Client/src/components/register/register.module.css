@@ -1,4 +1,4 @@
-.inputs {
+/* .inputs {
   background-color: rgba(255, 235, 205, 0.233) !important;
   border: 10px 5px 5px 5px;
 }
@@ -14,4 +14,8 @@ label {
 
 .inputs:focus {
   background-color: rgba(255, 255, 255, 0.144) !important;
+} */
+.stack {
+  display: flex;
+  flex-direction: column;
 }
