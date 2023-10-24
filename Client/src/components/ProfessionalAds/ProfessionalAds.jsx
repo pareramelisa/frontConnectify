@@ -1,17 +1,6 @@
-import PropTypes from "prop-types";
+/* eslint-disable react/prop-types */
 import { Link } from "react-router-dom";
 
-ProfessionalAds.propTypes = {
-  name: PropTypes.string.isRequired,
-  lastName: PropTypes.string.isRequired,
-  location: PropTypes.string,
-  description: PropTypes.string,
-  price: PropTypes.number,
-  profession: PropTypes.string,
-  image: PropTypes.string,
-  rating: PropTypes.number,
-  categories: PropTypes.arrayOf(PropTypes.string),
-};
 function ProfessionalAds({
   name,
   lastName,

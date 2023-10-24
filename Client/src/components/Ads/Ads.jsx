@@ -18,6 +18,7 @@ function Ads() {
       {ads.map((ad) => (
         <Professional
           key={ad._id}
+          id={ad._id}
           name={ad.creator[0].name}
           lastName={ad.creator[0].lastName}
           location={ad.creator[0].location}
