@@ -3,9 +3,7 @@ import Landing from './components/Landing/Landing';
 import Home from "./views/Home/Home"
 import Login from './components/Login/Login';
 import CreateAdForm from './components/CreateAds/createAds';
-
-import Detail from './components/AdsDetail/AdsDetail';
-
+import { DashboardProf } from './views/DashboardProf/DashboardProf';
 
 function App() {
   return (
@@ -14,9 +12,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/detail/:id" element={<Detail/>} />
           <Route path="/login" element={<Login/>} />
           <Route path="/createAds" element={<CreateAdForm/>} />
+          <Route path="/dashboardProf" element={<DashboardProf/>} />
         </Routes>
       </div>
     </>
