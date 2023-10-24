@@ -8,10 +8,10 @@ const UserStatistics = () => {
 
   return (
     <div className="user-statistics">
-      <h2>User Statistics</h2>
-      <p>Total Users: {totalUsers}</p>
-      <p>Active Users: {activeUsers}</p>
-      <p>New Users: {newUsers}</p>
+      <h2>Estadisticas de Usuarios</h2>
+      <p>Usuarios Totales: {totalUsers}</p>
+      <p>Usuarios Activos: {activeUsers}</p>
+      <p>Nuevos Usuarios: {newUsers}</p>
     </div>
   );
 };

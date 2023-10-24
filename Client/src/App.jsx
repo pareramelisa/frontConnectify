@@ -5,6 +5,7 @@ import Login from "./components/Login/Login";
 import CreateAdForm from "./components/CreateAds/createAds";
 import Detail from "./components/AdsDetail/AdsDetail";
 import Registration from "./components/register/register";
+import AdminDashboard from "./components/DashboardData/Dashboard";
 
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
           <Route path="/createAds" element={<CreateAdForm />} />
           <Route path="/professional/registration" element={<Registration />} />
           <Route path="/client/registration" element={<Registration />} />
+          <Route path="/admin/dashboard" element={<AdminDashboard />} />
         </Routes>
       </div>
     </>
