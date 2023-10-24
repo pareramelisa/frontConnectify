@@ -14,6 +14,8 @@ import logo from "../../assets/connectify.svg";
 import "./Navbar.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser } from "../../redux/Slices/loginSlice";
 
 
 const settings = ["Dashboard", "Profile", "Logout"];
@@ -22,6 +24,8 @@ function ResponsiveAppBar() {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate()
+  const users = useSelector(state => state.user)
+  const dispatch = useDispatch()
 
   const {user, logout, isAuthenticated } = useAuth0();
 
@@ -44,8 +48,12 @@ function ResponsiveAppBar() {
     navigate('/login')
   }
 
-  const handleAvatarButton = (e) => {
+  const handleAvatarButton = async (e) => {
     const text = e.target.textContent
+
+    if (users) {
+      await dispatch(logoutUser())
+    }
 
     if (text === 'Logout') {
       logout()
@@ -53,6 +61,7 @@ function ResponsiveAppBar() {
   }
 
   console.log(user);
+  console.log(users);
 
   return (
     <AppBar position="static">
@@ -64,7 +73,7 @@ function ResponsiveAppBar() {
               sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
             ></Box>
             <Box sx={{ flexGrow: 0 }}>
-              {isAuthenticated ? (
+              {isAuthenticated || users ? (
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
