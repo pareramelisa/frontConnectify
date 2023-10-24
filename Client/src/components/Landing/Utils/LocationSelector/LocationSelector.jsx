@@ -1,7 +1,7 @@
 import style from './LocationSelector.module.css';
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedCiudad } from '../../../../redux/Slices/searchSlice';
+import { setSelectedCiudad, setSelectedProvincia } from '../../../../redux/Slices/searchSlice';
 
 import miApi from "../../../../../localidades.json";
 
@@ -17,6 +17,7 @@ function LocationSelectors() {
   const handlerProvincias = (event) => {
     const provincia = event.target.value;
     setSelectedProv(provincia);
+    dispatch(setSelectedProvincia(provincia));
   }
 
   useEffect(() => {
