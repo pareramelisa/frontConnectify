@@ -31,7 +31,7 @@ export const fetchUserRegister = (userData, type) => {
         console.log(error);
       }
     } else if (type === "professional") {
-      const endpoint = "http://localhost:3001/client/register";
+      const endpoint = "http://localhost:3001/professional/register";
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
