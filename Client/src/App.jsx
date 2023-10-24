@@ -3,7 +3,9 @@ import Landing from './components/Landing/Landing';
 import Home from "./views/Home/Home"
 import Login from './components/Login/Login';
 import CreateAdForm from './components/CreateAds/createAds';
+
 import Detail from './components/AdsDetail/AdsDetail';
+
 
 function App() {
   return (

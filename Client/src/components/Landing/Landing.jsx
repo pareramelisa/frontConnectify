@@ -9,25 +9,12 @@ import { AiOutlineHome } from 'react-icons/ai'
 
 function LandingPage() {
   const navigate = useNavigate();
-  const { logout, isAuthenticated } = useAuth0()
+  const { isAuthenticated } = useAuth0()
 
-  const handlerLogoutGoogle = () => {
-    logout()
-  }
 
   return (
     <div className='container'>
       <div className='landing'>
-        {isAuthenticated && (
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handlerLogoutGoogle}
-            className='button'
-          >
-            Logout
-          </Button>
-        )}
         <div className='container-logo'>
           <img src={Logo2} alt='Logo' className='logo2' />
           <img src={Logo} alt='Logo' className='logo' />
