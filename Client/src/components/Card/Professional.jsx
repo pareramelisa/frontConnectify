@@ -20,7 +20,7 @@ const Professional = ({
   let nombre = `${name} ${lastName}`;
   return (
     <Link to="/detail/:profesional_id">
-      <Card sx={{ maxWidth: 345, position: "relative" }}>
+      <Card >
         <CardActionArea>
           <CardMedia
             component="img"

@@ -2,10 +2,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchAds, selectAds } from "../../redux/Slices/adsSlice";
 import { useEffect } from "react";
 import Professional from "../Card/Professional";
-import style from "./Ads.module.css";
-
+import style from "./ProfessionalCard.module.css";
 
 function Ads() {
+  
   const dispatch = useDispatch();
   const ads = useSelector(selectAds);
 
