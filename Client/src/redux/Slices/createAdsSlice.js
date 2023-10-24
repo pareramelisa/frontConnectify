@@ -21,7 +21,7 @@ export const createAd = createAsyncThunk('ads/createAd', async (adData) => {
         .addCase(createAd.pending, (state) => {
           state.status = 'loading';
         })
-        .addCase(createAd.fulfilled, (state) => {
+        .addCase(createAd.fulfilled, (state, action) => {
           state.status = 'succeeded';
           state.createAds.push = action.payload;
         })
