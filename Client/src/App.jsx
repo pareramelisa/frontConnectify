@@ -9,13 +9,12 @@ function App() {
   return (
     <>
       <div className="App">
-        <Navbar/>
-        {/* <Routes>
+        <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login/>} />
           <Route path="/createAds" element={<CreateAdForm/>} />
-        </Routes> */}
+        </Routes>
       </div>
     </>
   );
