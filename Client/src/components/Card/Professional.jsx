@@ -8,6 +8,7 @@ import { CardActionArea, CardActions } from "@mui/material";
 import { Link } from "react-router-dom";
 
 const Professional = ({
+  id,
   name,
   lastName,
   location,
@@ -19,7 +20,7 @@ const Professional = ({
 }) => {
   let nombre = `${name} ${lastName}`;
   return (
-    <Link to="/detail/:profesional_id">
+    <Link to={`/detail/${id}`}>
       <Card >
         <CardActionArea>
           <CardMedia
