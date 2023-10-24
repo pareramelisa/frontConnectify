@@ -16,7 +16,7 @@ function SearchBar() {
   const selectedCiudad = useSelector((state) => state.search.selectedCiudad);
 
   const sendSearch = async () => {
-    const search = await axios.get(`http://localhost:3001/ads/filters?profession=${searchBox}&location=${selectedCiudad}`);
+    const search = await axios.get(`https://connectifyback-dp-production.up.railway.app/ads/filters?profession=${searchBox}&location=${selectedCiudad}`);
     setSearchData(search.data);
   }
 

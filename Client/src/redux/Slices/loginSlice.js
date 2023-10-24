@@ -27,11 +27,11 @@ export const fetchUserLogin = (form) => {
     let endpoint = "";
 
     if (form.types === "client") {
-      endpoint = `http://localhost:3001/client/login/?email=${form.email}&password=${form.password}`;
+      endpoint = `https://connectifyback-dp-production.up.railway.app/client/login/?email=${form.email}&password=${form.password}`;
     } else if (form.types === "professional") {
-      endpoint = `http://localhost:3001/professional/login/?email=${form.email}&password=${form.password}`;
+      endpoint = `https://connectifyback-dp-production.up.railway.app/professional/login/?email=${form.email}&password=${form.password}`;
     } else if (form.types === "admin") {
-      endpoint = `http://localhost:3001/admin/login/?email=${form.email}&password=${form.password}`;
+      endpoint = `https://connectifyback-dp-production.up.railway.app/admin/login/?email=${form.email}&password=${form.password}`;
     }
 
     try {

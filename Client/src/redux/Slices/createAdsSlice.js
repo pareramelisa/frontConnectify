@@ -4,7 +4,7 @@ import axios from "axios";
 
 export const createAd = createAsyncThunk('ads/createAd', async (adData) => {
     try {
-      const endpoint = "http://localhost:3001/ads";
+      const endpoint = "https://connectifyback-dp-production.up.railway.app/ads";
       const response = await axios.post(endpoint, adData);
       return response.data;
     } catch (error) {
@@ -21,7 +21,7 @@ export const createAd = createAsyncThunk('ads/createAd', async (adData) => {
         .addCase(createAd.pending, (state) => {
           state.status = 'loading';
         })
-        .addCase(createAd.fulfilled, (state) => {
+        .addCase(createAd.fulfilled, (state, action) => {
           state.status = 'succeeded';
           state.createAds.push = action.payload;
         })

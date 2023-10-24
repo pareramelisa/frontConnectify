@@ -6,7 +6,7 @@ import axios from "axios";
 export const fetchAds = createAsyncThunk("ads/fetchAds", async () => {
   
   try {
-    const endpoint = "http://localhost:3001/ads";
+    const endpoint = "https://connectifyback-dp-production.up.railway.app/ads";
 
     const response = await axios.get(endpoint);
     return response.data;
