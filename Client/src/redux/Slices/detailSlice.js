@@ -21,7 +21,7 @@ export default detailAd.reducer;
 export const fetchDetail = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`http://localhost:3001/ads/${id}`);
+      const { data } = await axios.get(`https://connectifyback-dp-production.up.railway.app/ads/${id}`);
       dispatch(setDetail(data));
     } catch (error) {
       throw error;

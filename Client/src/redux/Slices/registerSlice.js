@@ -23,7 +23,7 @@ export default userRegisterSlice.reducer;
 export const fetchUserRegister = (userData, type) => {
   return async (dispatch) => {
     if (type === "client") {
-      const endpoint = "http://localhost:3001/client/register";
+      const endpoint = "https://connectifyback-dp-production.up.railway.app/client/register";
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
@@ -31,7 +31,7 @@ export const fetchUserRegister = (userData, type) => {
         console.log(error);
       }
     } else if (type === "professional") {
-      const endpoint = "http://localhost:3001/client/register";
+      const endpoint = "https://connectifyback-dp-production.up.railway.app/client/register";
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
@@ -45,7 +45,7 @@ export const fetchUserRegister = (userData, type) => {
 export const fetchUserDelete = (id, userData, type) => {
   return async (dispatch) => {
     if (type === "client") {
-      const endpoint = `http://localhost:3001/client/${id}/delete`;
+      const endpoint = `https://connectifyback-dp-production.up.railway.app/client/${id}/delete`;
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
@@ -53,7 +53,7 @@ export const fetchUserDelete = (id, userData, type) => {
         console.log(error);
       }
     } else if (type === "professional") {
-      const endpoint = `http://localhost:3001/client/${id}/delete`;
+      const endpoint = `https://connectifyback-dp-production.up.railway.app/client/${id}/delete`;
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
