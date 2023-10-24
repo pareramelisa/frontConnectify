@@ -15,7 +15,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/dashboardProf" element={<DashboardProf/>} />
+          {/* <Route path="/dashboardProf" element={<DashboardProf/>} /> */}
           <Route path="/detail/:id" element={<Detail />} />
           <Route path="/login" element={<Login />} />
           <Route path="/createAds" element={<CreateAdForm />} />
