@@ -48,9 +48,9 @@ const DetailAd = () => {
         {detail.detail.categories}
       </Button>
     </Grid>
-    <Container sx={{ width: 800 }}>
+    <Grid item xs={12} md={10}>
       <Typography fontWeight="900" variant="h2">
-        {detail.detail.title}
+        {detail.detail.profession}
       </Typography>
       <Typography fontWeight="900" variant="h5">
         Ubicación:
@@ -64,14 +64,12 @@ const DetailAd = () => {
       <Typography fontWeight="700" variant="body1">
         {detail.detail.description}
       </Typography>
-    </Container>
-    <Grid item xs={8}>
       <Card
         sx={{
-          width: 700,
+          width: "100%",
           backgroundColor: "#D9D9D9",
           padding: '10px',
-          margin: "20px"
+          margin: "0px"
         }}
         align="left"
       >
@@ -81,7 +79,7 @@ const DetailAd = () => {
               <img src="https://img.freepik.com/foto-gratis/retrato-hermoso-mujer-joven-posicion-pared-gris_231208-10760.jpg?w=740&t=st=1698081873~exp=1698082473~hmac=aba3c7f8d2e33cab05a648b7e5cb8a3a44a0f1242b4bb85fb6022a36e463fc15" alt="Imagen de perfil" />
             </div>
             <div className="profile-text">
-              <Typography variant="h6">⭐⭐⭐⭐</Typography>
+              <Typography variant="h6">⭐5.0</Typography>
               <Typography fontWeight="900" variant="h5" component="div">
                 Maria Emilia Fuentes
               </Typography>
@@ -92,9 +90,12 @@ const DetailAd = () => {
           </div>
         </CardContent>
       </Card>
+      </Grid>
+    <Grid item xs={8}>
     </Grid>
   </Grid>
-  <Grid item xs={4}>
+
+  <Grid item xs={12} sm={6} md={4}>
     <Card sx={{ maxWidth: 345, borderRadius: 5 }}>
       <CardMedia
         sx={{ height: 200 }}
@@ -117,7 +118,8 @@ const DetailAd = () => {
                   {detail.detail.price}$
                 </ListItem>
                 <ListItem>
-                  <Typography>Modalidad: {detail.detail.workLocation}</Typography>
+                  <Typography>Modalidad: </Typography>
+                  {detail.detail.workLocation}
                 </ListItem>
               </List>
             </div>
