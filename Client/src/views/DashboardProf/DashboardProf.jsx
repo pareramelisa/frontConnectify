@@ -1,9 +1,11 @@
 import { CardProfileProf } from "../../components/CardProfileProf/CardProfileProf"
 
-export const DashboardProf = () => {
+const DashboardProf = () => {
     return (
         <div>
             <CardProfileProf/>
         </div>
     )
 }
+
+export default DashboardProf
