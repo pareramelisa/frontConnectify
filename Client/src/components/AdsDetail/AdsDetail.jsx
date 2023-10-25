@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useParams } from "react-router-dom";
 import { fetchDetail } from '../../redux/Slices/detailSlice';
+import Comments from "../CommentsClient/CommentsClient";
 
 const DetailAd = () => {
   const { id } = useParams();
@@ -125,6 +126,7 @@ const DetailAd = () => {
 ) : (
   <div>Cargando...</div>
   )}
+  <Comments />
   </div> 
   );
 };

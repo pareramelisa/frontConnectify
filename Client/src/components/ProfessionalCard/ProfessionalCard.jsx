@@ -27,7 +27,9 @@ function Ads() {
           profession={ad.profession}
           image={ad.creator[0].image}
         />
+        
       ))}
+      
     </div>
   );
 }

@@ -13,7 +13,7 @@ const Professional = ({
   lastName,
   location,
   description,
-  //price,
+  price,
   profession,
   image,
   categories,
@@ -71,7 +71,7 @@ const Professional = ({
               {description}
             </Typography>
             <Typography variant="body2" color="text.secondary">
-              Categories: {categories}
+              {categories}
             </Typography>
           </CardContent>
         </CardActionArea>
@@ -89,7 +89,7 @@ const Professional = ({
                 }}
               ></div>
             </Badge>
-            <Badge badgeContent="Notary" color="primary">
+            <Badge badgeContent={price} color="primary">
               <div
                 style={{
                   padding: "15px",
