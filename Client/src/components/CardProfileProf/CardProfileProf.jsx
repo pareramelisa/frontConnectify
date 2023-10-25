@@ -13,7 +13,7 @@ import AccessTimeIcon from '@mui/icons-material/AccessTime';
 export function CardProfileProf() {
   return (
     <Card sx={{ maxWidth: 400, margin: '20px', boxShadow: 20 }}>
-      <div style={{ backgroundColor: "lightGrey" }}>
+      <div>
         <CardMedia
           component="img"
           alt="green iguana"
@@ -53,7 +53,7 @@ export function CardProfileProf() {
           </Typography>
         </CardContent>
       </div>
-      <CardActions style={{ flex: 1, height: 'auto', backgroundColor: "lightGrey" }}>
+      <CardActions style={{ flex: 1, height: 'auto'}}>
         <Button variant="contained" size="small">Ayuda</Button>
         <Button variant="contained" size="small" color="primary">Modificar</Button>
       </CardActions>
