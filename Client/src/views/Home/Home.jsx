@@ -1,10 +1,34 @@
+import React, { useState } from "react";
 import Navbar from '../../components/Navbar/Navbar'
 import Ads from "../../components/ProfessionalCard/ProfessionalCard";
+import Login from "../../components/Login/Login";
 
 const Home = () => {
+
+  const [containerLogin, setContainerLogin] = useState(false)
+
   return (
     <div>
-      <Navbar/>
+      <Navbar setContainerLogin={setContainerLogin}/>
+      {containerLogin ? (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100vh",
+            padding: "20px",
+            background: "rgba(0,0,0,0.5)",
+            zIndex: "10",
+          }}
+        >
+          <Login  setContainerLogin={setContainerLogin}/>
+        </div>
+      ) : null}
       <Ads/>
     </div>
   );
