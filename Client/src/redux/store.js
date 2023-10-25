@@ -9,6 +9,7 @@ import createAdsSlice from "./Slices/createAdsSlice";
 import searchReducer from "./Slices/searchSlice";
 import detailSlice from "./Slices/detailSlice";
 import persistUserSlice from "./Slices/persistSlice";
+import adsFilterSlice from "./Slices/adsFilterSlice";
 
 // Clave y Almacenamiento por defecto
 const persistConfig = {
@@ -18,6 +19,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   ads: adsSlice,
+  adsFilter: adsFilterSlice,
   detail: detailSlice,
   createAds: createAdsSlice,
   professionals: professionalSlice,
