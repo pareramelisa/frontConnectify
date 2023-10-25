@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
 import "./Landing.css";
 import Logo from "../../assets/connectify.svg";
@@ -6,13 +6,16 @@ import Logo2 from "../../assets/logo.svg";
 import SearchBar from "./Utils/SearchBar/SearchBar";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AiOutlineHome } from "react-icons/ai";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Login from "../Login/Login";
+import { useDispatch, useSelector } from "react-redux";
 
 function LandingPage() {
   const navigate = useNavigate();
+  const persist = useSelector(state => state.persistUser.location)
   const { isAuthenticated } = useAuth0();
   const [containerLogin, setContainerLogin] = useState(false);
+  
 
   const handlerButtonLogin = () => {
     if (!isAuthenticated) {
@@ -21,6 +24,14 @@ function LandingPage() {
       navigate("/home");
     }
   };
+
+  console.log('Aca el persist', persist);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate(persist)
+    }
+  }, [isAuthenticated]);
 
   return (
     <div className="container">

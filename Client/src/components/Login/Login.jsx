@@ -7,7 +7,6 @@ import {
   FormControlLabel,
   FormControl,
   FormLabel,
-  Typography,
   IconButton
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
@@ -15,18 +14,19 @@ import { useState } from "react";
 import { fetchUserLogin } from "../../redux/Slices/loginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from "react-router-dom";
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import { useLocation } from "react-router-dom";
+import { locationUser } from "../../redux/Slices/persistSlice";
 
 const Login = ({ setContainerLogin }) => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.usersLogin.user);
   const [showLogin, setShowLogin] = useState(false);
   const [showLoginClient, setShowLoginClient] = useState(false);
   const [showLoginProfessional, setShowLoginProfessional] = useState(false);
 
-  const navigate = useNavigate();
+  const location = useLocation()
+  const persist = useSelector(state => state.persistUser.location)
 
   const { loginWithRedirect, isAuthenticated } = useAuth0();
 
@@ -60,7 +60,6 @@ const Login = ({ setContainerLogin }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     await dispatch(fetchUserLogin(form));
-    navigate(-1)
   };
 
   const handlerLoginGoogle = () => {
@@ -68,11 +67,15 @@ const Login = ({ setContainerLogin }) => {
   };
 
   const handleShowClient = () => {
+    dispatch(locationUser(location.pathname))
+    console.log('Aca el persist', persist);
     setShowLogin(true);
     setShowLoginClient(true);
   };
 
   const handleShowProfessional = () => {
+    dispatch(locationUser(location.pathname))
+    console.log('Aca el persist', persist);
     setShowLogin(true);
     setShowLoginProfessional(true);
   };
@@ -95,9 +98,6 @@ const Login = ({ setContainerLogin }) => {
       setContainerLogin(true);
     }
   }
-
-  console.log(user);
-  console.log(form);
 
   return (
     <div
