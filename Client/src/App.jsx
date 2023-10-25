@@ -16,10 +16,10 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/dashboardProf" element={<DashboardProf />} />
+          <Route path="/professional/dashboardProf" element={<DashboardProf />} />
           <Route path="/detail/:id" element={<Detail />} />
           {/* <Route path="/login" element={<Login />} /> */}
-          <Route path="/createAds" element={<CreateAdForm />} />
+          <Route path="/professional/dashboardProf/createAds" element={<CreateAdForm />} />
           <Route path="/professional/registration" element={<Registration />} />
           <Route path="/client/registration" element={<Registration />} />
           <Route path="/admin/dashboard" element={<AdminDashboard />} />
