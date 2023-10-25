@@ -9,6 +9,7 @@ import {
   ListItem,
   Typography,
   } from "@mui/material";
+import MercadoPago from "../Payments/MercadoPago";
 import './DetailAd.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { useEffect } from 'react';
@@ -19,6 +20,8 @@ const DetailAd = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
+
+
 
   useEffect(() => {
     dispatch(fetchDetail(id));
@@ -112,12 +115,10 @@ const DetailAd = () => {
             </div>
           </Grid>
         </Grid>
-        <Button
-          color="secondary"
-          sx={{ maxWidth: 100, paddingX: 10 }}
-        >
-          Contactar
-        </Button>
+       
+        
+        <MercadoPago />
+
       </CardContent>
     </Card>
   </Grid>

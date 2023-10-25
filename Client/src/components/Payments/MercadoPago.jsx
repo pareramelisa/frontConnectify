@@ -1,8 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
+// import { config } from 'dotenv';
+import { useSelector } from 'react-redux';
 
-const PUBLIC_KEY = process.env.PUBLIC_KEY;
+
+// config();
+
+// const PUBLIC_KEY = process.env.PUBLIC_KEY;
+const PUBLIC_KEY = "TEST-50156f30-252b-4623-bbba-ed453620d49f";
 
 
 function mercadoPago({price, description}) {
@@ -12,6 +18,9 @@ function mercadoPago({price, description}) {
     const [servicePrice, setServicePrice] = useState(1);
     const [cargandoSiNo, setCargandoSiNo] = useState("");
     const [walletVisible, setWalletVisible] = useState(false);
+
+    const detail = useSelector((state) => state.detail);
+
 
     useEffect(() => {
         if (preferenceId) {
@@ -36,7 +45,7 @@ function mercadoPago({price, description}) {
             const response = await axios.post("https://connectifyback-dp-production.up.railway.app/create_preference", 
             {
                 description: descriptionBuy,
-                price:servicePrice,
+                price:detail.detail.price,
                 quantity: 1,
             })
 
@@ -68,11 +77,11 @@ function mercadoPago({price, description}) {
 
   return (
     <>
-        <p>Comprar...</p>
-        <div className='contentPrice'>
+        {/* <p>Comprar...</p> */}
+        {/* <div className='contentPrice'>
             <label className='price$'>$</label>
             <input type='text' className='priceValue' value={servicePrice} onChange={handleChange}/>
-        </div>
+        </div> */}
 
         <button className='donate-link' onClick={handleButton}>COMPRAR</button>
         <p>{cargandoSiNo}</p>
