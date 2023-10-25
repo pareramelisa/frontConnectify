@@ -6,19 +6,18 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchUserRegister } from "../../redux/Slices/registerSlice";
 import style from "./register.module.css";
-import { Checkbox } from "@mui/material";
 
 const Registration = () => {
   const navigate = useNavigate();
   // localStorage.clear();
   const [clientRegister, setClientRegister] = useState(() => {
-    const localStorageData = localStorage.getItem("clientRegisterData");
+    let localStorageData = localStorage.getItem("clientRegisterData");
     return localStorageData
       ? JSON.parse(localStorageData)
       : {
           name: "",
           lastName: "",
-          username: "",
+          userName: "",
           email: "",
           password: "",
           // confirmPassword: "",
@@ -27,9 +26,13 @@ const Registration = () => {
           description: "",
           // image: "",
           address: { province: "", location: "" },
-          remoteWork: false,
+          remoteWork: "",
         };
   });
+
+  useEffect(() => {
+    console.log(54545454);
+  }, [clientRegister.remoteWork]);
 
   const routeLocation = useLocation();
   const ifProfRoute = routeLocation.pathname === "/professional/registration";
@@ -76,7 +79,11 @@ const Registration = () => {
   const handleChange = (e) => {
     const { name, type, value } = e.target;
     if (type === "checkbox") console.log(e.target.checked);
+    console.log(name);
+
+    console.log(e.target.checked);
     setClientRegister({ ...clientRegister, [name]: e.target.checked });
+    console.log(clientRegister.remoteWork);
     const nameArray = name.split(".");
 
     if (nameArray.length === 2) {
@@ -100,10 +107,10 @@ const Registration = () => {
   const handleImageUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
-      formData.append("image", file);
+      formData.append("image", file); //lo mete en el formData para el register de profs
       setClientRegister({
         ...clientRegister,
-        image: URL.createObjectURL(file), // a probar cuando se conecte con cloudinary
+        image: URL.createObjectURL(file), //lo URLiza para el register de client
       });
     }
     console.log("Image file name: " + file.name);
@@ -118,7 +125,7 @@ const Registration = () => {
     const {
       name,
       lastName,
-      username,
+      userName,
       email,
       password,
       address,
@@ -131,7 +138,7 @@ const Registration = () => {
     return (
       name &&
       lastName &&
-      username &&
+      userName &&
       email &&
       password &&
       address.province &&
@@ -144,13 +151,13 @@ const Registration = () => {
     );
   };
   const areAllClienFieldsCompleted = () => {
-    const { name, lastName, username, email, password, address, image } =
+    const { name, lastName, userName, email, password, address, image } =
       clientRegister;
 
     return (
       name &&
       lastName &&
-      username &&
+      userName &&
       email &&
       password &&
       address.province &&
@@ -162,7 +169,7 @@ const Registration = () => {
   return (
     <div>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <label htmlFor="name">First Name</label>
+        <label htmlFor="name">Nombre</label>
         <input
           type="text"
           name="name"
@@ -170,7 +177,7 @@ const Registration = () => {
           onChange={handleChange}
           placeholder="First Name"
         />
-        <label htmlFor="lastName">Last Name</label>
+        <label htmlFor="lastName">Apellido</label>
         <input
           type="text"
           name="lastName"
@@ -178,11 +185,11 @@ const Registration = () => {
           onChange={handleChange}
           placeholder="lastName"
         />
-        <label htmlFor="username">Username</label>
+        <label htmlFor="userName">Nombre de Usuario</label>
         <input
           type="text"
-          name="username"
-          value={clientRegister.username}
+          name="userName"
+          value={clientRegister.userName}
           onChange={handleChange}
           placeholder="Username"
         />
@@ -195,7 +202,7 @@ const Registration = () => {
           placeholder="Email"
         />
         <div>
-          <label htmlFor="password">Password : </label>
+          <label htmlFor="password">Contraseña: </label>
           <input
             type={passwordType ? "text" : "password"}
             value={clientRegister.password}
@@ -206,8 +213,8 @@ const Registration = () => {
           {renderPasswordToggle()}
         </div>
         <div>
-          <h2>Address</h2>
-          <label htmlFor="address.province">Province</label>
+          <h2>Drirección</h2>
+          <label htmlFor="address.province">Provincia</label>
           <input
             type="text"
             name="address.province"
@@ -215,7 +222,7 @@ const Registration = () => {
             onChange={handleChange}
             placeholder="Province"
           />
-          <label htmlFor="address.location">Location</label>
+          <label htmlFor="address.location">Localidad</label>
           <input
             type="text"
             name="address.location"
@@ -227,8 +234,8 @@ const Registration = () => {
         {ifProfRoute && (
           <div>
             <div>
-              <h2>Working Range</h2>
-              <label htmlFor="workingRange.province">Province</label>
+              <h2>Area de trabajo</h2>
+              <label htmlFor="workingRange.province">Provincia</label>
               <input
                 type="text"
                 name="workingRange.province"
@@ -236,7 +243,7 @@ const Registration = () => {
                 onChange={handleChange}
                 placeholder="Province"
               />
-              <label htmlFor="workingRange.location">Location</label>
+              <label htmlFor="workingRange.location">Localidad</label>
               <input
                 type="text"
                 name="workingRange.location"
@@ -245,7 +252,7 @@ const Registration = () => {
                 placeholder="Location"
               />
             </div>
-            <label htmlFor="profession">Profession</label>
+            <label htmlFor="profession">Profesión</label>
             <input
               type="text"
               name="profession"
@@ -253,7 +260,7 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="profession"
             />
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description">Descripción</label>
             <input
               type="text"
               name="description"
@@ -261,7 +268,7 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="description"
             />
-            <label htmlFor="remoteWork">Remote Work</label>
+            <label htmlFor="remoteWork">Trabajo Remoto</label>
             <input
               type="checkbox"
               // id="myCheckbox"
@@ -271,7 +278,7 @@ const Registration = () => {
             />
           </div>
         )}
-        <label htmlFor="image">Image</label>
+        <label htmlFor="image">Imagen</label>
         <input
           type="file"
           accept="image/*"
