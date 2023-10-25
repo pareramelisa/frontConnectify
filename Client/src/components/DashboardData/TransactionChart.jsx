@@ -22,7 +22,7 @@ const data = [
 const TransactionChart = () => {
   return (
     <div className="transaction-chart">
-      <h2>Transaction Chart</h2>
+      <h2>Gráfico de Transacciones</h2>
       <ResponsiveContainer width="100%" height={300}>
         <LineChart data={data}>
           <XAxis dataKey="name" />

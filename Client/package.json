@@ -14,7 +14,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@mercadopago/sdk-react": "^0.0.3",
-    "@mui/icons-material": "^5.14.14",
+    "@mui/icons-material": "^5.14.15",
     "@mui/material": "^5.14.14",
     "@reduxjs/toolkit": "^1.9.7",
     "axios": "^1.5.1",
@@ -26,6 +26,7 @@
     "react-router-dom": "^6.17.0",
     "recharts": "^2.9.0",
     "redux": "^4.2.1",
+    "redux-persist": "^6.0.0",
     "redux-thunk": "^2.4.2"
   },
   "devDependencies": {
