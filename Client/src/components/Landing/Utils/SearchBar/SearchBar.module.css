@@ -1,6 +1,11 @@
 .container {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos hagan wrap cuando no caben en una fila */
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap:1em;
+  
 }
 .contInput {
     display: flex;
@@ -11,7 +16,7 @@
 
 .input {
     width: 100%;
-    max-width: 220px;
+    max-width: 200px;
     height: 35px;
     padding: 12px;
     border-radius: 12px;

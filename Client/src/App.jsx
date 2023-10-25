@@ -5,7 +5,7 @@ import Login from './components/Login/Login';
 import CreateAdForm from './components/CreateAds/createAds';
 
 import Detail from './components/AdsDetail/AdsDetail';
-
+import "./App.css"
 
 function App() {
   return (

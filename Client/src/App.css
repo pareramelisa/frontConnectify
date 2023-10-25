@@ -1,0 +1,22 @@
+/* Estilos generales para todas las pantallas */
+.App {
+    background-color: #F4F4F6;
+    margin: 0;
+    padding: 0;
+}
+
+.App,
+body {
+  
+  font-family: 'Poppins', sans-serif;
+     
+}
+
+/* Estilos para pantallas medianas y grandes */
+@media (min-width: 768px) {
+  #root {
+    
+    text-align: center;
+   
+  }
+}
