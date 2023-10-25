@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Button,
   Card,
@@ -20,14 +21,24 @@ const DetailAd = () => {
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
 
+  //Estado local
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
-    dispatch(fetchDetail(id));
-  }, [dispatch, id]);
+    dispatch(fetchDetail(id))
+    .then(() => {
+      setLoading(false);
+    });
+  }, [dispatch]);
   
   
   return (
     <div className='principal'>
-      {detail.detail.creator && detail.detail.creator.length > 0 ? (
+       {loading ? (
+        <div style={{ backgroundColor: "white", width: "100%", height: "100vh" }}>Cargando...</div>
+      ) : (
+        // Verifica si detail.detail.creator existe y tiene una longitud mayor que 0
+        (detail.detail.creator && detail.detail.creator.length > 0) ? (
       <Grid container spacing={2}>
     <Grid item xs={8} align="left">
     <Grid item xs={6} sx={{ marginLeft: 3, width: "auto" }}>
@@ -36,21 +47,20 @@ const DetailAd = () => {
       </Button>
     </Grid>
     <Container sx={{ width: 800 }}>
-      <Typography fontWeight="900" variant="h2" gutterBottom>
+      <Typography fontWeight="900" variant="h2">
         {detail.detail.title}
       </Typography>
-      <Typography fontWeight="900" variant="h5" gutterBottom>
+      <Typography fontWeight="900" variant="h5">
         Ubicación:
       </Typography>
-      <Typography variant="h6" gutterBottom>
+      <Typography variant="h6">
         {detail.detail.location}
       </Typography>
-      <Typography fontWeight="900" variant="h4" gutterBottom>
-        {detail.detail.description}
+      <Typography fontWeight="900" variant="h4">
+        Descripción:
       </Typography>
-        {/* Cambiar luego cuando se modifique el anuncio */}
-      <Typography fontWeight="700" gutterBottom variant="body1">
-        {detail.detail.creator[0].description} 
+      <Typography fontWeight="700" variant="body1">
+        {detail.detail.description}
       </Typography>
     </Container>
     <Grid item xs={8}>
@@ -62,7 +72,6 @@ const DetailAd = () => {
           margin: "20px"
         }}
         align="left"
-        gutterBottom
       >
         <CardContent>
           <div className="profile-container">
@@ -94,7 +103,7 @@ const DetailAd = () => {
         <Typography fontWeight="900" variant="h5" component="div">
         {detail.detail.creator[0].name} {detail.detail.creator[0].lastName}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" style={{margin:"1em"}}>
         {detail.detail.creator[0].description}
         </Typography>
         <Grid container spacing={2}>
@@ -123,10 +132,12 @@ const DetailAd = () => {
   </Grid>
 </Grid>
 ) : (
-  <div>Cargando...</div>
-  )}
-  </div> 
-  );
+  <div>No hay creadores disponibles.</div>
+)
+)}
+</div>
+);
 };
+
 
 export default DetailAd;
