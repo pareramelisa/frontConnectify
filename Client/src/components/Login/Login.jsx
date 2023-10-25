@@ -8,6 +8,7 @@ import {
   FormControl,
   FormLabel,
   Typography,
+  IconButton
 } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useState } from "react";
@@ -15,18 +16,19 @@ import { fetchUserLogin } from "../../redux/Slices/loginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
+import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
 
-const Login = () => {
+const Login = ({ setContainerLogin }) => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.usersLogin.user);
   const [showLogin, setShowLogin] = useState(false);
   const [showLoginClient, setShowLoginClient] = useState(false);
+  const [showLoginProfessional, setShowLoginProfessional] = useState(false);
 
   const navigate = useNavigate();
 
   const { loginWithRedirect, isAuthenticated } = useAuth0();
-
-  console.log(isAuthenticated);
 
   const [form, setForm] = useState({
     email: "",
@@ -58,6 +60,7 @@ const Login = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     await dispatch(fetchUserLogin(form));
+    navigate(-1)
   };
 
   const handlerLoginGoogle = () => {
@@ -65,13 +68,32 @@ const Login = () => {
   };
 
   const handleShowClient = () => {
-    setShowLogin(true)
-    setShowLoginClient(true)
-  }
+    setShowLogin(true);
+    setShowLoginClient(true);
+  };
 
   const handleShowProfessional = () => {
-    setShowLogin(true)
-    
+    setShowLogin(true);
+    setShowLoginProfessional(true);
+  };
+
+  const handlerCloseLogin = () => {
+    setShowLogin(true);
+    setContainerLogin(false);
+    setShowLoginProfessional(false);
+    setShowLoginClient(false);
+  };
+
+  const handlerBackLogin = () => {
+    if (showLoginClient) {
+      setShowLoginClient(false)
+      setShowLogin(false);
+      setContainerLogin(true);
+    }else{
+      setShowLoginProfessional(false);
+      setShowLogin(false);
+      setContainerLogin(true);
+    }
   }
 
   console.log(user);
@@ -86,12 +108,13 @@ const Login = () => {
         flexDirection: "column",
         width: "100%",
         height: "100vh",
-        gap: 100,
+        gap: "2",
       }}
     >
-      {!showLogin ? (
+      {!showLogin && (
         <div
           style={{
+            position: "relative",
             width: "30rem",
             height: "20rem",
             border: "2px solid black",
@@ -99,8 +122,22 @@ const Login = () => {
             display: "flex",
             justifyContent: "space-around",
             alignItems: "center",
+            backgroundColor: "rgba(255,255,255,0.9)",
           }}
         >
+          <IconButton
+            disableElevation
+            style={{
+              position: "absolute",
+              top: "5px",
+              right: "5px",
+              color: "#000000",
+              fontWeight: 'bold',
+            }}
+            onClick={handlerCloseLogin}
+          >
+            <CancelRoundedIcon/>
+          </IconButton>
           <Button
             variant="contained"
             disableElevation
@@ -128,158 +165,232 @@ const Login = () => {
             Profesional
           </Button>
         </div>
-      ) : (
-        <>
-          {showLoginClient ? (
-            <>
-              <h2>Inicio Sesion</h2>
-              <Box component="form" onSubmit={onSubmit} autoComplete="off">
-                <div className="btnGoogle">
-                  {!isAuthenticated && (
-                    <div>
-                      <Button
-                        variant="contained"
-                        disableElevation
-                        startIcon={<GoogleIcon />}
-                        onClick={handlerLoginGoogle}
-                      >
-                        Google
-                      </Button>
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <div>
-                    <TextField
-                      label="Email"
-                      variant="outlined"
-                      id="email"
-                      type="email"
-                      fullWidth
-                      required
-                      onChange={handleChange}
-                      value={form.email}
-                    />
-                    <span>Esto es un span</span>
-                    <TextField
-                      label="Password"
-                      variant="outlined"
-                      id="password"
-                      type="password"
-                      fullWidth
-                      required
-                      onChange={handleChange}
-                      value={form.password}
-                    />
-                    <span>Esto es un span</span>
-                  </div>
-                  <div>
-                    <FormControl>
-                      <FormLabel id="user-login">
-                        <RadioGroup
-                          defaultValue="Cliente"
-                          name="radio-buttons-user-login"
-                          row
-                          onChange={handleChangeType}
-                        >
-                          <FormControlLabel
-                            value="client"
-                            id="types"
-                            control={<Radio />}
-                            label="Cliente"
-                          />
-                          <FormControlLabel
-                            value="professional"
-                            id="types"
-                            control={<Radio />}
-                            label="Profesional"
-                          />
-                          <FormControlLabel
-                            value="admin"
-                            id="types"
-                            control={<Radio />}
-                            label="Administrador"
-                          />
-                        </RadioGroup>
-                      </FormLabel>
-                    </FormControl>
-                  </div>
-                </div>
+      )}
 
-                <Button variant="outlined" type="submit" sx={{ mt: 2 }}>
-                  Submit
+      {showLoginClient && (
+        <Box
+          component="form"
+          onSubmit={onSubmit}
+          autoComplete="off"
+          style={{
+            position: 'relative',
+            width: "50rem",
+            height: "25rem",
+            border: "2px solid black",
+            borderRadius: "20px",
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            flexDirection: "column",
+            backgroundColor: "rgba(255,255,255,0.9)",
+          }}
+        >
+          <IconButton
+            disableElevation
+            style={{
+              position: "absolute",
+              top: "5px",
+              right: "5px",
+              color: "#000000",
+              fontWeight: 'bold',
+            }}
+            onClick={handlerCloseLogin}
+          >
+            <CancelRoundedIcon/>
+          </IconButton>
+          <IconButton
+            disableElevation
+            style={{
+              position: "absolute",
+              top: "5px",
+              left: "5px",
+              color: "#000000",
+              fontWeight: 'bold',
+            }}
+            onClick={handlerBackLogin}
+          >
+            <ArrowCircleLeftIcon/>
+          </IconButton>
+          <h2>Inicio Sesion</h2>
+          <div className="btnGoogle">
+            {!isAuthenticated && (
+              <div>
+                <Button
+                  variant="contained"
+                  disableElevation
+                  startIcon={<GoogleIcon />}
+                  onClick={handlerLoginGoogle}
+                >
+                  Google
                 </Button>
-              </Box>
-            </>
-          ) : (
-            <>
-              <h2>Inicio Sesion</h2>
-              <Box component="form" onSubmit={onSubmit} autoComplete="off">
-                <div>
-                  <div>
-                    <TextField
-                      label="Email"
-                      variant="outlined"
-                      id="email"
-                      type="email"
-                      fullWidth
-                      required
-                      onChange={handleChange}
-                      value={form.email}
+              </div>
+            )}
+          </div>
+          <div>
+            <div>
+              <TextField
+                label="Email"
+                variant="outlined"
+                id="email"
+                type="email"
+                fullWidth
+                required
+                onChange={handleChange}
+                value={form.email}
+              />
+              <span>Esto es un span</span>
+              <TextField
+                label="Password"
+                variant="outlined"
+                id="password"
+                type="password"
+                fullWidth
+                required
+                onChange={handleChange}
+                value={form.password}
+              />
+              <span>Esto es un span</span>
+            </div>
+            <div>
+              <FormControl>
+                <FormLabel id="user-login">
+                  <RadioGroup
+                    defaultValue="Cliente"
+                    name="radio-buttons-user-login"
+                    row
+                    onChange={handleChangeType}
+                  >
+                    <FormControlLabel
+                      value="client"
+                      id="types"
+                      control={<Radio />}
+                      label="Cliente"
                     />
-                    <span>Esto es un span</span>
-                    <TextField
-                      label="Password"
-                      variant="outlined"
-                      id="password"
-                      type="password"
-                      fullWidth
-                      required
-                      onChange={handleChange}
-                      value={form.password}
+                    <FormControlLabel
+                      value="professional"
+                      id="types"
+                      control={<Radio />}
+                      label="Profesional"
                     />
-                    <span>Esto es un span</span>
-                  </div>
-                  <div>
-                    <FormControl>
-                      <FormLabel id="user-login">
-                        <RadioGroup
-                          defaultValue="Cliente"
-                          name="radio-buttons-user-login"
-                          row
-                          onChange={handleChangeType}
-                        >
-                          <FormControlLabel
-                            value="client"
-                            id="types"
-                            control={<Radio />}
-                            label="Cliente"
-                          />
-                          <FormControlLabel
-                            value="professional"
-                            id="types"
-                            control={<Radio />}
-                            label="Profesional"
-                          />
-                          <FormControlLabel
-                            value="admin"
-                            id="types"
-                            control={<Radio />}
-                            label="Administrador"
-                          />
-                        </RadioGroup>
-                      </FormLabel>
-                    </FormControl>
-                  </div>
-                </div>
+                  </RadioGroup>
+                </FormLabel>
+              </FormControl>
+            </div>
+          </div>
 
-                <Button variant="outlined" type="submit" sx={{ mt: 2 }}>
-                  Submit
-                </Button>
-              </Box>
-            </>
-          )}
-        </>
+          <Button variant="outlined" type="submit" sx={{ mt: 2 }}>
+            Submit
+          </Button>
+        </Box>
+      )}
+
+      {showLoginProfessional && (
+        <Box
+          component="form"
+          onSubmit={onSubmit}
+          autoComplete="off"
+          style={{
+            position: 'relative',
+            width: "50rem",
+            height: "25rem",
+            border: "2px solid black",
+            borderRadius: "20px",
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            flexDirection: "column",
+            backgroundColor: "rgba(255,255,255,0.9)",
+          }}
+        >
+          <IconButton
+            disableElevation
+            style={{
+              position: "absolute",
+              top: "5px",
+              right: "5px",
+              color: "#000000",
+              fontWeight: 'bold',
+            }}
+            onClick={handlerCloseLogin}
+          >
+            <CancelRoundedIcon/>
+          </IconButton>
+          <IconButton
+            disableElevation
+            style={{
+              position: "absolute",
+              top: "5px",
+              left: "5px",
+              color: "#000000",
+              fontWeight: 'bold',
+            }}
+            onClick={handlerBackLogin}
+          >
+            <ArrowCircleLeftIcon/>
+          </IconButton>
+          <h2>Inicio Sesion</h2>
+          <div>
+            <div>
+              <TextField
+                label="Email"
+                variant="outlined"
+                id="email"
+                type="email"
+                fullWidth
+                required
+                onChange={handleChange}
+                value={form.email}
+              />
+              <span>Esto es un span</span>
+              <TextField
+                label="Password"
+                variant="outlined"
+                id="password"
+                type="password"
+                fullWidth
+                required
+                onChange={handleChange}
+                value={form.password}
+              />
+              <span>Esto es un span</span>
+            </div>
+            <div>
+              <FormControl>
+                <FormLabel id="user-login">
+                  <RadioGroup
+                    defaultValue="Cliente"
+                    name="radio-buttons-user-login"
+                    row
+                    onChange={handleChangeType}
+                  >
+                    <FormControlLabel
+                      value="client"
+                      id="types"
+                      control={<Radio />}
+                      label="Cliente"
+                    />
+                    <FormControlLabel
+                      value="professional"
+                      id="types"
+                      control={<Radio />}
+                      label="Profesional"
+                    />
+                    <FormControlLabel
+                      value="admin"
+                      id="types"
+                      control={<Radio />}
+                      label="Administrador"
+                    />
+                  </RadioGroup>
+                </FormLabel>
+              </FormControl>
+            </div>
+          </div>
+
+          <Button variant="outlined" type="submit" sx={{ mt: 2 }}>
+            Submit
+          </Button>
+        </Box>
       )}
     </div>
   );

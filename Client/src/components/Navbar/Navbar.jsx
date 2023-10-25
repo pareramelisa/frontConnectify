@@ -20,9 +20,10 @@ import { logoutUser } from "../../redux/Slices/loginSlice";
 
 const settings = ["Dashboard", "Profile", "Logout"];
 
-function ResponsiveAppBar() {
+function ResponsiveAppBar({setContainerLogin}) {
   const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
+  
   const navigate = useNavigate()
   const users = useSelector(state => state.user)
   const dispatch = useDispatch()
@@ -60,6 +61,10 @@ function ResponsiveAppBar() {
     }
   }
 
+  const handlerButtonLogin = () => {
+    setContainerLogin(true);
+  };
+
   console.log(user);
   console.log(users);
 
@@ -86,7 +91,7 @@ function ResponsiveAppBar() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handlerLogoutGoogle}
+                  onClick={handlerButtonLogin}
                   className="button"
                 >
                   Ir a Login
