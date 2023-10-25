@@ -6,9 +6,11 @@ import userRegisterSlice from './Slices/loginSlice';
 import createAdsSlice from './Slices/createAdsSlice';
 import searchReducer from './Slices/searchSlice';
 import detailSlice from './Slices/detailSlice';
+import adsFilter from './Slices/adsFilterSlice'
 
 export default configureStore({
   reducer: {
+    adsFilter: adsFilter,
     ads: adsSlice,
     detail: detailSlice,
     createAds: createAdsSlice,
