@@ -22,11 +22,12 @@ const Registration = () => {
           password: "",
           // confirmPassword: "",
           profession: [],
-          workingRange: { province: "", location: "" },
           description: "",
           // image: "",
-          address: { province: "", location: "" },
-          remoteWork: "",
+          province: "",
+          location: "",
+          provinceJob: "",
+          locationJob: "",
         };
   });
 
@@ -38,7 +39,9 @@ const Registration = () => {
   const ifProfRoute = routeLocation.pathname === "/professional/registration";
   const ifClientRoute = routeLocation.pathname === "/client/registration";
 
-  const [passwordType, setPasswordType] = useState(false);
+  const [passwordType, setPasswordType] = useState();
+  const [remoteWork, setRemoteWork] = useState(false);
+  const [formData, setFormData] = useState(new FormData());
 
   const renderPasswordToggle = () => (
     <button type="button" onClick={handleHidePassword}>
@@ -54,18 +57,54 @@ const Registration = () => {
   //a ajustar en funcion de cómo venga la API de provincias y localidades...
 
   const dispatch = useDispatch();
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    formData.append(
-      "json_data",
-      new Blob([JSON.stringify(clientRegister)], { type: "application/json" })
-    );
-    if (clientRegister.profession.length === 0)
-      dispatch(fetchUserRegister(clientRegister, "client"));
-    if (clientRegister.profession !== "")
-      dispatch(fetchUserRegister(clientRegister, "professional"));
-    localStorage.removeItem("clientRegisterData");
-    navigate("/login");
+
+    formData.set("name", clientRegister.name);
+    console.log(formData.get("image"));
+    formData.set("lastName", clientRegister.lastName);
+    formData.set("userName", clientRegister.userName);
+    formData.set("email", clientRegister.email);
+    formData.set("province", clientRegister.province);
+    formData.set("location", clientRegister.location);
+    formData.set("password", clientRegister.password);
+    formData.set("profession", clientRegister.profession);
+    formData.set("description", clientRegister.description);
+    formData.set("locationJob", clientRegister.locationJob);
+    formData.set("remoteWork", remoteWork);
+
+    if (clientRegister.profession.length === 0) {
+      const response = await dispatch(fetchUserRegister(formData, "client"));
+      console.log(response);
+      if (response === "Successfully registered client.") {
+        alert(response);
+        localStorage.removeItem("clientRegisterData");
+        navigate("/login");
+      } else {
+        if (response) {
+          alert(response);
+        } else {
+          alert("Vuelva a intentarlo más tarde");
+        }
+      }
+    } else {
+      if (clientRegister.profession !== "") {
+        const response = await dispatch(
+          fetchUserRegister(formData, "professional")
+        );
+        if (response === "Profesional registrado exitosamente") {
+          alert(response);
+          localStorage.removeItem("clientRegisterData");
+          navigate("/login");
+        } else {
+          if (response) {
+            alert(response);
+          } else {
+            alert("Ocurrió un error durante su registración");
+          }
+        }
+      }
+    }
   };
 
   useEffect(() => {
@@ -75,15 +114,13 @@ const Registration = () => {
   // const debouncedLocalStorageUpdate = debounce((data) => {
   //   localStorage.setItem("clientRegisterData", JSON.stringify(data));
   // }, 1000);
-  const formData = new FormData();
   const handleChange = (e) => {
     const { name, type, value } = e.target;
     if (type === "checkbox") console.log(e.target.checked);
     console.log(name);
 
     console.log(e.target.checked);
-    setClientRegister({ ...clientRegister, [name]: e.target.checked });
-    console.log(clientRegister.remoteWork);
+    setRemoteWork(e.target.checked);
     const nameArray = name.split(".");
 
     if (nameArray.length === 2) {
@@ -101,24 +138,27 @@ const Registration = () => {
     console.log(clientRegister);
     console.log(formData);
   };
+  console.log(remoteWork);
   // debouncedLocalStorageUpdate(clientRegister);
   // };
 
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      formData.append("image", file); //lo mete en el formData para el register de profs
+    const image = e.target.files[0];
+    if (image) {
+      formData.set("image", image); //lo mete en el formData para el register de profs
       setClientRegister({
         ...clientRegister,
-        image: URL.createObjectURL(file), //lo URLiza para el register de client
+        image: URL.createObjectURL(image), //lo URLiza para el register de client
       });
     }
-    console.log("Image file name: " + file.name);
-    console.log("Image file size: " + file.size + " bytes");
-    console.log("Image file type: " + file.type);
+    console.log("Image file name: " + image.name);
+    console.log("Image file size: " + image.size + " bytes");
+    console.log("Image file type: " + image.type);
     const imageFile = formData.get("image");
+    console.log(imageFile);
+    console.log(formData.get("image"));
     const imgElement = document.createElement("img");
-    imgElement.src = URL.createObjectURL(file);
+    imgElement.src = URL.createObjectURL(image);
   };
 
   const areAllProfFieldsCompleted = () => {
@@ -128,8 +168,10 @@ const Registration = () => {
       userName,
       email,
       password,
-      address,
-      workingRange,
+      province,
+      provinceJob,
+      location,
+      locationJob,
       profession,
       description,
       image,
@@ -141,18 +183,26 @@ const Registration = () => {
       userName &&
       email &&
       password &&
-      address.province &&
-      address.location &&
-      workingRange.province &&
-      workingRange.location &&
+      province &&
+      location &&
+      provinceJob &&
+      locationJob &&
       profession &&
       description &&
       image
     );
   };
   const areAllClienFieldsCompleted = () => {
-    const { name, lastName, userName, email, password, address, image } =
-      clientRegister;
+    const {
+      name,
+      lastName,
+      userName,
+      email,
+      password,
+      image,
+      province,
+      location,
+    } = clientRegister;
 
     return (
       name &&
@@ -160,8 +210,8 @@ const Registration = () => {
       userName &&
       email &&
       password &&
-      address.province &&
-      address.location &&
+      province &&
+      location &&
       image
     );
   };
@@ -175,7 +225,7 @@ const Registration = () => {
           name="name"
           value={clientRegister.name}
           onChange={handleChange}
-          placeholder="First Name"
+          placeholder="Nombre"
         />
         <label htmlFor="lastName">Apellido</label>
         <input
@@ -183,7 +233,7 @@ const Registration = () => {
           name="lastName"
           value={clientRegister.lastName}
           onChange={handleChange}
-          placeholder="lastName"
+          placeholder="Apellido"
         />
         <label htmlFor="userName">Nombre de Usuario</label>
         <input
@@ -191,7 +241,7 @@ const Registration = () => {
           name="userName"
           value={clientRegister.userName}
           onChange={handleChange}
-          placeholder="Username"
+          placeholder="Nombre de Usuario"
         />
         <label htmlFor="email">Email :</label>
         <input
@@ -208,48 +258,48 @@ const Registration = () => {
             value={clientRegister.password}
             name="password"
             onChange={handleChange}
-            placeholder="Password"
+            placeholder="Contraseña"
           />
           {renderPasswordToggle()}
         </div>
         <div>
           <h2>Drirección</h2>
-          <label htmlFor="address.province">Provincia</label>
+          <label htmlFor="province">Provincia</label>
           <input
             type="text"
-            name="address.province"
-            value={clientRegister.address.province}
+            name="province"
+            value={clientRegister.province}
             onChange={handleChange}
-            placeholder="Province"
+            placeholder="Provincia"
           />
-          <label htmlFor="address.location">Localidad</label>
+          <label htmlFor="location">Localidad</label>
           <input
             type="text"
-            name="address.location"
-            value={clientRegister.address.location}
+            name="location"
+            value={clientRegister.location}
             onChange={handleChange}
-            placeholder="Location"
+            placeholder="Localidad"
           />
         </div>
         {ifProfRoute && (
           <div>
             <div>
               <h2>Area de trabajo</h2>
-              <label htmlFor="workingRange.province">Provincia</label>
+              <label htmlFor="provinceJob">Provincia</label>
               <input
                 type="text"
-                name="workingRange.province"
-                value={clientRegister.workingRange.province}
+                name="provinceJob"
+                value={clientRegister.provinceJob}
                 onChange={handleChange}
-                placeholder="Province"
+                placeholder="Provincia"
               />
-              <label htmlFor="workingRange.location">Localidad</label>
+              <label htmlFor="locationJob">Localidad</label>
               <input
                 type="text"
-                name="workingRange.location"
-                value={clientRegister.workingRange.location}
+                name="locationJob"
+                value={clientRegister.locationJob}
                 onChange={handleChange}
-                placeholder="Location"
+                placeholder="Localidad"
               />
             </div>
             <label htmlFor="profession">Profesión</label>
@@ -258,7 +308,7 @@ const Registration = () => {
               name="profession"
               value={clientRegister.profession}
               onChange={handleChange}
-              placeholder="profession"
+              placeholder="profesión"
             />
             <label htmlFor="description">Descripción</label>
             <input
@@ -266,14 +316,14 @@ const Registration = () => {
               name="description"
               value={clientRegister.description}
               onChange={handleChange}
-              placeholder="description"
+              placeholder="descripción"
             />
             <label htmlFor="remoteWork">Trabajo Remoto</label>
             <input
               type="checkbox"
               // id="myCheckbox"
               name="remoteWork"
-              value={clientRegister.remoteWork}
+              value={remoteWork}
               onChange={handleChange}
             />
           </div>
