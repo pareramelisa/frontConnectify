@@ -42,8 +42,8 @@ const DetailAd = () => {
   }, []);
   
   return (
-    <div className='principal'>
-      <Navbar setContainerLogin={setContainerLogin}/>
+    <div>
+            <Navbar setContainerLogin={setContainerLogin}/>
       {containerLogin ? (
         <div
           style={{
@@ -64,6 +64,8 @@ const DetailAd = () => {
           <Login  setContainerLogin={setContainerLogin}/>
         </div>
       ) : null}
+    <div className='principal'>
+
        {loading ? (
         <div style={{ backgroundColor: "white", width: "100%", height: "100vh" }}>Cargando...</div>
       ) : (
@@ -76,20 +78,18 @@ const DetailAd = () => {
         {detail.detail.categories}
       </Button>
     </Grid>
-    <Grid item xs={12} md={10}>
-      <Typography fontWeight="900" variant="h2">
+    <Grid item xs={12} md={10} sx={{ margin: '16px' }}>
+      <Typography fontWeight="900" variant="h3" sx={{ margin: '10px' }}>
         {detail.detail.profession}
       </Typography>
-      <Typography fontWeight="900" variant="h5">
-        Ubicación:
+      <Typography fontWeight="900" variant="h5" sx={{ margin: '10px' }}>
+        Ubicación: {detail.detail.location}
       </Typography>
-      <Typography variant="h6">
-        {detail.detail.location}
-      </Typography>
-      <Typography fontWeight="900" variant="h4">
+      
+      <Typography fontWeight="900" variant="h4" sx={{ margin: '10px' }}>
         Descripción:
       </Typography>
-      <Typography fontWeight="700" variant="body1">
+      <Typography fontWeight="700" variant="body1" sx={{ margin: '10px' }}>
         {detail.detail.description}
       </Typography>
       <Card
@@ -165,6 +165,7 @@ const DetailAd = () => {
   <div>No hay creadores disponibles.</div>
 )
 )}
+</div>
 </div>
 );
 };

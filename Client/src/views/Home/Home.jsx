@@ -5,6 +5,7 @@ import Login from "../../components/Login/Login";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { locationUser } from "../../redux/Slices/persistSlice";
+import SearchBar from "../../components/Landing/Utils/SearchBar/SearchBar";
 
 const Home = () => {
   const location = useLocation()
@@ -40,6 +41,7 @@ const Home = () => {
           <Login  setContainerLogin={setContainerLogin}/>
         </div>
       ) : null}
+      <SearchBar />
       <Ads/>
     </div>
   );
