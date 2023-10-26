@@ -4,9 +4,8 @@ import Home from "./views/Home/Home";
 import CreateAdForm from "./components/CreateAds/createAds";
 import Detail from "./components/AdsDetail/AdsDetail";
 import Registration from "./components/register/register";
-import AdminDashboard from "./components/DashboardData/Dashboard";
-import DashboardProf from "./views/DashboardProf/DashboardProf"
-
+import DashboardAdmin from "./views/DashboardAdmin/DashboardAdmin";
+import DashboardProf from "./views/DashboardProf/DashboardProf";
 
 function App() {
   return (
@@ -15,12 +14,18 @@ function App() {
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/home" element={<Home />} />
-          <Route path="/professional/dashboardProf" element={<DashboardProf />} />
+          <Route
+            path="/professional/dashboardProf"
+            element={<DashboardProf />}
+          />
           <Route path="/detail/:id" element={<Detail />} />
-          <Route path="/professional/dashboardProf/createAds" element={<CreateAdForm />} />
+          <Route
+            path="/professional/dashboardProf/createAds"
+            element={<CreateAdForm />}
+          />
           <Route path="/professional/registration" element={<Registration />} />
           <Route path="/client/registration" element={<Registration />} />
-          <Route path="/admin/dashboard" element={<AdminDashboard />} />
+          <Route path="/admin/dashboard" element={<DashboardAdmin />} />
         </Routes>
       </div>
     </>
