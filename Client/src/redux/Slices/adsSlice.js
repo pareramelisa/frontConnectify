@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+const VITE_API_BASE = import.meta.env.VITE_API_BASE
 
 // Define una función asincrónica para cargar los anuncios
 export const fetchAds = createAsyncThunk('ads/fetchAds', async () => {
-  const endpoint = 'https://connectifyback-dp-production.up.railway.app/ads';
+  const endpoint = `${VITE_API_BASE}/ads`;
   const response = await axios.get(endpoint);
   return response.data;
   //eliminado el tryCatch debido a que el createAsyncThunk ya maneja los errores.

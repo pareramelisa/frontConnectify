@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+const VITE_API_BASE = import.meta.env.VITE_API_BASE
 
 export const userRegisterSlice = createSlice({
   name: "usersRegister",
@@ -23,7 +24,7 @@ export default userRegisterSlice.reducer;
 export const fetchUserRegister = (userData, type) => {
   return async (dispatch) => {
     if (type === "client") {
-      const endpoint = "https://connectifyback-dp-production.up.railway.app/client/register";
+      const endpoint = `${VITE_API_BASE}/client/register`
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
@@ -32,7 +33,7 @@ export const fetchUserRegister = (userData, type) => {
       }
     } else if (type === "professional") {
 
-      const endpoint = "https://connectifyback-dp-production.up.railway.app/professional/register";
+      const endpoint = `${VITE_API_BASE}/professional/register`;
 
       try {
         const { data } = await axios.post(endpoint, userData);
@@ -47,7 +48,7 @@ export const fetchUserRegister = (userData, type) => {
 export const fetchUserDelete = (id, userData, type) => {
   return async (dispatch) => {
     if (type === "client") {
-      const endpoint = `https://connectifyback-dp-production.up.railway.app/client/${id}/delete`;
+      const endpoint = `${VITE_API_BASE}/client/${id}/delete`;
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
@@ -55,7 +56,7 @@ export const fetchUserDelete = (id, userData, type) => {
         console.log(error);
       }
     } else if (type === "professional") {
-      const endpoint = `https://connectifyback-dp-production.up.railway.app/professional/${id}/delete`;
+      const endpoint = `${VITE_API_BASE}/professional/${id}/delete`;
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
