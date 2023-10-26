@@ -19,6 +19,8 @@ import { fetchDetail } from '../../redux/Slices/detailSlice';
 import Navbar from '../Navbar/Navbar'
 import Login from "../Login/Login";
 import { locationUser } from '../../redux/Slices/persistSlice';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 const DetailAd = () => {
   const { id } = useParams();
@@ -26,7 +28,7 @@ const DetailAd = () => {
   const detail = useSelector((state) => state.detail);
   const [containerLogin, setContainerLogin] = useState(false)
   const location = useLocation()
-
+  const [isSaved, setIsSaved] = useState(false); // Agregamos el estado para controlar si se ha guardado el perfil
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,6 +42,29 @@ const DetailAd = () => {
   useEffect(() => {
     dispatch(locationUser(location.pathname));
   }, []);
+
+   // Guardar los datos del profesional en el Local Storage
+   const handleSaveOrRemoveProfile = () => {
+    if (isSaved) {
+      localStorage.removeItem(`professionalData_${id}`); // Elimina el perfil guardado
+      setIsSaved(false); // Marca como no guardado
+    } else {
+      if (detail.detail.creator && detail.detail.creator.length > 0) {
+        localStorage.setItem(`professionalData_${id}`, JSON.stringify(detail.detail.creator[0]));
+        setIsSaved(true); // Marca como guardado
+      }
+    }
+  };
+
+  const storedData = localStorage.getItem('professionalData_' + id);
+
+if (storedData) {
+  // El valor está en el Local Storage
+  console.log('Perfil guardado:', JSON.parse(storedData));
+} else {
+  // El valor no está en el Local Storage
+  console.log('Perfil no guardado');
+}
   
   return (
     <div>
@@ -74,9 +99,9 @@ const DetailAd = () => {
       <Grid container spacing={2}>
     <Grid item xs={8} align="left">
     <Grid item xs={6} sx={{ marginLeft: 3, width: "auto" }}>
-      <Button sx={{ marginRight: 0.5, width: "100%" }} variant="contained">
-        {detail.detail.categories}
-      </Button>
+    <Button sx={{ marginRight: 0.5, width: "100%", backgroundColor: isSaved ? '#D9D9D9' : '#3B7BA4'}} variant="contained" onClick={handleSaveOrRemoveProfile}>
+                    {isSaved ? 'Guardado' : 'Guardar para más tarde'}
+                  </Button>
     </Grid>
     <Grid item xs={12} md={10} sx={{ margin: '16px' }}>
       <Typography fontWeight="900" variant="h3" sx={{ margin: '10px' }}>
