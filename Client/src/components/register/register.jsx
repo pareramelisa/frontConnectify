@@ -71,6 +71,7 @@ const Registration = () => {
     formData.set("profession", clientRegister.profession);
     formData.set("description", clientRegister.description);
     formData.set("locationJob", clientRegister.locationJob);
+    formData.set("provinceJob", clientRegister.provinceJob);
     formData.set("remoteWork", remoteWork);
 
     if (clientRegister.profession.length === 0) {
