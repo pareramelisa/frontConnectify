@@ -29,7 +29,6 @@ const DetailAd = () => {
 
   const [loading, setLoading] = useState(true);
 
-
   useEffect(() => {
     dispatch(fetchDetail(id))
     .then(() => {
@@ -59,6 +58,7 @@ const DetailAd = () => {
             padding: "20px",
             background: "rgba(0,0,0,0.5)",
             zIndex: "10",
+            marginBottom: '1rem'
           }}
         >
           <Login  setContainerLogin={setContainerLogin}/>
