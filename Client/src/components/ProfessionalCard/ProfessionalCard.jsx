@@ -14,6 +14,7 @@ function Ads() {
   }, [dispatch]);
 
   return (
+    <div className={style.container}>
     <div className={style.card}>
       {ads.map((ad) => (
         <Professional
@@ -28,6 +29,7 @@ function Ads() {
           image={ad.creator[0].image}
         />
       ))}
+    </div>
     </div>
   );
 }

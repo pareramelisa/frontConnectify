@@ -42,8 +42,8 @@ const DetailAd = () => {
   }, []);
   
   return (
-    <div className='principal'>
-      <Navbar setContainerLogin={setContainerLogin}/>
+    <div>
+            <Navbar setContainerLogin={setContainerLogin}/>
       {containerLogin ? (
         <div
           style={{
@@ -64,6 +64,8 @@ const DetailAd = () => {
           <Login  setContainerLogin={setContainerLogin}/>
         </div>
       ) : null}
+    <div className='principal'>
+
        {loading ? (
         <div style={{ backgroundColor: "white", width: "100%", height: "100vh" }}>Cargando...</div>
       ) : (
@@ -76,30 +78,26 @@ const DetailAd = () => {
         {detail.detail.categories}
       </Button>
     </Grid>
-    <Container sx={{ width: 800 }}>
-      <Typography fontWeight="900" variant="h2">
-        {detail.detail.title}
+    <Grid item xs={12} md={10} sx={{ margin: '16px' }}>
+      <Typography fontWeight="900" variant="h3" sx={{ margin: '10px' }}>
+        {detail.detail.profession}
       </Typography>
-      <Typography fontWeight="900" variant="h5">
-        Ubicación:
+      <Typography fontWeight="900" variant="h5" sx={{ margin: '10px' }}>
+        Ubicación: {detail.detail.location}
       </Typography>
-      <Typography variant="h6">
-        {detail.detail.location}
-      </Typography>
-      <Typography fontWeight="900" variant="h4">
+      
+      <Typography fontWeight="900" variant="h4" sx={{ margin: '10px' }}>
         Descripción:
       </Typography>
-      <Typography fontWeight="700" variant="body1">
+      <Typography fontWeight="700" variant="body1" sx={{ margin: '10px' }}>
         {detail.detail.description}
       </Typography>
-    </Container>
-    <Grid item xs={8}>
       <Card
         sx={{
-          width: 700,
+          width: "100%",
           backgroundColor: "#D9D9D9",
           padding: '10px',
-          margin: "20px"
+          margin: "0px"
         }}
         align="left"
       >
@@ -109,7 +107,7 @@ const DetailAd = () => {
               <img src="https://img.freepik.com/foto-gratis/retrato-hermoso-mujer-joven-posicion-pared-gris_231208-10760.jpg?w=740&t=st=1698081873~exp=1698082473~hmac=aba3c7f8d2e33cab05a648b7e5cb8a3a44a0f1242b4bb85fb6022a36e463fc15" alt="Imagen de perfil" />
             </div>
             <div className="profile-text">
-              <Typography variant="h6">⭐⭐⭐⭐</Typography>
+              <Typography variant="h6">⭐5.0</Typography>
               <Typography fontWeight="900" variant="h5" component="div">
                 Maria Emilia Fuentes
               </Typography>
@@ -120,9 +118,12 @@ const DetailAd = () => {
           </div>
         </CardContent>
       </Card>
+      </Grid>
+    <Grid item xs={8}>
     </Grid>
   </Grid>
-  <Grid item xs={4}>
+
+  <Grid item xs={12} sm={6} md={4}>
     <Card sx={{ maxWidth: 345, borderRadius: 5 }}>
       <CardMedia
         sx={{ height: 200 }}
@@ -145,7 +146,8 @@ const DetailAd = () => {
                   {detail.detail.price}$
                 </ListItem>
                 <ListItem>
-                  <Typography>Modalidad: {detail.detail.workLocation}</Typography>
+                  <Typography>Modalidad: </Typography>
+                  {detail.detail.workLocation}
                 </ListItem>
               </List>
             </div>
@@ -163,6 +165,7 @@ const DetailAd = () => {
   <div>No hay creadores disponibles.</div>
 )
 )}
+</div>
 </div>
 );
 };

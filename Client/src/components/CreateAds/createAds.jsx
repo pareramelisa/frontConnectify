@@ -36,7 +36,7 @@ function CreateAdForm() {
   };
 
   return (
-    <div>
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: "60vw" }}>
       <form onSubmit={handleSubmit}>
         <div>
           <TextField
