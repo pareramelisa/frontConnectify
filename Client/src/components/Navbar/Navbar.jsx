@@ -69,7 +69,7 @@ function ResponsiveAppBar({setContainerLogin}) {
   console.log(users);
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{marginBottom: '1.5rem'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <div className="containerNav">
