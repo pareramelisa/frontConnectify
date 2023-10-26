@@ -1,9 +1,38 @@
+/* Define la cuadrícula con tres columnas por defecto y un gap de 2em */
 .card {
   display: grid;
-  grid-template-columns: repeat(3, 29em);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1em;
   justify-items: center;
   align-items: center;
-  padding-top: 6em;
-  padding-bottom: 2em;
-  gap:2em;
+}
+
+/* Establece un ancho máximo para la cuadrícula para evitar que los elementos se estiren demasiado en pantallas grandes */
+@media (min-width: 1200px) {
+  .card {
+    grid-template-columns: repeat(4, 1fr); /* Cambia a 4 columnas en pantallas más grandes */
   }
+}
+
+/* En pantallas aún más pequeñas, cambia a 2 columnas */
+@media (max-width: 768px) {
+  .card {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* En pantallas muy pequeñas, cambia a 1 columna */
+@media (max-width: 480px) {
+  .card {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.container {
+   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 5em;
+  
+}

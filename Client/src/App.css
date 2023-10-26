@@ -1,22 +1,24 @@
 /* Estilos generales para todas las pantallas */
 .App {
-    background-color: #F4F4F6;
-    margin: 0;
-    padding: 0;
-}
-
-.App,
-body {
-  
+  background-color: #F4F4F6;
+  margin: 0;
+  padding: 0;
   font-family: 'Poppins', sans-serif;
-     
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Hace que el contenedor ocupe el 100% de la altura de la pantalla */
 }
 
 /* Estilos para pantallas medianas y grandes */
 @media (min-width: 768px) {
+  .App {
+      flex-direction: row; /* Cambia la dirección de los elementos en filas a columnas */
+  }
+
   #root {
-    
-    text-align: center;
-   
+      text-align: center;
+      flex: 1; /* Hace que #root ocupe el espacio restante */
   }
 }
