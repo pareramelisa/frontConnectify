@@ -9,12 +9,14 @@ import { locationUser } from "../../redux/Slices/persistSlice";
 const Home = () => {
   const location = useLocation()
   const dispatch = useDispatch()
-  const persist = useSelector(state => state.persistUser.location)
   const [containerLogin, setContainerLogin] = useState(false)
+  const users = useSelector(state => state.usersLogin.user)
 
   useEffect(() => {
     dispatch(locationUser(location.pathname));
   }, []);
+
+  console.log(users);
 
   return (
     <div>
