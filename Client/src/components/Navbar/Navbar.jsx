@@ -116,7 +116,7 @@ function ResponsiveAppBar({setContainerLogin}) {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Button textAlign="center" onClick={handleAvatarButton}>{setting}</Button>
+                    <Button textalign="center" onClick={handleAvatarButton}>{setting}</Button>
                   </MenuItem>
                 ))}
               </Menu>
