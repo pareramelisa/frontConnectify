@@ -62,12 +62,14 @@ const Professional = ({
   const navigate = useNavigate()
 
   const handlerLogin = () => {
-    isAuthenticated || users.name ? navigate(`/detail/${id}`) : setContainerLogin(true)
+    if (isAuthenticated || users.name) {
+      return navigate(`/detail/${id}`)
+    }
+    setContainerLogin(true)
   }
 
   return (
-    <Link to='#' onClick={handlerLogin}>
-      <Card sx={cardStyle} >
+      <Card sx={cardStyle} onClick={handlerLogin}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -98,7 +100,6 @@ const Professional = ({
           </CardContent>
         </CardActionArea>
       </Card>
-    </Link>
   );
 };
 
