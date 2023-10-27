@@ -1,13 +1,8 @@
-import {
-  Box,
-  Button,
-  TextField,
-  IconButton,
-} from "@mui/material";
+import { Box, Button, TextField, IconButton } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useState } from "react";
 import { fetchUserLogin } from "../../redux/Slices/loginSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
@@ -46,8 +41,13 @@ const Login = ({ setContainerLogin }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(fetchUserLogin(form));
-    
+    const result = await dispatch(fetchUserLogin(form));
+    if (result) {
+      setShowLogin(true);
+      setShowLoginProfessional(false);
+      setShowLoginClient(false);
+    }
+    setContainerLogin(false);
   };
 
   const handlerLoginGoogle = () => {
