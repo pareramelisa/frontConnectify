@@ -47,7 +47,7 @@ const Favorites = () => {
             <CardContent>
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={2}>
-                  <Box display="flex" justifyContent="flex-end">
+                  <Box display="flex" justifyContent='space-between'>
                     <IconButton
                       onClick={() => {
                         const profileKey = `favoritos-${profile._id}`;
@@ -65,7 +65,7 @@ const Favorites = () => {
                 <Grid item xs={12} sm={6} md={2}>
                   <CardMedia
                     component="img"
-                    height="100"
+                    height="200"
                     image={profile.creator[0].image}
                     alt={`Imagen de ${profile.creator[0].name}`}
                   />
