@@ -8,7 +8,7 @@ export const postComment = createAsyncThunk(
   async (commentData) => {
     try {
       const endpoint =
-        "https://connectifyback-dp-production.up.railway.app/comments/postComments";
+        "https://localhost:3001/comments/postComments";
       const response = await axios.post(endpoint, commentData);
       return response.data;
     } catch (error) {
@@ -21,7 +21,7 @@ export const postComment = createAsyncThunk(
 export const getComments = createAsyncThunk("comment/getComment", async () => {
   try {
     const endpoint =
-      "https://connectifyback-dp-production.up.railway.app/comments/getComments";
+      "https://localhost:3001/comments/getComments";
     const response = await axios(endpoint);
     return response.data;
   } catch (error) {
