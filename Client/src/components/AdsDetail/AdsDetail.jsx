@@ -44,28 +44,35 @@ const DetailAd = () => {
   }, []);
 
    // Guardar los datos del profesional en el Local Storage
-   const handleSaveOrRemoveProfile = () => {
+  const handleSaveOrRemoveProfile = () => {
+    const localStorageKey = `favoritos-${id}`;
     if (isSaved) {
-      localStorage.removeItem(`professionalData_${id}`); // Elimina el perfil guardado
-      setIsSaved(false); // Marca como no guardado
+      // Eliminar el perfil de favoritos (usando la clave adecuada)
+      localStorage.removeItem(localStorageKey);
+      console.log(`Se eliminó "${localStorageKey}" del localStorage.`);
     } else {
-      if (detail.detail.creator && detail.detail.creator.length > 0) {
-        localStorage.setItem(`professionalData_${id}`, JSON.stringify(detail.detail.creator[0]));
-        setIsSaved(true); // Marca como guardado
-      }
+      // Guardar el perfil como favorito (usando la clave adecuada)
+      localStorage.setItem(localStorageKey, JSON.stringify(detail.detail));
+      console.log(`Se guardó "${localStorageKey}" en el localStorage.`);
+
+      // Emite un evento personalizado para notificar cambios en favoritos
+      const event = new Event('favoritesChanged');
+      window.dispatchEvent(event);
     }
+
+    // Actualizar el estado `isSaved` para reflejar si el perfil está guardado o no
+    setIsSaved(!isSaved);
   };
-
-  const storedData = localStorage.getItem('professionalData_' + id);
-
-if (storedData) {
-  // El valor está en el Local Storage
-  console.log('Perfil guardado:', JSON.parse(storedData));
-} else {
-  // El valor no está en el Local Storage
-  console.log('Perfil no guardado');
-}
   
+  
+  useEffect(() => {
+    // Verificar si el perfil ya está guardado en el localStorage
+    const savedProfile = localStorage.getItem(`favoritos-${id}`);
+    console.log(`Contenido de en localStorage:${savedProfile}` );
+    setIsSaved(!!savedProfile); // Establecer el estado en función de si se encuentra en localStorage
+  }, []);
+  
+ 
   return (
     <div>
             <Navbar setContainerLogin={setContainerLogin}/>
