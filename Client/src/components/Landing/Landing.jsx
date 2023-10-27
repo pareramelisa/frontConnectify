@@ -3,7 +3,6 @@ import { Button, Typography } from "@mui/material";
 import "./Landing.css";
 import Logo from "../../assets/connectify.svg";
 import Logo2 from "../../assets/logo.svg";
-//import SearchBar from "./Utils/SearchBar/SearchBar";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AiOutlineHome } from "react-icons/ai";
 import { useEffect, useState } from "react";
@@ -74,7 +73,6 @@ function LandingPage() {
           <AiOutlineHome style={{ fontSize: "2em" }} />
         </Button>
       </div>
-      <SearchBar />
       {
         !isAuthenticated && !users.name &&
         <Button
