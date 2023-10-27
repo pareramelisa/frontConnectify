@@ -1,4 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import Fab from '@mui/material/Fab'
+import { MdPersonSearch } from 'react-icons/md';
 import { useState, useEffect } from "react";
 import Navbar from '../../components/Navbar/Navbar'
 import Login from "../../components/Login/Login";
@@ -12,6 +18,7 @@ import Pagination from "../../components/Pagination/Pagination";
 import { fetchFilter } from '../../redux/Slices/FiltersCombinedSlice';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+
 
 const Home = () => {
   //* Declaraciones de variables
@@ -83,24 +90,28 @@ const Home = () => {
       ) : null}
       <div className={style.filterStyle}>
       <div>
-    <label>Profesion: </label>
-    <select onChange={handleProfession} value={profession}>
+    <FormControl sx={{ m: 1, minWidth: 140, maxWidth: 200 }}>
+    <InputLabel>Profesion</InputLabel>
+    <Select onChange={handleProfession} value={profession}>
     {uniqueProfessions.map((profession) => (
-    <option key={profession} value={profession}>
+    <MenuItem key={profession} value={profession}>
       {profession}
-    </option>
+    </MenuItem>
      ))}
-     </select>
+     </Select>
+     </FormControl>
   </div>
   <div>
-    <label>Ubicación: </label>
-    <select onChange={handleLocation} value={locationProf}>
+  <FormControl sx={{ m: 1, minWidth: 140, maxWidth: 200 }}>
+    <InputLabel>Ubicación</InputLabel>
+    <Select onChange={handleLocation} value={locationProf}>
       {uniqueLocations.map((locations) => (
-        <option key={locations} value={locations}>
+        <MenuItem key={locations} value={locations}>
           {locations}
-        </option>
+        </MenuItem>
       ))}
-    </select>
+    </Select>
+  </FormControl>
   </div>
   <div>
       <label>Selecciona un rango de precios:</label>
@@ -117,7 +128,7 @@ const Home = () => {
       />
     </div>
   <div>
-    <button onClick={() => applyFilters()}>BUSCAR</button>
+    <Fab color="primary" onClick={() => applyFilters()}><MdPersonSearch style={{fontSize:"2.5em"}}/></Fab>
   </div>
   </div>
     <div className={style.container}>
