@@ -3,7 +3,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import Fab from '@mui/material/Fab'
+import Fab from '@mui/material/Fab';
+// import { IoMdRefresh } from "react-icons/io";
 import { MdPersonSearch } from 'react-icons/md';
 import { useState, useEffect } from "react";
 import Navbar from '../../components/Navbar/Navbar'
@@ -13,11 +14,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { locationUser } from "../../redux/Slices/persistSlice";
 import Professional from "../../components/Card/Professional";
 import { fetchAds } from "../../redux/Slices/adsSlice";
-import style from "./Home.module.css";
+import styles from "./Home.module.css";
 import Pagination from "../../components/Pagination/Pagination";
 import { fetchFilter } from '../../redux/Slices/FiltersCombinedSlice';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
+import Footer from '../../components/Footer/Footer';
 
 
 const Home = () => {
@@ -36,7 +38,7 @@ const Home = () => {
   const adsFiltered = useSelector(state => state.ads.adsFiltered);
   const ads = useSelector(state => state.ads.ads);
   console.log(users);
-
+  
   //* Paginado
   const [currentPage, setCurrentPage] = useState(1);
   const [adsPerPage] = useState(9);
@@ -71,6 +73,15 @@ const Home = () => {
     setCurrentPage(1);
   };
 
+  //* Función para limpiar los filtros da error, por ahora comentada
+  // const clearFilters = (e) => {
+  //   e.preventDefault();
+  //   setProfession('DEFAULT'); 
+  //   setLocationProf('DEFAULT');
+  //   setPriceRange([1000, 10000]);
+  //   dispatch(fetchFilter({ profession: '', locationProf: '', minPrice: null, maxPrice: null }));
+  // };
+
   //* constantes para el filtro por profesion y ubicación
   const uniqueProfessions = [...new Set(ads.map((ad) => ad.profession))];
   const uniqueLocations = [...new Set(ads.map((ad) => ad.location))];
@@ -80,7 +91,7 @@ const Home = () => {
   useEffect(() => {
     dispatch(locationUser(location.pathname));
     dispatch(fetchAds());
-  }, [dispatch]);
+  }, []);
 
   return (
     <div>
@@ -88,11 +99,15 @@ const Home = () => {
       {containerLogin ? (
       <Login  setContainerLogin={setContainerLogin}/>
       ) : null}
-      <div className={style.filterStyle}>
+      <div className={styles.filterStyle}>
       <div>
     <FormControl sx={{ m: 1, minWidth: 140, maxWidth: 200 }}>
     <InputLabel>Profesion</InputLabel>
-    <Select onChange={handleProfession} value={profession}>
+    <Select 
+      id="ProfesionSearch" 
+      defaultValue={'DEFAULT'}
+      onChange={handleProfession} 
+      value={profession}>
     {uniqueProfessions.map((profession) => (
     <MenuItem key={profession} value={profession}>
       {profession}
@@ -104,7 +119,11 @@ const Home = () => {
   <div>
   <FormControl sx={{ m: 1, minWidth: 140, maxWidth: 200 }}>
     <InputLabel>Ubicación</InputLabel>
-    <Select onChange={handleLocation} value={locationProf}>
+    <Select 
+      id="LocationSearch"
+      defaultValue={'DEFAULT'}
+      onChange={handleLocation} 
+      value={locationProf}>
       {uniqueLocations.map((locations) => (
         <MenuItem key={locations} value={locations}>
           {locations}
@@ -131,19 +150,22 @@ const Home = () => {
     <Fab color="primary" onClick={() => applyFilters()}><MdPersonSearch style={{fontSize:"2.5em"}}/></Fab>
   </div>
   </div>
-    <div className={style.container}>
-    <div className={style.card}>
+      {/* <div>
+        <Fab color="primary" className={styles.spinButton} onClick={(e) => clearFilters(e)}><IoMdRefresh style={{fontSize:"2em"}}/></Fab>
+      </div> */}
+    <div className={styles.container}>
+    <div className={styles.card}>
       {currentAds.map((ad) => (
         <Professional
-          key={ad._id}
-          id={ad._id}
-          name={ad.creator[0].name}
-          lastName={ad.creator[0].lastName}
-          location={ad.creator[0].location}
-          description={ad.description}
-          price={ad.price}
-          profession={ad.profession}
-          image={ad.creator[0].image}
+        key={ad._id}
+        id={ad._id}
+        name={ad.creator[0].name}
+        lastName={ad.creator[0].lastName}
+        location={ad.location}
+        description={ad.description}
+        price={ad.price}
+        profession={ad.profession}
+        image={ad.creator[0].image}
         />
       ))}
     </div>
@@ -154,7 +176,8 @@ const Home = () => {
       totalAds={adsFiltered.length}
       onPageChange={paginate}
       currentAds={currentAds}
-    />
+      />
+      <Footer/>
     </div>
   );
 };
