@@ -47,3 +47,6 @@
   flex-direction: row;
   gap: 1em;
 }
+.wideLabel {
+  width: 100%;
+}

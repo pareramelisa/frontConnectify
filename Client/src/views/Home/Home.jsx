@@ -5,12 +5,13 @@ import Login from "../../components/Login/Login";
 import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { locationUser } from "../../redux/Slices/persistSlice";
-// import SearchBar from "../../components/SearchBar/SearchBar";
 import Professional from "../../components/Card/Professional";
 import { fetchAds } from "../../redux/Slices/adsSlice";
 import style from "./Home.module.css";
 import Pagination from "../../components/Pagination/Pagination";
 import { fetchFilter } from '../../redux/Slices/FiltersCombinedSlice';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
 
 const Home = () => {
   //* Declaraciones de variables
@@ -19,14 +20,14 @@ const Home = () => {
   
   //* Estados locales
   const [containerLogin, setContainerLogin] = useState(false);
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  const [priceRange, setPriceRange] = useState([1000, 10000]);
   const [profession, setProfession] = useState("");
   const [locationProf, setLocationProf] = useState("");
   
   //* Estados globales
   const users = useSelector(state => state.usersLogin.user);
   const adsFiltered = useSelector(state => state.ads.adsFiltered);
+  const ads = useSelector(state => state.ads.ads);
   console.log(users);
 
   //* Paginado
@@ -48,26 +49,25 @@ const Home = () => {
     setLocationProf(e.target.value);
   };
 
-  const handleMinPrice = (e) => {
-    e.preventDefault();
-    setMinPrice(e.target.value);
-  };
-  
-  const handleMaxPrice = (e) => {
-    e.preventDefault();
-    setMaxPrice(e.target.value);
-  };
-
   const handleProfession = (e) => {
     e.preventDefault();
     setProfession(e.target.value);
   };
 
+  const handlePriceRangeChange = (value) => {
+    setPriceRange(value);
+  };
+
   //* Función para aplicar los filtros
   const applyFilters = async () => {
-    dispatch(fetchFilter({ profession, locationProf, minPrice, maxPrice }));
+    dispatch(fetchFilter({ profession, locationProf, minPrice: priceRange[0], maxPrice: priceRange[1] }));
     setCurrentPage(1);
   };
+
+  //* constantes para el filtro por profesion y ubicación
+  const uniqueProfessions = [...new Set(ads.map((ad) => ad.profession))];
+  const uniqueLocations = [...new Set(ads.map((ad) => ad.location))];
+
 
   //* useEffect para actualizar el estado de los anuncios
   useEffect(() => {
@@ -83,31 +83,39 @@ const Home = () => {
       ) : null}
       <div className={style.filterStyle}>
       <div>
-    <label>Profesional: </label>
+    <label>Profesion: </label>
     <select onChange={handleProfession} value={profession}>
-      <option value="">Seleccione una profesión</option>
-      <option value="Plomero">Plomero</option>
-      <option value="Panadero">Panadero</option>
-      {/* Agrega opciones para todas las profesiones disponibles */}
-    </select>
+    {uniqueProfessions.map((profession) => (
+    <option key={profession} value={profession}>
+      {profession}
+    </option>
+     ))}
+     </select>
   </div>
   <div>
     <label>Ubicación: </label>
     <select onChange={handleLocation} value={locationProf}>
-      <option value="">Seleccione una ubicación</option>
-      <option value="Bogota">Bogota</option>
-      <option value="Palermo">Palermo</option>
-      {/* Agrega opciones para todas las ubicaciones disponibles */}
+      {uniqueLocations.map((locations) => (
+        <option key={locations} value={locations}>
+          {locations}
+        </option>
+      ))}
     </select>
   </div>
   <div>
-    <label>Precio mínimo: </label>
-    <input type="number" value={minPrice} onChange={handleMinPrice} />
-  </div>
-  <div>
-    <label>Precio máximo: </label>
-    <input type="number" value={maxPrice} onChange={handleMaxPrice} />
-  </div>
+      <label>Selecciona un rango de precios:</label>
+      <div>
+        <span>${priceRange[0]}</span> - <span>${priceRange[1]}</span>
+      </div>
+      <Slider
+        range
+        min={1000}
+        max={10000}
+        step={100}
+        value={priceRange}
+        onChange={handlePriceRangeChange}
+      />
+    </div>
   <div>
     <button onClick={() => applyFilters()}>BUSCAR</button>
   </div>
