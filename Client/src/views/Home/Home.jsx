@@ -4,7 +4,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import Fab from '@mui/material/Fab';
-// import { IoMdRefresh } from "react-icons/io";
+import { IoMdRefresh } from "react-icons/io";
 import { MdPersonSearch } from 'react-icons/md';
 import { useState, useEffect } from "react";
 import Navbar from '../../components/Navbar/Navbar'
@@ -74,13 +74,13 @@ const Home = () => {
   };
 
   //* Función para limpiar los filtros da error, por ahora comentada
-  // const clearFilters = (e) => {
-  //   e.preventDefault();
-  //   setProfession('DEFAULT'); 
-  //   setLocationProf('DEFAULT');
-  //   setPriceRange([1000, 10000]);
-  //   dispatch(fetchFilter({ profession: '', locationProf: '', minPrice: null, maxPrice: null }));
-  // };
+  const clearFilters = (e) => {
+    e.preventDefault();
+    setProfession(''); 
+    setLocationProf('');
+    setPriceRange([1000, 10000]);
+    dispatch(fetchAds());
+  };
 
   //* constantes para el filtro por profesion y ubicación
   const uniqueProfessions = [...new Set(ads.map((ad) => ad.profession))];
@@ -105,7 +105,6 @@ const Home = () => {
     <InputLabel>Profesion</InputLabel>
     <Select 
       id="ProfesionSearch" 
-      defaultValue={'DEFAULT'}
       onChange={handleProfession} 
       value={profession}>
     {uniqueProfessions.map((profession) => (
@@ -121,7 +120,6 @@ const Home = () => {
     <InputLabel>Ubicación</InputLabel>
     <Select 
       id="LocationSearch"
-      defaultValue={'DEFAULT'}
       onChange={handleLocation} 
       value={locationProf}>
       {uniqueLocations.map((locations) => (
@@ -149,10 +147,10 @@ const Home = () => {
   <div>
     <Fab color="primary" onClick={() => applyFilters()}><MdPersonSearch style={{fontSize:"2.5em"}}/></Fab>
   </div>
+    <div>
+      <Fab color="primary" className={styles.spinButton} onClick={(e) => clearFilters(e)}><IoMdRefresh style={{fontSize:"2em"}}/></Fab>
+    </div>
   </div>
-      {/* <div>
-        <Fab color="primary" className={styles.spinButton} onClick={(e) => clearFilters(e)}><IoMdRefresh style={{fontSize:"2em"}}/></Fab>
-      </div> */}
     <div className={styles.container}>
     <div className={styles.card}>
       {currentAds.map((ad) => (
