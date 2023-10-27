@@ -11,8 +11,13 @@ export const fetchAds = createAsyncThunk('ads/fetchAds', async () => {
 
 const adsSlice = createSlice({
   name: 'ads',
-  initialState: { ads: [], status: 'idle', error: null },
-  reducers: {},
+  initialState: { ads: [], adsFiltered: [], status: 'idle', error: null },
+  reducers: {
+    applyFilters: (state, action) => {
+      // Aquí actualizas el estado adsFiltered con los filtros aplicados
+      state.adsFiltered = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(fetchAds.pending, (state) => {
@@ -21,6 +26,7 @@ const adsSlice = createSlice({
       .addCase(fetchAds.fulfilled, (state, action) => {
         state.status = 'succeeded';
         state.ads = action.payload;
+        state.adsFiltered = action.payload;
       })
       .addCase(fetchAds.rejected, (state, action) => {
         state.status = 'failed';
@@ -30,5 +36,5 @@ const adsSlice = createSlice({
 });
 
 export const selectAds = (state) => state.ads.ads;
-
+export const { applyFilters } = adsSlice.actions;
 export default adsSlice.reducer;
