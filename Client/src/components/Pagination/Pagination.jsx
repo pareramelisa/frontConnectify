@@ -1,10 +1,13 @@
 /* eslint-disable react/prop-types */
+import {Container} from "./styledPagination";
+import Fab from '@mui/material/Fab'
+
 function Pagination({
   currentPage,
   adsPerPage,
   totalAds,
   onPageChange,
-  currentAds,
+  //currentAds,
 }) {
   const totalPages = Math.ceil(totalAds / adsPerPage);
   const pageNumbers = [];
@@ -25,18 +28,25 @@ function Pagination({
   };
 
   return (
-    <div>
+    <Container>
       {currentPage > 1 && (
-        <button onClick={handlePrevPage}>Back</button>
+        <Fab 
+        variant="extended" 
+        color="primary" 
+        onClick={handlePrevPage}>
+          Back
+        </Fab>
       )}
 
-      <button
+      <Fab
+        variant="extended" 
+        color="primary"
         onClick={handleNextPage}
         disabled={currentPage === totalPages}
       >
         Next
-      </button>
-    </div>
+      </Fab>
+    </Container>
   );
 }
 
