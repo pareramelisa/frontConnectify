@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 function LandingPage() {
   const navigate = useNavigate();
   const persist = useSelector(state => state.persistUser.location)
+  const users = useSelector((state) => state.usersLogin.user);
   const { isAuthenticated } = useAuth0();
   const [containerLogin, setContainerLogin] = useState(false);
   
@@ -73,15 +74,19 @@ function LandingPage() {
           <AiOutlineHome style={{ fontSize: "2em" }} />
         </Button>
       </div>
-      {/* <SearchBar /> */}
-      <Button
+      <SearchBar />
+      {
+        !isAuthenticated && !users.name &&
+        <Button
         variant="contained"
         color="primary"
         onClick={handlerButtonLogin}
         className="button"
       >
-        {!isAuthenticated ? "Ir a Login" : "Ir a Home"}
-      </Button>
+        Ir a Login
+      </Button> 
+      } 
+     
     </div>
   );
 }

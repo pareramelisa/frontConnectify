@@ -4,7 +4,6 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Container,
   Grid,
   List,
   ListItem,
@@ -17,15 +16,14 @@ import { useEffect} from 'react';
 import { useLocation, useParams } from "react-router-dom";
 import { fetchDetail } from '../../redux/Slices/detailSlice';
 import Navbar from '../Navbar/Navbar'
-import Login from "../Login/Login";
 import { locationUser } from '../../redux/Slices/persistSlice';
 
 const DetailAd = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
-  const [containerLogin, setContainerLogin] = useState(false)
   const location = useLocation()
+
 
   const [loading, setLoading] = useState(true);
 
@@ -43,27 +41,7 @@ const DetailAd = () => {
   
   return (
     <div>
-            <Navbar setContainerLogin={setContainerLogin}/>
-      {containerLogin ? (
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100vh",
-            padding: "20px",
-            background: "rgba(0,0,0,0.5)",
-            zIndex: "10",
-            marginBottom: '1rem'
-          }}
-        >
-          <Login  setContainerLogin={setContainerLogin}/>
-        </div>
-      ) : null}
+            <Navbar/>
     <div className='principal'>
 
        {loading ? (
