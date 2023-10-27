@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -59,14 +59,17 @@ const Professional = ({
 
   const {isAuthenticated} = useAuth0()
   const users = useSelector(state => state.usersLogin.user)
+  const navigate = useNavigate()
 
   const handlerLogin = () => {
-    isAuthenticated || users.name ? `/detail/${id}` : setContainerLogin(true)
+    if (isAuthenticated || users.name) {
+      return navigate(`/detail/${id}`)
+    }
+    setContainerLogin(true)
   }
 
   return (
-    <Link to='#' onClick={handlerLogin}>
-      <Card sx={cardStyle} >
+      <Card sx={cardStyle} onClick={handlerLogin}>
         <CardActionArea>
           <CardMedia
             component="img"
@@ -97,7 +100,6 @@ const Professional = ({
           </CardContent>
         </CardActionArea>
       </Card>
-    </Link>
   );
 };
 
