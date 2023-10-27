@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography, Button, Grid, CardMedia } from '@mui/material';
+import { Card, CardContent, Typography, Button, Grid, CardMedia, Box, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const Favorites = () => {
   const [savedProfiles, setSavedProfiles] = useState([]);
@@ -34,55 +36,66 @@ const Favorites = () => {
 
   return (
     <div>
-      <h1>Perfiles Guardados</h1>
+    
+    <div style={{  justifyContent: 'center', padding:"5em" }}>
+      <Typography variant="h4" component="h1">
+        Perfiles Guardados
+      </Typography>
       {savedProfiles.length > 0 ? (
-        <Grid container spacing={2}>
-          {savedProfiles.map((profile, index) => (
-            <Grid item xs={12} sm={6} md={4} key={index}>
-              <Card>
-                <CardContent>
+        savedProfiles.map((profile, index) => (
+          <Card key={index} sx={{ marginBottom: '16px', width: '90%' }}>
+            <CardContent>
+              <Grid container spacing={2}>
+                <Grid item xs={12} sm={6} md={2}>
+                  <Box display="flex" justifyContent="flex-end">
+                    <IconButton
+                      onClick={() => {
+                        const profileKey = `favoritos-${profile._id}`;
+                        localStorage.removeItem(profileKey);
+
+                        // Emite un evento personalizado para notificar cambios en favoritos
+                        const event = new Event('favoritesChanged');
+                        window.dispatchEvent(event);
+                      }}
+                    >
+                      <DeleteIcon color="error" />
+                    </IconButton>
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6} md={2}>
                   <CardMedia
                     component="img"
-                    height="140"
+                    height="100"
                     image={profile.creator[0].image}
                     alt={`Imagen de ${profile.creator[0].name}`}
                   />
+                </Grid>
+                <Grid item xs={12} sm={6} md={4}>
                   <Typography variant="h5" component="div">
-                    {profile.creator[0].name} {profile.creator[0].lastName} {profile.profession}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {profile.location}
+                    {profile.creator[0].name} {profile.creator[0].lastName}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
                     {profile.description}
                   </Typography>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => {
-                      const profileKey = `favoritos-${profile._id}`;
-                      localStorage.removeItem(profileKey);
-
-                      // Emite un evento personalizado para notificar cambios en favoritos
-                      const event = new Event('favoritesChanged');
-                      window.dispatchEvent(event);
-                    }}
-                  >
-                    Eliminar
-                  </Button>
+                </Grid>
+                <Grid item xs={12} sm={6} md={2}>
+                  
+                </Grid>
+                <Grid item xs={12} sm={6} md={2}>
                   <Link to={`/detail/${profile._id}`}>
                     <Button variant="contained" color="primary">
                       Ver Detalle
                     </Button>
                   </Link>
-                </CardContent>
-              </Card>
-            </Grid>
-          ))}
-        </Grid>
+                </Grid>
+              </Grid>
+            </CardContent>
+          </Card>
+        ))
       ) : (
         <p>No tienes perfiles guardados.</p>
       )}
+    </div>
     </div>
   );
 };

@@ -120,9 +120,7 @@ useEffect(() => {
   <Box display="flex" justifyContent="space-between" width="100%">
     <Button
       sx={{
-        width: "48%",
-        backgroundColor: isSaved ? '#D9D9D9' : '#3B7BA4',
-        display: 'flex',
+        backgroundColor: isSaved ? '#3B7BA4' : '#D9D9D9',
         alignItems: 'center',
         justifyContent: 'center',
       }}
@@ -136,18 +134,13 @@ useEffect(() => {
       badgeContent={savedProfileKeys.filter((key) => key.startsWith('favoritos-')).length}
       color="secondary">
       <Link to="/client/favorites" style={{ textDecoration: 'none' }}>
-        <Button
-          sx={{
-            width: "100%",
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-          variant="contained"
-          color="primary"
-        >
-          Ver mis Favoritos
-        </Button>
+      <Button
+  variant="outlined" // Esto establece el botón con borde
+  sx={{ margin: '0px' }}
+>
+  Ver mis Favoritos <FavoriteBorderIcon sx={{ fontSize: 20 }} />
+</Button>
+
       </Link>
     </Badge>
   </Box>
@@ -210,9 +203,7 @@ useEffect(() => {
         <Typography fontWeight="900" variant="h5" component="div">
         {detail.detail.creator[0].name} {detail.detail.creator[0].lastName}
         </Typography>
-        <Typography variant="body2" color="text.secondary" style={{margin:"1em"}}>
-        {detail.detail.creator[0].description}
-        </Typography>
+        
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
             <div>
