@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
 import storage from "redux-persist/lib/storage";
@@ -10,10 +11,23 @@ import searchReducer from "./Slices/searchSlice";
 import detailSlice from "./Slices/detailSlice";
 import persistUserSlice from "./Slices/persistSlice";
 import adsFilterSlice from "./Slices/adsFilterSlice";
+=======
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import { persistStore, persistReducer } from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+import adsSlice from './Slices/adsSlice';
+import professionalSlice from './Slices/professionalSlice';
+import userLoginSlice from './Slices/loginSlice';
+import userRegisterSlice from './Slices/loginSlice';
+import createAdsSlice from './Slices/createAdsSlice';
+import detailSlice from './Slices/detailSlice';
+import persistUserSlice from './Slices/persistSlice';
+import filterReducer from './Slices/FiltersCombinedSlice';
+>>>>>>> 14f64426f21c4623d885fbae481ecc9062edf24a
 
 // Clave y Almacenamiento por defecto
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage,
 };
 
@@ -25,7 +39,7 @@ const rootReducer = combineReducers({
   professionals: professionalSlice,
   usersLogin: userLoginSlice,
   usersRegister: userRegisterSlice,
-  search: searchReducer,
+  filter: filterReducer,
   persistUser: persistUserSlice,
 });
 

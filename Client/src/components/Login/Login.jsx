@@ -1,21 +1,11 @@
-import {
-  Box,
-  Button,
-  TextField,
-  Radio,
-  RadioGroup,
-  FormControlLabel,
-  FormControl,
-  FormLabel,
-  IconButton
-} from "@mui/material";
+import { Box, Button, TextField, IconButton } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useState } from "react";
 import { fetchUserLogin } from "../../redux/Slices/loginSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
-import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { useLocation } from "react-router-dom";
 import { locationUser } from "../../redux/Slices/persistSlice";
 
@@ -25,8 +15,7 @@ const Login = ({ setContainerLogin }) => {
   const [showLoginClient, setShowLoginClient] = useState(false);
   const [showLoginProfessional, setShowLoginProfessional] = useState(false);
 
-  const location = useLocation()
-  const persist = useSelector(state => state.persistUser.location)
+  const location = useLocation();
 
   const { loginWithRedirect, isAuthenticated } = useAuth0();
 
@@ -50,32 +39,39 @@ const Login = ({ setContainerLogin }) => {
     setForm({ ...form, [propiedad]: valor });
   };
 
-  const handleChangeType = (e) => {
-    const propiedad = "types";
-    const valor = e.target.defaultValue;
-
-    setForm({ ...form, [propiedad]: valor });
-  };
-
   const onSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(fetchUserLogin(form));
+    const result = await dispatch(fetchUserLogin(form));
+    if (result) {
+      setShowLogin(true);
+      setShowLoginProfessional(false);
+      setShowLoginClient(false);
+    }
+    setContainerLogin(false);
   };
 
   const handlerLoginGoogle = () => {
     loginWithRedirect();
   };
 
-  const handleShowClient = () => {
-    dispatch(locationUser(location.pathname))
-    console.log('Aca el persist', persist);
+  const handleShowClient = (e) => {
+    const propiedad = "types";
+    const valor = e.target.id;
+    setForm({ ...form, [propiedad]: valor });
+
+    dispatch(locationUser(location.pathname));
+
     setShowLogin(true);
     setShowLoginClient(true);
   };
 
-  const handleShowProfessional = () => {
-    dispatch(locationUser(location.pathname))
-    console.log('Aca el persist', persist);
+  const handleShowProfessional = (e) => {
+    const propiedad = "types";
+    const valor = e.target.id;
+    setForm({ ...form, [propiedad]: valor });
+
+    dispatch(locationUser(location.pathname));
+
     setShowLogin(true);
     setShowLoginProfessional(true);
   };
@@ -89,15 +85,15 @@ const Login = ({ setContainerLogin }) => {
 
   const handlerBackLogin = () => {
     if (showLoginClient) {
-      setShowLoginClient(false)
+      setShowLoginClient(false);
       setShowLogin(false);
       setContainerLogin(true);
-    }else{
+    } else {
       setShowLoginProfessional(false);
       setShowLogin(false);
       setContainerLogin(true);
     }
-  }
+  };
 
   return (
     <div
@@ -132,13 +128,14 @@ const Login = ({ setContainerLogin }) => {
               top: "5px",
               right: "5px",
               color: "#000000",
-              fontWeight: 'bold',
+              fontWeight: "bold",
             }}
             onClick={handlerCloseLogin}
           >
-            <CancelRoundedIcon/>
+            <CancelRoundedIcon />
           </IconButton>
           <Button
+            id="client"
             variant="contained"
             disableElevation
             style={{
@@ -152,6 +149,7 @@ const Login = ({ setContainerLogin }) => {
             Cliente
           </Button>
           <Button
+            id="professional"
             variant="contained"
             disableElevation
             style={{
@@ -173,7 +171,7 @@ const Login = ({ setContainerLogin }) => {
           onSubmit={onSubmit}
           autoComplete="off"
           style={{
-            position: 'relative',
+            position: "relative",
             width: "50rem",
             height: "25rem",
             border: "2px solid black",
@@ -192,11 +190,11 @@ const Login = ({ setContainerLogin }) => {
               top: "5px",
               right: "5px",
               color: "#000000",
-              fontWeight: 'bold',
+              fontWeight: "bold",
             }}
             onClick={handlerCloseLogin}
           >
-            <CancelRoundedIcon/>
+            <CancelRoundedIcon />
           </IconButton>
           <IconButton
             disableElevation
@@ -205,11 +203,11 @@ const Login = ({ setContainerLogin }) => {
               top: "5px",
               left: "5px",
               color: "#000000",
-              fontWeight: 'bold',
+              fontWeight: "bold",
             }}
             onClick={handlerBackLogin}
           >
-            <ArrowCircleLeftIcon/>
+            <ArrowCircleLeftIcon />
           </IconButton>
           <h2>Inicio Sesion</h2>
           <div className="btnGoogle">
@@ -251,31 +249,6 @@ const Login = ({ setContainerLogin }) => {
               />
               <span>Esto es un span</span>
             </div>
-            <div>
-              <FormControl>
-                <FormLabel id="user-login">
-                  <RadioGroup
-                    defaultValue="Cliente"
-                    name="radio-buttons-user-login"
-                    row
-                    onChange={handleChangeType}
-                  >
-                    <FormControlLabel
-                      value="client"
-                      id="types"
-                      control={<Radio />}
-                      label="Cliente"
-                    />
-                    <FormControlLabel
-                      value="professional"
-                      id="types"
-                      control={<Radio />}
-                      label="Profesional"
-                    />
-                  </RadioGroup>
-                </FormLabel>
-              </FormControl>
-            </div>
           </div>
 
           <Button variant="outlined" type="submit" sx={{ mt: 2 }}>
@@ -290,7 +263,7 @@ const Login = ({ setContainerLogin }) => {
           onSubmit={onSubmit}
           autoComplete="off"
           style={{
-            position: 'relative',
+            position: "relative",
             width: "50rem",
             height: "25rem",
             border: "2px solid black",
@@ -309,11 +282,11 @@ const Login = ({ setContainerLogin }) => {
               top: "5px",
               right: "5px",
               color: "#000000",
-              fontWeight: 'bold',
+              fontWeight: "bold",
             }}
             onClick={handlerCloseLogin}
           >
-            <CancelRoundedIcon/>
+            <CancelRoundedIcon />
           </IconButton>
           <IconButton
             disableElevation
@@ -322,11 +295,11 @@ const Login = ({ setContainerLogin }) => {
               top: "5px",
               left: "5px",
               color: "#000000",
-              fontWeight: 'bold',
+              fontWeight: "bold",
             }}
             onClick={handlerBackLogin}
           >
-            <ArrowCircleLeftIcon/>
+            <ArrowCircleLeftIcon />
           </IconButton>
           <h2>Inicio Sesion</h2>
           <div>
@@ -353,37 +326,6 @@ const Login = ({ setContainerLogin }) => {
                 value={form.password}
               />
               <span>Esto es un span</span>
-            </div>
-            <div>
-              <FormControl>
-                <FormLabel id="user-login">
-                  <RadioGroup
-                    defaultValue="Cliente"
-                    name="radio-buttons-user-login"
-                    row
-                    onChange={handleChangeType}
-                  >
-                    <FormControlLabel
-                      value="client"
-                      id="types"
-                      control={<Radio />}
-                      label="Cliente"
-                    />
-                    <FormControlLabel
-                      value="professional"
-                      id="types"
-                      control={<Radio />}
-                      label="Profesional"
-                    />
-                    <FormControlLabel
-                      value="admin"
-                      id="types"
-                      control={<Radio />}
-                      label="Administrador"
-                    />
-                  </RadioGroup>
-                </FormLabel>
-              </FormControl>
             </div>
           </div>
 
