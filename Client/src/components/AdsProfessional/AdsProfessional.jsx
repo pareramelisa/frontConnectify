@@ -8,8 +8,14 @@ import HideSourceIcon from '@mui/icons-material/HideSource';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import { ListSubheader } from '@mui/material';
+import { useSelector } from 'react-redux';
 
 function AdsProfesional() {
+  const users = useSelector(state => state.usersLogin.user)
+  const ads = useSelector(state => state.ads.ads)
+  const userId = users._id
+  const adsFilter = ads.filter((ad) => ad.creator[0] === userId)
+  
     const listItemStyle = { fontSize: '20px' }
   return (
     <List
@@ -33,7 +39,7 @@ function AdsProfesional() {
           </Link>
         </span>
       </ListSubheader>
-      {[1, 2, 3].map((value) => (
+      {adsFilter.map((value) => (
         <ListItem
           key={value}
           disableGutters
