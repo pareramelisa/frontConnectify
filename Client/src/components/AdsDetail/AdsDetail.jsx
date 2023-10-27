@@ -4,7 +4,7 @@ import {
   Card,
   CardContent,
   CardMedia,
-  Container,
+  Badge, Box,
   Grid,
   List,
   ListItem,
@@ -19,8 +19,10 @@ import { fetchDetail } from '../../redux/Slices/detailSlice';
 import Navbar from '../Navbar/Navbar'
 import Login from "../Login/Login";
 import { locationUser } from '../../redux/Slices/persistSlice';
+import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+//import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const DetailAd = () => {
   const { id } = useParams();
@@ -49,11 +51,11 @@ const DetailAd = () => {
     if (isSaved) {
       // Eliminar el perfil de favoritos (usando la clave adecuada)
       localStorage.removeItem(localStorageKey);
-      console.log(`Se eliminó "${localStorageKey}" del localStorage.`);
+      //console.log(`Se eliminó "${localStorageKey}" del localStorage.`);
     } else {
       // Guardar el perfil como favorito (usando la clave adecuada)
       localStorage.setItem(localStorageKey, JSON.stringify(detail.detail));
-      console.log(`Se guardó "${localStorageKey}" en el localStorage.`);
+      //console.log(`Se guardó "${localStorageKey}" en el localStorage.`);
 
       // Emite un evento personalizado para notificar cambios en favoritos
       const event = new Event('favoritesChanged');
@@ -68,9 +70,17 @@ const DetailAd = () => {
   useEffect(() => {
     // Verificar si el perfil ya está guardado en el localStorage
     const savedProfile = localStorage.getItem(`favoritos-${id}`);
-    console.log(`Contenido de en localStorage:${savedProfile}` );
+    console.log(`Favoritos guardados:${savedProfile}` );
     setIsSaved(!!savedProfile); // Establecer el estado en función de si se encuentra en localStorage
   }, []);
+
+  const savedProfileKeys = Object.keys(localStorage);
+
+useEffect(() => {
+  // Verificar la cantidad de perfiles guardados en el localStorage
+  const count = savedProfileKeys.filter((key) => key.startsWith('favoritos-')).length;
+  setIsSaved(count > 0);
+}, []);
   
  
   return (
@@ -105,11 +115,45 @@ const DetailAd = () => {
         (detail.detail.creator && detail.detail.creator.length > 0) ? (
       <Grid container spacing={2}>
     <Grid item xs={8} align="left">
-    <Grid item xs={6} sx={{ marginLeft: 3, width: "auto" }}>
-    <Button sx={{ marginRight: 0.5, width: "100%", backgroundColor: isSaved ? '#D9D9D9' : '#3B7BA4'}} variant="contained" onClick={handleSaveOrRemoveProfile}>
-                    {isSaved ? 'Guardado' : 'Guardar para más tarde'}
-                  </Button>
-    </Grid>
+
+    <Grid item xs={8} align="left">
+  <Box display="flex" justifyContent="space-between" width="100%">
+    <Button
+      sx={{
+        width: "48%",
+        backgroundColor: isSaved ? '#D9D9D9' : '#3B7BA4',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      variant="contained"
+      onClick={handleSaveOrRemoveProfile}
+    >
+      
+      {isSaved ? <FavoriteIcon  /> : <FavoriteBorderIcon/>}
+    </Button>
+    <Badge
+      badgeContent={savedProfileKeys.filter((key) => key.startsWith('favoritos-')).length}
+      color="secondary">
+      <Link to="/client/favorites" style={{ textDecoration: 'none' }}>
+        <Button
+          sx={{
+            width: "100%",
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          variant="contained"
+          color="primary"
+        >
+          Ver mis Favoritos
+        </Button>
+      </Link>
+    </Badge>
+  </Box>
+</Grid>
+
+    
     <Grid item xs={12} md={10} sx={{ margin: '16px' }}>
       <Typography fontWeight="900" variant="h3" sx={{ margin: '10px' }}>
         {detail.detail.profession}
