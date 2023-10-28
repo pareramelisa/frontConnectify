@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-// const URL = `http://localhost:3001`;
-const URL = `https://connectifyback-dp-production.up.railway.app`;
+const URL = `http://localhost:3001`;
+// const URL = `https://connectifyback-dp-production.up.railway.app`;
 
 export const professionalSlice = createSlice({
   name: "professionalSlice",
