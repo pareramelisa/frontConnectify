@@ -6,7 +6,7 @@ import professionalSlice from "./Slices/professionalSlice";
 import userLoginSlice from "./Slices/loginSlice";
 import userRegisterSlice from "./Slices/registerSlice";
 import createAdsSlice from "./Slices/createAdsSlice";
-import searchReducer from "./Slices/searchSlice";
+// import searchReducer from "./Slices/searchSlice";
 import detailSlice from "./Slices/detailSlice";
 import persistUserSlice from "./Slices/persistSlice";
 import clientSlice from "./Slices/clientSlice";
@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
   clients: clientSlice,
   usersLogin: userLoginSlice,
   usersRegister: userRegisterSlice,
-  filter: filterReducer,
+  // filter: filterReducer,
   persistUser: persistUserSlice,
 });
 
