@@ -1,5 +1,5 @@
 :root {
-  font-family: 'Poppins, sans-serif'; /* Aplica Poppins a toda la aplicación */
+  font-family: "Poppins, sans-serif"; /* Aplica Poppins a toda la aplicación */
   line-height: 1.5;
   font-weight: 400;
   margin: 0;
@@ -12,7 +12,7 @@ a {
   text-decoration: inherit;
 }
 a:hover {
-  color: #24272B;
+  color: #24272b;
 }
 
 h1 {
@@ -27,7 +27,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #ccc0c0;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -38,7 +38,6 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
-
 
 @media (prefers-color-scheme: light) {
   :root {

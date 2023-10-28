@@ -43,6 +43,9 @@ function Pagination({
         color="primary"
         onClick={handleNextPage}
         disabled={currentPage === totalPages}
+        style={{
+          zIndex: '1'
+        }}
       >
         Next
       </Fab>
