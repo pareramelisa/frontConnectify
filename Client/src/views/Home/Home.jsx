@@ -150,7 +150,9 @@ const Home = () => {
         }}><MdPersonSearch style={{fontSize:"2.5em"}}/></Fab>
   </div>
     <div>
-      <Fab color="primary" className={styles.spinButton} onClick={(e) => clearFilters(e)}><IoMdRefresh style={{fontSize:"2em"}}/></Fab>
+      <Fab color="primary" className={styles.spinButton} onClick={(e) => clearFilters(e)}  style={{
+          zIndex: '1'
+        }}><IoMdRefresh style={{fontSize:"2em"}}/></Fab>
     </div>
   </div>
     <div className={styles.container}>
@@ -166,6 +168,7 @@ const Home = () => {
         price={ad.price}
         profession={ad.profession}
         image={ad.creator[0].image}
+        setContainerLogin={setContainerLogin}
         />
       ))}
     </div>
