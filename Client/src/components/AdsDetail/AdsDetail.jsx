@@ -4,6 +4,7 @@ import {
   Card,
   CardContent,
   CardMedia,
+  Badge, Box,
   Grid,
   List,
   ListItem,
@@ -17,12 +18,17 @@ import { useLocation, useParams } from "react-router-dom";
 import { fetchDetail } from '../../redux/Slices/detailSlice';
 import Navbar from '../Navbar/Navbar'
 import { locationUser } from '../../redux/Slices/persistSlice';
+import { Link } from 'react-router-dom';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+//import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const DetailAd = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
   const location = useLocation()
+  const [isSaved, setIsSaved] = useState(false); // Agregamos el estado para controlar si se ha guardado el perfil
 
 
   const [loading, setLoading] = useState(true);
@@ -38,7 +44,45 @@ const DetailAd = () => {
   useEffect(() => {
     dispatch(locationUser(location.pathname));
   }, []);
+
+   // Guardar los datos del profesional en el Local Storage
+  const handleSaveOrRemoveProfile = () => {
+    const localStorageKey = `favoritos-${id}`;
+    if (isSaved) {
+      // Eliminar el perfil de favoritos (usando la clave adecuada)
+      localStorage.removeItem(localStorageKey);
+      //console.log(`Se eliminó "${localStorageKey}" del localStorage.`);
+    } else {
+      // Guardar el perfil como favorito (usando la clave adecuada)
+      localStorage.setItem(localStorageKey, JSON.stringify(detail.detail));
+      //console.log(`Se guardó "${localStorageKey}" en el localStorage.`);
+
+      // Emite un evento personalizado para notificar cambios en favoritos
+      const event = new Event('favoritesChanged');
+      window.dispatchEvent(event);
+    }
+
+    // Actualizar el estado `isSaved` para reflejar si el perfil está guardado o no
+    setIsSaved(!isSaved);
+  };
   
+  
+  useEffect(() => {
+    // Verificar si el perfil ya está guardado en el localStorage
+    const savedProfile = localStorage.getItem(`favoritos-${id}`);
+    console.log(`Favoritos guardados:${savedProfile}` );
+    setIsSaved(!!savedProfile); // Establecer el estado en función de si se encuentra en localStorage
+  }, []);
+
+  const savedProfileKeys = Object.keys(localStorage);
+
+useEffect(() => {
+  // Verificar la cantidad de perfiles guardados en el localStorage
+  const count = savedProfileKeys.filter((key) => key.startsWith('favoritos-')).length;
+  setIsSaved(count > 0);
+}, []);
+  
+ 
   return (
     <div>
             <Navbar/>
@@ -51,11 +95,38 @@ const DetailAd = () => {
         (detail.detail.creator && detail.detail.creator.length > 0) ? (
       <Grid container spacing={2}>
     <Grid item xs={8} align="left">
-    <Grid item xs={6} sx={{ marginLeft: 3, width: "auto" }}>
-      <Button sx={{ marginRight: 0.5, width: "100%" }} variant="contained">
-        {detail.detail.categories}
-      </Button>
-    </Grid>
+
+    <Grid item xs={8} align="left">
+  <Box display="flex" justifyContent="space-between" width="100%">
+    <Button
+      sx={{
+        backgroundColor: isSaved ? '#3B7BA4' : '#D9D9D9',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+      variant="contained"
+      onClick={handleSaveOrRemoveProfile}
+    >
+      
+      {isSaved ? <FavoriteIcon  /> : <FavoriteBorderIcon/>}
+    </Button>
+    <Badge
+      badgeContent={savedProfileKeys.filter((key) => key.startsWith('favoritos-')).length}
+      color="secondary">
+      <Link to="/client/favorites" style={{ textDecoration: 'none' }}>
+      <Button
+  variant="outlined" // Esto establece el botón con borde
+  sx={{ margin: '0px' }}
+>
+  Ver mis Favoritos <FavoriteBorderIcon sx={{ fontSize: 20 }} />
+</Button>
+
+      </Link>
+    </Badge>
+  </Box>
+</Grid>
+
+    
     <Grid item xs={12} md={10} sx={{ margin: '16px' }}>
       <Typography fontWeight="900" variant="h3" sx={{ margin: '10px' }}>
         {detail.detail.profession}
@@ -112,9 +183,7 @@ const DetailAd = () => {
         <Typography fontWeight="900" variant="h5" component="div">
         {detail.detail.creator[0].name} {detail.detail.creator[0].lastName}
         </Typography>
-        <Typography variant="body2" color="text.secondary" style={{margin:"1em"}}>
-        {detail.detail.creator[0].description}
-        </Typography>
+        
         <Grid container spacing={2}>
           <Grid item xs={12} md={8}>
             <div>

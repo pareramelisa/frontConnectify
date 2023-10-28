@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import logo from "../../assets/connectify.svg";
 import "./Navbar.css";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/Slices/loginSlice";
 
@@ -60,7 +60,9 @@ function ResponsiveAppBar({setContainerLogin}) {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <div className="containerNav">
+            <Link to="/">
             <img src={logo} alt="" className="logoNav" />
+            </Link>
             <Box
               sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
             ></Box>

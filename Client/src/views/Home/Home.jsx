@@ -128,7 +128,9 @@ const Home = () => {
       />
     </div>
   <div>
-    <Fab color="primary" onClick={() => applyFilters()}><MdPersonSearch style={{fontSize:"2.5em"}}/></Fab>
+    <Fab color="primary" onClick={() => applyFilters()} style={{
+          zIndex: '1'
+        }}><MdPersonSearch style={{fontSize:"2.5em"}}/></Fab>
   </div>
   </div>
     <div className={style.container}>
