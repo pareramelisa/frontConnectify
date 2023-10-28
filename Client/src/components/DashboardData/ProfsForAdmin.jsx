@@ -5,36 +5,76 @@ import {
   fetchProfsForAdmin,
   deleteProfByIdAdmin,
 } from "../../redux/Slices/professionalSlice";
+import {
+  fetchClientsForAdmin,
+  deleteClientByIdAdmin,
+} from "../../redux/Slices/clientSlice";
 
 const ProfsForAdmin = () => {
+  const dispatch = useDispatch();
   const professionals = useSelector(
     (state) => state.professionals.professionals
   );
+  const clients = useSelector((state) => state.clients.clients);
   const deleted = useSelector((state) => state.deleted);
+  const [userType, setUserType] = useState("professionals");
 
-  const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
       try {
         await dispatch(fetchProfsForAdmin());
       } catch (error) {
-        console.error("falló el fetchear los profs:", error);
+        console.error("falló el fetcheo de los profesionales:", error);
       }
     };
 
     fetchData();
   }, [deleted]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchClientsForAdmin());
+      } catch (error) {
+        console.error("falló el fetcheo de los clientes:", error);
+      }
+    };
+
+    fetchData();
+  }, [deleted]);
+
   const handleDelete = async (e, id) => {
     e.preventDefault();
-    console.log("ID del profecional a bannear", id);
-    await dispatch(deleteProfByIdAdmin(id));
+    if (userType === "professionals") {
+      await dispatch(deleteProfByIdAdmin(id));
+      console.log("ID del profecional a bannear", id);
+    } else if (userType === "clients") {
+      await dispatch(deleteClientByIdAdmin(id));
+      console.log("ID del cliente a bannear", id);
+    }
     dispatch(fetchProfsForAdmin());
+    dispatch(fetchClientsForAdmin());
   };
+
   //   console.log(professionals);
+  const handleClientType = (e) => {
+    setUserType(e.target.value);
+  };
+  const selectedData = userType === "professionals" ? professionals : clients;
+  console.log(professionals.length);
+  console.log(selectedData.length);
+  console.log(clients.length);
   return (
     <>
-      {professionals.length > 0 ? (
-        professionals?.map((prof, index) => (
+      <select
+        label="tipo de usuarion"
+        value={userType}
+        onChange={(e) => handleClientType(e)}
+      >
+        <option value="professionals">Profesionales</option>
+        <option value="clients">Clientes</option>
+      </select>
+      {selectedData.length > 0 ? (
+        selectedData?.map((prof, index) => (
           <tr key={prof.id}>
             <th
               style={{
@@ -90,7 +130,7 @@ const ProfsForAdmin = () => {
                 width: "100px",
               }}
             >
-              {prof.profession}
+              {prof.profession ? prof.profession : "Cliente"}
             </td>
             <td
               style={{
