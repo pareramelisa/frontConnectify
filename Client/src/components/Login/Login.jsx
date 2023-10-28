@@ -1,14 +1,16 @@
+/* eslint-disable react/prop-types */
 import { Box, Button, TextField, IconButton } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useState } from "react";
 import { fetchUserLogin } from "../../redux/Slices/loginSlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { useLocation } from "react-router-dom";
 import { locationUser } from "../../redux/Slices/persistSlice";
 import validationLogin from "./validationLogin";
+
 
 const Login = ({ setContainerLogin }) => {
   const dispatch = useDispatch();
@@ -27,8 +29,8 @@ const Login = ({ setContainerLogin }) => {
   });
 
   const [error, setError] = useState({
-    email: '',
-    password: ''
+    email: "",
+    password: "",
   });
 
   const handleChange = (e) => {
@@ -36,7 +38,7 @@ const Login = ({ setContainerLogin }) => {
     const valor = e.target.value;
 
     setForm({ ...form, [propiedad]: valor });
-    setError(validationLogin({ ...form, [propiedad]: valor }))
+    setError(validationLogin({ ...form, [propiedad]: valor }));
   };
 
   const onSubmit = async (e) => {
@@ -51,8 +53,11 @@ const Login = ({ setContainerLogin }) => {
   };
 
   const handlerLoginGoogle = () => {
+    
     loginWithRedirect();
+    
   };
+
 
   const handleShowClient = (e) => {
     const propiedad = "types";

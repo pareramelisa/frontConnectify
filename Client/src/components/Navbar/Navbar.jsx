@@ -48,12 +48,12 @@ function ResponsiveAppBar({setContainerLogin}) {
     }
   }
 
-  const handlerButtonLogin = () => {
+  const handlerButtonLogin =  () => {
     setContainerLogin(true);
+    
   };
 
-  console.log(user);
-  console.log(users);
+
 
   return (
     <AppBar position="static" style={{marginBottom: '1.5rem'}}>
