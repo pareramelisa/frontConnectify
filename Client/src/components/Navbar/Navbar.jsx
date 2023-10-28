@@ -21,38 +21,25 @@ import { logoutUser } from "../../redux/Slices/loginSlice";
 const settings = ["Dashboard", "Profile", "Logout"];
 
 function ResponsiveAppBar({setContainerLogin}) {
-  const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   
-  const navigate = useNavigate()
-  const users = useSelector(state => state.user)
+  const users = useSelector((state) => state.usersLogin.user);
   const dispatch = useDispatch()
 
   const {user, logout, isAuthenticated } = useAuth0();
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
-  const handlerLogoutGoogle = () => {
-    navigate('/login')
-  }
-
   const handleAvatarButton = async (e) => {
     const text = e.target.textContent
 
-    if (users) {
+    if (text === 'Logout') {
       await dispatch(logoutUser())
     }
 
@@ -78,12 +65,12 @@ function ResponsiveAppBar({setContainerLogin}) {
               sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
             ></Box>
             <Box sx={{ flexGrow: 0 }}>
-              {isAuthenticated || users ? (
+              {isAuthenticated || users.name ? (
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       alt="Remy Sharp"
-                      src={user?.picture}
+                      src={user ? user.picture : users ? users.image : null}
                     />
                   </IconButton>
                 </Tooltip>
@@ -116,7 +103,7 @@ function ResponsiveAppBar({setContainerLogin}) {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Button textAlign="center" onClick={handleAvatarButton}>{setting}</Button>
+                    <Button textalign="center" onClick={handleAvatarButton}>{setting}</Button>
                   </MenuItem>
                 ))}
               </Menu>

@@ -5,51 +5,64 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import Profile from './Profile.jpg'; // Asegúrate de importar la imagen correcta
 import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
+import PersonIcon from '@mui/icons-material/Person';
+import { useSelector } from 'react-redux';
 
 export function CardProfileProf() {
+
+  const users = useSelector(state => state.usersLogin.user)
+  console.log(users)
+  
+  const userName = users.name
+  const userLastName = users.lastName
+  const userLocation = users.location
+  const userEmail = users.email
+  const userImage = users.image
+  const userDescription = users.description
+  const userNameUser = users.userName
+  const userProfession = users.profession
+  const userProvince = users.province 
+
   return (
     <Card sx={{ maxWidth: 400, margin: '20px', boxShadow: 20 }}>
       <div>
         <CardMedia
           component="img"
-          alt="green iguana"
+          alt="image professional"
           height="300"
-          image={Profile}
+          image={userImage}
           style={{ width: '400px' }} // Ajusta el ancho de la imagen
         />
         <CardContent style={{ flex: 1, height: 'auto' }}>
           <Typography gutterBottom variant="h5" component="div" sx={{ fontSize: 30 }}>
-            Mariana Fernandez | Abogada
+          {userName} {userLastName} | {userProfession}
           </Typography>
 
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: "10px" }}>
             <EmailIcon sx={{ marginRight: 1 }} />
             <Typography variant="body2" color="text.secondary" sx={{ fontSize: 20 }}>
-              marianafernandez@gmail.com
+              {userEmail}
             </Typography>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: "10px" }}>
             <LocationOnIcon sx={{ marginRight: 1 }}/>
             <Typography variant="body2" color="text.secondary" sx={{ fontSize: 20 }}>
-              Buenos Aires, CABA
+              {userLocation}, {userProvince}
             </Typography>
           </div>
 
           <div style={{ display: 'flex', alignItems: 'center', marginBottom: "10px" }}>
-            <AccessTimeIcon sx={{ marginRight: 1 }}/>
+            <PersonIcon sx={{ marginRight: 1 }}/>
             <Typography variant="body2" color="text.secondary" sx={{ fontSize: 20 }}>
-              Part-time
+              {userNameUser}
             </Typography>
           </div>
-            
-        
+                    
           <Typography variant="body2" color="text.secondary" sx={{ fontSize: 20 }}>
-            Abogado dedicado y apasionado por la justicia con amplia experiencia en la representación legal. Especializado en proporcionar asesoramiento legal experto y representación en diversas áreas del derecho
+            {userDescription}
           </Typography>
         </CardContent>
       </div>

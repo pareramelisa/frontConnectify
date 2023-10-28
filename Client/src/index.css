@@ -2,7 +2,9 @@
   font-family: 'Poppins, sans-serif'; /* Aplica Poppins a toda la aplicación */
   line-height: 1.5;
   font-weight: 400;
-}
+  margin: 0;
+  padding: 0;
+ }
 
 a {
   font-weight: 500;
