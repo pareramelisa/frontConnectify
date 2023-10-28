@@ -10,10 +10,11 @@ import detailSlice from './Slices/detailSlice';
 import persistUserSlice from './Slices/persistSlice';
 import filterReducer from './Slices/FiltersCombinedSlice';
 import userSlice from './Slices/loginGoogleSlice';
+import clientSlice from "./Slices/clientSlice";
 
 // Clave y Almacenamiento por defecto
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
 };
 
@@ -22,9 +23,9 @@ const rootReducer = combineReducers({
   detail: detailSlice,
   createAds: createAdsSlice,
   professionals: professionalSlice,
+  clients: clientSlice,
   usersLogin: userLoginSlice,
   usersRegister: userRegisterSlice,
-  filter: filterReducer,
   persistUser: persistUserSlice,
   googleUser: userSlice,
 });

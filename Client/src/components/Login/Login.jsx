@@ -1,5 +1,4 @@
-/* eslint-disable react/prop-types */
-import { Box, Button, TextField, IconButton } from "@mui/material";
+import { Box, Button, TextField, IconButton, Typography } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useState } from "react";
 import { fetchUserLogin } from "../../redux/Slices/loginSlice";
@@ -7,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { locationUser } from "../../redux/Slices/persistSlice";
 import validationLogin from "./validationLogin";
 
@@ -107,9 +106,14 @@ const Login = ({ setContainerLogin }) => {
         alignItems: "center",
         justifyContent: "center",
         flexDirection: "column",
+        position: "fixed",
+        top: "0",
+        left: "0",
         width: "100%",
         height: "100vh",
         gap: "2",
+        zIndex: "999",
+        backgroundColor: "rgba(0,0,0,0.5)",
       }}
     >
       {!showLogin && (
@@ -139,34 +143,48 @@ const Login = ({ setContainerLogin }) => {
           >
             <CancelRoundedIcon />
           </IconButton>
-          <Button
-            id="client"
-            variant="contained"
-            disableElevation
-            style={{
-              paddingTop: "0.7rem",
-              paddingBottom: "0.7rem",
-              paddingLeft: "3rem",
-              paddingRight: "3rem",
-            }}
-            onClick={handleShowClient}
-          >
-            Cliente
-          </Button>
-          <Button
-            id="professional"
-            variant="contained"
-            disableElevation
-            style={{
-              paddingTop: "0.7rem",
-              paddingBottom: "0.7rem",
-              paddingLeft: "2rem",
-              paddingRight: "2rem",
-            }}
-            onClick={handleShowProfessional}
-          >
-            Profesional
-          </Button>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+            <h2 style={{paddingBottom: '3rem'}}>Inicio Sesion</h2>
+            <div style={{
+              display:'flex',
+              gap: '2rem',
+              marginBottom: '4rem'
+              }}>
+              <Button
+                id="client"
+                variant="contained"
+                disableElevation
+                style={{
+                  paddingTop: "0.7rem",
+                  paddingBottom: "0.7rem",
+                  paddingLeft: "3rem",
+                  paddingRight: "3rem",
+                }}
+                onClick={handleShowClient}
+              >
+                Cliente
+              </Button>
+              <Button
+                id="professional"
+                variant="contained"
+                disableElevation
+                style={{
+                  paddingTop: "0.7rem",
+                  paddingBottom: "0.7rem",
+                  paddingLeft: "2rem",
+                  paddingRight: "2rem",
+                }}
+                onClick={handleShowProfessional}
+              >
+                Profesional
+              </Button>
+            </div>
+          </div>
         </div>
       )}
 
@@ -182,10 +200,11 @@ const Login = ({ setContainerLogin }) => {
             border: "2px solid black",
             borderRadius: "20px",
             display: "flex",
-            justifyContent: "space-around",
+            justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
             backgroundColor: "rgba(255,255,255,0.9)",
+            gap: '1rem'
           }}
         >
           <IconButton
@@ -214,7 +233,7 @@ const Login = ({ setContainerLogin }) => {
           >
             <ArrowCircleLeftIcon />
           </IconButton>
-          <h2>Inicio Sesion</h2>
+
           <div className="btnGoogle">
             {!isAuthenticated && (
               <div>
@@ -229,8 +248,15 @@ const Login = ({ setContainerLogin }) => {
               </div>
             )}
           </div>
-          <div>
-            <div>
+          <div style={{
+            width: '70%'
+          }}>
+            <div style={{
+              width: '100%',
+              display: 'flex',
+              flexDirection: 'column',
+              gap: '0.8rem'
+            }}>
               <TextField
                 label="Email"
                 variant="outlined"
@@ -257,6 +283,11 @@ const Login = ({ setContainerLogin }) => {
           <Button variant="outlined" type="submit" sx={{ mt: 2 }}>
             Submit
           </Button>
+          <Link to={'/client/registration'}>
+          <Typography variant="body2" color="text.secondary" style={{fontSize: '1rem', color: "#5241e8",}}>
+              No tenes cuenta aun?
+          </Typography>
+          </Link>
         </Box>
       )}
 
@@ -272,10 +303,11 @@ const Login = ({ setContainerLogin }) => {
             border: "2px solid black",
             borderRadius: "20px",
             display: "flex",
-            justifyContent: "space-around",
+            justifyContent: "center",
             alignItems: "center",
             flexDirection: "column",
             backgroundColor: "rgba(255,255,255,0.9)",
+            gap: '2rem'
           }}
         >
           <IconButton
@@ -304,7 +336,6 @@ const Login = ({ setContainerLogin }) => {
           >
             <ArrowCircleLeftIcon />
           </IconButton>
-          <h2>Inicio Sesion</h2>
           <div>
             <div>
               <TextField
@@ -333,6 +364,11 @@ const Login = ({ setContainerLogin }) => {
           <Button variant="outlined" type="submit" sx={{ mt: 2 }}>
             Submit
           </Button>
+          <Link to={'/professional/registration'}>
+          <Typography variant="body2" color="text.secondary" style={{fontSize: '1rem', color: "#5241e8",}}>
+              No tenes cuenta aun?
+          </Typography>
+          </Link>
         </Box>
       )}
     </div>
