@@ -281,18 +281,6 @@ const Login = ({ setContainerLogin }) => {
           </Button>
           <Link to={'/client/registration'}>
           <Typography variant="body2" color="text.secondary" style={{fontSize: '1rem', color: "#5241e8",}}>
-          <IconButton
-            disableElevation
-            style={{
-              position: "absolute",
-              bottom: "36px",
-              left: "280px",
-              color: "#5241e8",
-              fontWeight: "bold",
-            }}
-          >
-            <ArrowCircleLeftIcon />
-          </IconButton>
               No tenes cuenta aun?
           </Typography>
           </Link>
@@ -374,18 +362,6 @@ const Login = ({ setContainerLogin }) => {
           </Button>
           <Link to={'/professional/registration'}>
           <Typography variant="body2" color="text.secondary" style={{fontSize: '1rem', color: "#5241e8",}}>
-          <IconButton
-            disableElevation
-            style={{
-              position: "absolute",
-              bottom: "65px",
-              left: "280px",
-              color: "#5241e8",
-              fontWeight: "bold",
-            }}
-          >
-            <ArrowCircleLeftIcon />
-          </IconButton>
               No tenes cuenta aun?
           </Typography>
           </Link>
