@@ -18,6 +18,7 @@ const ProfsForAdmin = () => {
   const clients = useSelector((state) => state.clients.clients);
   const deleted = useSelector((state) => state.deleted);
   const [userType, setUserType] = useState("professionals");
+  // const [profession, setProfession] = useState()
 
   useEffect(() => {
     const fetchData = async () => {
@@ -56,23 +57,54 @@ const ProfsForAdmin = () => {
   };
 
   //   console.log(professionals);
-  const handleClientType = (e) => {
+  const handleUserType = (e) => {
     setUserType(e.target.value);
   };
+  // const [selectedData, setSelectedData] = useState(professionals);
   const selectedData = userType === "professionals" ? professionals : clients;
-  console.log(professionals.length);
-  console.log(selectedData.length);
-  console.log(clients.length);
+  console.log(professionals);
+  console.log(selectedData);
+  const uniqueProfessions = new Set();
+  professionals.forEach((item) => {
+    item.profession.forEach((profession) => {
+      uniqueProfessions.add(profession);
+    });
+  });
+  const profession = Array.from(uniqueProfessions);
+  console.log(profession);
+  const handleScrubProfession = (e) => {
+    const toScrub = professionals.filter((prof) => prof.profession.e);
+    setSelectedData(toScrub);
+  };
+
   return (
     <>
-      <select
-        label="tipo de usuarion"
-        value={userType}
-        onChange={(e) => handleClientType(e)}
-      >
-        <option value="professionals">Profesionales</option>
-        <option value="clients">Clientes</option>
-      </select>
+      <div>
+        <select
+          label="tipo de usuarion"
+          value={userType}
+          onChange={(e) => handleUserType(e)}
+        >
+          <option value="professionals">Profesionales</option>
+          <option value="clients">Clientes</option>
+        </select>
+        {selectedData !== clients && (
+          <select
+            label="profession"
+            value={profession}
+            onChange={(e) => handleScrubProfession(e.target.value)}
+          >
+            <option key="0" value="profession">
+              seleccione una profesión
+            </option>
+            {profession.map((prof, index) => (
+              <option key={index} value={prof}>
+                {prof}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
       {selectedData.length > 0 ? (
         selectedData?.map((prof, index) => (
           <tr key={prof.id}>
