@@ -1,18 +1,14 @@
-import {
-  Box,
-  Button,
-  TextField,
-  IconButton,
-} from "@mui/material";
+import { Box, Button, TextField, IconButton } from "@mui/material";
 import GoogleIcon from "@mui/icons-material/Google";
 import { useState } from "react";
 import { fetchUserLogin } from "../../redux/Slices/loginSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { useLocation } from "react-router-dom";
 import { locationUser } from "../../redux/Slices/persistSlice";
+import validationLogin from "./validationLogin";
 
 const Login = ({ setContainerLogin }) => {
   const dispatch = useDispatch();
@@ -31,10 +27,8 @@ const Login = ({ setContainerLogin }) => {
   });
 
   const [error, setError] = useState({
-    errorEmail: false,
-    errorPassword: false,
-    messageEmail: "",
-    messagePassword: "",
+    email: '',
+    password: ''
   });
 
   const handleChange = (e) => {
@@ -42,12 +36,18 @@ const Login = ({ setContainerLogin }) => {
     const valor = e.target.value;
 
     setForm({ ...form, [propiedad]: valor });
+    setError(validationLogin({ ...form, [propiedad]: valor }))
   };
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    await dispatch(fetchUserLogin(form));
-    
+    const result = await dispatch(fetchUserLogin(form));
+    if (result) {
+      setShowLogin(true);
+      setShowLoginProfessional(false);
+      setShowLoginClient(false);
+    }
+    setContainerLogin(false);
   };
 
   const handlerLoginGoogle = () => {
@@ -232,22 +232,20 @@ const Login = ({ setContainerLogin }) => {
                 id="email"
                 type="email"
                 fullWidth
-                required
                 onChange={handleChange}
                 value={form.email}
               />
-              <span>Esto es un span</span>
+              <span>{error.email}</span>
               <TextField
                 label="Password"
                 variant="outlined"
                 id="password"
                 type="password"
                 fullWidth
-                required
                 onChange={handleChange}
                 value={form.password}
               />
-              <span>Esto es un span</span>
+              <span>{error.password}</span>
             </div>
           </div>
 
@@ -310,22 +308,20 @@ const Login = ({ setContainerLogin }) => {
                 id="email"
                 type="email"
                 fullWidth
-                required
                 onChange={handleChange}
                 value={form.email}
               />
-              <span>Esto es un span</span>
+              <span>{error.email}</span>
               <TextField
                 label="Password"
                 variant="outlined"
                 id="password"
                 type="password"
                 fullWidth
-                required
                 onChange={handleChange}
                 value={form.password}
               />
-              <span>Esto es un span</span>
+              <span>{error.password}</span>
             </div>
           </div>
 
