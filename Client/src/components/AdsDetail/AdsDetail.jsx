@@ -28,59 +28,45 @@ const DetailAd = () => {
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
   const location = useLocation()
-  const [isSaved, setIsSaved] = useState(false); // Agregamos el estado para controlar si se ha guardado el perfil
+ 
 
 
   const [loading, setLoading] = useState(true);
+  const [isSaved, setIsSaved] = useState(false);
 
   useEffect(() => {
     dispatch(fetchDetail(id))
-    .then(() => {
-      setLoading(false);
-    });
-  }, [dispatch]);
-  
+      .then(() => {
+        setLoading(false);
+      });
+  }, [dispatch, id]);
 
   useEffect(() => {
     dispatch(locationUser(location.pathname));
-  }, []);
+  }, [location]);
 
-   // Guardar los datos del profesional en el Local Storage
+  const isProfessionalInFavorites = (professionalId) => {
+    const savedProfile = localStorage.getItem(`favoritos-${professionalId}`);
+    return !!savedProfile;
+  };
+
   const handleSaveOrRemoveProfile = () => {
     const localStorageKey = `favoritos-${id}`;
     if (isSaved) {
-      // Eliminar el perfil de favoritos (usando la clave adecuada)
       localStorage.removeItem(localStorageKey);
-      //console.log(`Se eliminó "${localStorageKey}" del localStorage.`);
     } else {
-      // Guardar el perfil como favorito (usando la clave adecuada)
       localStorage.setItem(localStorageKey, JSON.stringify(detail.detail));
-      //console.log(`Se guardó "${localStorageKey}" en el localStorage.`);
-
-      // Emite un evento personalizado para notificar cambios en favoritos
-      const event = new Event('favoritesChanged');
-      window.dispatchEvent(event);
     }
 
-    // Actualizar el estado `isSaved` para reflejar si el perfil está guardado o no
     setIsSaved(!isSaved);
   };
-  
-  
+
   useEffect(() => {
-    // Verificar si el perfil ya está guardado en el localStorage
     const savedProfile = localStorage.getItem(`favoritos-${id}`);
-    console.log(`Favoritos guardados:${savedProfile}` );
-    setIsSaved(!!savedProfile); // Establecer el estado en función de si se encuentra en localStorage
-  }, []);
+    setIsSaved(!!savedProfile);
+  }, [id]);
 
   const savedProfileKeys = Object.keys(localStorage);
-
-useEffect(() => {
-  // Verificar la cantidad de perfiles guardados en el localStorage
-  const count = savedProfileKeys.filter((key) => key.startsWith('favoritos-')).length;
-  setIsSaved(count > 0);
-}, []);
   
  
   return (
@@ -108,7 +94,8 @@ useEffect(() => {
       onClick={handleSaveOrRemoveProfile}
     >
       
-      {isSaved ? <FavoriteIcon  /> : <FavoriteBorderIcon/>}
+      {isSaved ? <FavoriteIcon  />  : ""}
+      {isSaved ? ""  : "Guardar"}
     </Button>
     <Badge
       badgeContent={savedProfileKeys.filter((key) => key.startsWith('favoritos-')).length}
