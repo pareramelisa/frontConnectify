@@ -20,6 +20,8 @@ import { fetchFilter } from '../../redux/Slices/FiltersCombinedSlice';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Footer from '../../components/Footer/Footer';
+import { useAuth0 } from '@auth0/auth0-react';
+import { fetchUserLoginWithGoogle } from '../../redux/Slices/loginGoogleSlice';
 
 const Home = () => {
   //* Declaraciones de variables
@@ -33,11 +35,10 @@ const Home = () => {
   const [locationProf, setLocationProf] = useState('');
 
   //* Estados globales
-  const users = useSelector((state) => state.usersLogin.user);
-  const adsFiltered = useSelector((state) => state.ads.adsFiltered);
-  const ads = useSelector((state) => state.ads.ads);
-  console.log(users);
-
+  const adsFiltered = useSelector(state => state.ads.adsFiltered);
+  const ads = useSelector(state => state.ads.ads);
+  const {isAuthenticated, user} = useAuth0()
+  
   //* Paginado
   const [currentPage, setCurrentPage] = useState(1);
   const [adsPerPage] = useState(9);
@@ -96,6 +97,9 @@ const Home = () => {
   useEffect(() => {
     dispatch(locationUser(location.pathname));
     dispatch(fetchAds());
+    if (isAuthenticated) {
+      dispatch(fetchUserLoginWithGoogle({email: user.email}))
+    }
   }, []);
 
   return (
