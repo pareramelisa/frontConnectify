@@ -4,16 +4,18 @@ import storage from "redux-persist/lib/storage";
 import adsSlice from "./Slices/adsSlice";
 import professionalSlice from "./Slices/professionalSlice";
 import userLoginSlice from "./Slices/loginSlice";
-import userRegisterSlice from "./Slices/registerSlice";
+import userRegisterSlice from "./Slices/loginSlice";
 import createAdsSlice from "./Slices/createAdsSlice";
-// import searchReducer from "./Slices/searchSlice";
 import detailSlice from "./Slices/detailSlice";
 import persistUserSlice from "./Slices/persistSlice";
+import userSlice from "./Slices/loginGoogleSlice";
 import clientSlice from "./Slices/clientSlice";
+import loginWithGoogleSlice from "./Slices/loginGoogleSlice";
+
 
 // Clave y Almacenamiento por defecto
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage,
 };
 
@@ -25,8 +27,8 @@ const rootReducer = combineReducers({
   clients: clientSlice,
   usersLogin: userLoginSlice,
   usersRegister: userRegisterSlice,
-  // filter: filterReducer,
   persistUser: persistUserSlice,
+  googleLogin: loginWithGoogleSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
