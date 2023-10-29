@@ -12,9 +12,10 @@ import userSlice from "./Slices/loginGoogleSlice";
 import clientSlice from "./Slices/clientSlice";
 import loginWithGoogleSlice from "./Slices/loginGoogleSlice";
 
+
 // Clave y Almacenamiento por defecto
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage,
 };
 
