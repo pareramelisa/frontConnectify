@@ -8,13 +8,12 @@ import userRegisterSlice from './Slices/loginSlice';
 import createAdsSlice from './Slices/createAdsSlice';
 import detailSlice from './Slices/detailSlice';
 import persistUserSlice from './Slices/persistSlice';
-import filterReducer from './Slices/FiltersCombinedSlice';
 import userSlice from './Slices/loginGoogleSlice';
-import clientSlice from "./Slices/clientSlice";
+import clientSlice from './Slices/clientSlice';
 
 // Clave y Almacenamiento por defecto
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage,
 };
 
