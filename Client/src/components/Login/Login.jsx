@@ -8,6 +8,7 @@ import ArrowCircleLeftIcon from "@mui/icons-material/ArrowCircleLeft";
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import { useLocation } from "react-router-dom";
 import { locationUser } from "../../redux/Slices/persistSlice";
+import validationLogin from "./validationLogin";
 
 const Login = ({ setContainerLogin }) => {
   const dispatch = useDispatch();
@@ -26,10 +27,8 @@ const Login = ({ setContainerLogin }) => {
   });
 
   const [error, setError] = useState({
-    errorEmail: false,
-    errorPassword: false,
-    messageEmail: "",
-    messagePassword: "",
+    email: '',
+    password: ''
   });
 
   const handleChange = (e) => {
@@ -37,6 +36,7 @@ const Login = ({ setContainerLogin }) => {
     const valor = e.target.value;
 
     setForm({ ...form, [propiedad]: valor });
+    setError(validationLogin({ ...form, [propiedad]: valor }))
   };
 
   const onSubmit = async (e) => {
@@ -232,22 +232,20 @@ const Login = ({ setContainerLogin }) => {
                 id="email"
                 type="email"
                 fullWidth
-                required
                 onChange={handleChange}
                 value={form.email}
               />
-              <span>Esto es un span</span>
+              <span>{error.email}</span>
               <TextField
                 label="Password"
                 variant="outlined"
                 id="password"
                 type="password"
                 fullWidth
-                required
                 onChange={handleChange}
                 value={form.password}
               />
-              <span>Esto es un span</span>
+              <span>{error.password}</span>
             </div>
           </div>
 
@@ -310,22 +308,20 @@ const Login = ({ setContainerLogin }) => {
                 id="email"
                 type="email"
                 fullWidth
-                required
                 onChange={handleChange}
                 value={form.email}
               />
-              <span>Esto es un span</span>
+              <span>{error.email}</span>
               <TextField
                 label="Password"
                 variant="outlined"
                 id="password"
                 type="password"
                 fullWidth
-                required
                 onChange={handleChange}
                 value={form.password}
               />
-              <span>Esto es un span</span>
+              <span>{error.password}</span>
             </div>
           </div>
 

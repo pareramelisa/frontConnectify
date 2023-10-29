@@ -144,6 +144,7 @@ const Home = () => {
           price={ad.price}
           profession={ad.profession}
           image={ad.creator[0].image}
+          setContainerLogin={setContainerLogin}
         />
       ))}
     </div>
