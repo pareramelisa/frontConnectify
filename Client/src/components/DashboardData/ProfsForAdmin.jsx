@@ -16,54 +16,52 @@ const ProfsForAdmin = () => {
     (state) => state.professionals.professionals
   );
   const clients = useSelector((state) => state.clients.clients);
-  const deleted = useSelector((state) => state.deleted);
-  const [userType, setUserType] = useState("professionals");
-  // const [profession, setProfession] = useState()
+  const deletedProf = useSelector((state) => state.professionals.deleted.data);
+  const deletedClient = useSelector((state) => state.clients.deleted.data);
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
-        await dispatch(fetchProfsForAdmin());
-      } catch (error) {
-        console.error("falló el fetcheo de los profesionales:", error);
-      }
-    };
-
-    fetchData();
-  }, [deleted]);
-  useEffect(() => {
-    const fetchData = async () => {
+      console.log(111111);
       try {
         await dispatch(fetchClientsForAdmin());
+        await dispatch(fetchProfsForAdmin());
       } catch (error) {
-        console.error("falló el fetcheo de los clientes:", error);
+        console.error("falló el fetcheo", error);
       }
     };
 
     fetchData();
-  }, [deleted]);
+  }, [deletedProf]);
 
-  const handleDelete = async (e, id) => {
+  const handleDelete = async (e, prof) => {
     e.preventDefault();
-    if (userType === "professionals") {
-      await dispatch(deleteProfByIdAdmin(id));
-      console.log("ID del profecional a bannear", id);
-    } else if (userType === "clients") {
-      await dispatch(deleteClientByIdAdmin(id));
-      console.log("ID del cliente a bannear", id);
+    if (prof.profession) {
+      console.log(professionals);
+      try {
+        const banned = await dispatch(deleteProfByIdAdmin(prof._id));
+        const update = await dispatch(fetchProfsForAdmin());
+        console.log("ID del profecional a bannear", banned);
+        setSelectedData(update);
+      } catch (error) {}
+    } else if (!prof.profession) {
+      try {
+        const banned = await dispatch(deleteClientByIdAdmin(prof._id));
+        const update = await dispatch(fetchClientsForAdmin());
+        console.log("ID del cliente a bannear", banned);
+        setSelectedData(update);
+      } catch (error) {}
     }
-    dispatch(fetchProfsForAdmin());
-    dispatch(fetchClientsForAdmin());
   };
 
   //   console.log(professionals);
   const handleUserType = (e) => {
-    setUserType(e.target.value);
+    if (e === "clients") setSelectedData(clients);
+    if (e === "professionals") setSelectedData(professionals);
+    // setUserType(e.target.value);
   };
-  // const [selectedData, setSelectedData] = useState(professionals);
-  const selectedData = userType === "professionals" ? professionals : clients;
-  console.log(professionals);
-  console.log(selectedData);
+  const [selectedData, setSelectedData] = useState(professionals);
+  // let selectedData = userType === "professionals" ? professionals : clients;
+
   const uniqueProfessions = new Set();
   professionals.forEach((item) => {
     item.profession.forEach((profession) => {
@@ -71,31 +69,41 @@ const ProfsForAdmin = () => {
     });
   });
   const profession = Array.from(uniqueProfessions);
-  console.log(profession);
+
   const handleScrubProfession = (e) => {
-    const toScrub = professionals.filter((prof) => prof.profession.e);
-    setSelectedData(toScrub);
+    console.log(e.target.value);
+    if (e.target.value === "Todas las Profesiones") {
+      setSelectedData(professionals);
+    } else {
+      const profClass = e.target.value;
+      const toScrub = professionals.filter(
+        (prof) => prof.profession == profClass
+      );
+      console.log(toScrub);
+      setSelectedData(toScrub);
+    }
   };
+  console.log(selectedData);
 
   return (
     <>
       <div>
         <select
-          label="tipo de usuarion"
-          value={userType}
-          onChange={(e) => handleUserType(e)}
+          name="user"
+          id="user type"
+          onChange={(e) => handleUserType(e.target.value)}
         >
           <option value="professionals">Profesionales</option>
           <option value="clients">Clientes</option>
         </select>
         {selectedData !== clients && (
           <select
-            label="profession"
-            value={profession}
-            onChange={(e) => handleScrubProfession(e.target.value)}
+            name="profession"
+            id="profession"
+            onChange={(e) => handleScrubProfession(e)}
           >
-            <option key="0" value="profession">
-              seleccione una profesión
+            <option key="0" value="Todas las Profesiones">
+              Todas las Profesiones
             </option>
             {profession.map((prof, index) => (
               <option key={index} value={prof}>
@@ -172,7 +180,7 @@ const ProfsForAdmin = () => {
             >
               <button
                 className="btn btn-outline-danger"
-                onClick={(e) => handleDelete(e, prof._id)}
+                onClick={(e) => handleDelete(e, prof)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
