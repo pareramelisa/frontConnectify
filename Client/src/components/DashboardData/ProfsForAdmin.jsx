@@ -69,8 +69,8 @@ const ProfsForAdmin = () => {
     });
   });
   const profession = Array.from(uniqueProfessions);
-
-  const handleScrubProfession = (e) => {
+  // let toScrub = [];
+  const handleSelentProfession = (e) => {
     console.log(e.target.value);
     if (e.target.value === "Todas las Profesiones") {
       setSelectedData(professionals);
@@ -83,7 +83,23 @@ const ProfsForAdmin = () => {
       setSelectedData(toScrub);
     }
   };
-  console.log(selectedData);
+
+  const handleBanProf = async () => {
+    try {
+      const update = await Promise.all(
+        selectedData.map(async (prof) => {
+          const banned = await dispatch(deleteProfByIdAdmin(prof._id));
+          console.log(update);
+          console.log("ID del profecional a bannear", banned);
+          update.push(banned);
+        })
+      );
+      setTimeout(() => {
+        setSelectedData(update);
+      }, 3000);
+      setSelectedData(update);
+    } catch (error) {}
+  };
 
   return (
     <>
@@ -100,7 +116,7 @@ const ProfsForAdmin = () => {
           <select
             name="profession"
             id="profession"
-            onChange={(e) => handleScrubProfession(e)}
+            onChange={(e) => handleSelentProfession(e)}
           >
             <option key="0" value="Todas las Profesiones">
               Todas las Profesiones
@@ -112,6 +128,10 @@ const ProfsForAdmin = () => {
             ))}
           </select>
         )}
+        {selectedData.length !== professionals.length &&
+          selectedData[0].profession && (
+            <button onClick={(e) => handleBanProf(e)}>Bannear Profesión</button>
+          )}
       </div>
       {selectedData.length > 0 ? (
         selectedData?.map((prof, index) => (
