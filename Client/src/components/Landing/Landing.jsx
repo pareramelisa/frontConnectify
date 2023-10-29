@@ -1,21 +1,22 @@
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button, Typography } from "@mui/material";
 import "./Landing.css";
 import Logo from "../../assets/connectify.svg";
 import Logo2 from "../../assets/logo.svg";
-import SearchBar from "./Utils/SearchBar/SearchBar";
 import { useAuth0 } from "@auth0/auth0-react";
 import { AiOutlineHome } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import Login from "../Login/Login";
 import { useDispatch, useSelector } from "react-redux";
+import { loginWithGoogle } from "../../redux/Slices/loginGoogleSlice";
 
 function LandingPage() {
   const navigate = useNavigate();
   const persist = useSelector(state => state.persistUser.location)
-  const { isAuthenticated } = useAuth0();
+  const users = useSelector((state) => state.usersLogin.user);
+  const { isAuthenticated, user } = useAuth0();
   const [containerLogin, setContainerLogin] = useState(false);
-  
+  const dispatch = useDispatch();
 
   const handlerButtonLogin = () => {
     if (!isAuthenticated) {
@@ -25,13 +26,13 @@ function LandingPage() {
     }
   };
 
-  console.log('Aca el persist', persist);
 
   useEffect(() => {
     if (isAuthenticated) {
+      dispatch(loginWithGoogle(user.email))
       navigate(persist)
     }
-  }, [isAuthenticated]);
+  }, [dispatch, isAuthenticated, navigate, persist]);
 
   return (
     <div className="container">
@@ -73,15 +74,18 @@ function LandingPage() {
           <AiOutlineHome style={{ fontSize: "2em" }} />
         </Button>
       </div>
-      <SearchBar />
-      <Button
+      {
+        !isAuthenticated && !users.name &&
+        <Button
         variant="contained"
         color="primary"
         onClick={handlerButtonLogin}
         className="button"
       >
-        {!isAuthenticated ? "Ir a Login" : "Ir a Home"}
-      </Button>
+        Ir a Login
+      </Button> 
+      } 
+     
     </div>
   );
 }

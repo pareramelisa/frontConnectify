@@ -28,8 +28,11 @@ export const fetchUserRegister = (userData, type) => {
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
+        console.log(data.message);
+        return data.message;
       } catch (error) {
         console.log(error);
+        return "Revice los datos ingresados";
       }
     } else if (type === "professional") {
 
@@ -38,8 +41,10 @@ export const fetchUserRegister = (userData, type) => {
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
+        return data.message;
       } catch (error) {
         console.log(error);
+        return "Revice los datos ingresados.";
       }
     }
   };

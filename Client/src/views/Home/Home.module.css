@@ -1,0 +1,79 @@
+/* Define la cuadrícula con tres columnas por defecto y un gap de 2em */
+.card {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1em;
+  justify-items: center;
+  align-items: center;
+}
+
+/* Establece un ancho máximo para la cuadrícula para evitar que los elementos se estiren demasiado en pantallas grandes */
+@media (min-width: 1200px) {
+  .card {
+    grid-template-columns: repeat(
+      3,
+      1fr
+    ); /* Cambia a 4 columnas en pantallas más grandes */
+  }
+}
+
+/* En pantallas aún más pequeñas, cambia a 2 columnas */
+@media (max-width: 768px) {
+  .card {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* En pantallas muy pequeñas, cambia a 1 columna */
+@media (max-width: 480px) {
+  .card {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 2em;
+}
+
+.filterStyle {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos hagan wrap cuando no caben en una fila */
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  gap: 1em;
+}
+.wideLabel {
+  width: 100%;
+}
+
+.spinButton {
+  /* Establece estilos base para el botón */
+  position: relative;
+  background-color: #3498db;
+  color: #fff;
+  font-size: 1em;
+  padding: 10px 20px;
+  border: none;
+  outline: none; /* Elimina el borde del foco por defecto */
+  margin-top: 1em;
+  margin-left: 1em;
+}
+
+.spinButton:focus {
+  animation: spinAnimation 0.5s linear;
+  transition: transform 0.5s linear;
+}
+
+@keyframes spinAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

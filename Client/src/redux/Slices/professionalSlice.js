@@ -1,10 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+
+// const URL = `http://localhost:3001`;
+const URL = `https://connectifyback-dp-production.up.railway.app`;
 
 export const professionalSlice = createSlice({
-  name: "professionals",
+  name: "professionalSlice",
   initialState: {
     professionals: [],
     detail: {},
+    deleted: {},
   },
   reducers: {
     getAllProfessionals: (state, action) => {
@@ -13,10 +18,43 @@ export const professionalSlice = createSlice({
     getProfessionalByID: (state, action) => {
       state.detail = action.payload;
     },
+    deleteProfessional: (state, action) => {
+      state.deleted = action.payload;
+    },
   },
 });
 
-export const { getAllProfessionals, getProfessionalByID } =
+export const { getAllProfessionals, getProfessionalByID, deleteProfessional } =
   professionalSlice.actions;
 
 export default professionalSlice.reducer;
+
+export const fetchProfsForAdmin = () => {
+  return async (dispatch) => {
+    const endpoint = URL + `/professional/`;
+    try {
+      const response = await axios.get(endpoint);
+      console.log(response.data);
+      const professionals = response.data;
+      dispatch(getAllProfessionals(professionals));
+      return professionals;
+    } catch (error) {
+      console.log(error);
+      return "No hay profesionales disponibles";
+    }
+  };
+};
+export const deleteProfByIdAdmin = (id) => {
+  return async (dispatch) => {
+    const endpoint = URL + `/professional/${id}/delete`;
+    try {
+      const deleted = await axios.patch(endpoint, id);
+
+      dispatch(deleteProfessional(deleted));
+      // return professionals;
+    } catch (error) {
+      console.log(error);
+      return "No se pudo bannear dicho profesionale";
+    }
+  };
+};

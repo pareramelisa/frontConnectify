@@ -13,7 +13,7 @@ import MenuItem from "@mui/material/MenuItem";
 import logo from "../../assets/connectify.svg";
 import "./Navbar.css";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/Slices/loginSlice";
 
@@ -21,38 +21,25 @@ import { logoutUser } from "../../redux/Slices/loginSlice";
 const settings = ["Dashboard", "Profile", "Logout"];
 
 function ResponsiveAppBar({setContainerLogin}) {
-  const [anchorElNav, setAnchorElNav] = useState(null);
   const [anchorElUser, setAnchorElUser] = useState(null);
   
-  const navigate = useNavigate()
-  const users = useSelector(state => state.user)
+  const users = useSelector((state) => state.usersLogin.user);
   const dispatch = useDispatch()
 
   const {user, logout, isAuthenticated } = useAuth0();
 
-  const handleOpenNavMenu = (event) => {
-    setAnchorElNav(event.currentTarget);
-  };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
   };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
-  const handlerLogoutGoogle = () => {
-    navigate('/login')
-  }
-
   const handleAvatarButton = async (e) => {
     const text = e.target.textContent
 
-    if (users) {
+    if (text === 'Logout') {
       await dispatch(logoutUser())
     }
 
@@ -61,29 +48,31 @@ function ResponsiveAppBar({setContainerLogin}) {
     }
   }
 
-  const handlerButtonLogin = () => {
+  const handlerButtonLogin =  () => {
     setContainerLogin(true);
+    
   };
 
-  console.log(user);
-  console.log(users);
+
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" style={{marginBottom: '1.5rem'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <div className="containerNav">
+            <Link to="/">
             <img src={logo} alt="" className="logoNav" />
+            </Link>
             <Box
               sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
             ></Box>
             <Box sx={{ flexGrow: 0 }}>
-              {isAuthenticated || users ? (
+              {isAuthenticated || users.name ? (
                 <Tooltip title="Open settings">
                   <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                     <Avatar
                       alt="Remy Sharp"
-                      src={user?.picture}
+                      src={user ? user.picture : users ? users.image : null}
                     />
                   </IconButton>
                 </Tooltip>
@@ -116,7 +105,7 @@ function ResponsiveAppBar({setContainerLogin}) {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Button textAlign="center" onClick={handleAvatarButton}>{setting}</Button>
+                    <Button textalign="center" onClick={handleAvatarButton}>{setting}</Button>
                   </MenuItem>
                 ))}
               </Menu>
