@@ -21,6 +21,7 @@ export default FilterSlice.reducer;
 export const fetchFilter = ({
   profession,
   locationProf,
+  province,
   minPrice,
   maxPrice,
 }) => {
@@ -37,7 +38,10 @@ export const fetchFilter = ({
         url += `profession=${profession}&`;
       }
       if (locationProf) {
-        url += `location=${locationProf}`;
+        url += `location=${locationProf}&`;
+      }
+      if (province) {
+        url += `province=${province}&`;
       }
 
       const { data } = await axios.get(url);

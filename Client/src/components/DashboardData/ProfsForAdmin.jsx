@@ -5,36 +5,108 @@ import {
   fetchProfsForAdmin,
   deleteProfByIdAdmin,
 } from "../../redux/Slices/professionalSlice";
+import {
+  fetchClientsForAdmin,
+  deleteClientByIdAdmin,
+} from "../../redux/Slices/clientSlice";
 
 const ProfsForAdmin = () => {
+  const dispatch = useDispatch();
   const professionals = useSelector(
     (state) => state.professionals.professionals
   );
+  const clients = useSelector((state) => state.clients.clients);
   const deleted = useSelector((state) => state.deleted);
+  const [userType, setUserType] = useState("professionals");
+  // const [profession, setProfession] = useState()
 
-  const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {
       try {
         await dispatch(fetchProfsForAdmin());
       } catch (error) {
-        console.error("falló el fetchear los profs:", error);
+        console.error("falló el fetcheo de los profesionales:", error);
       }
     };
 
     fetchData();
   }, [deleted]);
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        await dispatch(fetchClientsForAdmin());
+      } catch (error) {
+        console.error("falló el fetcheo de los clientes:", error);
+      }
+    };
+
+    fetchData();
+  }, [deleted]);
+
   const handleDelete = async (e, id) => {
     e.preventDefault();
-    console.log("ID del profecional a bannear", id);
-    await dispatch(deleteProfByIdAdmin(id));
+    if (userType === "professionals") {
+      await dispatch(deleteProfByIdAdmin(id));
+      console.log("ID del profecional a bannear", id);
+    } else if (userType === "clients") {
+      await dispatch(deleteClientByIdAdmin(id));
+      console.log("ID del cliente a bannear", id);
+    }
     dispatch(fetchProfsForAdmin());
+    dispatch(fetchClientsForAdmin());
   };
+
   //   console.log(professionals);
+  const handleUserType = (e) => {
+    setUserType(e.target.value);
+  };
+  // const [selectedData, setSelectedData] = useState(professionals);
+  const selectedData = userType === "professionals" ? professionals : clients;
+  console.log(professionals);
+  console.log(selectedData);
+  const uniqueProfessions = new Set();
+  professionals.forEach((item) => {
+    item.profession.forEach((profession) => {
+      uniqueProfessions.add(profession);
+    });
+  });
+  const profession = Array.from(uniqueProfessions);
+  console.log(profession);
+  const handleScrubProfession = (e) => {
+    const toScrub = professionals.filter((prof) => prof.profession.e);
+    setSelectedData(toScrub);
+  };
+
   return (
     <>
-      {professionals.length > 0 ? (
-        professionals?.map((prof, index) => (
+      <div>
+        <select
+          label="tipo de usuarion"
+          value={userType}
+          onChange={(e) => handleUserType(e)}
+        >
+          <option value="professionals">Profesionales</option>
+          <option value="clients">Clientes</option>
+        </select>
+        {selectedData !== clients && (
+          <select
+            label="profession"
+            value={profession}
+            onChange={(e) => handleScrubProfession(e.target.value)}
+          >
+            <option key="0" value="profession">
+              seleccione una profesión
+            </option>
+            {profession.map((prof, index) => (
+              <option key={index} value={prof}>
+                {prof}
+              </option>
+            ))}
+          </select>
+        )}
+      </div>
+      {selectedData.length > 0 ? (
+        selectedData?.map((prof, index) => (
           <tr key={prof.id}>
             <th
               style={{
@@ -90,7 +162,7 @@ const ProfsForAdmin = () => {
                 width: "100px",
               }}
             >
-              {prof.profession}
+              {prof.profession ? prof.profession : "Cliente"}
             </td>
             <td
               style={{

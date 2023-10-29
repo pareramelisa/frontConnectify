@@ -50,3 +50,30 @@
 .wideLabel {
   width: 100%;
 }
+
+.spinButton {
+  /* Establece estilos base para el botón */
+  position: relative;
+  background-color: #3498db;
+  color: #fff;
+  font-size: 1em;
+  padding: 10px 20px;
+  border: none;
+  outline: none; /* Elimina el borde del foco por defecto */
+  margin-top: 1em;
+  margin-left: 1em;
+}
+
+.spinButton:focus {
+  animation: spinAnimation 0.5s linear;
+  transition: transform 0.5s linear;
+}
+
+@keyframes spinAnimation {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

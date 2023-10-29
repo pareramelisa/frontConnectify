@@ -11,9 +11,6 @@ const validationLogin = (form) => {
   if (form.password === "") {
     errors.password = "La contraseña esta vacia";
   }
-  if (!/\d/.test(form.password)) {
-    errors.password = "La contraseña debe tener al menos un numero";
-  }
 
   return errors;
 };
