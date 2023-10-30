@@ -1,8 +1,9 @@
 import io from 'socket.io-client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+const VITE_API_BASE = import.meta.env.VITE_API_BASE
 //Conexión para escuchar y enviar eventos
-const socket = io('https://connectifyback-dp-production.up.railway.app');
+const socket = io(VITE_API_BASE);
 
 function Chat() {
   const [nickname, setNickname] = useState('');
@@ -13,7 +14,8 @@ function Chat() {
   const [storedMessages, setStoredMessages] = useState([]);
   const [firstTime, setFirstTime] = useState(false);
 
-  const url = 'https://connectifyback-dp-production.up.railway.app/chat/';
+  const url = VITE_API_BASE + `/chat`
+  // 'https://connectifyback-dp-production.up.railway.app/chat/';
 
   useEffect(() => {
     if (!firstTime) {
@@ -52,7 +54,7 @@ function Chat() {
       setMessage('');
 
       //Petición http por POST para guardar el artículo:
-      axios.post(url + 'save', {
+      axios.post(url + `/save`, {
         message: message,
         from: nickname,
       });
@@ -62,7 +64,7 @@ function Chat() {
   };
 
   const fetchStoredMessages = async () => {
-    const { data } = await axios.get(url + 'messages');
+    const { data } = await axios.get(url + `/messages`);
     setStoredMessages(data);
     console.log(storedMessages);
   };
