@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
+const URL = "https://connectifyback-dp-production.up.railway.app";
+// const URL = "http://localhost:3001";
 // Define una función asincrónica para cargar los anuncios
 export const fetchAds = createAsyncThunk("ads/fetchAds", async () => {
   const endpoint = "https://connectifyback-dp-production.up.railway.app/ads";
@@ -11,7 +12,13 @@ export const fetchAds = createAsyncThunk("ads/fetchAds", async () => {
 
 const adsSlice = createSlice({
   name: "ads",
-  initialState: { ads: [], adsFiltered: [], status: "idle", error: null },
+  initialState: {
+    ads: [],
+    deleted: {},
+    adsFiltered: [],
+    status: "idle",
+    error: null,
+  },
   reducers: {
     applyFilters: (state, action) => {
       // Aquí actualizas el estado adsFiltered con los filtros aplicados
@@ -19,6 +26,9 @@ const adsSlice = createSlice({
     },
     getAllAds: (state, action) => {
       state.ads = action.payload;
+    },
+    deleteAd: (state, action) => {
+      state.deleted = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -39,7 +49,7 @@ const adsSlice = createSlice({
 });
 
 export const selectAds = (state) => state.ads.ads;
-export const { applyFilters, getAllAds } = adsSlice.actions;
+export const { applyFilters, getAllAds, deleteAd } = adsSlice.actions;
 export default adsSlice.reducer;
 
 export const fetchAdsForAdmin = () => {
@@ -54,6 +64,22 @@ export const fetchAdsForAdmin = () => {
     } catch (error) {
       console.log(error);
       return "No hay avisos disponibles";
+    }
+  };
+};
+export const deleteAdByIdAdmin = (id) => {
+  return async (dispatch) => {
+    const endpoint = URL + `/ads/${id}/delete`;
+    try {
+      const deleted = await axios.patch(endpoint, id);
+      console.log(44444);
+      console.log(deleted);
+      console.log(44444);
+
+      dispatch(deleteAd(deleted));
+    } catch (error) {
+      console.log(error);
+      return "No se pudo bannear dichao anuncio";
     }
   };
 };

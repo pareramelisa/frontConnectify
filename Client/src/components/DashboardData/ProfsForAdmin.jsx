@@ -11,7 +11,7 @@ import {
 } from "../../redux/Slices/clientSlice";
 import {
   fetchAdsForAdmin,
-  // deleteAdByIdAdmin,
+  deleteAdByIdAdmin,
 } from "../../redux/Slices/adsSlice";
 
 const ProfsForAdmin = () => {
@@ -23,11 +23,12 @@ const ProfsForAdmin = () => {
   const ads = useSelector((state) => state.ads.ads);
   const deletedProf = useSelector((state) => state.professionals.deleted.data);
   const deletedClient = useSelector((state) => state.clients.deleted.data);
+  const deletedAd = useSelector((state) => state.ads.deleted);
 
-  console.log(ads[0].creator[0].name);
+  // console.log(deletedAd);
+  console.log(deletedProf);
   useEffect(() => {
     const fetchData = async () => {
-      console.log(111111);
       try {
         await dispatch(fetchClientsForAdmin());
         await dispatch(fetchProfsForAdmin());
@@ -38,34 +39,38 @@ const ProfsForAdmin = () => {
     };
 
     fetchData();
-  }, [deletedProf, deletedClient]);
+  }, []);
 
   const handleDelete = async (e, prof) => {
-    e.preventDefault();
-    if (prof.profession) {
-      console.log(professionals);
-      try {
-        const banned = await dispatch(deleteProfByIdAdmin(prof._id));
-        const update = await dispatch(fetchProfsForAdmin());
-        console.log("ID del profecional a bannear", banned);
-        setSelectedData(update);
-      } catch (error) {}
-
-      //FALTA CONECTAR CON EL BORRADOR DE AVISOS!!
-    } else if (!prof.profession) {
+    // e.preventDefault();
+    if (!prof.profession) {
       try {
         const banned = await dispatch(deleteClientByIdAdmin(prof._id));
         const update = await dispatch(fetchClientsForAdmin());
         console.log("ID del cliente a bannear", banned);
         setSelectedData(update);
       } catch (error) {}
+    } else if (prof.creator) {
+      console.log(prof);
+      try {
+        const banned = await dispatch(deleteAdByIdAdmin(prof._id));
+        const update = await dispatch(fetchAdsForAdmin());
+        console.log("ID del anuncio a bannear", banned);
+        setSelectedData(update);
+      } catch (error) {}
+    } else if (prof.locationJob) {
+      try {
+        const banned = await dispatch(deleteProfByIdAdmin(prof._id));
+        const update = await dispatch(fetchProfsForAdmin());
+        console.log("ID del profecional a bannear", banned);
+        setSelectedData(update);
+      } catch (error) {}
     }
   };
 
-  //   console.log(professionals);
   const handleUserType = (e) => {
-    if (e === "clients") setSelectedData(clients);
     if (e === "professionals") setSelectedData(professionals);
+    if (e === "clients") setSelectedData(clients);
     if (e === "ads") setSelectedData(ads);
     // setUserType(e.target.value);
   };
@@ -81,7 +86,7 @@ const ProfsForAdmin = () => {
   const profession = Array.from(uniqueProfessions);
   // let toScrub = [];
   const handleSelentProfession = (e) => {
-    console.log(e.target.value);
+    // console.log(e.target.value);
     if (e.target.value === "Todas las Profesiones") {
       setSelectedData(professionals);
     } else {
@@ -89,25 +94,29 @@ const ProfsForAdmin = () => {
       const toScrub = professionals.filter(
         (prof) => prof.profession == profClass
       );
-      console.log(toScrub);
+      // console.log(toScrub);
       setSelectedData(toScrub);
     }
   };
 
   const handleBanProf = async () => {
     try {
-      const update = await Promise.all(
+      const update = [];
+      await Promise.all(
         selectedData.map(async (prof) => {
-          const banned = await dispatch(deleteProfByIdAdmin(prof._id));
+          console.log(prof._id);
+          await dispatch(deleteProfByIdAdmin(prof._id));
+
+          console.log(deletedProf);
+          console.log("ID del profecional a bannear", deletedProf);
+          update.push(deletedProf);
           console.log(update);
-          console.log("ID del profecional a bannear", banned);
-          update.push(banned);
         })
       );
-      setTimeout(() => {
-        setSelectedData(update);
-      }, 3000);
-      setSelectedData(update);
+
+      // setTimeout(async () => {}, 3000);
+      await dispatch(fetchAdsForAdmin());
+      setSelectedData(professionals);
     } catch (error) {}
   };
 
@@ -123,7 +132,7 @@ const ProfsForAdmin = () => {
           <option value="clients">Clientes</option>
           <option value="ads">Anuncios</option>
         </select>
-        {selectedData !== clients && (
+        {selectedData !== clients && selectedData !== ads && (
           <select
             name="profession"
             id="profession"
@@ -140,7 +149,7 @@ const ProfsForAdmin = () => {
           </select>
         )}
         {selectedData.length !== professionals.length &&
-          selectedData[0].profession && (
+          selectedData[0].locationJob && (
             <button onClick={(e) => handleBanProf(e)}>Bannear Profesión</button>
           )}
       </div>
@@ -160,15 +169,30 @@ const ProfsForAdmin = () => {
                 backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
               }}
             >
-              <img
-                src={prof.image || prof.creator[0].image}
-                alt=""
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "100%",
-                }}
-              />
+              {prof.creator ? (
+                <img
+                  src={prof.creator[0].image}
+                  alt=""
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "100%",
+                  }}
+                />
+              ) : (
+                <img
+                  src={
+                    prof.image ||
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCMq4cGfAmaJAYVpXFPLY57EzVip1FTMK-ETQH1aU24VD-bYx5wJ4srHFP99zAgqXBvfQ&usqp=CAU"
+                  }
+                  alt="Default Image"
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "100%",
+                  }}
+                />
+              )}
             </td>
             <td
               style={{

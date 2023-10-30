@@ -50,11 +50,11 @@ export const deleteProfByIdAdmin = (id) => {
     try {
       const deleted = await axios.patch(endpoint, id);
 
-      dispatch(deleteProfessional(deleted));
+      // dispatch(deleteProfessional(deleted));
       // return professionals;
     } catch (error) {
       console.log(error);
-      return "No se pudo bannear dicho profesionale";
+      return "No se pudo bannear dicho profesional";
     }
   };
 };
