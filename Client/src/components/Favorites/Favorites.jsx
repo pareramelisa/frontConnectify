@@ -3,36 +3,43 @@ import { Card, CardContent, Typography, Button, Grid, CardMedia, Box, IconButton
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
 import Navbar from '../../components/Navbar/Navbar';
+import { useDispatch, useSelector } from 'react-redux';
+import { removeFavorite } from '../../redux/Slices/favoritesSlice';
 
 const Favorites = () => {
   const [savedProfiles, setSavedProfiles] = useState([]);
+  const dispatch = useDispatch();
+  const favoritesCount = useSelector((state) => state.favorites.favoriteCount);
 
   useEffect(() => {
-    // Obtiene las claves del Local Storage que comienzan con "favoritos-"
-    const storageKeys = Object.keys(localStorage).filter((key) => key.startsWith('favoritos-'));
-
-    // Obtiene los perfiles guardados y los almacena en el estado
-    const profiles = storageKeys.map((key) => JSON.parse(localStorage.getItem(key)));
-    setSavedProfiles(profiles);
-  }, []);
-
-  useEffect(() => {
-    // Agrega un oyente de evento para capturar cambios en favoritos
-    const handleFavoritesChange = () => {
-      // Cuando el evento se dispare, vuelve a cargar los perfiles guardados
+    const updateSavedProfiles = () => {
       const storageKeys = Object.keys(localStorage).filter((key) => key.startsWith('favoritos-'));
       const profiles = storageKeys.map((key) => JSON.parse(localStorage.getItem(key)));
       setSavedProfiles(profiles);
     };
 
-    // Escucha el evento "favoritesChanged"
+    updateSavedProfiles(); // Actualizar los perfiles favoritos al cargar la página
+
+    const handleFavoritesChange = () => {
+      updateSavedProfiles(); // Actualizar los perfiles favoritos al recibir una notificación de cambio
+    };
+
     window.addEventListener('favoritesChanged', handleFavoritesChange);
 
-    // Limpia el oyente de evento al desmontar el componente
     return () => {
       window.removeEventListener('favoritesChanged', handleFavoritesChange);
     };
   }, []);
+
+  const handleRemoveFavorite = (profile) => {
+    const profileKey = `favoritos-${profile._id}`;
+    localStorage.removeItem(profileKey);
+
+    // Notificar a Redux para actualizar el conteo de favoritos
+    dispatch(removeFavorite(profile));
+    const event = new Event('favoritesChanged');
+    window.dispatchEvent(event);
+  };
 
   return (
     <div>
@@ -49,13 +56,8 @@ const Favorites = () => {
                 <Grid item xs={12} sm={6} md={2}>
                   <Box display="flex" justifyContent='space-between'>
                     <IconButton
-                      onClick={() => {
-                        const profileKey = `favoritos-${profile._id}`;
-                        localStorage.removeItem(profileKey);
-
-                        // Emite un evento personalizado para notificar cambios en favoritos
-                        const event = new Event('favoritesChanged');
-                        window.dispatchEvent(event);
+                      onClick={() => {                        
+                        handleRemoveFavorite(profile);
                       }}
                     >
                       <DeleteIcon color="error" />
