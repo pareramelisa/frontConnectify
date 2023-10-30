@@ -28,11 +28,18 @@ export const fetchUserLogin = (form) => {
 
     if (form.types === "client") {
       endpoint = `https://connectifyback-dp-production.up.railway.app/client/login/?email=${form.email}&password=${form.password}`;
-    } else if (form.types === "professional") {
+    }
+
+    if (form.types === "professional") {
       endpoint = `https://connectifyback-dp-production.up.railway.app/professional/login/?email=${form.email}&password=${form.password}`;
-    } else if (form.types === "admin") {
+    }
+
+    if (form.types === "admin") {
       endpoint = `https://connectifyback-dp-production.up.railway.app/admin/login/?email=${form.email}&password=${form.password}`;
     }
+
+    console.log(endpoint);
+    console.log(form);
 
     try {
       const { data } = await axios.get(endpoint);

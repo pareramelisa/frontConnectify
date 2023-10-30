@@ -21,11 +21,12 @@ export default loginWithGoogleSlice.reducer;
 // Hace el fetch del para el login del usuario
 export const fetchUserLoginWithGoogle = (form) => {
   return async (dispatch) => {
-    let endpoint = "https://connectifyback-dp-production.up.railway.app/client/googlelogin";
+    let endpoint =
+      "https://connectifyback-dp-production.up.railway.app/client/googlelogin";
 
     try {
       const { data } = await axios.post(endpoint, form);
-      dispatch(loginUser(data));
+      dispatch(loginWithGoogle(data));
     } catch (error) {
       console.log(error);
     }
