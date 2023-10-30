@@ -39,21 +39,21 @@ const adsSlice = createSlice({
 });
 
 export const selectAds = (state) => state.ads.ads;
-export const { applyFilters } = adsSlice.actions;
+export const { applyFilters, getAllAds } = adsSlice.actions;
 export default adsSlice.reducer;
 
-// export const fetchAdsForAdmin = () => {
-//   return async (dispatch) => {
-//     const endpoint = URL + `/ads/`;
-//     try {
-//       const response = await axios.get(endpoint);
-//       console.log(response.data);
-//       const ads = response.data;
-//       dispatch(getAllProfessionals(ads));
-//       return ads;
-//     } catch (error) {
-//       console.log(error);
-//       return "No hay avisos disponibles";
-//     }
-//   };
-// };
+export const fetchAdsForAdmin = () => {
+  return async (dispatch) => {
+    const endpoint = "https://connectifyback-dp-production.up.railway.app/ads";
+    try {
+      const response = await axios.get(endpoint);
+      console.log(response.data);
+      const ads = response.data;
+      dispatch(getAllAds(ads));
+      return ads;
+    } catch (error) {
+      console.log(error);
+      return "No hay avisos disponibles";
+    }
+  };
+};

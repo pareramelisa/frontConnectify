@@ -9,6 +9,10 @@ import {
   fetchClientsForAdmin,
   deleteClientByIdAdmin,
 } from "../../redux/Slices/clientSlice";
+import {
+  fetchAdsForAdmin,
+  // deleteAdByIdAdmin,
+} from "../../redux/Slices/adsSlice";
 
 const ProfsForAdmin = () => {
   const dispatch = useDispatch();
@@ -16,22 +20,25 @@ const ProfsForAdmin = () => {
     (state) => state.professionals.professionals
   );
   const clients = useSelector((state) => state.clients.clients);
+  const ads = useSelector((state) => state.ads.ads);
   const deletedProf = useSelector((state) => state.professionals.deleted.data);
   const deletedClient = useSelector((state) => state.clients.deleted.data);
 
+  console.log(ads[0].creator[0].name);
   useEffect(() => {
     const fetchData = async () => {
       console.log(111111);
       try {
         await dispatch(fetchClientsForAdmin());
         await dispatch(fetchProfsForAdmin());
+        await dispatch(fetchAdsForAdmin());
       } catch (error) {
         console.error("falló el fetcheo", error);
       }
     };
 
     fetchData();
-  }, [deletedProf]);
+  }, [deletedProf, deletedClient]);
 
   const handleDelete = async (e, prof) => {
     e.preventDefault();
@@ -43,6 +50,8 @@ const ProfsForAdmin = () => {
         console.log("ID del profecional a bannear", banned);
         setSelectedData(update);
       } catch (error) {}
+
+      //FALTA CONECTAR CON EL BORRADOR DE AVISOS!!
     } else if (!prof.profession) {
       try {
         const banned = await dispatch(deleteClientByIdAdmin(prof._id));
@@ -57,6 +66,7 @@ const ProfsForAdmin = () => {
   const handleUserType = (e) => {
     if (e === "clients") setSelectedData(clients);
     if (e === "professionals") setSelectedData(professionals);
+    if (e === "ads") setSelectedData(ads);
     // setUserType(e.target.value);
   };
   const [selectedData, setSelectedData] = useState(professionals);
@@ -111,6 +121,7 @@ const ProfsForAdmin = () => {
         >
           <option value="professionals">Profesionales</option>
           <option value="clients">Clientes</option>
+          <option value="ads">Anuncios</option>
         </select>
         {selectedData !== clients && (
           <select
@@ -150,7 +161,7 @@ const ProfsForAdmin = () => {
               }}
             >
               <img
-                src={prof.image}
+                src={prof.image || prof.creator[0].image}
                 alt=""
                 style={{
                   width: "40px",
@@ -165,7 +176,7 @@ const ProfsForAdmin = () => {
                 width: "100px",
               }}
             >
-              {prof.userName}
+              {prof.userName || prof.creator[0].userName}
             </td>
             <td
               style={{
@@ -173,7 +184,9 @@ const ProfsForAdmin = () => {
                 width: "120px",
               }}
             >
-              {prof.province}
+              {prof.locationJob ||
+                prof.province ||
+                prof.postingDate?.substring(0, 10)}
             </td>
             <td
               style={{
@@ -181,7 +194,7 @@ const ProfsForAdmin = () => {
                 width: "250px",
               }}
             >
-              {prof.email}
+              {prof.email || prof.creator[0].email}
             </td>
 
             <td
