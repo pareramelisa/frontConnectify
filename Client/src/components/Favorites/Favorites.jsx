@@ -1,11 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { Card, CardContent, Typography, Button, Grid, CardMedia, Box, IconButton } from '@mui/material';
-import { Link } from 'react-router-dom';
-import DeleteIcon from '@mui/icons-material/Delete';
 
+import React, { useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  Typography,
+  Button,
+  Grid,
+  CardMedia,
+  Box,
+  IconButton,
+} from "@mui/material";
+import { Link } from "react-router-dom";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Navbar from '../Navbar/Navbar'
 
+import { useDispatch, useSelector } from 'react-redux';
+import { removeFavorite } from '../../redux/Slices/favoritesSlice';
 const Favorites = () => {
   const [savedProfiles, setSavedProfiles] = useState([]);
+  const dispatch = useDispatch();
+  const favoritesCount = useSelector((state) => state.favorites.favoriteCount);
 
   useEffect(() => {
     // Obtiene las claves del Local Storage que comienzan con "favoritos-"
@@ -28,15 +42,24 @@ const Favorites = () => {
     // Escucha el evento "favoritesChanged"
     window.addEventListener('favoritesChanged', handleFavoritesChange);
 
-    // Limpia el oyente de evento al desmontar el componente
     return () => {
-      window.removeEventListener('favoritesChanged', handleFavoritesChange);
+      window.removeEventListener("favoritesChanged", handleFavoritesChange);
     };
   }, []);
 
+  const handleRemoveFavorite = (profile) => {
+    const profileKey = `favoritos-${profile._id}`;
+    localStorage.removeItem(profileKey);
+
+    // Notificar a Redux para actualizar el conteo de favoritos
+    dispatch(removeFavorite(profile));
+    const event = new Event('favoritesChanged');
+    window.dispatchEvent(event);
+  };
+
   return (
     <div>
-    
+    <Navbar />
     <div style={{  justifyContent: 'center', padding:"5em" }}>
       <Typography variant="h4" component="h1">
         Perfiles Guardados
@@ -48,16 +71,11 @@ const Favorites = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={2}>
                   <Box display="flex" justifyContent='space-between'>
-                    <IconButton
-                      onClick={() => {
-                        const profileKey = `favoritos-${profile._id}`;
-                        localStorage.removeItem(profileKey);
-
-                        // Emite un evento personalizado para notificar cambios en favoritos
-                        const event = new Event('favoritesChanged');
-                        window.dispatchEvent(event);
-                      }}
-                    >
+                  <IconButton
+                    onClick={() => {
+                      handleRemoveFavorite(profile);
+                    }}
+                  >
                       <DeleteIcon color="error" />
                     </IconButton>
                   </Box>

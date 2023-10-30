@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-const URL = "https://connectifyback-dp-production.up.railway.app";
-// const URL = "http://localhost:3001";
+
 // Define una función asincrónica para cargar los anuncios
 export const fetchAds = createAsyncThunk("ads/fetchAds", async () => {
   const endpoint = "https://connectifyback-dp-production.up.railway.app/ads";

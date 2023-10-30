@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+const VITE_API_BASE = import.meta.env.VITE_API_BASE
 
 export const createAd = createAsyncThunk('ads/createAd', async (adData) => {
-  const endpoint = 'https://connectifyback-dp-production.up.railway.app/ads';
+  const endpoint = `${VITE_API_BASE}/ads`;
   const response = await axios.post(endpoint, adData);
   return response.data;
   //eliminado el tryCatch debido a que el createAsyncThunk ya maneja los errores.

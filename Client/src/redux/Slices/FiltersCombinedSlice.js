@@ -1,6 +1,7 @@
 /* eslint-disable no-useless-catch */
 import { createSlice } from '@reduxjs/toolkit';
 import { applyFilters } from './adsSlice';
+const VITE_API_BASE = import.meta.env.VITE_API_BASE
 import axios from 'axios';
 
 const FilterSlice = createSlice({
@@ -27,8 +28,8 @@ export const fetchFilter = ({
 }) => {
   return async (dispatch) => {
     try {
-      let url =
-        'https://connectifyback-dp-production.up.railway.app/ads/filters?';
+      let url = VITE_API_BASE + `/ads/filters?`
+        // 'https://connectifyback-dp-production.up.railway.app/ads/filters?';
 
       // Valida y construye la URL de la solicitud en función de los parámetros proporcionados
       if (minPrice && maxPrice) {
