@@ -36,8 +36,9 @@ function CreateAdForm() {
   };
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: "60vw" }}>
-      <form onSubmit={handleSubmit}>
+    <div style={{ columns: "2", columnGap: '.5rem', padding: '10rem', justifyContent: 'center', alignItems: 'center'}}>
+      <form onSubmit={handleSubmit} >
+      <div >
         <div>
           <TextField
             label="Título"
@@ -111,6 +112,8 @@ function CreateAdForm() {
             required
           />
         </div>
+        </div>
+        <div>
         <div>
           <TextField
             label="Fecha de creación"
@@ -200,10 +203,10 @@ function CreateAdForm() {
             required
           />
         </div>
-
+        </div >
         <button type="submit">Crear Anuncio</button>
       </form>
-    </div>
+      </div>
   );
 }
 
