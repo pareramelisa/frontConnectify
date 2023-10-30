@@ -7,15 +7,15 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { AiOutlineHome } from "react-icons/ai";
 import { useEffect, useState } from "react";
 import Login from "../Login/Login";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { loginWithGoogle } from "../../redux/Slices/loginGoogleSlice";
 
 function LandingPage() {
   const navigate = useNavigate();
-  const persist = useSelector(state => state.persistUser.location)
   const users = useSelector((state) => state.usersLogin.user);
-  const { isAuthenticated } = useAuth0();
+  const { isAuthenticated, user } = useAuth0();
   const [containerLogin, setContainerLogin] = useState(false);
-  
+  const dispatch = useDispatch();
 
   const handlerButtonLogin = () => {
     if (!isAuthenticated) {
@@ -25,13 +25,13 @@ function LandingPage() {
     }
   };
 
-  console.log('Aca el persist', persist);
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate(persist)
+      dispatch(loginWithGoogle(user.email))
+      navigate('/home')
     }
-  }, [isAuthenticated]);
+  }, [dispatch, isAuthenticated, navigate]);
 
   return (
     <div className="container">
