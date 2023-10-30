@@ -12,7 +12,6 @@ import { loginWithGoogle } from "../../redux/Slices/loginGoogleSlice";
 
 function LandingPage() {
   const navigate = useNavigate();
-  const persist = useSelector(state => state.persistUser.location)
   const users = useSelector((state) => state.usersLogin.user);
   const { isAuthenticated, user } = useAuth0();
   const [containerLogin, setContainerLogin] = useState(false);
@@ -30,9 +29,9 @@ function LandingPage() {
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(loginWithGoogle(user.email))
-      navigate(persist)
+      navigate('/home')
     }
-  }, [dispatch, isAuthenticated, navigate, persist]);
+  }, [dispatch, isAuthenticated, navigate]);
 
   return (
     <div className="container">

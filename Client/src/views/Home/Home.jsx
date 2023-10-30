@@ -100,7 +100,7 @@ const Home = () => {
     if (isAuthenticated) {
       dispatch(fetchUserLoginWithGoogle({email: user.email}))
     }
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <div>
@@ -169,6 +169,9 @@ const Home = () => {
             color="primary"
             className={styles.spinButton}
             onClick={(e) => clearFilters(e)}
+            style={{
+              zIndex: '1',
+            }}
           >
             <IoMdRefresh style={{ fontSize: '2em' }} />
           </Fab>
@@ -188,6 +191,7 @@ const Home = () => {
                 price={ad.price}
                 profession={ad.profession}
                 image={ad.creator[0].image}
+                setContainerLogin={setContainerLogin}
               />
             ))}
           </div>
