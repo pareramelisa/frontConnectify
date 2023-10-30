@@ -1,8 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+const VITE_API_BASE = import.meta.env.VITE_API_BASE
 
 // const URL = `http://localhost:3001`;
-const URL = `https://connectifyback-dp-production.up.railway.app`;
+// const URL = `https://connectifyback-dp-production.up.railway.app`;
 
 export const clientSlice = createSlice({
   name: "clientSlice",
@@ -31,7 +32,7 @@ export default clientSlice.reducer;
 
 export const fetchClientsForAdmin = () => {
   return async (dispatch) => {
-    const endpoint = URL + `/client/`;
+    const endpoint = VITE_API_BASE + `/client/`;
     try {
       const response = await axios.get(endpoint);
       console.log(response.data);
@@ -46,7 +47,7 @@ export const fetchClientsForAdmin = () => {
 };
 export const deleteClientByIdAdmin = (id) => {
   return async (dispatch) => {
-    const endpoint = URL + `/client/${id}/delete`;
+    const endpoint = VITE_API_BASE + `/client/${id}/delete`;
     try {
       const deleted = await axios.patch(endpoint, id);
 
