@@ -22,6 +22,7 @@ import { locationUser } from '../../redux/Slices/persistSlice';
 import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import Comments from '../CommentsClient/CommentsClients';
 //import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const DetailAd = () => {
@@ -237,6 +238,7 @@ const DetailAd = () => {
           <div>No hay creadores disponibles.</div>
         )}
       </div>
+      <Comments />
     </div>
   );
 };
