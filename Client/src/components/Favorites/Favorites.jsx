@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Card, CardContent, Typography, Button, Grid, CardMedia, Box, IconButton } from '@mui/material';
 import { Link } from 'react-router-dom';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import Navbar from '../../components/Navbar/Navbar';
 
 const Favorites = () => {
   const [savedProfiles, setSavedProfiles] = useState([]);
@@ -36,7 +36,7 @@ const Favorites = () => {
 
   return (
     <div>
-    
+    <Navbar />
     <div style={{  justifyContent: 'center', padding:"5em" }}>
       <Typography variant="h4" component="h1">
         Perfiles Guardados

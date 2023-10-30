@@ -4,6 +4,7 @@ const favoritesSlice = createSlice({
   name: "favorites",
   initialState: {
     favoriteProfessionals: [],
+    favoriteCount: 0,
   },
   reducers: {
     addFavorite: (state, action) => {
@@ -14,12 +15,14 @@ const favoritesSlice = createSlice({
 
       if (!isFavorite) {
         state.favoriteProfessionals.push(action.payload);
+        state.favoriteCount += 1;
       }
     },
     removeFavorite: (state, action) => {
       state.favoriteProfessionals = state.favoriteProfessionals.filter(
         (prof) => prof._id !== action.payload._id
       );
+      state.favoriteCount -= 1;
     },
   },
 });

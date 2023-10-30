@@ -19,10 +19,11 @@ import { useLocation, useParams } from 'react-router-dom';
 import { fetchDetail } from '../../redux/Slices/detailSlice';
 import Navbar from '../Navbar/Navbar';
 import { locationUser } from '../../redux/Slices/persistSlice';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-//import NotificationsIcon from '@mui/icons-material/Notifications';
+import FavoritesNotification from '../FavoritesNotification/FavoritesNotifitation';
+import { addFavorite, removeFavorite } from '../../redux/Slices/favoritesSlice';
 
 const DetailAd = () => {
   const { id } = useParams();
@@ -30,9 +31,10 @@ const DetailAd = () => {
   const detail = useSelector((state) => state.detail);
   const location = useLocation()
  
-
+  const favorites = useSelector((state) => state.favorites.favoriteProfessionals);
   const [loading, setLoading] = useState(true);
-  const [isSaved, setIsSaved] = useState(false);
+  const isSaved = favorites.some((prof) => prof._id === id);
+    
 
   useEffect(() => {
     dispatch(fetchDetail(id)).then(() => {
@@ -44,42 +46,21 @@ const DetailAd = () => {
     dispatch(locationUser(location.pathname));
   }, [location]);
 
-  const isProfessionalInFavorites = (professionalId) => {
-    const savedProfile = localStorage.getItem(`favoritos-${professionalId}`);
-    return !!savedProfile;
-  };
 
   // Guardar los datos del profesional en el Local Storage
   const handleSaveOrRemoveProfile = () => {
     const localStorageKey = `favoritos-${id}`;
     if (isSaved) {
       localStorage.removeItem(localStorageKey);
+      dispatch(removeFavorite(detail.detail));
     } else {
       localStorage.setItem(localStorageKey, JSON.stringify(detail.detail));
+      dispatch(addFavorite(detail.detail));
 
-      // Emite un evento personalizado para notificar cambios en favoritos
-      const event = new Event('favoritesChanged');
-      window.dispatchEvent(event);
     }
-
-    setIsSaved(!isSaved);
   };
 
-  useEffect(() => {
-    const savedProfile = localStorage.getItem(`favoritos-${id}`);
-    console.log(`Favoritos guardados:${savedProfile}`);
-    setIsSaved(!!savedProfile); // Establecer el estado en función de si se encuentra en localStorage
-  }, []);
 
-  const savedProfileKeys = Object.keys(localStorage);
-
-  useEffect(() => {
-    // Verificar la cantidad de perfiles guardados en el localStorage
-    const count = savedProfileKeys.filter((key) =>
-      key.startsWith('favoritos-')
-    ).length;
-    setIsSaved(count > 0);
-  }, []);
 
   return (
     <div>
@@ -108,27 +89,8 @@ const DetailAd = () => {
                   >
                     {isSaved ? <FavoriteIcon /> : <FavoriteBorderIcon />}
                   </Button>
-                  <Badge
-                    badgeContent={
-                      savedProfileKeys.filter((key) =>
-                        key.startsWith('favoritos-')
-                      ).length
-                    }
-                    color="secondary"
-                  >
-                    <Link
-                      to="/client/favorites"
-                      style={{ textDecoration: 'none' }}
-                    >
-                      <Button
-                        variant="outlined" // Esto establece el botón con borde
-                        sx={{ margin: '0px' }}
-                      >
-                        Ver mis Favoritos{' '}
-                        <FavoriteBorderIcon sx={{ fontSize: 20 }} />
-                      </Button>
-                    </Link>
-                  </Badge>
+ 
+               <FavoritesNotification/>
                 </Box>
               </Grid>
 
