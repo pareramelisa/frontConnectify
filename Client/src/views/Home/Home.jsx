@@ -100,7 +100,7 @@ const Home = () => {
     if (isAuthenticated) {
       dispatch(fetchUserLoginWithGoogle({email: user.email}))
     }
-  }, []);
+  }, [isAuthenticated]);
 
   return (
     <div>

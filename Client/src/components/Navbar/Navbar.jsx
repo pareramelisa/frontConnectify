@@ -13,20 +13,21 @@ import MenuItem from "@mui/material/MenuItem";
 import logo from "../../assets/connectify.svg";
 import "./Navbar.css";
 import { useAuth0 } from "@auth0/auth0-react";
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/Slices/loginSlice";
 
+const settings = ["Dashboard", "Logout"];
 
-const settings = ["Dashboard", "Profile", "Logout"];
-
-function ResponsiveAppBar({setContainerLogin}) {
+function ResponsiveAppBar({ setContainerLogin }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  
-  const users = useSelector((state) => state.usersLogin.user);
-  const dispatch = useDispatch()
 
-  const {user, logout, isAuthenticated } = useAuth0();
+  const users = useSelector((state) => state.usersLogin.user);
+  const dispatch = useDispatch();
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const { user, logout, isAuthenticated } = useAuth0();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -37,45 +38,58 @@ function ResponsiveAppBar({setContainerLogin}) {
   };
 
   const handleAvatarButton = async (e) => {
-    const text = e.target.textContent
+    const text = e.target.textContent;
 
-    if (text === 'Logout') {
-      await dispatch(logoutUser())
+    if (text === "Logout") {
+      await dispatch(logoutUser());
     }
 
-    if (text === 'Logout') {
-      logout()
+    if (text === "Logout") {
+      logout();
     }
-  }
-
-  const handlerButtonLogin =  () => {
-    setContainerLogin(true);
-    
   };
 
-
+  const handlerButtonLogin = () => {
+    setContainerLogin(true);
+  };
 
   return (
-    <AppBar position="static" style={{marginBottom: '1.5rem'}}>
+    <AppBar position="static" style={{ marginBottom: "1.5rem" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <div className="containerNav">
             <Link to="/">
-            <img src={logo} alt="" className="logoNav" />
+              <img src={logo} alt="" className="logoNav" />
             </Link>
             <Box
               sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
             ></Box>
             <Box sx={{ flexGrow: 0 }}>
               {isAuthenticated || users.name ? (
-                <Tooltip title="Open settings">
-                  <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar
-                      alt="Remy Sharp"
-                      src={user ? user.picture : users ? users.image : null}
-                    />
-                  </IconButton>
-                </Tooltip>
+                <div>
+                  {
+                    (location.pathname !== "/home") &&(
+                    <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => navigate('/home')}
+                    style={{
+                      marginRight: '1rem'
+                    }}
+                  >
+                    Home
+                  </Button>
+                  )}
+                  
+                  <Tooltip title="Open settings">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <Avatar
+                        alt="Remy Sharp"
+                        src={user ? user.picture : users ? users.image : null}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                </div>
               ) : (
                 <Button
                   variant="contained"
@@ -105,7 +119,9 @@ function ResponsiveAppBar({setContainerLogin}) {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Button textalign="center" onClick={handleAvatarButton}>{setting}</Button>
+                    <Button textalign="center" onClick={handleAvatarButton}>
+                      {setting}
+                    </Button>
                   </MenuItem>
                 ))}
               </Menu>
