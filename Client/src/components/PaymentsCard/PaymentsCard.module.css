@@ -1,0 +1,20 @@
+.contentAll{
+    border: 1px solid grey;
+    border-radius: 10px;
+    background-color: rgb(207, 217, 218);
+    display: grid;
+    grid-template-columns: 14rem 10rem 10rem 10rem;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+}
+img{
+    width: 6rem;
+}
+.roundMask {
+    width: 6rem; 
+    height: 6rem;
+    border-radius: 50%;
+    overflow: hidden; 
+    margin-left: 1rem;
+  }
