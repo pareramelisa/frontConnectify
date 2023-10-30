@@ -6,6 +6,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchUserRegister } from "../../redux/Slices/registerSlice";
 import style from "./register.module.css";
+import TextField from '@mui/material/TextField';
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
+import { InputLabel } from "@mui/material";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -45,7 +49,7 @@ const Registration = () => {
 
   const renderPasswordToggle = () => (
     <button type="button" onClick={handleHidePassword}>
-      {passwordType ? "Hide" : "Show"}
+      {passwordType ? <Visibility style={{ fontSize: 18 }} /> : <VisibilityOff style={{ fontSize: 18 }}/>}
     </button>
   );
   const handleHidePassword = () => {
@@ -80,7 +84,7 @@ const Registration = () => {
       if (response === "Successfully registered client.") {
         alert(response);
         localStorage.removeItem("clientRegisterData");
-        navigate("/login");
+        navigate("/home");
       } else {
         if (response) {
           alert(response);
@@ -96,7 +100,7 @@ const Registration = () => {
         if (response === "Profesional registrado exitosamente") {
           alert(response);
           localStorage.removeItem("clientRegisterData");
-          navigate("/login");
+          navigate("/home");
         } else {
           if (response) {
             alert(response);
@@ -218,9 +222,10 @@ const Registration = () => {
   };
 
   return (
-    <div>
+    <div style={{ columns: "1", columnGap: '.5rem', padding: '10rem', justifyContent: 'center', alignItems: 'center', breakInside: 'avoid', width: 'min-content' }}>
       <form onSubmit={(e) => handleSubmit(e)}>
-        <label htmlFor="name">Nombre</label>
+      <div style={{ padding: '5px'}}>
+        <InputLabel htmlFor="name">Nombre</InputLabel>
         <input
           type="text"
           name="name"
@@ -228,7 +233,9 @@ const Registration = () => {
           onChange={handleChange}
           placeholder="Nombre"
         />
-        <label htmlFor="lastName">Apellido</label>
+         </div>
+         <div style={{ padding: '5px'}}>
+        <InputLabel htmlFor="lastName">Apellido</InputLabel>
         <input
           type="text"
           name="lastName"
@@ -236,7 +243,9 @@ const Registration = () => {
           onChange={handleChange}
           placeholder="Apellido"
         />
-        <label htmlFor="userName">Nombre de Usuario</label>
+        </div>
+        <div style={{ padding: '5px'}}>
+        <InputLabel htmlFor="userName">Nombre de Usuario</InputLabel>
         <input
           type="text"
           name="userName"
@@ -244,7 +253,9 @@ const Registration = () => {
           onChange={handleChange}
           placeholder="Nombre de Usuario"
         />
-        <label htmlFor="email">Email :</label>
+        </div>
+        <div style={{ padding: '5px'}}>
+        <InputLabel htmlFor="email">Email :</InputLabel>
         <input
           type="email"
           name="email"
@@ -252,8 +263,9 @@ const Registration = () => {
           onChange={handleChange}
           placeholder="Email"
         />
-        <div>
-          <label htmlFor="password">Contraseña: </label>
+        </div>
+        <div style={{ padding: '5px'}}>
+          <InputLabel htmlFor="password">Contraseña: </InputLabel>
           <input
             type={passwordType ? "text" : "password"}
             value={clientRegister.password}
@@ -263,9 +275,9 @@ const Registration = () => {
           />
           {renderPasswordToggle()}
         </div>
-        <div>
-          <h2>Drirección</h2>
-          <label htmlFor="province">Provincia</label>
+        <div style={{ padding: '5px'}}>
+          <h2>Dirección</h2>
+          <InputLabel htmlFor="province">Provincia</InputLabel>
           <input
             type="text"
             name="province"
@@ -273,7 +285,8 @@ const Registration = () => {
             onChange={handleChange}
             placeholder="Provincia"
           />
-          <label htmlFor="location">Localidad</label>
+          <div style={{ padding: '5px'}}></div>
+          <InputLabel htmlFor="location">Localidad</InputLabel> 
           <input
             type="text"
             name="location"
@@ -286,7 +299,7 @@ const Registration = () => {
           <div>
             <div>
               <h2>Area de trabajo</h2>
-              <label htmlFor="provinceJob">Provincia</label>
+              <InputLabel htmlFor="provinceJob">Provincia</InputLabel>
               <input
                 type="text"
                 name="provinceJob"
@@ -294,7 +307,8 @@ const Registration = () => {
                 onChange={handleChange}
                 placeholder="Provincia"
               />
-              <label htmlFor="locationJob">Localidad</label>
+              <div style={{ padding: '5px'}}></div>
+              <InputLabel htmlFor="locationJob">Localidad</InputLabel>
               <input
                 type="text"
                 name="locationJob"
@@ -303,7 +317,8 @@ const Registration = () => {
                 placeholder="Localidad"
               />
             </div>
-            <label htmlFor="profession">Profesión</label>
+            <div style={{ padding: '5px'}}></div>
+            <InputLabel htmlFor="profession">Profesión</InputLabel>
             <input
               type="text"
               name="profession"
@@ -311,7 +326,8 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="profesión"
             />
-            <label htmlFor="description">Descripción</label>
+            <div style={{ padding: '5px'}}></div>
+            <InputLabel htmlFor="description">Descripción</InputLabel>
             <input
               type="text"
               name="description"
@@ -319,7 +335,8 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="descripción"
             />
-            <label htmlFor="remoteWork">Trabajo Remoto</label>
+            <div style={{ padding: '5px'}}></div>
+            <InputLabel htmlFor="remoteWork">Trabajo Remoto</InputLabel>
             <input
               type="checkbox"
               // id="myCheckbox"
@@ -329,7 +346,8 @@ const Registration = () => {
             />
           </div>
         )}
-        <label htmlFor="image">Imagen</label>
+        <div style={{ padding: '5px'}}></div>
+        <InputLabel htmlFor="image">Imagen</InputLabel>
         <input
           type="file"
           accept="image/*"
@@ -354,7 +372,7 @@ const Registration = () => {
                 marginBottom: "20px",
               }}
             >
-              Submit
+              Enviar formulario
             </button>
           )}
           {areAllClienFieldsCompleted() && ifClientRoute && (
@@ -367,7 +385,7 @@ const Registration = () => {
                 marginBottom: "20px",
               }}
             >
-              Submit
+              Enviar formulario
             </button>
           )}
         </div>
