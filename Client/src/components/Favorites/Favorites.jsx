@@ -71,16 +71,11 @@ const Favorites = () => {
               <Grid container spacing={2}>
                 <Grid item xs={12} sm={6} md={2}>
                   <Box display="flex" justifyContent='space-between'>
-                    <IconButton
-                      onClick={() => {
-                        const profileKey = `favoritos-${profile._id}`;
-                        localStorage.removeItem(profileKey);
-
-                        // Emite un evento personalizado para notificar cambios en favoritos
-                        const event = new Event('favoritesChanged');
-                        window.dispatchEvent(event);
-                      }}
-                    >
+                  <IconButton
+                    onClick={() => {
+                      handleRemoveFavorite(profile);
+                    }}
+                  >
                       <DeleteIcon color="error" />
                     </IconButton>
                   </Box>
