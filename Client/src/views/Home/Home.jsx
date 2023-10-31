@@ -3,6 +3,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
+import IconButton from '@mui/material/IconButton'
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
 import Fab from '@mui/material/Fab';
 import { IoMdRefresh } from 'react-icons/io';
 import { MdPersonSearch } from 'react-icons/md';
@@ -33,6 +35,7 @@ const Home = () => {
   const [priceRange, setPriceRange] = useState([1000, 10000]);
   const [profession, setProfession] = useState('');
   const [locationProf, setLocationProf] = useState('');
+  const [popUpLogin, setPopUpLogin] = useState(false);
 
   //* Estados globales
   const adsFiltered = useSelector(state => state.ads.adsFiltered);
@@ -100,12 +103,58 @@ const Home = () => {
     if (isAuthenticated) {
       dispatch(fetchUserLoginWithGoogle({email: user.email}))
     }
-  }, [isAuthenticated]);
+  }, []);
+
+  const handlerCloseLoginPopUp = () => {
+    setPopUpLogin(false);
+  } 
 
   return (
     <div>
       <Navbar setContainerLogin={setContainerLogin} />
-      {containerLogin ? <Login setContainerLogin={setContainerLogin} /> : null}
+      {containerLogin ? <Login setContainerLogin={setContainerLogin} setPopUpLogin={setPopUpLogin}/> : null}
+      {popUpLogin && (
+            <div
+              style={{
+                position:'absolute',
+                width: "25rem",
+                height: "10rem",
+                top: '38%',
+                left: '36%',
+                border: "2px solid black",
+                borderRadius: "20px",
+                display: "flex",
+                justifyContent: "space-around",
+                alignItems: "center",
+                backgroundColor: "rgba(255,255,255,0.9)",
+                zIndex: '1000'
+              }}
+            >
+              <IconButton
+                disableElevation
+                style={{
+                  position: "absolute",
+                  top: "5px",
+                  right: "5px",
+                  color: "#000000",
+                  fontWeight: "bold",
+                }}
+                onClick={handlerCloseLoginPopUp}
+              >
+                <CancelRoundedIcon />
+              </IconButton>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <h3>Email y/o Password incorrectos</h3>
+              </div>
+            </div>
+          )}
       <div className={styles.filterStyle}>
         <div>
           <FormControl sx={{ m: 1, minWidth: 140, maxWidth: 200 }}>
