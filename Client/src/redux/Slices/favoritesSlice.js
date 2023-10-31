@@ -22,7 +22,11 @@ const favoritesSlice = createSlice({
       state.favoriteProfessionals = state.favoriteProfessionals.filter(
         (prof) => prof._id !== action.payload._id
       );
-      state.favoriteCount -= 1;
+      if (state.favoriteCount > 1) {
+        state.favoriteCount -= 1;
+      } else {
+        state.favoriteCount = 0;
+      }
     },
   },
 });
