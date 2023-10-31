@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-catch */
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-const VITE_API_BASE = import.meta.env.VITE_API_BASE
+const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost'
 
 // Define una función asincrónica para crear un comentario
 export const postComment = createAsyncThunk(
