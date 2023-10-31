@@ -40,12 +40,15 @@ export const fetchUserLogin = (form) => {
 
     console.log(endpoint);
     console.log(form);
-
     try {
       const { data } = await axios.get(endpoint);
-      dispatch(loginUser(data));
+      console.log(data);
+      if (data.name) {
+        dispatch(loginUser(data));
+        return { access: true };
+      }
     } catch (error) {
-      console.log(error);
+      return { access: false };
     }
   };
 };

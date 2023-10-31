@@ -22,6 +22,8 @@ import { locationUser } from '../../redux/Slices/persistSlice';
 import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
 //import NotificationsIcon from '@mui/icons-material/Notifications';
 
 const DetailAd = () => {
@@ -81,7 +83,7 @@ const DetailAd = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar  savedProfileKeys={savedProfileKeys}/>
       <div className="principal">
         {loading ? (
           <div
@@ -97,16 +99,16 @@ const DetailAd = () => {
                 <Box display="flex" justifyContent="space-between" width="100%">
                   <Button
                     sx={{
-                      backgroundColor: isSaved ? '#3B7BA4' : '#D9D9D9',
+                      backgroundColor: isSaved ? '#D9D9D9': '#3B7BA4',
                       alignItems: 'center',
                       justifyContent: 'center',
                     }}
                     variant="contained"
                     onClick={handleSaveOrRemoveProfile}
                   >
-                    {isSaved ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                    {isSaved ? <StarBorderIcon /> : <StarIcon />}
                   </Button>
-                  <Badge
+                  {/* <Badge
                     badgeContent={
                       savedProfileKeys.filter((key) =>
                         key.startsWith('favoritos-')
@@ -126,7 +128,7 @@ const DetailAd = () => {
                         <FavoriteBorderIcon sx={{ fontSize: 20 }} />
                       </Button>
                     </Link>
-                  </Badge>
+                  </Badge> */}
                 </Box>
               </Grid>
 

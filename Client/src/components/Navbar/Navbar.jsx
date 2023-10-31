@@ -16,8 +16,10 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/Slices/loginSlice";
+import BookIcon from '@mui/icons-material/Book';
+import FolderSpecialIcon from '@mui/icons-material/FolderSpecial';
 
-const settings = ["Dashboard", "Logout"];
+const settings = ["Perfil", "Logout"];
 
 function ResponsiveAppBar({ setContainerLogin }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -80,7 +82,16 @@ function ResponsiveAppBar({ setContainerLogin }) {
                     Home
                   </Button>
                   )}
-                  
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => navigate('/client/favorites')}
+                    style={{
+                      marginRight: '1rem'
+                    }}
+                  >
+                    <FolderSpecialIcon></FolderSpecialIcon>
+                  </Button>
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar
