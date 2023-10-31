@@ -11,6 +11,9 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { InputLabel } from "@mui/material";
 import * as validations from "./ValidationsRegister";
+import NavBarDemo2 from '../NavBarDemo2/NavBarDemo2'
+import Footer from '../../components/Footer/Footer';
+import ImageOverlay from './imagenLado';
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -239,7 +242,11 @@ const Registration = () => {
   };
 
   return (
-    <div style={{ columns: "1", columnGap: '.5rem', padding: '10rem', justifyContent: 'center', alignItems: 'center', breakInside: 'avoid', width: 'min-content' }}>
+    <div>
+      <NavBarDemo2/>
+      
+    <div style={{ columns: "2", columnGap: '6rem', padding: '0rem 8rem 6rem 12rem', justifyContent: 'center', alignItems: 'center', breakInside: 'avoid', width: 'min-content' }}>
+    
       <form onSubmit={(e) => handleSubmit(e)}>
       <div style={{ padding: '5px'}}>
         <InputLabel htmlFor="name">Nombre</InputLabel>
@@ -373,13 +380,13 @@ const Registration = () => {
           onChange={handleImageUpload}
         />
         {errorMessages.image && <div style={{ color: "red" }}>{errorMessages.image}</div>}
-        {clientRegister.image && (
+        {/* {clientRegister.image && (
           <img
             src={clientRegister.image}
             alt="Uploaded Image"
             style={{ maxWidth: "100px" }}
           />
-        )}
+        )} */}
         <div>
           {areAllProfFieldsCompleted() && (
             <button
@@ -409,6 +416,12 @@ const Registration = () => {
           )}
         </div>
       </form>
+      <ImageOverlay />
+    </div>
+
+
+    <Footer />
+
     </div>
   );
 };
