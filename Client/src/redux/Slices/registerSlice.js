@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-const VITE_API_BASE = import.meta.env.VITE_API_BASE
+const VITE_API_BASE = import.meta.env.VITE_API_BASE;
 
 export const userRegisterSlice = createSlice({
   name: "usersRegister",
@@ -24,7 +24,7 @@ export default userRegisterSlice.reducer;
 export const fetchUserRegister = (userData, type) => {
   return async (dispatch) => {
     if (type === "client") {
-      const endpoint = `${VITE_API_BASE}/client/register`
+      const endpoint = `${VITE_API_BASE}/client/register`;
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
@@ -32,10 +32,9 @@ export const fetchUserRegister = (userData, type) => {
         return data.message;
       } catch (error) {
         console.log(error);
-        return "Revice los datos ingresados";
+        return "Revise los datos ingresados";
       }
     } else if (type === "professional") {
-
       const endpoint = `${VITE_API_BASE}/professional/register`;
 
       try {
@@ -44,7 +43,7 @@ export const fetchUserRegister = (userData, type) => {
         return data.message;
       } catch (error) {
         console.log(error);
-        return "Revice los datos ingresados.";
+        return "Revise los datos ingresados.";
       }
     }
   };

@@ -25,8 +25,7 @@ const ProfsForAdmin = () => {
   const deletedClient = useSelector((state) => state.clients.deleted.data);
   const deletedAd = useSelector((state) => state.ads.deleted);
 
-  // console.log(deletedAd);
-  console.log(deletedProf);
+  // console.log(deletedProf);
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,7 +41,6 @@ const ProfsForAdmin = () => {
   }, []);
 
   const handleDelete = async (e, prof) => {
-    // e.preventDefault();
     if (!prof.profession) {
       try {
         const banned = await dispatch(deleteClientByIdAdmin(prof._id));
@@ -51,7 +49,6 @@ const ProfsForAdmin = () => {
         setSelectedData(update);
       } catch (error) {}
     } else if (prof.creator) {
-      console.log(prof);
       try {
         const banned = await dispatch(deleteAdByIdAdmin(prof._id));
         const update = await dispatch(fetchAdsForAdmin());
@@ -72,10 +69,8 @@ const ProfsForAdmin = () => {
     if (e === "professionals") setSelectedData(professionals);
     if (e === "clients") setSelectedData(clients);
     if (e === "ads") setSelectedData(ads);
-    // setUserType(e.target.value);
   };
   const [selectedData, setSelectedData] = useState(professionals);
-  // let selectedData = userType === "professionals" ? professionals : clients;
 
   const uniqueProfessions = new Set();
   professionals.forEach((item) => {
@@ -84,9 +79,8 @@ const ProfsForAdmin = () => {
     });
   });
   const profession = Array.from(uniqueProfessions);
-  // let toScrub = [];
+
   const handleSelentProfession = (e) => {
-    // console.log(e.target.value);
     if (e.target.value === "Todas las Profesiones") {
       setSelectedData(professionals);
     } else {
@@ -94,7 +88,7 @@ const ProfsForAdmin = () => {
       const toScrub = professionals.filter(
         (prof) => prof.profession == profClass
       );
-      // console.log(toScrub);
+
       setSelectedData(toScrub);
     }
   };
@@ -104,19 +98,35 @@ const ProfsForAdmin = () => {
       const update = [];
       await Promise.all(
         selectedData.map(async (prof) => {
-          console.log(prof._id);
-          await dispatch(deleteProfByIdAdmin(prof._id));
+          if (prof.isDeleted) update.push(prof);
+          if (!prof.isDeleted) {
+            const banned = await dispatch(deleteProfByIdAdmin(prof._id));
+            await dispatch(fetchProfsForAdmin());
+            console.log("ID del profecional a bannear", banned);
 
-          console.log(deletedProf);
-          console.log("ID del profecional a bannear", deletedProf);
-          update.push(deletedProf);
-          console.log(update);
+            update.push(banned.data);
+          }
         })
       );
+      setSelectedData(update);
+    } catch (error) {}
+  };
+  const handleUnbanProf = async () => {
+    try {
+      const update = [];
+      await Promise.all(
+        selectedData.map(async (prof) => {
+          if (!prof.isDeleted) update.push(prof);
+          if (prof.isDeleted) {
+            const banned = await dispatch(deleteProfByIdAdmin(prof._id));
+            await dispatch(fetchProfsForAdmin());
+            console.log("ID del profecional a bannear", banned);
 
-      // setTimeout(async () => {}, 3000);
-      await dispatch(fetchAdsForAdmin());
-      setSelectedData(professionals);
+            update.push(banned.data);
+          }
+        })
+      );
+      setSelectedData(update);
     } catch (error) {}
   };
 
@@ -150,7 +160,14 @@ const ProfsForAdmin = () => {
         )}
         {selectedData.length !== professionals.length &&
           selectedData[0].locationJob && (
-            <button onClick={(e) => handleBanProf(e)}>Bannear Profesión</button>
+            <div>
+              <button onClick={(e) => handleBanProf(e)}>
+                Bannear Profesión
+              </button>
+              <button onClick={(e) => handleUnbanProf(e)}>
+                Unbannear Profesión
+              </button>
+            </div>
           )}
       </div>
       {selectedData.length > 0 ? (

@@ -12,11 +12,23 @@ export const fetchAds = createAsyncThunk("ads/fetchAds", async () => {
 
 const adsSlice = createSlice({
   name: "ads",
-  initialState: { ads: [], adsFiltered: [], status: "idle", error: null },
+  initialState: {
+    ads: [],
+    deleted: {},
+    adsFiltered: [],
+    status: "idle",
+    error: null,
+  },
   reducers: {
     applyFilters: (state, action) => {
       // Aquí actualizas el estado adsFiltered con los filtros aplicados
       state.adsFiltered = action.payload;
+    },
+    getAllAds: (state, action) => {
+      state.ads = action.payload;
+    },
+    deleteAd: (state, action) => {
+      state.deleted = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -37,7 +49,7 @@ const adsSlice = createSlice({
 });
 
 export const selectAds = (state) => state.ads.ads;
-export const { applyFilters } = adsSlice.actions;
+export const { applyFilters, getAllAds, deleteAd } = adsSlice.actions;
 export default adsSlice.reducer;
 
 export const fetchAdsForAdmin = () => {
