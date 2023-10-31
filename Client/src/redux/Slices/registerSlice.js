@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-const URL = `https://connectifyback-dp-production.up.railway.app`;
-// const URL = `http://localhost:3001`;
+const VITE_API_BASE = import.meta.env.VITE_API_BASE
 
 export const userRegisterSlice = createSlice({
   name: "usersRegister",
@@ -25,7 +24,7 @@ export default userRegisterSlice.reducer;
 export const fetchUserRegister = (userData, type) => {
   return async (dispatch) => {
     if (type === "client") {
-      const endpoint = URL + `/client/register`;
+      const endpoint = `${VITE_API_BASE}/client/register`
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
@@ -36,7 +35,8 @@ export const fetchUserRegister = (userData, type) => {
         return "Revice los datos ingresados";
       }
     } else if (type === "professional") {
-      const endpoint = URL + `/professional/register`;
+
+      const endpoint = `${VITE_API_BASE}/professional/register`;
 
       try {
         const { data } = await axios.post(endpoint, userData);
@@ -53,7 +53,7 @@ export const fetchUserRegister = (userData, type) => {
 export const fetchUserDelete = (id, userData, type) => {
   return async (dispatch) => {
     if (type === "client") {
-      const endpoint = URL + `/client/${id}/delete`;
+      const endpoint = `${VITE_API_BASE}/client/${id}/delete`;
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
@@ -61,7 +61,7 @@ export const fetchUserDelete = (id, userData, type) => {
         console.log(error);
       }
     } else if (type === "professional") {
-      const endpoint = URL + `/professional/${id}/delete`;
+      const endpoint = `${VITE_API_BASE}/professional/${id}/delete`;
       try {
         const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));

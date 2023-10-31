@@ -19,21 +19,28 @@ import { useLocation, useParams } from 'react-router-dom';
 import { fetchDetail } from '../../redux/Slices/detailSlice';
 import Navbar from '../Navbar/Navbar';
 import { locationUser } from '../../redux/Slices/persistSlice';
-import { Link } from 'react-router-dom';
+//import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 //import NotificationsIcon from '@mui/icons-material/Notifications';
+
+import FavoritesNotification from '../FavoritesNotification/FavoritesNotifitation';
+import { addFavorite, removeFavorite } from '../../redux/Slices/favoritesSlice';
+
 
 const DetailAd = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
-  const location = useLocation();
-  const [isSaved, setIsSaved] = useState(false); // Agregamos el estado para controlar si se ha guardado el perfil
-
+  const location = useLocation()
+ 
+  const favorites = useSelector((state) => state.favorites.favoriteProfessionals);
   const [loading, setLoading] = useState(true);
+  const isSaved = favorites.some((prof) => prof._id === id);
+    
 
   useEffect(() => {
     dispatch(fetchDetail(id)).then(() => {
@@ -43,43 +50,23 @@ const DetailAd = () => {
 
   useEffect(() => {
     dispatch(locationUser(location.pathname));
-  }, []);
+  }, [location]);
+
 
   // Guardar los datos del profesional en el Local Storage
   const handleSaveOrRemoveProfile = () => {
     const localStorageKey = `favoritos-${id}`;
     if (isSaved) {
-      // Eliminar el perfil de favoritos (usando la clave adecuada)
       localStorage.removeItem(localStorageKey);
+      dispatch(removeFavorite(detail.detail));
     } else {
-      // Guardar el perfil como favorito (usando la clave adecuada)
       localStorage.setItem(localStorageKey, JSON.stringify(detail.detail));
+      dispatch(addFavorite(detail.detail));
 
-      // Emite un evento personalizado para notificar cambios en favoritos
-      const event = new Event('favoritesChanged');
-      window.dispatchEvent(event);
     }
-
-    // Actualizar el estado `isSaved` para reflejar si el perfil está guardado o no
-    setIsSaved(!isSaved);
   };
 
-  useEffect(() => {
-    // Verificar si el perfil ya está guardado en el localStorage
-    const savedProfile = localStorage.getItem(`favoritos-${id}`);
-    console.log(`Favoritos guardados:${savedProfile}`);
-    setIsSaved(!!savedProfile); // Establecer el estado en función de si se encuentra en localStorage
-  }, []);
 
-  const savedProfileKeys = Object.keys(localStorage);
-
-  useEffect(() => {
-    // Verificar la cantidad de perfiles guardados en el localStorage
-    const count = savedProfileKeys.filter((key) =>
-      key.startsWith('favoritos-')
-    ).length;
-    setIsSaved(count > 0);
-  }, []);
 
   return (
     <div>
@@ -108,6 +95,7 @@ const DetailAd = () => {
                   >
                     {isSaved ? <StarBorderIcon /> : <StarIcon />}
                   </Button>
+
                   {/* <Badge
                     badgeContent={
                       savedProfileKeys.filter((key) =>
@@ -129,6 +117,10 @@ const DetailAd = () => {
                       </Button>
                     </Link>
                   </Badge> */}
+
+ 
+               <FavoritesNotification/>
+
                 </Box>
               </Grid>
 
