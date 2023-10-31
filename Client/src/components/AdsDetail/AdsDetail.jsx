@@ -70,7 +70,7 @@ const DetailAd = () => {
 
   return (
     <div>
-      <Navbar  savedProfileKeys={savedProfileKeys}/>
+      <Navbar />
       <div className="principal">
         {loading ? (
           <div
