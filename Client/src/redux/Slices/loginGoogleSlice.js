@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-const VITE_API_BASE = import.meta.env.VITE_API_BASE
+const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost'
 
 // Setea el estado de usuario cuando hacen login o logout
 export const loginWithGoogleSlice = createSlice({
