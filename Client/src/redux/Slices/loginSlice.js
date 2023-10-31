@@ -7,7 +7,7 @@ console.log(VITE_API_BASE);
 export const userLoginSlice = createSlice({
   name: "usersLogin",
   initialState: {
-    user: [],
+    user: [], 
   },
   reducers: {
     loginUser: (state, action) => {
