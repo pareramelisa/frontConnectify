@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginWithGoogle } from "../../redux/Slices/loginGoogleSlice";
 import IconButton from '@mui/material/IconButton'
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+import photo from "../../assets/backgroundLanding.gif";
 
 function LandingPage() {
   const navigate = useNavigate();
@@ -41,6 +42,16 @@ function LandingPage() {
   };
 
   return (
+    <div style={{
+      position: 'absolute',
+      width: '100%',
+      height: '130vh',
+      background: `url(${photo})`, // Establece la imagen de fondo
+      backgroundPosition: 'right', // Alinea la imagen hacia la derecha
+      backgroundSize: 'cover', // Escala la imagen para cubrir todo el div
+      justifyContent: 'center', // Centra horizontalmente
+    alignItems: 'center', 
+    }}>
     <div className="container">
       {containerLogin ? (
         <div
@@ -135,6 +146,7 @@ function LandingPage() {
           Ir a Login
         </Button>
       )}
+    </div>
     </div>
   );
 }
