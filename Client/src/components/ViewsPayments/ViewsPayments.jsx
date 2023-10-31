@@ -8,7 +8,7 @@ import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
 
 import Navbar from "../Navbar/Navbar";
-import PaymentsCard from "../paymentsCard/PaymentsCard";
+import PaymentsCard from "../PaymentsCard/PaymentsCard.jsx";
 
 function ViewsPayments() {
   const { user, isAuthenticated } = useAuth0();
