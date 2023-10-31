@@ -1,14 +1,14 @@
-import React from "react";
-import style from "./ViewsPayments.module.css";
-const VITE_API_BASE = import.meta.env.VITE_API_BASE;
-import { useSelector } from "react-redux";
-import { useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import { useAuth0 } from "@auth0/auth0-react";
+import React from 'react'
+import style from './ViewsPayments.module.css';
+const VITE_API_BASE = import.meta.env.VITE_API_BASE
+import { useSelector } from 'react-redux';
+import { useLocation } from 'react-router-dom';
+import PaymentsCard from '../PaymentsCard/PaymentsCard';
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useAuth0 } from '@auth0/auth0-react';
 
 import Navbar from "../Navbar/Navbar";
-import PaymentsCard from "../PaymentsCard/PaymentsCard.jsx";
 
 function ViewsPayments() {
   const { user, isAuthenticated } = useAuth0();
