@@ -1,6 +1,6 @@
 import React from 'react'
 import style from './ViewsPayments.module.css';
-
+const VITE_API_BASE = import.meta.env.VITE_API_BASE
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import PaymentsCard from '../paymentsCard/PaymentsCard';
@@ -49,12 +49,12 @@ function ViewsPayments () {
             const fetchData = async () => {
                 try {
                     //Veo si ya existe el ID de pago para evitar copias
-                    const checkPayment = await axios.get(`http://localhost:3001/payments/check/${valuesMP.paymentIDD}`);
+                    const checkPayment = await axios.get(VITE_API_BASE + `/payments/check/${valuesMP.paymentIDD}`);
                     if (checkPayment.data.exists) {
                         searchData();
                     } else {
 
-                        const response = await axios.post("http://localhost:3001/payments/register", {
+                        const response = await axios.post(VITE_API_BASE + `/payments/register`, {
                             professionalId: professionalID,  
                             paymentID: valuesMP.paymentIDD,
                             userName: userName,
@@ -79,7 +79,7 @@ function ViewsPayments () {
     // Leyendo datos por userName de la DB -----------------------------------------------------
     const searchData = async () => {
             try {
-                const resp = await axios.get(`http://localhost:3001/payments/search/${userName}`);
+                const resp = await axios.get(VITE_API_BASE + `/payments/search/${userName}`);
                 setPaymentData(resp.data); 
                 
             } catch (error) {
