@@ -1,12 +1,14 @@
-import { Routes, Route } from 'react-router-dom';
-import Landing from './components/Landing/Landing';
-import Home from './views/Home/Home';
-import CreateAdForm from './components/CreateAds/createAds';
-import Detail from './components/AdsDetail/AdsDetail';
-import Registration from './components/register/register';
-import Favortites from './components/Favorites/Favorites';
-import DashboardAdmin from './views/DashboardAdmin/DashboardAdmin';
-import DashboardProf from './views/DashboardProf/DashboardProf';
+import { Routes, Route } from "react-router-dom";
+import Landing from "./components/Landing/Landing";
+import Home from "./views/Home/Home";
+import CreateAdForm from "./components/CreateAds/createAds";
+import Detail from "./components/AdsDetail/AdsDetail";
+import Registration from "./components/register/register";
+import Favortites from "./components/Favorites/Favorites"
+import DashboardAdmin from "./views/DashboardAdmin/DashboardAdmin";
+import DashboardProf from "./views/DashboardProf/DashboardProf";
+import Payments from './components/ViewsPayments/ViewsPayments';
+
 import Chat from './components/Chat/Chat';
 
 function App() {
@@ -21,6 +23,7 @@ function App() {
             element={<DashboardProf />}
           />
           <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/payments/:id" element={<Payments/>} />
           <Route
             path="/professional/dashboardProf/createAds"
             element={<CreateAdForm />}

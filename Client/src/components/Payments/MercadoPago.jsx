@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 const PUBLIC_KEY = "TEST-50156f30-252b-4623-bbba-ed453620d49f";
 
 
-function mercadoPago({price, description}) {
+function mercadoPago({price, description, userData, detail}) {
 
     const [preferenceId, setPreferenceId] = useState(null);
     const [descriptionBuy, setDescriptionBuy] = useState("Gracias por la compra!")
@@ -19,7 +19,11 @@ function mercadoPago({price, description}) {
     const [cargandoSiNo, setCargandoSiNo] = useState("");
     const [walletVisible, setWalletVisible] = useState(false);
 
-    const detail = useSelector((state) => state.detail);
+    const [userDataOk, setUserDataOk] = useState(null);
+    const [detailProf, setDetailProf] = useState(null);
+
+    // const detailPr = detail;
+
 
 
     useEffect(() => {
@@ -32,7 +36,16 @@ function mercadoPago({price, description}) {
       useEffect(() => {
         if (price) setServicePrice(price);
         if (description) setDescriptionBuy(description);
-      }, [price, description]);
+        if (userData) setUserDataOk(userData);
+        if (detail) setDetailProf(detail);
+
+        if (detailProf && detailProf.detail) {
+            console.log("DETAIL-PROF", detailProf.detail._id);
+          } else {
+            console.log("Cargando DETAIL...");
+          }
+
+      }, [price, description, userData, detail]);
      
     
 
@@ -42,8 +55,11 @@ function mercadoPago({price, description}) {
     const createPreference = async ()=>{
         
         try {
-            const response = await axios.post("https://connectifyback-dp-production.up.railway.app/create_preference", 
-            {
+            // const response = await axios.post("https://connectifyback-dp-production.up.railway.app/create_preference", 
+            const response = await axios.post("http://localhost:3001/create_preference", 
+            {   
+                idProfessional: detailProf.detail._id,
+                userName: userDataOk.nickname,
                 description: descriptionBuy,
                 price:detail.detail.price,
                 quantity: 1,
@@ -60,30 +76,19 @@ function mercadoPago({price, description}) {
 
 
     const handleButton = async ()=>{
-        setCargandoSiNo("Cargando compra...");
+        setCargandoSiNo("Cargando pago...");
         const id = await createPreference();
         if (id) {
             setPreferenceId(id);
         }
     };
 
-
-    const handleChange = (event) =>{
-        const value = event.target.value;
-        setServicePrice(value);
-    }
-
     
 
   return (
     <>
-        {/* <p>Comprar...</p> */}
-        {/* <div className='contentPrice'>
-            <label className='price$'>$</label>
-            <input type='text' className='priceValue' value={servicePrice} onChange={handleChange}/>
-        </div> */}
-
-        <button className='donate-link' onClick={handleButton}>COMPRAR</button>
+        
+        <button className='donate-link' onClick={handleButton}>Contratar</button>
         <p>{cargandoSiNo}</p>
 
         {   
