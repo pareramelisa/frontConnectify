@@ -129,7 +129,7 @@ const DetailAd = () => {
                   </Badge> */}
 
  
-                
+                {/* <FavoritesNotification/> */}
                 
                 <Link to={userData && userData.nickname && `/payments/${userData.nickname}`}>
                       <Button variant="outlined" sx={{ marginLeft: '15px' }}> Pagos </Button>
