@@ -55,8 +55,8 @@ function mercadoPago({price, description, userData, detail}) {
     const createPreference = async ()=>{
         
         try {
-            // const response = await axios.post("https://connectifyback-dp-production.up.railway.app/create_preference", 
-            const response = await axios.post("http://localhost:3001/create_preference", 
+            const response = await axios.post("https://connectifyback-dp-production.up.railway.app/create_preference", 
+            // const response = await axios.post("http://localhost:3001/create_preference", 
             {   
                 idProfessional: detailProf.detail._id,
                 userName: userDataOk.nickname,

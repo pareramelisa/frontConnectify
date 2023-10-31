@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-const VITE_API_BASE = import.meta.env.VITE_API_BASE;
+const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
 console.log(VITE_API_BASE);
 
 // const URL = `http://localhost:3001`;
