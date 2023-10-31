@@ -28,7 +28,7 @@ import StarIcon from '@mui/icons-material/Star';
 //import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useAuth0 } from '@auth0/auth0-react';
 
-import FavoritesNotification from '../FavoritesNotification/FavoritesNotifitation';
+
 import { addFavorite, removeFavorite } from '../../redux/Slices/favoritesSlice';
 
 
@@ -129,7 +129,7 @@ const DetailAd = () => {
                   </Badge> */}
 
  
-                <FavoritesNotification/>
+                
                 
                 <Link to={userData && userData.nickname && `/payments/${userData.nickname}`}>
                       <Button variant="outlined" sx={{ marginLeft: '15px' }}> Pagos </Button>
