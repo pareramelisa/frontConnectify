@@ -21,7 +21,8 @@ const Professional = ({
   categories,
   setContainerLogin
 }) => {
-  const fullName = `${name} ${lastName}`;
+  
+  const fullName = `${name}`;
 
   const cardStyle = {
     boxShadow: 20,
@@ -38,7 +39,7 @@ const Professional = ({
 
   const nameStyle = {
     position: "absolute",
-    top: "290px",
+    top: "336px",
     left: "10px",
     color: "#fff",
     padding: "10px",
@@ -49,7 +50,7 @@ const Professional = ({
 
   const locationStyle = {
     position: "absolute",
-    top: "255px",
+    top: "308px",
     left: "10px",
     color: "#fff",
     padding: "10px",
@@ -94,9 +95,9 @@ const Professional = ({
             <Typography variant="body2" color="text.secondary">
               {description}
             </Typography>
-            <Typography variant="body2" color="text.secondary">
+            {/* <Typography variant="body2" color="text.secondary">
               Categories: {categories}
-            </Typography>
+            </Typography> */}
           </CardContent>
         </CardActionArea>
       </Card>
