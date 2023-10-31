@@ -1,7 +1,7 @@
 import io from 'socket.io-client';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-const VITE_API_BASE = import.meta.env.VITE_API_BASE
+const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost'
 //Conexión para escuchar y enviar eventos
 const socket = io(VITE_API_BASE);
 
