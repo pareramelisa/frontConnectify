@@ -35,6 +35,7 @@ function LandingPage() {
     }
   }, [dispatch, isAuthenticated, navigate]);
 
+  // Aca sacas el PopUp
   const handlerCloseLoginPopUp = () => {
     setPopUpLogin(false);
   };
