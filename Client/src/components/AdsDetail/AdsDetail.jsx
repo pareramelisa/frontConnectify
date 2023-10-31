@@ -19,7 +19,7 @@ import { useLocation, useParams } from 'react-router-dom';
 import { fetchDetail } from '../../redux/Slices/detailSlice';
 import Navbar from '../Navbar/Navbar';
 import { locationUser } from '../../redux/Slices/persistSlice';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
@@ -129,8 +129,12 @@ const DetailAd = () => {
                   </Badge> */}
 
  
-               <FavoritesNotification/>
-
+                <FavoritesNotification/>
+                
+                <Link to={userData && userData.nickname && `/payments/${userData.nickname}`}>
+                      <Button variant="outlined" sx={{ marginLeft: '15px' }}> Pagos </Button>
+                </Link>
+                
                 </Box>
               </Grid>
 
