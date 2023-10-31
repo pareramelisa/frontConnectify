@@ -36,8 +36,6 @@ export const fetchUserLogin = (form) => {
       endpoint = VITE_API_BASE + `/admin/login/`;
     }
 
-    console.log(endpoint);
-    console.log(form);
     try {
       const { data } = await axios.post(endpoint, form);
       console.log(data);
