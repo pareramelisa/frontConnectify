@@ -7,6 +7,7 @@ import Registration from "./components/register/register";
 import Favortites from "./components/Favorites/Favorites"
 import DashboardAdmin from "./views/DashboardAdmin/DashboardAdmin";
 import DashboardProf from "./views/DashboardProf/DashboardProf";
+import Payments from './components/ViewsPayments/ViewsPayments';
 
 function App() {
   return (
@@ -20,6 +21,7 @@ function App() {
             element={<DashboardProf />}
           />
           <Route path="/detail/:id" element={<Detail />} />
+          <Route path="/payments/:id" element={<Payments/>} />
           <Route
             path="/professional/dashboardProf/createAds"
             element={<CreateAdForm />}

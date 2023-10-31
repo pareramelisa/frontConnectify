@@ -23,8 +23,10 @@ import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 //import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useAuth0 } from '@auth0/auth0-react';
 
 const DetailAd = () => {
+  const {user} = useAuth0();
   const { id } = useParams();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
@@ -32,6 +34,7 @@ const DetailAd = () => {
   const [isSaved, setIsSaved] = useState(false); // Agregamos el estado para controlar si se ha guardado el perfil
 
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
 
   useEffect(() => {
     dispatch(fetchDetail(id)).then(() => {
@@ -42,6 +45,10 @@ const DetailAd = () => {
   useEffect(() => {
     dispatch(locationUser(location.pathname));
   }, []);
+
+  useEffect(()=>{
+    setUserData(user);
+  },[user])
 
   // Guardar los datos del profesional en el Local Storage
   const handleSaveOrRemoveProfile = () => {
@@ -228,7 +235,8 @@ const DetailAd = () => {
                     </Grid>
                   </Grid>
 
-                  <MercadoPago />
+                  <MercadoPago userData={userData} detail={detail}/>
+
                 </CardContent>
               </Card>
             </Grid>
