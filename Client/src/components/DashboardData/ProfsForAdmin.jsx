@@ -9,6 +9,10 @@ import {
   fetchClientsForAdmin,
   deleteClientByIdAdmin,
 } from "../../redux/Slices/clientSlice";
+import {
+  fetchAdsForAdmin,
+  deleteAdByIdAdmin,
+} from "../../redux/Slices/adsSlice";
 
 const ProfsForAdmin = () => {
   const dispatch = useDispatch();
@@ -16,54 +20,62 @@ const ProfsForAdmin = () => {
     (state) => state.professionals.professionals
   );
   const clients = useSelector((state) => state.clients.clients);
-  const deleted = useSelector((state) => state.deleted);
-  const [userType, setUserType] = useState("professionals");
-  // const [profession, setProfession] = useState()
+  const ads = useSelector((state) => state.ads.ads);
+  const deletedProf = useSelector((state) => state.professionals.deleted.data);
+  const deletedClient = useSelector((state) => state.clients.deleted.data);
+  const deletedAd = useSelector((state) => state.ads.deleted);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        await dispatch(fetchProfsForAdmin());
-      } catch (error) {
-        console.error("falló el fetcheo de los profesionales:", error);
-      }
-    };
-
-    fetchData();
-  }, [deleted]);
+  // console.log(deletedProf);
   useEffect(() => {
     const fetchData = async () => {
       try {
         await dispatch(fetchClientsForAdmin());
+        await dispatch(fetchProfsForAdmin());
+        await dispatch(fetchAdsForAdmin());
       } catch (error) {
-        console.error("falló el fetcheo de los clientes:", error);
+        console.error("falló el fetcheo", error);
       }
     };
 
     fetchData();
-  }, [deleted]);
+  }, []);
 
-  const handleDelete = async (e, id) => {
-    e.preventDefault();
-    if (userType === "professionals") {
-      await dispatch(deleteProfByIdAdmin(id));
-      console.log("ID del profecional a bannear", id);
-    } else if (userType === "clients") {
-      await dispatch(deleteClientByIdAdmin(id));
-      console.log("ID del cliente a bannear", id);
+  const handleDelete = async (e, prof) => {
+    let newState = [];
+    if (!prof.profession) {
+      try {
+        const banned = await dispatch(deleteClientByIdAdmin(prof._id));
+        const update = await dispatch(fetchClientsForAdmin());
+        console.log("ID del cliente a bannear", banned);
+        setSelectedData(update);
+      } catch (error) {}
+    } else if (prof.creator) {
+      try {
+        const banned = await dispatch(deleteAdByIdAdmin(prof._id));
+        const update = await dispatch(fetchAdsForAdmin());
+        console.log("ID del anuncio a bannear", banned);
+        setSelectedData(update);
+      } catch (error) {}
+    } else if (prof.locationJob) {
+      try {
+        const banned = await dispatch(deleteProfByIdAdmin(prof._id));
+        const update = await dispatch(fetchProfsForAdmin());
+        console.log("ID del profecional a bannear", banned.data);
+        newState = selectedData.map((sel) =>
+          sel._id === banned.data._id ? banned.data : sel
+        );
+        setSelectedData(newState);
+      } catch (error) {}
     }
-    dispatch(fetchProfsForAdmin());
-    dispatch(fetchClientsForAdmin());
   };
 
-  //   console.log(professionals);
   const handleUserType = (e) => {
-    setUserType(e.target.value);
+    if (e === "professionals") setSelectedData(professionals);
+    if (e === "clients") setSelectedData(clients);
+    if (e === "ads") setSelectedData(ads);
   };
-  // const [selectedData, setSelectedData] = useState(professionals);
-  const selectedData = userType === "professionals" ? professionals : clients;
-  console.log(professionals);
-  console.log(selectedData);
+  const [selectedData, setSelectedData] = useState(professionals);
+
   const uniqueProfessions = new Set();
   professionals.forEach((item) => {
     item.profession.forEach((profession) => {
@@ -71,31 +83,77 @@ const ProfsForAdmin = () => {
     });
   });
   const profession = Array.from(uniqueProfessions);
-  console.log(profession);
-  const handleScrubProfession = (e) => {
-    const toScrub = professionals.filter((prof) => prof.profession.e);
-    setSelectedData(toScrub);
+
+  const handleSelentProfession = (e) => {
+    if (e.target.value === "Todas las Profesiones") {
+      setSelectedData(professionals);
+    } else {
+      const profClass = e.target.value;
+      const toScrub = professionals.filter(
+        (prof) => prof.profession == profClass
+      );
+
+      setSelectedData(toScrub);
+    }
+  };
+
+  const handleBanProf = async () => {
+    try {
+      const update = [];
+      await Promise.all(
+        selectedData.map(async (prof) => {
+          if (prof.isDeleted) update.push(prof);
+          if (!prof.isDeleted) {
+            const banned = await dispatch(deleteProfByIdAdmin(prof._id));
+            await dispatch(fetchProfsForAdmin());
+            console.log("ID del profecional a bannear", banned);
+
+            update.push(banned.data);
+          }
+        })
+      );
+      setSelectedData(update);
+    } catch (error) {}
+  };
+  const handleUnbanProf = async () => {
+    try {
+      const update = [];
+      await Promise.all(
+        selectedData.map(async (prof) => {
+          if (!prof.isDeleted) update.push(prof);
+          if (prof.isDeleted) {
+            const banned = await dispatch(deleteProfByIdAdmin(prof._id));
+            await dispatch(fetchProfsForAdmin());
+            console.log("ID del profecional a bannear", banned);
+
+            update.push(banned.data);
+          }
+        })
+      );
+      setSelectedData(update);
+    } catch (error) {}
   };
 
   return (
     <>
       <div>
         <select
-          label="tipo de usuarion"
-          value={userType}
-          onChange={(e) => handleUserType(e)}
+          name="user"
+          id="user type"
+          onChange={(e) => handleUserType(e.target.value)}
         >
           <option value="professionals">Profesionales</option>
           <option value="clients">Clientes</option>
+          <option value="ads">Anuncios</option>
         </select>
-        {selectedData !== clients && (
+        {selectedData !== clients && selectedData !== ads && (
           <select
-            label="profession"
-            value={profession}
-            onChange={(e) => handleScrubProfession(e.target.value)}
+            name="profession"
+            id="profession"
+            onChange={(e) => handleSelentProfession(e)}
           >
-            <option key="0" value="profession">
-              seleccione una profesión
+            <option key="0" value="Todas las Profesiones">
+              Todas las Profesiones
             </option>
             {profession.map((prof, index) => (
               <option key={index} value={prof}>
@@ -104,6 +162,17 @@ const ProfsForAdmin = () => {
             ))}
           </select>
         )}
+        {selectedData.length !== professionals.length &&
+          selectedData[0].locationJob && (
+            <div>
+              <button onClick={(e) => handleBanProf(e)}>
+                Suspender Profesión
+              </button>
+              <button onClick={(e) => handleUnbanProf(e)}>
+                Dessuspender Profesión
+              </button>
+            </div>
+          )}
       </div>
       {selectedData.length > 0 ? (
         selectedData?.map((prof, index) => (
@@ -121,15 +190,30 @@ const ProfsForAdmin = () => {
                 backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
               }}
             >
-              <img
-                src={prof.image}
-                alt=""
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  borderRadius: "100%",
-                }}
-              />
+              {prof.creator ? (
+                <img
+                  src={prof.creator[0].image}
+                  alt=""
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "100%",
+                  }}
+                />
+              ) : (
+                <img
+                  src={
+                    prof.image ||
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCMq4cGfAmaJAYVpXFPLY57EzVip1FTMK-ETQH1aU24VD-bYx5wJ4srHFP99zAgqXBvfQ&usqp=CAU"
+                  }
+                  alt="Default Image"
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    borderRadius: "100%",
+                  }}
+                />
+              )}
             </td>
             <td
               style={{
@@ -137,7 +221,7 @@ const ProfsForAdmin = () => {
                 width: "100px",
               }}
             >
-              {prof.userName}
+              {prof.userName || prof.creator[0].userName}
             </td>
             <td
               style={{
@@ -145,7 +229,9 @@ const ProfsForAdmin = () => {
                 width: "120px",
               }}
             >
-              {prof.province}
+              {prof.locationJob ||
+                prof.province ||
+                prof.postingDate?.substring(0, 10)}
             </td>
             <td
               style={{
@@ -153,7 +239,7 @@ const ProfsForAdmin = () => {
                 width: "250px",
               }}
             >
-              {prof.email}
+              {prof.email || prof.creator[0].email}
             </td>
 
             <td
@@ -172,7 +258,7 @@ const ProfsForAdmin = () => {
             >
               <button
                 className="btn btn-outline-danger"
-                onClick={(e) => handleDelete(e, prof._id)}
+                onClick={(e) => handleDelete(e, prof)}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
