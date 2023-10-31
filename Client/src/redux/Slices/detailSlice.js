@@ -23,7 +23,7 @@ export default detailAd.reducer;
 export const fetchDetail = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(`${VITE_API_BASE}/${id}`);
+      const { data } = await axios.get(`${VITE_API_BASE}/ads/${id}`);
       dispatch(setDetail(data));
     } catch (error) {
       throw error;
