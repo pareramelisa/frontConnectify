@@ -3,19 +3,18 @@ import photo from "../../assets/register.png";
 
 const ImageOverlay = () => {
   return (
-    <div >
-      <img
-        src={photo}
-        alt="Descripción de la imagen"
-        style={{
-           
-            top: 1,           
-          maxWidth: '200%', // Establece el ancho al 50% del contenedor
-          zIndex: -100, // Coloca la imagen detrás del fondo
-        }}
-      />
+    <div style={{
+      position: 'absolute',
+      width: '100%',
+      height: '100vh',
+      background: `url(${photo})`, // Establece la imagen de fondo
+      backgroundPosition: 'right', // Alinea la imagen hacia la derecha
+      backgroundSize: 'cover', // Escala la imagen para cubrir todo el div
+    }}>
+      {/* Contenido adicional */}
     </div>
   );
 }
 
 export default ImageOverlay;
+

@@ -12,8 +12,8 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { InputLabel } from "@mui/material";
 import * as validations from "./ValidationsRegister";
 import NavBarDemo2 from '../NavBarDemo2/NavBarDemo2'
-import Footer from '../../components/Footer/Footer';
-import ImageOverlay from './imagenLado';
+import photo from "../../assets/register.png";
+import Button from '@mui/material/Button';
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -242,10 +242,17 @@ const Registration = () => {
   };
 
   return (
-    <div>
+    <div style={{
+      position: 'absolute',
+      width: '100%',
+      height: '130vh',
+      background: `url(${photo})`, // Establece la imagen de fondo
+      backgroundPosition: 'right', // Alinea la imagen hacia la derecha
+      backgroundSize: 'cover', // Escala la imagen para cubrir todo el div
+    }}>
       <NavBarDemo2/>
       
-    <div style={{ columns: "2", columnGap: '6rem', padding: '0rem 8rem 6rem 12rem', justifyContent: 'center', alignItems: 'center', breakInside: 'avoid', width: 'min-content' }}>
+    <div style={{ columns: "1", columnGap: '1rem', padding: '0rem 8rem 6rem 12rem', justifyContent: 'center', alignItems: 'center', breakInside: 'avoid', width: 'min-content' }}>
     
       <form onSubmit={(e) => handleSubmit(e)}>
       <div style={{ padding: '5px'}}>
@@ -388,8 +395,9 @@ const Registration = () => {
           />
         )} */}
         <div>
-          {areAllProfFieldsCompleted() && (
-            <button
+        <div style={{ padding: '10px'}}></div>
+          {areAllProfFieldsCompleted() && ifProfRoute&& (
+            <Button variant="contained" color="secondary"
               type="submit"
               style={{
                 width: "100%",
@@ -399,10 +407,10 @@ const Registration = () => {
               }}
             >
               Enviar formulario
-            </button>
+            </Button>
           )}
           {areAllClienFieldsCompleted() && ifClientRoute && (
-            <button
+            <Button variant="contained" color="secondary"
               type="submit"
               style={{
                 width: "100%",
@@ -412,16 +420,15 @@ const Registration = () => {
               }}
             >
               Enviar formulario
-            </button>
+              </Button>
           )}
         </div>
       </form>
-      <ImageOverlay />
+      
     </div>
 
 
-    <Footer />
-
+    
     </div>
   );
 };
