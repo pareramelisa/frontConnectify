@@ -10,10 +10,12 @@ import TextField from '@mui/material/TextField';
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { InputLabel } from "@mui/material";
+import * as validations from "./ValidationsRegister";
 
 const Registration = () => {
   const navigate = useNavigate();
   // localStorage.clear();
+  const [errorMessages, setErrorMessages] = useState({});
   const [clientRegister, setClientRegister] = useState(() => {
     let localStorageData = localStorage.getItem("clientRegisterData");
     return localStorageData
@@ -27,7 +29,7 @@ const Registration = () => {
           // confirmPassword: "",
           profession: [],
           description: "",
-          // image: "",
+          //image: null,
           province: "",
           location: "",
           provinceJob: "",
@@ -63,7 +65,20 @@ const Registration = () => {
   const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const errors = {};
 
+    // Validación de correo electrónico
+    errors.email = validations.validateEmail(clientRegister.email);
+  
+    // Validación de formato de imagen
+    errors.image = validations.validateImageFormat(formData.get("image"));
+  
+    setErrorMessages(errors);
+  
+    if (Object.values(errors).some((error) => error !== null)) {
+      // Si hay errores de validación, muestra los mensajes de error y no continúes con el envío del formulario
+      return;
+    }
     formData.set("name", clientRegister.name);
     console.log(formData.get("image"));
     formData.set("lastName", clientRegister.lastName);
@@ -149,6 +164,8 @@ const Registration = () => {
 
   const handleImageUpload = (e) => {
     const image = e.target.files[0];
+    setErrorMessages((prevErrors) => ({ ...prevErrors, image: null }));
+
     if (image) {
       formData.set("image", image); //lo mete en el formData para el register de profs
       setClientRegister({
@@ -263,6 +280,7 @@ const Registration = () => {
           onChange={handleChange}
           placeholder="Email"
         />
+        {errorMessages.email && <div className="error">{errorMessages.email}</div>}
         </div>
         <div style={{ padding: '5px'}}>
           <InputLabel htmlFor="password">Contraseña: </InputLabel>
@@ -354,6 +372,7 @@ const Registration = () => {
           name="image"
           onChange={handleImageUpload}
         />
+        {errorMessages.image && <div style={{ color: "red" }}>{errorMessages.image}</div>}
         {clientRegister.image && (
           <img
             src={clientRegister.image}
