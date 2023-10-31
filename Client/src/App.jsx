@@ -9,6 +9,8 @@ import DashboardAdmin from "./views/DashboardAdmin/DashboardAdmin";
 import DashboardProf from "./views/DashboardProf/DashboardProf";
 import Payments from './components/ViewsPayments/ViewsPayments';
 
+import Chat from './components/Chat/Chat';
+
 function App() {
   return (
     <>
@@ -30,7 +32,7 @@ function App() {
           <Route path="/client/registration" element={<Registration />} />
           <Route path="/client/favorites" element={<Favortites />} />
           <Route path="/admin/dashboard" element={<DashboardAdmin />} />
-
+          <Route path="/chat" element={<Chat />} />
         </Routes>
       </div>
     </>
