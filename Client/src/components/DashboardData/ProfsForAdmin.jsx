@@ -41,6 +41,7 @@ const ProfsForAdmin = () => {
   }, []);
 
   const handleDelete = async (e, prof) => {
+    let newState = [];
     if (!prof.profession) {
       try {
         const banned = await dispatch(deleteClientByIdAdmin(prof._id));
@@ -59,8 +60,11 @@ const ProfsForAdmin = () => {
       try {
         const banned = await dispatch(deleteProfByIdAdmin(prof._id));
         const update = await dispatch(fetchProfsForAdmin());
-        console.log("ID del profecional a bannear", banned);
-        setSelectedData(update);
+        console.log("ID del profecional a bannear", banned.data);
+        newState = selectedData.map((sel) =>
+          sel._id === banned.data._id ? banned.data : sel
+        );
+        setSelectedData(newState);
       } catch (error) {}
     }
   };
@@ -162,10 +166,10 @@ const ProfsForAdmin = () => {
           selectedData[0].locationJob && (
             <div>
               <button onClick={(e) => handleBanProf(e)}>
-                Bannear Profesión
+                Suspender Profesión
               </button>
               <button onClick={(e) => handleUnbanProf(e)}>
-                Unbannear Profesión
+                Dessuspender Profesión
               </button>
             </div>
           )}
