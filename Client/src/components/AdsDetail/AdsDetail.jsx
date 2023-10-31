@@ -19,19 +19,21 @@ import { useLocation, useParams } from 'react-router-dom';
 import { fetchDetail } from '../../redux/Slices/detailSlice';
 import Navbar from '../Navbar/Navbar';
 import { locationUser } from '../../redux/Slices/persistSlice';
-//import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 //import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useAuth0 } from '@auth0/auth0-react';
 
 import FavoritesNotification from '../FavoritesNotification/FavoritesNotifitation';
 import { addFavorite, removeFavorite } from '../../redux/Slices/favoritesSlice';
 
 
 const DetailAd = () => {
+  const {user} = useAuth0();
   const { id } = useParams();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
@@ -39,8 +41,12 @@ const DetailAd = () => {
  
   const favorites = useSelector((state) => state.favorites.favoriteProfessionals);
   const [loading, setLoading] = useState(true);
+
+  const [userData, setUserData] = useState(null);
+
   const isSaved = favorites.some((prof) => prof._id === id);
     
+
 
   useEffect(() => {
     dispatch(fetchDetail(id)).then(() => {
@@ -52,6 +58,10 @@ const DetailAd = () => {
     dispatch(locationUser(location.pathname));
   }, [location]);
 
+
+  useEffect(()=>{
+    setUserData(user);
+  },[user])
 
   // Guardar los datos del profesional en el Local Storage
   const handleSaveOrRemoveProfile = () => {
@@ -70,7 +80,7 @@ const DetailAd = () => {
 
   return (
     <div>
-      <Navbar  savedProfileKeys={savedProfileKeys}/>
+      <Navbar />
       <div className="principal">
         {loading ? (
           <div
@@ -119,8 +129,12 @@ const DetailAd = () => {
                   </Badge> */}
 
  
-               <FavoritesNotification/>
-
+                <FavoritesNotification/>
+                
+                <Link to={userData && userData.nickname && `/payments/${userData.nickname}`}>
+                      <Button variant="outlined" sx={{ marginLeft: '15px' }}> Pagos </Button>
+                </Link>
+                
                 </Box>
               </Grid>
 
@@ -222,7 +236,8 @@ const DetailAd = () => {
                     </Grid>
                   </Grid>
 
-                  <MercadoPago />
+                  <MercadoPago userData={userData} detail={detail}/>
+
                 </CardContent>
               </Card>
             </Grid>
