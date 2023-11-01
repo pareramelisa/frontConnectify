@@ -7,8 +7,9 @@ import IconButton from '@mui/material/IconButton';
 import HideSourceIcon from '@mui/icons-material/HideSource';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
-import { ListSubheader } from '@mui/material';
+import { ListSubheader, Typography } from '@mui/material';
 import { useSelector } from 'react-redux';
+import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 
 function AdsProfesional() {
   const users = useSelector(state => state.usersLogin.user)
@@ -16,32 +17,36 @@ function AdsProfesional() {
   const userId = users._id
   const adsFilter = ads.filter((ad) => ad.creator[0] === userId)
   
-    const listItemStyle = { fontSize: '20px' }
+    const listItemStyle = { fontSize: 10 }
   return (
     <List
       sx={{
-        width: "600px",
+        marginRight: "80px",
+        width: "800px",
         bgcolor: "lightGrey",
-        fontSize: "30px",
         boxShadow: 20,
-        padding: "30px",
+        padding: "20px",
         height: "auto",
-        marginTop: "20px",
+        marginTop: "30px",
       }}
     >
-      <ListSubheader sx={{ fontSize: "30px", color: "black" }}>
+      <ListSubheader sx={{ fontSize: "25px", color: "black", padding: "5px" }}>
         <span style={{ display: "flex", alignItems: "center" }}>
-          Mis anuncios
+        <LocalLibraryOutlinedIcon sx={{ marginRight: 1 }} fontSize="medium"  />
+            <Typography variant="body2" color="black" sx={{ fontSize: "25px" }}>
+              Mis anuncios
+            </Typography>
           <Link to="/professional/dashboardProf/createAds" style={{ marginLeft: "auto" }}>
             <IconButton aria-label="create">
               <AddIcon />
             </IconButton>
           </Link>
         </span>
-      </ListSubheader>
-      {adsFilter.map((value) => (
+      </ListSubheader >
+      {[1, 2, 3, 4, 5, 6].map((value) => (
         <ListItem
           key={value}
+          sx={{ padding: "15px"}}
           disableGutters
           secondaryAction={
             <>
@@ -53,12 +58,10 @@ function AdsProfesional() {
               </IconButton>
             </>
           }
-          sx={listItemStyle}
         >
-          <ListItemText
-            primary={`Nombre del anuncio ${value}`}
-            sx={listItemStyle}
-          />
+          <Typography variant="body2" color="black" sx={{ fontSize: "15px" }}>
+          {`Nombre del anuncio ${value}`}
+          </Typography>
         </ListItem>
       ))}
     </List>
