@@ -1,4 +1,5 @@
 import { Routes, Route } from "react-router-dom";
+import "./App.css";
 import Landing from "./components/Landing/Landing";
 import Home from "./views/Home/Home";
 import CreateAdForm from "./components/CreateAds/createAds";
@@ -8,15 +9,15 @@ import Favortites from "./components/Favorites/Favorites"
 import DashboardAdmin from "./views/DashboardAdmin/DashboardAdmin";
 import DashboardProf from "./views/DashboardProf/DashboardProf";
 import Payments from './components/ViewsPayments/ViewsPayments';
-
 import Chat from './components/Chat/Chat';
+import Cover from "./components/Cover/Cover";
 
 function App() {
   return (
     <>
       <div className="App">
         <Routes>
-          <Route path="/" element={<Landing />} />
+          <Route path="/" element={<Cover/>} />
           <Route path="/home" element={<Home />} />
           <Route
             path="/professional/dashboardProf"

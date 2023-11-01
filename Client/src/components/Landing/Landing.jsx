@@ -11,11 +11,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginWithGoogle } from "../../redux/Slices/loginGoogleSlice";
 import IconButton from '@mui/material/IconButton'
 import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import photo from "../../assets/backgroundLanding.gif";
+import { fetchGetAllFavorites } from "../../redux/Slices/favoritesSlice";
 
 function LandingPage() {
   const navigate = useNavigate();
   const users = useSelector((state) => state.usersLogin.user);
+  const favorites = useSelector((state) => state.favorites.favoriteProfessionals)
   const { isAuthenticated, user } = useAuth0();
   const [containerLogin, setContainerLogin] = useState(false);
   const [popUpLogin, setPopUpLogin] = useState(false);
@@ -30,6 +31,10 @@ function LandingPage() {
   };
 
   useEffect(() => {
+    dispatch(fetchGetAllFavorites(users._id))
+  }, [users])
+
+  useEffect(() => {
     if (isAuthenticated) {
       dispatch(loginWithGoogle(user.email));
       navigate("/home");
@@ -41,16 +46,13 @@ function LandingPage() {
     setPopUpLogin(false);
   };
 
+  console.log(users._id);
+  console.log(favorites)
+
   return (
     <div style={{
       position: 'absolute',
       width: '100%',
-      height: '130vh',
-      background: `url(${photo})`, // Establece la imagen de fondo
-      backgroundPosition: 'right', // Alinea la imagen hacia la derecha
-      backgroundSize: 'cover', // Escala la imagen para cubrir todo el div
-      justifyContent: 'center', // Centra horizontalmente
-    alignItems: 'center', 
     }}>
     <div className="container">
       {containerLogin ? (
