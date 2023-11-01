@@ -3,7 +3,7 @@ import style from './ViewsPayments.module.css';
 
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import PaymentsCard from '../paymentsCard/PaymentsCard';
+import PaymentsCard from '../PaymentsCard/PaymentsCard';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth0 } from '@auth0/auth0-react';
@@ -15,6 +15,11 @@ function ViewsPayments () {
     const {user, isAuthenticated} = useAuth0();
     
     const { pathname, search } = useLocation(); // ( pathname: url - search: Querys )
+
+    console.log("PATH: ", pathname.split("/")[2]);
+    console.log("SEARCH: ", search);
+
+    const path = pathname.split("/")[2];
     
     const detail = useSelector((state) => state.detail);
     
@@ -24,27 +29,41 @@ function ViewsPayments () {
     const [professionalID, setProfessionalID] = useState(null);
 
     useEffect(()=>{
-        //Si fue autenticado en google (Por los segundos que tarda en cargar el usuario)
-        if (isAuthenticated) {
-          setUserName(user.nickname); 
-        }
-        const idPro = detail.detail.creator[0]._id;    
         
-        setProfessionalID(idPro);   
-    },[user, isAuthenticated, detail]);
+    //     //Si fue autenticado en google (Por los segundos que tarda en cargar el usuario)
+    //     if (isAuthenticated) {
+    //       setUserName(user.nickname); 
+    //     }
+    //     const idPro = detail.detail.creator[0]._id;    
+        
+    //     setProfessionalID(idPro);   
+    },[pathname, search]);
 
     
 
-    useEffect(() => {  
+    useEffect(() => { 
+        
+        setUserName(path)
+
+
         if (search) {   //! Si hay search => tiene query (VENGO DE PAGAR)
                         //!  GUARDO DATOS EN DB 
+
+                    
             const dataMP = search.split("&");
-            
+                    
+            console.log("PUP...", dataMP);
+                    
             const valuesMP = {
-                paymentIDD: dataMP[2].split("=")[1],
-                status: dataMP[3].split("=")[1],
-                paymentType: dataMP[5].split("=")[1],
+                profIDID: dataMP[0].split("=")[1],
+                paymentIDD: dataMP[3].split("=")[1],
+                status: dataMP[4].split("=")[1],
+                paymentType: dataMP[6].split("=")[1],
             }
+
+            console.log("POPO...", valuesMP);
+            console.log("POPOPO...", valuesMP.profIDID);
+
 
             const fetchData = async () => {
                 try {
@@ -55,7 +74,7 @@ function ViewsPayments () {
                     } else {
 
                         const response = await axios.post("http://localhost:3001/payments/register", {
-                            professionalId: professionalID,  
+                            professionalId: valuesMP.profIDID,  //professionalID,  
                             paymentID: valuesMP.paymentIDD,
                             userName: userName,
                             isCompleted: valuesMP.status,
