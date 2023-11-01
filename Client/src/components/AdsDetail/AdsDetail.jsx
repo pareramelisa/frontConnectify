@@ -19,9 +19,9 @@ import { useLocation, useParams } from 'react-router-dom';
 import { fetchDetail } from '../../redux/Slices/detailSlice';
 import Navbar from '../Navbar/Navbar';
 import { locationUser } from '../../redux/Slices/persistSlice';
-//import { Link } from 'react-router-dom';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+// import { Link } from 'react-router-dom';
+// import FavoriteIcon from '@mui/icons-material/Favorite';
+// import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
@@ -46,6 +46,13 @@ const DetailAd = () => {
 
   const isSaved = favorites.some((prof) => prof._id === id);
     
+
+  useEffect(() => {
+    if (user) {
+      console.log("USER >>> ", user);
+    }
+    console.log("DETAIL >>>", detail);
+  }, [user, detail]);
 
 
   useEffect(() => {
@@ -232,7 +239,7 @@ const DetailAd = () => {
                     </Grid>
                   </Grid>
 
-                  <MercadoPago userData={userData} detail={detail}/>
+                  <MercadoPago/>
 
                 </CardContent>
               </Card>
