@@ -73,8 +73,8 @@ function mercadoPago() {
     const createPreference = async ()=>{
         
         try {
-            // const response = await axios.post("https://connectifyback-dp-production.up.railway.app/create_preference", 
-            const response = await axios.post("http://localhost:3001/create_preference", 
+            const response = await axios.post("https://connectifyback-dp-production.up.railway.app/create_preference", 
+            // const response = await axios.post("http://localhost:3001/create_preference", 
             {   
               idProf:detail.detail.creator[0]._id,//detailProf.detail._id,
               userName: userDataOk.nickname,

@@ -9,6 +9,7 @@ import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
+import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "../../assets/connectify.svg";
 import "./Navbar.css";
@@ -26,6 +27,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
   const [nickName, setNickName] = useState(null);
 
   const users = useSelector((state) => state.usersLogin.user);
+  const favoriteCount = useSelector((state) => state.favorites.favoriteCount);
   const dispatch = useDispatch();
   const location = useLocation()
   const navigate = useNavigate()
@@ -92,6 +94,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
                     Home
                   </Button>
                   )}
+<<<<<<< HEAD
                  
                   {
                     (location.pathname !== "/payments") &&(
@@ -107,16 +110,17 @@ function ResponsiveAppBar({ setContainerLogin }) {
                   </Button>
                   )}
 
+=======
+                <Badge badgeContent={favoriteCount} color="secondary" style={{marginRight: '1rem'}}>
+>>>>>>> 8ceec2519fa62db2971e7768c7c02dc5b3d94b1d
                   <Button
                     variant="contained"
                     color="primary"
                     onClick={() => navigate('/client/favorites')}
-                    style={{
-                      marginRight: '1rem'
-                    }}
                   >
                     <FolderSpecialIcon></FolderSpecialIcon>
                   </Button>
+                </Badge>
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar
