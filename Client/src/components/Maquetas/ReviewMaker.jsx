@@ -40,11 +40,11 @@ const ReviewForm = ({ professionalId, clientId, onAddReview }) => {
     <Box
       sx={{
         backgroundColor: '#ffff',
-        border: '1px solid #ccc', // Borde
-        borderRadius: 5,         // Esquinas redondeadas
-        padding: 2,             // Relleno
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Sombra
-        margin: '20px',         // Margen exterior de 10px
+        border: '1px solid #ccc', 
+        borderRadius: 5,         
+        padding: 2,             
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', 
+        margin: '20px',         
       }}
     >
       <Typography variant="h6">Deja una reseña para compartir tu experiencia</Typography>

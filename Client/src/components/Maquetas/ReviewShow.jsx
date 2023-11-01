@@ -8,11 +8,11 @@ const ReviewItem = ({ review }) => {
     <Box
       sx={{
         backgroundColor: '#D9D9D9',
-        border: '1px solid #ccc', // Borde
-        borderRadius: 5,         // Esquinas redondeadas
-        padding: 2,             // Relleno
-        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', // Sombra
-        margin: '20px',         // Margen exterior de 10px
+        border: '1px solid #ccc', 
+        borderRadius: 5,         
+        padding: 2,             
+        boxShadow: '0 2px 4px rgba(0, 0, 0, 0.1)', 
+        margin: '20px',        
       }}
     >
       <Box display="flex" alignItems="center">
