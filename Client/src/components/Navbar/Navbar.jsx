@@ -94,7 +94,6 @@ function ResponsiveAppBar({ setContainerLogin }) {
                     Home
                   </Button>
                   )}
-<<<<<<< HEAD
                  
                   {
                     (location.pathname !== "/payments") &&(
@@ -110,9 +109,9 @@ function ResponsiveAppBar({ setContainerLogin }) {
                   </Button>
                   )}
 
-=======
+
                 <Badge badgeContent={favoriteCount} color="secondary" style={{marginRight: '1rem'}}>
->>>>>>> 8ceec2519fa62db2971e7768c7c02dc5b3d94b1d
+
                   <Button
                     variant="contained"
                     color="primary"
