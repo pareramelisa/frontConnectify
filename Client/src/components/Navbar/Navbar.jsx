@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -24,26 +24,27 @@ const settings = ["Perfil", "Logout"];
 
 function ResponsiveAppBar({ setContainerLogin }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [nickName, setNickName] = useState(null);
 
   const users = useSelector((state) => state.usersLogin.user);
   const favoriteCount = useSelector((state) => state.favorites.favoriteCount);
   const dispatch = useDispatch();
   const location = useLocation()
   const navigate = useNavigate()
-
+  
   const { user, logout, isAuthenticated } = useAuth0();
-
+  
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
-
+  
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
-
+  
   const handleAvatarButton = async (e) => {
     const text = e.target.textContent;
-
+    
     if (text === "Logout") {
       await dispatch(logoutUser());
     }
@@ -56,6 +57,15 @@ function ResponsiveAppBar({ setContainerLogin }) {
   const handlerButtonLogin = () => {
     setContainerLogin(true);
   };
+
+
+  useEffect(()=>{
+    console.log("USERUSER...", user);
+    if (user && user.nickname) {
+      setNickName(user.nickname);
+    }
+  },[user])
+
 
   return (
     <AppBar position="static" style={{ marginBottom: "1.5rem" }}>
@@ -84,7 +94,24 @@ function ResponsiveAppBar({ setContainerLogin }) {
                     Home
                   </Button>
                   )}
+                 
+                  {
+                    (location.pathname !== "/payments") &&(
+                    <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => navigate(`/payments/${nickName}`)}  
+                    style={{
+                      marginRight: '1rem'
+                    }}
+                  >
+                    Pagos
+                  </Button>
+                  )}
+
+
                 <Badge badgeContent={favoriteCount} color="secondary" style={{marginRight: '1rem'}}>
+
                   <Button
                     variant="contained"
                     color="primary"
