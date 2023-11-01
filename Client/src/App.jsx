@@ -8,6 +8,7 @@ import Favortites from "./components/Favorites/Favorites"
 import DashboardAdmin from "./views/DashboardAdmin/DashboardAdmin";
 import DashboardProf from "./views/DashboardProf/DashboardProf";
 import Payments from './components/ViewsPayments/ViewsPayments';
+import ClientProfile from "../src/components/Maquetas/ClientProfile"
 
 import Chat from './components/Chat/Chat';
 
@@ -33,6 +34,7 @@ function App() {
           <Route path="/client/favorites" element={<Favortites />} />
           <Route path="/admin/dashboard" element={<DashboardAdmin />} />
           <Route path="/chat" element={<Chat />} />
+          <Route path="/client/profile" element={<ClientProfile />} />
         </Routes>
       </div>
     </>
