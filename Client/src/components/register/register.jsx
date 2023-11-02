@@ -50,7 +50,7 @@ const Registration = () => {
 
   const renderPasswordToggle = () => (
     <button type="button" onClick={handleHidePassword} style={{ background: 'white', color: 'black', fontSize: '5px' }}>
-      {passwordType ? <Visibility /> : <VisibilityOff />}
+      {passwordType ? <Visibility style={{  fontSize: '18px' }}/> : <VisibilityOff style={{  fontSize: '18px' }}/>}
     </button>
   );
   const handleHidePassword = () => {
