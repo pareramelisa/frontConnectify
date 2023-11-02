@@ -257,11 +257,14 @@ const ProfsForAdmin = () => {
               }}
             >
               <button
+                style={{
+                  backgroundColor: prof.isDeleted ? "#9bdb92" : "#edd55e",
+                }}
                 className="btn btn-outline-danger"
                 onClick={(e) => handleDelete(e, prof)}
               >
                 <svg
-                  xmlns="http://www.w3.org/2000/svg"
+                  // xmlns="http://www.w3.org/2000/svg"
                   width="16"
                   height="16"
                   fill="currentColor"
