@@ -17,7 +17,6 @@ function AdsProfesional() {
   const userId = users._id
   const adsFilter = ads.filter((ad) => ad.creator[0] === userId)
   
-    const listItemStyle = { fontSize: 10 }
   return (
     <List
       sx={{
@@ -43,7 +42,7 @@ function AdsProfesional() {
           </Link>
         </span>
       </ListSubheader >
-      {[1, 2, 3, 4, 5, 6].map((value) => (
+      {adsFilter.map((value) => (
         <ListItem
           key={value}
           sx={{ padding: "15px"}}

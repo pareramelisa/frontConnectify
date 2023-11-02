@@ -10,8 +10,8 @@ import Footer from "../Footer/Footer";
 
 function CreateAdForm() {
   const dispatch = useDispatch();
-  const user = useSelector(state => state.usersLogin.user)
-  
+  const user = useSelector((state) => state.usersLogin.user);
+
   const [formData, setFormData] = useState(() => {
     const savedFormData = localStorage.getItem("formData");
     return savedFormData
@@ -34,10 +34,11 @@ function CreateAdForm() {
 
   const handleSubmit = (e) => {
     const userinput = {
-      ...formData, 
-      creator: [user._id]
-    }
-    console.log(userinput)
+      ...formData,
+      creator: user._id,
+      price: Number(formData.price),
+    };
+    console.log(userinput);
     e.preventDefault();
     dispatch(createAd(userinput));
   };
@@ -47,14 +48,25 @@ function CreateAdForm() {
       <div>
         <NavBar />
       </div>
-      <h1 style={{ marginLeft: "115px", fontSize: "30px", marginBottom: "20px", fontFamily: "Roboto, sans-serif", fontWeight: 300 }}>Crea tu anuncio</h1>
+      <h1
+        style={{
+          marginLeft: "115px",
+          fontSize: "30px",
+          marginBottom: "20px",
+          fontFamily: "Roboto, sans-serif",
+          fontWeight: 300,
+        }}
+      >
+        Crea tu anuncio
+      </h1>
       <Divider />
-      <Grid container justifyContent="center" sx={{ paddingBottom: 25, paddingTop: 4 }}>
+      <Grid
+        container
+        justifyContent="center"
+        sx={{ paddingBottom: 25, paddingTop: 4 }}
+      >
         <Grid item xs={10}>
-          <Paper
-            elevation={3}
-            sx={{ padding: 10, boxShadow: 10 }}
-          >
+          <Paper elevation={3} sx={{ padding: 10, boxShadow: 10 }}>
             <form style={{ textAlign: "center" }}>
               <Grid container spacing={5}>
                 <Grid item xs={6} style={{ textAlign: "left" }}>
@@ -114,7 +126,9 @@ function CreateAdForm() {
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   />
-                  <InputLabel id="contractType">Tipo de contratación</InputLabel>
+                  <InputLabel id="contractType">
+                    Tipo de contratación
+                  </InputLabel>
                   <Select
                     label="Tipo de contratación"
                     variant="standard"
@@ -148,7 +162,9 @@ function CreateAdForm() {
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   />
-                  <InputLabel id="workLocation">Modalidad de trabajo:</InputLabel>
+                  <InputLabel id="workLocation">
+                    Modalidad de trabajo:
+                  </InputLabel>
                   <Select
                     label="Modalidad de trabajo"
                     variant="standard"
@@ -180,7 +196,11 @@ function CreateAdForm() {
                 </Grid>
               </Grid>
               <div style={{ paddingTop: "40px" }}>
-                <Button variant="contained" color="primary" onClick={handleSubmit}>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit}
+                >
                   Crear anuncio
                 </Button>
               </div>
@@ -196,4 +216,3 @@ function CreateAdForm() {
 }
 
 export default CreateAdForm;
-
