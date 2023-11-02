@@ -10,6 +10,7 @@ import {
   List,
   ListItem,
   Typography,
+
 } from "@mui/material";
 import MercadoPago from "../Payments/MercadoPago";
 import "./DetailAd.css";
@@ -20,8 +21,7 @@ import { fetchDetail } from "../../redux/Slices/detailSlice";
 import Navbar from "../Navbar/Navbar";
 import { locationUser } from "../../redux/Slices/persistSlice";
 import { Link } from "react-router-dom";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+
 
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
@@ -44,7 +44,9 @@ const DetailAd = () => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
 
+
   const newFav = favorites.some(favorite => favorite.professional._id === detail.detail.creator[0]._id);
+
 
   useEffect(() => {
     dispatch(fetchDetail(id)).then(() => {
@@ -109,8 +111,7 @@ const DetailAd = () => {
                     }
                   >
                     <Button variant="outlined" sx={{ marginLeft: "15px" }}>
-                      {" "}
-                      Pagos{" "}
+                      Pagos
                     </Button>
                   </Link>
                 </Box>
@@ -213,8 +214,7 @@ const DetailAd = () => {
                       </div>
                     </Grid>
                   </Grid>
-
-                  <MercadoPago userData={userData} detail={detail} />
+                  <MercadoPago/>
                 </CardContent>
               </Card>
             </Grid>
