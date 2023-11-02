@@ -21,9 +21,6 @@ function CreateAdForm() {
           description: "",
           location: "",
           price: "",
-          requiredSkills: [],
-          postingDate: "",
-          expirationDate: "",
           categories: [],
           contractType: "",
           workLocation: "",
@@ -38,8 +35,9 @@ function CreateAdForm() {
   const handleSubmit = (e) => {
     const userinput = {
       ...formData, 
-      creator: user._id
+      creator: [user._id]
     }
+    console.log(userinput)
     e.preventDefault();
     dispatch(createAd(userinput));
   };
@@ -103,22 +101,6 @@ function CreateAdForm() {
                     sx={{ marginBottom: 2 }}
                   />
                   <TextField
-                    label="Habilidades"
-                    variant="standard"
-                    multiline
-                    rows={3}
-                    type="text"
-                    id="requiredSkills"
-                    name="requiredSkills"
-                    value={formData.requiredSkills}
-                    onChange={(e) =>
-                      setFormData({ ...formData, requiredSkills: e.target.value })
-                    }
-                    required
-                    fullWidth
-                    sx={{ marginBottom: 2 }}
-                  />
-                  <TextField
                     label="Categorías"
                     variant="standard"
                     type="text"
@@ -161,36 +143,6 @@ function CreateAdForm() {
                     value={formData.description}
                     onChange={(e) =>
                       setFormData({ ...formData, description: e.target.value })
-                    }
-                    required
-                    fullWidth
-                    sx={{ marginBottom: 2 }}
-                  />
-                  <TextField
-                    label="Fecha de creación"
-                    variant="standard"
-                    type="date"
-                    id="postingDate"
-                    name="postingDate"
-                    value={formData.postingDate}
-                    InputLabelProps={{ shrink: true }}
-                    onChange={(e) =>
-                      setFormData({ ...formData, postingDate: e.target.value })
-                    }
-                    required
-                    fullWidth
-                    sx={{ marginBottom: 2 }}
-                  />
-                  <TextField
-                    label="Fecha de finalización"
-                    variant="standard"
-                    type="date"
-                    id="expirationDate"
-                    name="expirationDate"
-                    value={formData.expirationDate}
-                    InputLabelProps={{ shrink: true }}
-                    onChange={(e) =>
-                      setFormData({ ...formData, expirationDate: e.target.value })
                     }
                     required
                     fullWidth
