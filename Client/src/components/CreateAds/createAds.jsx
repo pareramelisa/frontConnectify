@@ -37,6 +37,7 @@ function CreateAdForm() {
       ...formData,
       creator: user._id,
       price: Number(formData.price),
+      categories: [formData.categories]
     };
     console.log(userinput);
     e.preventDefault();
@@ -94,9 +95,9 @@ function CreateAdForm() {
                     onChange={(e) =>
                       setFormData({ ...formData, location: e.target.value })
                     }
-                    required
                     fullWidth
                     sx={{ marginBottom: 2 }}
+                    required
                   />
                   <TextField
                     label="Precio"
@@ -138,6 +139,7 @@ function CreateAdForm() {
                       setFormData({ ...formData, contractType: e.target.value })
                     }
                     fullWidth
+                    required
                     sx={{ marginBottom: 2 }}
                   >
                     <MenuItem value="Full-time">Full-time</MenuItem>
@@ -174,6 +176,7 @@ function CreateAdForm() {
                       setFormData({ ...formData, workLocation: e.target.value })
                     }
                     fullWidth
+                    required
                     sx={{ marginBottom: 2 }}
                   >
                     <MenuItem value="Presencial">Presencial</MenuItem>
