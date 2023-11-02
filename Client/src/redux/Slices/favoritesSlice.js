@@ -7,26 +7,22 @@ const favoritesSlice = createSlice({
   initialState: {
     favoriteProfessionals: [],
     favoriteCount: 0,
+    isSaved: false,
   },
   reducers: {
     getAllFavorites: (state, action) => {
       state.favoriteProfessionals = action.payload;
+      state.favoriteCount = state.favoriteProfessionals.length;
     },
     addFavorite: (state, action) => {
-      // Verifica si el profesional ya está en la lista de favoritos
-      const isFavorite = state.favoriteProfessionals.some(
-        (prof) => prof._id === action.payload._id
-      );
-
-      if (!isFavorite) {
-        state.favoriteProfessionals.push(action.payload);
-        state.favoriteCount += 1;
-      }
+      state.favoriteProfessionals = action.payload;
+      state.favoriteCount += 1;
+      state.isSaved = true;
     },
     removeFavorite: (state, action) => {
-      state.favoriteProfessionals = state.favoriteProfessionals.filter(
-        (prof) => prof._id !== action.payload._id
-      );
+      state.favoriteProfessionals = action.payload;
+      state.isSaved = false;
+
       if (state.favoriteCount > 1) {
         state.favoriteCount -= 1;
       } else {
@@ -45,9 +41,43 @@ export const fetchGetAllFavorites = (clientId) => {
   return async (dispatch) => {
     console.log(clientId);
     try {
-      const { data } = axios.get(`http://localhost:3001/fav/${clientId}/`);
+      const { data } = await axios.get(
+        `http://localhost:3001/fav/${clientId}/`
+      );
       console.log(data);
       dispatch(getAllFavorites(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const fetchAddFavorites = (form) => {
+  return async (dispatch) => {
+    console.log(form);
+    try {
+      const { data } = await axios.post(
+        `http://localhost:3001/fav/save/`,
+        form
+      );
+      console.log(data);
+      dispatch(addFavorite(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+};
+
+export const fetchRemoveFavorites = (form) => {
+  return async (dispatch) => {
+    console.log(form);
+    try {
+      const { data } = await axios.post(
+        `http://localhost:3001/fav/delete/`,
+        form
+      );
+      console.log(data);
+      dispatch(removeFavorite(data));
     } catch (error) {
       console.log(error);
     }

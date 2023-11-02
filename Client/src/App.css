@@ -2,7 +2,7 @@
 
 #cover {
   background: rgb(170,54,124);
-  background: linear-gradient(90deg, rgba(170,54,124,0.8) 0%, rgba(74,47,189,0.8) 100%);
+  background: linear-gradient(90deg, rgba(216, 161, 57, 0.8) 0%, rgba(74,47,189,0.8) 100%);
   display: flex;
   min-height: 100vh;
   background-repeat: no-repeat;
