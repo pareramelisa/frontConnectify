@@ -1,29 +1,30 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import InputLabel from "@mui/material/InputLabel";
-import MenuItem from "@mui/material/MenuItem";
-import FormControl from "@mui/material/FormControl";
-import Select from "@mui/material/Select";
-import IconButton from "@mui/material/IconButton";
-import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import Fab from "@mui/material/Fab";
-import { IoMdRefresh } from "react-icons/io";
-import { MdPersonSearch } from "react-icons/md";
-import { useState, useEffect } from "react";
-import Navbar from "../../components/Navbar/Navbar";
-import Login from "../../components/Login/Login";
-import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { locationUser } from "../../redux/Slices/persistSlice";
-import Professional from "../../components/Card/Professional";
-import { fetchAds } from "../../redux/Slices/adsSlice";
-import styles from "./Home.module.css";
-import Pagination from "../../components/Pagination/Pagination";
-import { fetchFilter } from "../../redux/Slices/FiltersCombinedSlice";
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
-import Footer from "../../components/Footer/Footer";
-import { useAuth0 } from "@auth0/auth0-react";
-import { fetchUserLoginWithGoogle } from "../../redux/Slices/loginGoogleSlice";
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import IconButton from '@mui/material/IconButton';
+import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+import Fab from '@mui/material/Fab';
+import { IoMdRefresh } from 'react-icons/io';
+import { MdPersonSearch } from 'react-icons/md';
+import { useState, useEffect } from 'react';
+import Navbar from '../../components/Navbar/Navbar';
+import Login from '../../components/Login/Login';
+import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { locationUser } from '../../redux/Slices/persistSlice';
+import Professional from '../../components/Card/Professional';
+import { fetchAds } from '../../redux/Slices/adsSlice';
+import styles from './Home.module.css';
+import Pagination from '../../components/Pagination/Pagination';
+import { fetchFilter } from '../../redux/Slices/FiltersCombinedSlice';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+import Footer from '../../components/Footer/Footer';
+import Chat from '../../components/Chat/Chat';
+import { useAuth0 } from '@auth0/auth0-react';
+import { fetchUserLoginWithGoogle } from '../../redux/Slices/loginGoogleSlice';
 
 const Home = () => {
   //* Declaraciones de variables
@@ -33,15 +34,19 @@ const Home = () => {
   //* Estados locales
   const [containerLogin, setContainerLogin] = useState(false);
   const [priceRange, setPriceRange] = useState([1000, 10000]);
-  const [profession, setProfession] = useState("");
-  const [locationProf, setLocationProf] = useState("");
+  const [profession, setProfession] = useState('');
+  const [locationProf, setLocationProf] = useState('');
   const [popUpLogin, setPopUpLogin] = useState(false);
-  const [sortPrice, setSortPrice] = useState("");
+  const [sortPrice, setSortPrice] = useState('');
+  const [chatOpen, setChatOpen] = useState(false);
 
   //* Estados globales
   const adsFiltered = useSelector((state) => state.ads.adsFiltered);
   const ads = useSelector((state) => state.ads.ads);
   const { isAuthenticated, user } = useAuth0();
+  //traer usuario ya después de iniciar sesión
+  const nickname = user?.nickname || ''; // Usando operador opcional para evitar errores si no está definido
+  const email = user?.email || '';
 
   //* Paginado
   const [currentPage, setCurrentPage] = useState(1);
@@ -82,7 +87,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    console.log("sortPrice has been updated: " + sortPrice);
+    console.log('sortPrice has been updated: ' + sortPrice);
   }, [sortPrice]);
   //* Función para aplicar los filtros
   const applyFilters = async () => {
@@ -101,11 +106,17 @@ const Home = () => {
   //* Función para limpiar los filtros da error, por ahora comentada
   const clearFilters = (e) => {
     e.preventDefault();
-    setProfession("");
-    setLocationProf("");
-    setSortPrice("");
+    setProfession('');
+    setLocationProf('');
+    setSortPrice('');
     setPriceRange([1000, 10000]);
     dispatch(fetchAds());
+  };
+
+  //* Función para abrir el chat
+  // Función para alternar la visibilidad del chat
+  const toggleChat = () => {
+    setChatOpen(!chatOpen);
   };
 
   //* constantes para el filtro por profesion y ubicación
@@ -137,28 +148,28 @@ const Home = () => {
       {popUpLogin && (
         <div
           style={{
-            position: "absolute",
-            width: "25rem",
-            height: "10rem",
-            top: "38%",
-            left: "36%",
-            border: "2px solid black",
-            borderRadius: "20px",
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-            backgroundColor: "rgba(255,255,255,0.9)",
-            zIndex: "1000",
+            position: 'absolute',
+            width: '25rem',
+            height: '10rem',
+            top: '38%',
+            left: '36%',
+            border: '2px solid black',
+            borderRadius: '20px',
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            backgroundColor: 'rgba(255,255,255,0.9)',
+            zIndex: '1000',
           }}
         >
           <IconButton
             disableElevation
             style={{
-              position: "absolute",
-              top: "5px",
-              right: "5px",
-              color: "#000000",
-              fontWeight: "bold",
+              position: 'absolute',
+              top: '5px',
+              right: '5px',
+              color: '#000000',
+              fontWeight: 'bold',
             }}
             onClick={handlerCloseLoginPopUp}
           >
@@ -166,10 +177,10 @@ const Home = () => {
           </IconButton>
           <div
             style={{
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
           >
             <h3>Email y/o Password incorrectos</h3>
@@ -237,10 +248,10 @@ const Home = () => {
             color="primary"
             onClick={() => applyFilters()}
             style={{
-              zIndex: "1",
+              zIndex: '1',
             }}
           >
-            <MdPersonSearch style={{ fontSize: "2.5em" }} />
+            <MdPersonSearch style={{ fontSize: '2.5em' }} />
           </Fab>
         </div>
         <div>
@@ -249,10 +260,10 @@ const Home = () => {
             className={styles.spinButton}
             onClick={(e) => clearFilters(e)}
             style={{
-              zIndex: "1",
+              zIndex: '1',
             }}
           >
-            <IoMdRefresh style={{ fontSize: "2em" }} />
+            <IoMdRefresh style={{ fontSize: '2em' }} />
           </Fab>
         </div>
       </div>
@@ -282,8 +293,8 @@ const Home = () => {
             />
             <h2
               style={{
-                paddingLeft: "3.5em",
-                paddingBottom: "5em",
+                paddingLeft: '3.5em',
+                paddingBottom: '5em',
               }}
             >
               No se encontraron Anuncios
@@ -291,6 +302,19 @@ const Home = () => {
           </div>
         )}
       </div>
+      <button
+        className="open-chat-button"
+        onClick={toggleChat}
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          right: '20px',
+          zIndex: 9999, // Asegura que el botón del chat aparezca por encima de otros contenidos
+        }}
+      >
+        Abrir Chat
+      </button>
+      {chatOpen && <Chat nickname={nickname} />}
       {currentAds.length !== 0 && adsFiltered.length !== 0 ? (
         <Pagination
           currentPage={currentPage}
