@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createAd } from "../../redux/Slices/createAdsSlice";
 import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
@@ -10,7 +10,8 @@ import Footer from "../Footer/Footer";
 
 function CreateAdForm() {
   const dispatch = useDispatch();
-
+  const user = useSelector(state => state.usersLogin.user)
+  
   const [formData, setFormData] = useState(() => {
     const savedFormData = localStorage.getItem("formData");
     return savedFormData
@@ -20,10 +21,10 @@ function CreateAdForm() {
           description: "",
           location: "",
           price: "",
-          requiredSkills: "",
+          requiredSkills: [],
           postingDate: "",
           expirationDate: "",
-          categories: "",
+          categories: [],
           contractType: "",
           workLocation: "",
           profession: "",
@@ -35,8 +36,12 @@ function CreateAdForm() {
   }, [formData]);
 
   const handleSubmit = (e) => {
+    const userinput = {
+      ...formData, 
+      creator: user._id
+    }
     e.preventDefault();
-    dispatch(createAd(formData));
+    dispatch(createAd(userinput));
   };
 
   return (
@@ -52,7 +57,7 @@ function CreateAdForm() {
             elevation={3}
             sx={{ padding: 10, boxShadow: 10 }}
           >
-            <form onSubmit={handleSubmit} style={{ textAlign: "center" }}>
+            <form style={{ textAlign: "center" }}>
               <Grid container spacing={5}>
                 <Grid item xs={6} style={{ textAlign: "left" }}>
                   <TextField
@@ -223,7 +228,7 @@ function CreateAdForm() {
                 </Grid>
               </Grid>
               <div style={{ paddingTop: "40px" }}>
-                <Button variant="contained" color="primary">
+                <Button variant="contained" color="primary" onClick={handleSubmit}>
                   Crear anuncio
                 </Button>
               </div>
