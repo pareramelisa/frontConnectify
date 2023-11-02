@@ -1,18 +1,19 @@
-import { debounce } from "lodash";
+
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchUserRegister } from "../../redux/Slices/registerSlice";
-import style from "./register.module.css";
+
 import TextField from '@mui/material/TextField';
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { InputLabel } from "@mui/material";
 import * as validations from "./ValidationsRegister";
 import NavBarDemo2 from '../NavBarDemo2/NavBarDemo2'
-import photo from "../../assets/register.png";
+
 import Button from '@mui/material/Button';
 import Background from "../Maquetas/Background/Background";
+import LocationSelectors from "./LocationesSelector"
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -311,6 +312,7 @@ const Registration = () => {
           </div>
           <div style={{ padding: '5px'}}>
             <h2>Dirección</h2>
+            <LocationSelectors/>
             <InputLabel htmlFor="province">Provincia</InputLabel>
             <TextField
               type="text"
@@ -337,6 +339,7 @@ const Registration = () => {
             <div style={{ backgroundColor: 'transparent'}}>
               <div>
                 <h2>Area de trabajo</h2>
+                
                 <InputLabel htmlFor="provinceJob">Provincia</InputLabel>
                 <TextField
                   type="text"
@@ -347,6 +350,7 @@ const Registration = () => {
                   fullWidth
                   style={{ background: 'white', color: 'black' }}
                 />
+                
                 <div style={{ padding: '5px'}}></div>
                 <InputLabel htmlFor="locationJob">Localidad</InputLabel>
                 <TextField
@@ -359,6 +363,8 @@ const Registration = () => {
                   style={{ background: 'white', color: 'black' }}
                 />
               </div>
+              
+              
               <div style={{ padding: '5px'}}></div>
               <InputLabel htmlFor="profession">Profesión</InputLabel>
               <TextField
