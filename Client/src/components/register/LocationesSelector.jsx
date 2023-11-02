@@ -1,28 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import miApi from "../../../localidades.json";
-
+import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
+import miApi from '../../../localidades.json';
 
 function LocationSelectors() {
   const [provinciasParticular, setProvinciasParticular] = useState([]);
   const [ciudadesParticular, setCiudadesParticular] = useState([]);
-  const [selectedProvParticular, setSelectedProvParticular] = useState('Filtro de Prov.');
+  const [selectedProvParticular, setSelectedProvParticular] = useState('');
 
   const [provinciasLaboral, setProvinciasLaboral] = useState([]);
   const [ciudadesLaboral, setCiudadesLaboral] = useState([]);
-  const [selectedProvLaboral, setSelectedProvLaboral] = useState('Filtro de Prov. Laboral');
+  const [selectedProvLaboral, setSelectedProvLaboral] = useState('');
 
-  const [selectedCiudadParticular, setSelectedCiudadParticular] = useState('Filtro de City');
-  const [selectedCiudadLaboral, setSelectedCiudadLaboral] = useState('Filtro de City Laboral');
+  const [selectedCiudadParticular, setSelectedCiudadParticular] = useState('');
+  const [selectedCiudadLaboral, setSelectedCiudadLaboral] = useState('');
 
   const handlerProvinciasParticular = (event) => {
     const provincia = event.target.value;
     setSelectedProvParticular(provincia);
-  }
+  };
 
   const handlerProvinciasLaboral = (event) => {
     const provincia = event.target.value;
     setSelectedProvLaboral(provincia);
-  }
+  };
 
   useEffect(() => {
     const cityParticular = miApi.localidades.filter((ciudad) => {
@@ -57,64 +57,74 @@ function LocationSelectors() {
   }, []);
 
   return (
-    <div>
-      <div>
-        <label>Provincia (Particular): </label>
-        <select name='filterProvinciasParticular' value={selectedProvParticular} onChange={handlerProvinciasParticular}>
-          <option value="filterProvinciasParticular">Elija Provincia</option>
-          {provinciasParticular.length > 0 ? (
-            provinciasParticular.map((provincia, index) => (
-              <option key={index} value={provincia}>{provincia}</option>
-            ))
-          ) : (
-            <option value='withoutProvinciasParticular'>Error cargando provincias</option>
-          )}
-        </select>
+    <div style={{ padding: '15px' , backgroundColor: 'white'}}>
+      <div style={{ padding: '5px' }}>
+        <FormControl variant="outlined" fullWidth style={{ backgroundColor: 'white', marginBottom: '5px' }}>
+          <InputLabel>Provincia (Particular)</InputLabel>
+          <Select
+            value={selectedProvParticular}
+            onChange={handlerProvinciasParticular}
+            label="Provincia (Particular)"
+          >
+            <MenuItem value="filterProvinciasParticular">Elija Provincia</MenuItem>
+            {provinciasParticular.map((provincia, index) => (
+              <MenuItem key={index} value={provincia}>{provincia}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
-
-      <div>
-        <label>Ciudad (Particular): </label>
-        <select name='filterCiudadesParticular' value={selectedCiudadParticular} onChange={(event) => setSelectedCiudadParticular(event.target.value)}>
-          <option value="filterCiudadesParticular">Elija Ciudad</option>
-          {ciudadesParticular.length > 0 ? (
-            ciudadesParticular.map((ciudad, index) => (
-              <option key={index} value={ciudad.nombre}>{ciudad.nombre}</option>
-            ))
-          ) : (
-            <option value='withoutCiudadesParticular'>Error cargando ciudades</option>
-          )}
-        </select>
+  
+      <div style={{ padding: '5px' }}>
+        <FormControl variant="outlined" fullWidth style={{ backgroundColor: 'white', marginBottom: '5px' }}>
+          <InputLabel>Ciudad (Particular)</InputLabel>
+          <Select
+            value={selectedCiudadParticular}
+            onChange={(event) => setSelectedCiudadParticular(event.target.value)}
+            label="Ciudad (Particular)"
+          >
+            <MenuItem value="filterCiudadesParticular">Elija Ciudad</MenuItem>
+            {ciudadesParticular.map((ciudad, index) => (
+              <MenuItem key={index} value={ciudad.nombre}>{ciudad.nombre}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
-
-      <div>
-        <label>Provincia (Laboral): </label>
-        <select name='filterProvinciasLaboral' value={selectedProvLaboral} onChange={handlerProvinciasLaboral}>
-          <option value="filterProvinciasLaboral">Elija Provincia</option>
-          {provinciasLaboral.length > 0 ? (
-            provinciasLaboral.map((provincia, index) => (
-              <option key={index} value={provincia}>{provincia}</option>
-            ))
-          ) : (
-            <option value='withoutProvinciasLaboral'>Error cargando provincias</option>
-          )}
-        </select>
+  
+      <div style={{ padding: '5px' }}>
+        <FormControl variant="outlined" fullWidth style={{ backgroundColor: 'white', marginBottom: '5px' }}>
+          <InputLabel>Provincia (Laboral)</InputLabel>
+          <Select
+            value={selectedProvLaboral}
+            onChange={handlerProvinciasLaboral}
+            label="Provincia (Laboral)"
+          >
+            <MenuItem value="filterProvinciasLaboral">Elija Provincia</MenuItem>
+            {provinciasLaboral.map((provincia, index) => (
+              <MenuItem key={index} value={provincia}>{provincia}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
-
-      <div>
-        <label>Ciudad (Laboral): </label>
-        <select name='filterCiudadesLaboral' value={selectedCiudadLaboral} onChange={(event) => setSelectedCiudadLaboral(event.target.value)}>
-          <option value="filterCiudadesLaboral">Elija Ciudad</option>
-          {ciudadesLaboral.length > 0 ? (
-            ciudadesLaboral.map((ciudad, index) => (
-              <option key={index} value={ciudad.nombre}>{ciudad.nombre}</option>
-            ))
-          ) : (
-            <option value='withoutCiudadesLaboral'>Error cargando ciudades</option>
-          )}
-        </select>
+  
+      <div style={{ padding: '5px' }}>
+        <FormControl variant="outlined" fullWidth style={{ backgroundColor: 'white' }}>
+          <InputLabel>Ciudad (Laboral)</InputLabel>
+          <Select
+            value={selectedCiudadLaboral}
+            onChange={(event) => setSelectedCiudadLaboral(event.target.value)}
+            label="Ciudad (Laboral)"
+          >
+            <MenuItem value="filterCiudadesLaboral">Elija Ciudad</MenuItem>
+            {ciudadesLaboral.map((ciudad, index) => (
+              <MenuItem key={index} value={ciudad.nombre}>{ciudad.nombre}</MenuItem>
+            ))}
+          </Select>
+        </FormControl>
       </div>
     </div>
   );
+  
+  
 }
 
 export default LocationSelectors;
