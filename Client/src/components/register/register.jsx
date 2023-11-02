@@ -12,7 +12,7 @@ import * as validations from "./ValidationsRegister";
 import NavBarDemo2 from '../NavBarDemo2/NavBarDemo2'
 import photo from "../../assets/register.png";
 import Button from '@mui/material/Button';
-import Background from "../Maquetas/Backgrownd/Backgrownd";
+import Background from "../Maquetas/Background/Background";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -242,9 +242,11 @@ const Registration = () => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        padding: "16px"
       }}>
     
         <form onSubmit={(e) => handleSubmit(e)}>
+        <h2>Registrate </h2>
           <div style={{ padding: '5px'}}>
             <InputLabel htmlFor="name">Nombre</InputLabel>
             <TextField
@@ -428,6 +430,7 @@ const Registration = () => {
                 Enviar formulario
               </Button>
             )}
+            <div style={{ padding: '35px'}}></div>
           </div>
         </form>
       </div>
