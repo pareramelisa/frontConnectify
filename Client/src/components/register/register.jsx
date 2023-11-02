@@ -12,6 +12,7 @@ import * as validations from "./ValidationsRegister";
 import NavBarDemo2 from '../NavBarDemo2/NavBarDemo2'
 import photo from "../../assets/register.png";
 import Button from '@mui/material/Button';
+import Background from "../Maquetas/Backgrownd/Backgrownd";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -48,8 +49,8 @@ const Registration = () => {
   const [formData, setFormData] = useState(new FormData());
 
   const renderPasswordToggle = () => (
-    <button type="button" onClick={handleHidePassword}>
-      {passwordType ? <Visibility style={{ fontSize: 18 }} /> : <VisibilityOff style={{ fontSize: 18 }}/>}
+    <button type="button" onClick={handleHidePassword} style={{ background: 'white', color: 'black', fontSize: '5px' }}>
+      {passwordType ? <Visibility /> : <VisibilityOff />}
     </button>
   );
   const handleHidePassword = () => {
@@ -229,15 +230,19 @@ const Registration = () => {
     <div style={{
       position: 'absolute',
       width: '100%',
-      height: '140vh',
-      background: `url(${photo})`,
+      height: '100%',
       backgroundPosition: 'right',
       backgroundSize: 'cover',
       backgroundAttachment: 'fixed'
     }}>
       <NavBarDemo2/>
-      
-      <div style={{ columns: "1", columnGap: '1rem', padding: '0rem 8rem 6rem 12rem', justifyContent: 'center', alignItems: 'center', breakInside: 'avoid', width: 'min-content', backgroundColor: 'transparent' }}>
+      <Background/>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
     
         <form onSubmit={(e) => handleSubmit(e)}>
           <div style={{ padding: '5px'}}>
@@ -249,6 +254,7 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="Nombre"
               fullWidth
+              style={{ background: 'white', color: 'black' }}
             />
           </div>
           <div style={{ padding: '5px'}}>
@@ -260,6 +266,7 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="Apellido"
               fullWidth
+              style={{ background: 'white', color: 'black' }}
             />
           </div>
           <div style={{ padding: '5px'}}>
@@ -271,6 +278,7 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="Nombre de Usuario"
               fullWidth
+              style={{ background: 'white', color: 'black' }}
             />
           </div>
           <div style={{ padding: '5px'}}>
@@ -282,6 +290,7 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="Email"
               fullWidth
+              style={{ background: 'white', color: 'black' }}
             />
             {errorMessages.email && <div className="error">{errorMessages.email}</div>}
           </div>
@@ -294,6 +303,7 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="Contraseña"
               fullWidth
+              style={{ background: 'white', color: 'black' }}
             />
             {renderPasswordToggle()}
           </div>
@@ -307,6 +317,7 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="Provincia"
               fullWidth
+              style={{ background: 'white', color: 'black' }}
             />
             <div style={{ padding: '5px'}}></div>
             <InputLabel htmlFor="location">Localidad</InputLabel>
@@ -317,6 +328,7 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="Localidad"
               fullWidth
+              style={{ background: 'white', color: 'black' }}
             />
           </div>
           {ifProfRoute && (
@@ -331,6 +343,7 @@ const Registration = () => {
                   onChange={handleChange}
                   placeholder="Provincia"
                   fullWidth
+                  style={{ background: 'white', color: 'black' }}
                 />
                 <div style={{ padding: '5px'}}></div>
                 <InputLabel htmlFor="locationJob">Localidad</InputLabel>
@@ -341,6 +354,7 @@ const Registration = () => {
                   onChange={handleChange}
                   placeholder="Localidad"
                   fullWidth
+                  style={{ background: 'white', color: 'black' }}
                 />
               </div>
               <div style={{ padding: '5px'}}></div>
@@ -352,6 +366,7 @@ const Registration = () => {
                 onChange={handleChange}
                 placeholder="profesión"
                 fullWidth
+                style={{ background: 'white', color: 'black' }}
               />
               <div style={{ padding: '5px'}}></div>
               <InputLabel htmlFor="description">Descripción</InputLabel>
@@ -362,6 +377,7 @@ const Registration = () => {
                 onChange={handleChange}
                 placeholder="descripción"
                 fullWidth
+                style={{ background: 'white', color: 'black' }}
               />
               <div style={{ padding: '5px'}}></div>
               <InputLabel htmlFor="remoteWork">Trabajo Remoto</InputLabel>
@@ -370,6 +386,7 @@ const Registration = () => {
                 name="remoteWork"
                 value={remoteWork}
                 onChange={handleChange}
+                style={{ background: 'white', color: 'black', width: '40px',height: '22px' }}
               />
             </div>
           )}
@@ -380,6 +397,7 @@ const Registration = () => {
             accept="image/*"
             name="image"
             onChange={handleImageUpload}
+            style={{ fontSize: '14px', background: 'white', color: 'black', cursor: 'pointer', padding: '8px' }}
           />
           {errorMessages.image && <div style={{ color: "red" }}>{errorMessages.image}</div>}
           <div>

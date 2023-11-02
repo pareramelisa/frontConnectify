@@ -5,7 +5,8 @@ import ReviewItem from "./ReviewShow"
 import ReviewForm from "./ReviewMaker"
 import UserInfoCard from './FieldsEdition';
 import ChatComponent from './ChatLateral';
-
+import NavBarDemo2 from '../NavBarDemo2/NavBarDemo2'
+import Background from "../../components/Maquetas/Backgrownd/Backgrownd";
 
 
 const Profile = () => {
@@ -54,9 +55,14 @@ const Profile = () => {
   };
 
   return (
-    <Grid container spacing={3}>
+    <div>
+   <NavBarDemo2/>
+   
+    <Grid container spacing={3} style={{ backgroundColor: 'rgba(0, 123, 255, 0.100)'}}>
+    <Background/>
       <Grid item xs={12} md={8}>
-
+      
+      
       <UserInfoCard
     user={user}
     userImage={userImage}
@@ -93,6 +99,7 @@ const Profile = () => {
 
   
     </Grid>
+    </div>
   );
 };
 
