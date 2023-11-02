@@ -28,6 +28,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
 
   const users = useSelector((state) => state.usersLogin.user);
   const favoriteCount = useSelector((state) => state.favorites.favoriteCount);
+  const favorite = useSelector((state) => state.favorites.favoriteProfessionals);
   const dispatch = useDispatch();
   const location = useLocation()
   const navigate = useNavigate()
@@ -57,6 +58,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
   const handlerButtonLogin = () => {
     setContainerLogin(true);
   };
+
 
 
   useEffect(()=>{
