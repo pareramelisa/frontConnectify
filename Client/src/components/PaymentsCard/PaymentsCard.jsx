@@ -4,41 +4,43 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 
-function PaymentsCard() {
+function PaymentsCard(data) {
     
-
-    const [estado, setEstado] = useState({})
-
-
-    const detail = useSelector((state)=>state.detail.detail);
-    // const dispatch = useDispatch;
-
+    console.log("Estoy en CARD y data es...", data.data.isCompleted)
+    const profData = data.data.professionalId;
+    const bDate = data.data.date.split("T")[0];
+    const bState = data.data.isCompleted.toString();
+    
+    const [professionalData, setProfessionalData] = useState(null)
+    const [buyDate, setBuyDate] = useState(null)
+    const [buyState, setBuyState] = useState(null)
+    
     useEffect(()=>{
-       
-        setEstado(detail)
-        console.log("PROBA...", estado)
-    },[detail, estado])
+       setProfessionalData(profData);
+       setBuyDate(bDate);
+       setBuyState(bState);
+    },[profData, bDate, bState])
 
   return (
     <div className={style.contentAll}>
         
         
         <div className={style.roundMask}>
-            {estado.creator && estado.creator[0] && <img src={estado.creator[0].image} alt="Image" />}    
+            {professionalData && professionalData.image && <img src={professionalData.image} alt="Image" />}    
         </div>
             
 
         <div className={style.dates}>
-            {estado.creator && estado.creator[0] && <h4>{`${estado.creator[0].profession}`}</h4>}
-            {estado.creator && estado.creator[0] && <h5>{`${estado.creator[0].name} ${estado.creator[0].lastName}`}</h5>}
+            {professionalData && professionalData.profession && <h4>{`${professionalData.profession}`}</h4>}
+            {professionalData && professionalData.name && <h5>{`${professionalData.name} ${professionalData.lastName}`}</h5>}
         </div>
         <div className={style.date}>
-            {estado.creator && estado.creator[0] && <h4>Fecha:</h4>}
-            {estado.creator && estado.creator[0] && <h5>31/10/2023</h5>}
+            {buyDate && <h4>Fecha:</h4>}
+            {buyDate && <h5>{buyDate}</h5>}
         </div>
         <div className={style.state}>
-            {estado.creator && estado.creator[0] && <h4>Estado:</h4>}
-            {estado.creator && estado.creator[0] && <h5>Realizado</h5>}
+            {buyState && <h4>Estado:</h4>}
+            {buyState && <h5>{buyState}</h5>}
         </div>
     
      

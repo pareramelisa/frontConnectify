@@ -9,12 +9,17 @@ import { useEffect, useState } from "react";
 import Login from "../Login/Login";
 import { useDispatch, useSelector } from "react-redux";
 import { loginWithGoogle } from "../../redux/Slices/loginGoogleSlice";
+import IconButton from '@mui/material/IconButton'
+import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+import { fetchGetAllFavorites } from "../../redux/Slices/favoritesSlice";
 
 function LandingPage() {
   const navigate = useNavigate();
   const users = useSelector((state) => state.usersLogin.user);
+  const favorites = useSelector((state) => state.favorites.favoriteProfessionals)
   const { isAuthenticated, user } = useAuth0();
   const [containerLogin, setContainerLogin] = useState(false);
+  const [popUpLogin, setPopUpLogin] = useState(false);
   const dispatch = useDispatch();
 
   const handlerButtonLogin = () => {
@@ -25,15 +30,30 @@ function LandingPage() {
     }
   };
 
+  useEffect(() => {
+    dispatch(fetchGetAllFavorites(users._id))
+  }, [users])
 
   useEffect(() => {
     if (isAuthenticated) {
-      dispatch(loginWithGoogle(user.email))
-      navigate('/home')
+      dispatch(loginWithGoogle(user.email));
+      navigate("/home");
     }
   }, [dispatch, isAuthenticated, navigate]);
 
+  // Aca sacas el PopUp
+  const handlerCloseLoginPopUp = () => {
+    setPopUpLogin(false);
+  };
+
+  console.log(users._id);
+  console.log(favorites)
+
   return (
+    <div style={{
+      position: 'absolute',
+      width: '100%',
+    }}>
     <div className="container">
       {containerLogin ? (
         <div
@@ -51,9 +71,54 @@ function LandingPage() {
             zIndex: "10",
           }}
         >
-          <Login  setContainerLogin={setContainerLogin}/>
+          <Login
+            setContainerLogin={setContainerLogin}
+            setPopUpLogin={setPopUpLogin}
+          />
         </div>
       ) : null}
+      {popUpLogin && (
+        <div
+          style={{
+            position: "absolute",
+            width: "25rem",
+            height: "10rem",
+            top: "38%",
+            left: "36%",
+            border: "2px solid black",
+            borderRadius: "20px",
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            backgroundColor: "rgba(255,255,255,0.9)",
+            zIndex: "1000",
+          }}
+        >
+          <IconButton
+            disableElevation
+            style={{
+              position: "absolute",
+              top: "5px",
+              right: "5px",
+              color: "#000000",
+              fontWeight: "bold",
+            }}
+            onClick={handlerCloseLoginPopUp}
+          >
+            <CancelRoundedIcon />
+          </IconButton>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <h3>Email y/o Password incorrectos</h3>
+          </div>
+        </div>
+      )}
       <div className="landing">
         <div className="container-logo">
           <img src={Logo2} alt="Logo" className="logo2" />
@@ -73,18 +138,17 @@ function LandingPage() {
           <AiOutlineHome style={{ fontSize: "2em" }} />
         </Button>
       </div>
-      {
-        !isAuthenticated && !users.name &&
+      {!isAuthenticated && !users.name && (
         <Button
-        variant="contained"
-        color="primary"
-        onClick={handlerButtonLogin}
-        className="button"
-      >
-        Ir a Login
-      </Button> 
-      } 
-     
+          variant="contained"
+          color="primary"
+          onClick={handlerButtonLogin}
+          className="button"
+        >
+          Ir a Login
+        </Button>
+      )}
+    </div>
     </div>
   );
 }

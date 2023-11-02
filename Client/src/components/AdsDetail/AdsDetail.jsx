@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Button,
   Card,
@@ -10,31 +10,43 @@ import {
   List,
   ListItem,
   Typography,
-} from '@mui/material';
-import MercadoPago from '../Payments/MercadoPago';
-import './DetailAd.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import { fetchDetail } from '../../redux/Slices/detailSlice';
-import Navbar from '../Navbar/Navbar';
-import { locationUser } from '../../redux/Slices/persistSlice';
-//import { Link } from 'react-router-dom';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import FavoritesNotification from '../FavoritesNotification/FavoritesNotifitation';
-import { addFavorite, removeFavorite } from '../../redux/Slices/favoritesSlice';
+
+} from "@mui/material";
+import MercadoPago from "../Payments/MercadoPago";
+import "./DetailAd.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { fetchDetail } from "../../redux/Slices/detailSlice";
+import Navbar from "../Navbar/Navbar";
+import { locationUser } from "../../redux/Slices/persistSlice";
+import { Link } from "react-router-dom";
+
+
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
+//import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useAuth0 } from "@auth0/auth0-react";
+
+import { fetchAddFavorites, fetchRemoveFavorites} from "../../redux/Slices/favoritesSlice";
 
 const DetailAd = () => {
+  const { user } = useAuth0();
   const { id } = useParams();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
-  const location = useLocation()
- 
-  const favorites = useSelector((state) => state.favorites.favoriteProfessionals);
+  const location = useLocation();
+
+  const favorites = useSelector(
+    (state) => state.favorites.favoriteProfessionals
+  );
+  const users = useSelector((state) => state.usersLogin.user);
   const [loading, setLoading] = useState(true);
-  const isSaved = favorites.some((prof) => prof._id === id);
-    
+  const [userData, setUserData] = useState(null);
+
+
+  const newFav = favorites.some(favorite => favorite.professional._id === detail.detail.creator[0]._id);
+
 
   useEffect(() => {
     dispatch(fetchDetail(id)).then(() => {
@@ -46,21 +58,23 @@ const DetailAd = () => {
     dispatch(locationUser(location.pathname));
   }, [location]);
 
+  useEffect(() => {
+    setUserData(user);
+  }, [user]);
 
-  // Guardar los datos del profesional en el Local Storage
+
   const handleSaveOrRemoveProfile = () => {
-    const localStorageKey = `favoritos-${id}`;
-    if (isSaved) {
-      localStorage.removeItem(localStorageKey);
-      dispatch(removeFavorite(detail.detail));
-    } else {
-      localStorage.setItem(localStorageKey, JSON.stringify(detail.detail));
-      dispatch(addFavorite(detail.detail));
+    const formFav = {
+      clientId: users._id,
+      professionalId: detail.detail.creator[0]._id,
+    };
 
+    if (!newFav) {
+      dispatch(fetchAddFavorites(formFav));
+    }else {
+      dispatch(fetchRemoveFavorites(formFav))
     }
   };
-
-
 
   return (
     <div>
@@ -68,7 +82,7 @@ const DetailAd = () => {
       <div className="principal">
         {loading ? (
           <div
-            style={{ backgroundColor: 'white', width: '100%', height: '100vh' }}
+            style={{ backgroundColor: "white", width: "100%", height: "100vh" }}
           >
             Cargando...
           </div>
@@ -80,32 +94,41 @@ const DetailAd = () => {
                 <Box display="flex" justifyContent="space-between" width="100%">
                   <Button
                     sx={{
-                      backgroundColor: isSaved ? '#3B7BA4' : '#D9D9D9',
-                      alignItems: 'center',
-                      justifyContent: 'center',
+                      backgroundColor: !newFav ? "#D9D9D9" : "#3B7BA4",
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
                     variant="contained"
                     onClick={handleSaveOrRemoveProfile}
                   >
-                    {isSaved ? <FavoriteIcon /> : <FavoriteBorderIcon />}
+                    {!newFav ? <StarBorderIcon /> : <StarIcon />}
                   </Button>
- 
-               <FavoritesNotification/>
+                  <Link
+                    to={
+                      userData &&
+                      userData.nickname &&
+                      `/payments/${userData.nickname}`
+                    }
+                  >
+                    <Button variant="outlined" sx={{ marginLeft: "15px" }}>
+                      Pagos
+                    </Button>
+                  </Link>
                 </Box>
               </Grid>
 
-              <Grid item xs={12} md={10} sx={{ margin: '16px' }}>
+              <Grid item xs={12} md={10} sx={{ margin: "16px" }}>
                 <Typography
                   fontWeight="900"
                   variant="h3"
-                  sx={{ margin: '10px' }}
+                  sx={{ margin: "10px" }}
                 >
                   {detail.detail.profession}
                 </Typography>
                 <Typography
                   fontWeight="900"
                   variant="h5"
-                  sx={{ margin: '10px' }}
+                  sx={{ margin: "10px" }}
                 >
                   Ubicación: {detail.detail.location}
                 </Typography>
@@ -113,23 +136,23 @@ const DetailAd = () => {
                 <Typography
                   fontWeight="900"
                   variant="h4"
-                  sx={{ margin: '10px' }}
+                  sx={{ margin: "10px" }}
                 >
                   Descripción:
                 </Typography>
                 <Typography
                   fontWeight="700"
                   variant="body1"
-                  sx={{ margin: '10px' }}
+                  sx={{ margin: "10px" }}
                 >
                   {detail.detail.description}
                 </Typography>
                 <Card
                   sx={{
-                    width: '100%',
-                    backgroundColor: '#D9D9D9',
-                    padding: '10px',
-                    margin: '0px',
+                    width: "100%",
+                    backgroundColor: "#D9D9D9",
+                    padding: "10px",
+                    margin: "0px",
                   }}
                   align="left"
                 >
@@ -171,7 +194,7 @@ const DetailAd = () => {
                 />
                 <CardContent>
                   <Typography fontWeight="900" variant="h5" component="div">
-                    {detail.detail.creator[0].name}{' '}
+                    {detail.detail.creator[0].name}{" "}
                     {detail.detail.creator[0].lastName}
                   </Typography>
 
@@ -191,8 +214,7 @@ const DetailAd = () => {
                       </div>
                     </Grid>
                   </Grid>
-
-                  <MercadoPago />
+                  <MercadoPago/>
                 </CardContent>
               </Card>
             </Grid>

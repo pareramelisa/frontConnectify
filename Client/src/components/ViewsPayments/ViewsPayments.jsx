@@ -1,116 +1,117 @@
 import React from 'react'
 import style from './ViewsPayments.module.css';
-
-import { useParams } from 'react-router-dom';
+const VITE_API_BASE = import.meta.env.VITE_API_BASE
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import PaymentsCard from '../paymentsCard/PaymentsCard';
+import PaymentsCard from '../PaymentsCard/PaymentsCard';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useAuth0 } from '@auth0/auth0-react';
 
- function ViewsPayments () {
+import Navbar from "../Navbar/Navbar";
 
-    const clientId = "653d1f54d51041342d8d855c" //! INSERT  CLIENT  ID  <<< <<<<< <<<<<<<
-
-    const { pathname, search } = useLocation(); //? ( pathname: url - search: Querys )
+function ViewsPayments() {
+  
+    const {user, isAuthenticated} = useAuth0();
     
-    const idProfessional = pathname.replace('/payments/', '')
-    console.log("idProfessional...", idProfessional);
-    
-    const [paymentData, setPaymentData] = useState(null); // Estado para almacenar los datos de la respuesta
+    const { pathname, search } = useLocation(); // ( pathname: url - search: Querys )
 
-    useEffect(() => {  
-        if (search) {   //Si hay search significa que tiene query (VENGO DE PAGAR)
-                        //GUARDO DATOS EN DB 
+    
+    const path = pathname.split("/")[2];
+    
+    const detail = useSelector((state) => state.detail);
+    
+    const [paymentData, setPaymentData] = useState(null); 
+    const [userName, setUserName] = useState(""); 
+    const [saved, setSaved] = useState(false);
+    const [professionalID, setProfessionalID] = useState(null);
+
+   
+    useEffect(() => { 
+        
+        setUserName(path)
+
+
+        if (search) {   //! Si hay search => tiene query (VENGO DE PAGAR)
+                        //!  GUARDO DATOS EN DB 
+
+                    
             const dataMP = search.split("&");
-            
+                    
+            console.log("PUP...", dataMP);
+                    
             const valuesMP = {
-                paymentID: dataMP[2].split("=")[1],
-                status: dataMP[3].split("=")[1],
-                paymentType: dataMP[5].split("=")[1],
+                profIDID: dataMP[0].split("=")[1],
+                paymentIDD: dataMP[3].split("=")[1],
+                status: dataMP[4].split("=")[1],
+                paymentType: dataMP[6].split("=")[1],
             }
-
-            console.log("Datos MercadoPago...", valuesMP);
 
             const fetchData = async () => {
                 try {
-                const response = await axios.post("http://localhost:3001/payments/register", {
-                    professionalId: "653bca0fe4f42ed113e6a4ce", //idProfessional,
-                    clientId: "653d1f54d51041342d8d855c",
-                    isCompleted: true
-                });
-                setPaymentData(response.status); 
+                    //Veo si ya existe el ID de pago para evitar copias
+                    const checkPayment = await axios.get(`https://connectifyback-dp-production.up.railway.app/payments/check/${valuesMP.paymentIDD}`);
+                    if (checkPayment.data.exists) {
+                        searchData();
+                    } else {
+
+                        const response = await axios.post("https://connectifyback-dp-production.up.railway.app/payments/register", {
+                            professionalId: valuesMP.profIDID,  //professionalID,  
+                            paymentID: valuesMP.paymentIDD,
+                            userName: userName,
+                            isCompleted: valuesMP.status,
+                        });
+                        searchData();
+                        
+                    }
                 } catch (error) {
-                console.log("Error ViewPayments,", error);
+                    console.log("Error ViewPayments,", error);
                 }
             };
         
-            fetchData(); // Llama a la función para realizar la solicitud cuando el componente se monta
+            fetchData(); 
+        
+        } 
+        else {
+            searchData();            
         }
-    }, [search, idProfessional]);
+    }, [search, userName]); 
 
-    // Leyendo datos de la DB -----------------------------------------------------
-    useEffect(() => {      
-    const searchData = async () => {
-        try {
-            const resp = await axios.get(`http://localhost:3001/payments/${clientId}`);
-            setPaymentData(resp.data); 
-            console.log("DATA... ", resp.data)
-        } catch (error) {
-            console.log("Error AxiosGet in ViewPayments,", error);
-        }
-    };
-
-    searchData();
-}, []);
-
-
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //       try {
-    //         const response = await axios.post("http://localhost:3001/payments/register", {
-    //           professionalId: idProfessional,
-    //           clientId: "653d1f54d51041342d8d855c",
-    //           isCompleted: true
-    //         });
-    //         // console.log("AXIOSresponse...", response.status)
-    //         setPaymentData(response.status); // Actualiza el estado con los datos de la respuesta
-    //         // console.log("ALGO:::", response);
-    //       } catch (error) {
-    //         console.log("Error ViewPayments,", error);
-    //       }
-    //     };
-    
-    //     fetchData(); // Llama a la función para realizar la solicitud cuando el componente se monta
-    //   }, [search]);
-    
-
-
-
-
-
-
-
-
-
+  
+  // Leyendo datos por userName de la DB -----------------------------------------------------
+  const searchData = async () => {
+    try {
+      const resp = await axios.get(
+        VITE_API_BASE + `/payments/search/${userName}`
+      );
+      setPaymentData(resp.data);
+    } catch (error) {
+      console.log("Error AxiosGet in ViewPayments,", error);
+    }
+  };
 
   return (
     <div className={style.contentAll}>
-        <h2>Payments</h2>
-        <div className={style.contentAll}>
-            <div className={style.contTitle}>
-                <h3>Mis pagos...</h3>
+      <Navbar />
+      <div className={style.contentAll}>
+        <div className={style.contTitle}>
+          <h3>Mis pagos...</h3>
 
-                <PaymentsCard/>
+          <h4>
+            {paymentData && paymentData[0] && paymentData[0].userName
+              ? `User: ${paymentData[0].userName}`
+              : "Cargando..."}
+          </h4>
 
-
-            </div>
+           {paymentData
+            ? paymentData.map((data, id) => (
+                <PaymentsCard key={id} data={data} />
+              ))
+            : "Cargando..."}
         </div>
-        
-        
-        
-        
+      </div>
     </div>
-  )
+  );
 }
 
-export default ViewsPayments
+export default ViewsPayments;

@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+const VITE_API_BASE = import.meta.env.VITE_API_BASE;
+console.log(VITE_API_BASE);
 
 // Setea el estado de usuario cuando hacen login o logout
 export const userLoginSlice = createSlice({
   name: "usersLogin",
   initialState: {
-    user: [],
+    user: [], 
   },
   reducers: {
     loginUser: (state, action) => {
@@ -27,25 +29,22 @@ export const fetchUserLogin = (form) => {
     let endpoint = "";
 
     if (form.types === "client") {
-      endpoint = `https://connectifyback-dp-production.up.railway.app/client/login/?email=${form.email}&password=${form.password}`;
+      endpoint = VITE_API_BASE + `/client/login/`;
+    } else if (form.types === "professional") {
+      endpoint = VITE_API_BASE + `/professional/login/`;
+    } else if (form.types === "admin") {
+      endpoint = VITE_API_BASE + `/admin/login/`;
     }
-
-    if (form.types === "professional") {
-      endpoint = `https://connectifyback-dp-production.up.railway.app/professional/login/?email=${form.email}&password=${form.password}`;
-    }
-
-    if (form.types === "admin") {
-      endpoint = `https://connectifyback-dp-production.up.railway.app/admin/login/?email=${form.email}&password=${form.password}`;
-    }
-
-    console.log(endpoint);
-    console.log(form);
 
     try {
-      const { data } = await axios.get(endpoint);
-      dispatch(loginUser(data));
+      const { data } = await axios.post(endpoint, form);
+      console.log(data);
+      if (data.name) {
+        dispatch(loginUser(data));
+        return { access: true };
+      }
     } catch (error) {
-      console.log(error);
+      return { access: false };
     }
   };
 };

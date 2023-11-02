@@ -1,8 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
+console.log(VITE_API_BASE);
 
 // const URL = `http://localhost:3001`;
-const URL = `https://connectifyback-dp-production.up.railway.app`;
+const URL = VITE_API_BASE;
+console.log(URL);
 
 export const professionalSlice = createSlice({
   name: "professionalSlice",
@@ -51,7 +54,7 @@ export const deleteProfByIdAdmin = (id) => {
       const deleted = await axios.patch(endpoint, id);
 
       dispatch(deleteProfessional(deleted));
-      // return professionals;
+      return deleted;
     } catch (error) {
       console.log(error);
       return "No se pudo bannear dicho profesionale";

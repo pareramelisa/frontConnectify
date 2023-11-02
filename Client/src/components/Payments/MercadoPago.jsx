@@ -1,17 +1,26 @@
 import React, { useEffect, useState } from 'react';
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
-// import { config } from 'dotenv';
+
 import { useSelector } from 'react-redux';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 // config();
-
 // const PUBLIC_KEY = process.env.PUBLIC_KEY;
-const PUBLIC_KEY = "TEST-50156f30-252b-4623-bbba-ed453620d49f";
 
 
-function mercadoPago({price, description}) {
+
+function mercadoPago() {
+    // USER es el Usuario registrado
+    const {user} = useAuth0();
+
+    // DETAIL es el detalle del Professional
+    const detail = useSelector((state) => state.detail);
+
+    const PUBLIC_KEY = "TEST-50156f30-252b-4623-bbba-ed453620d49f";
+  
+    console.log("PAKAPAKA...", detail)
 
     const [preferenceId, setPreferenceId] = useState(null);
     const [descriptionBuy, setDescriptionBuy] = useState("Gracias por la compra!")
@@ -19,20 +28,42 @@ function mercadoPago({price, description}) {
     const [cargandoSiNo, setCargandoSiNo] = useState("");
     const [walletVisible, setWalletVisible] = useState(false);
 
-    const detail = useSelector((state) => state.detail);
+    const [userDataOk, setUserDataOk] = useState(null);
+    const [detailProf, setDetailProf] = useState(null);
 
+    // const detailPr = detail;
+    
+    useEffect(()=>{
+      setUserDataOk(user);
+    },[user])
+
+    useEffect(()=>{
+      console.log("USER-DATA...", userDataOk);
+    },[userDataOk])
+    
 
     useEffect(() => {
-        if (preferenceId) {
-          setCargandoSiNo("");
-          setWalletVisible(true);   //Evito que se repita el botón repetido de MP
-        }
-      }, [preferenceId]);
+      if (preferenceId) {
+        setCargandoSiNo("");
+        setWalletVisible(true);   //Evito que se repita el botón repetido de MP
+      }
+    }, [preferenceId]);
     
       useEffect(() => {
-        if (price) setServicePrice(price);
-        if (description) setDescriptionBuy(description);
-      }, [price, description]);
+        if (detail.detail.price) setServicePrice(detail.detail.price);
+        if (detail.detail.title) setDescriptionBuy(detail.detail.title);
+        // if (price) setServicePrice(price);
+        // if (description) setDescriptionBuy(description);
+        // if (userData) setUserDataOk(userData);
+        // if (detail) setDetailProf(detail);
+
+        // if (detailProf && detailProf.detail) {
+        //     console.log("DETAIL-PROF", detailProf.detail._id);
+        //   } else {
+        //     console.log("Cargando DETAIL...");
+        //   }
+
+      }, [userDataOk, detail]);
      
     
 
@@ -43,10 +74,13 @@ function mercadoPago({price, description}) {
         
         try {
             const response = await axios.post("https://connectifyback-dp-production.up.railway.app/create_preference", 
-            {
-                description: descriptionBuy,
-                price:detail.detail.price,
-                quantity: 1,
+            // const response = await axios.post("http://localhost:3001/create_preference", 
+            {   
+              idProf:detail.detail.creator[0]._id,//detailProf.detail._id,
+              userName: userDataOk.nickname,
+              description: descriptionBuy,
+              price:detail.detail.price,
+              quantity: 1,
             })
 
             const { id } = response.data;
@@ -60,30 +94,19 @@ function mercadoPago({price, description}) {
 
 
     const handleButton = async ()=>{
-        setCargandoSiNo("Cargando compra...");
+        setCargandoSiNo("Cargando pago...");
         const id = await createPreference();
         if (id) {
             setPreferenceId(id);
         }
     };
 
-
-    const handleChange = (event) =>{
-        const value = event.target.value;
-        setServicePrice(value);
-    }
-
     
 
   return (
     <>
-        {/* <p>Comprar...</p> */}
-        {/* <div className='contentPrice'>
-            <label className='price$'>$</label>
-            <input type='text' className='priceValue' value={servicePrice} onChange={handleChange}/>
-        </div> */}
-
-        <button className='donate-link' onClick={handleButton}>COMPRAR</button>
+        
+        <button className='donate-link' onClick={handleButton}>Contratar</button>
         <p>{cargandoSiNo}</p>
 
         {   
