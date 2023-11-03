@@ -36,7 +36,7 @@ function App() {
           <Route path="/client/favorites" element={<Favortites />} />
           <Route path="/admin/dashboard" element={<DashboardAdmin />} />
           <Route path="/chat" element={<Chat />} />
-          <Route path="/client/profile" element={<NewBackgroun />} />
+          
         </Routes>
       </div>
     </>
