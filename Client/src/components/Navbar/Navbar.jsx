@@ -20,7 +20,7 @@ import { logoutUser } from "../../redux/Slices/loginSlice";
 import BookIcon from '@mui/icons-material/Book';
 import FolderSpecialIcon from '@mui/icons-material/FolderSpecial';
 
-const settings = ["Perfil", "Logout"];
+const settings = ["Perfil", "Historial Pagos", "Logout"];
 
 function ResponsiveAppBar({ setContainerLogin }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -45,6 +45,10 @@ function ResponsiveAppBar({ setContainerLogin }) {
   
   const handleAvatarButton = async (e) => {
     const text = e.target.textContent;
+
+    if (text === 'Historial Pagos' && location.pathname !== "/payments") {
+      navigate(`/payments/${nickName}`)
+    }
     
     if (text === "Logout") {
       await dispatch(logoutUser());
@@ -96,21 +100,6 @@ function ResponsiveAppBar({ setContainerLogin }) {
                     Home
                   </Button>
                   )}
-                 
-                  {
-                    (location.pathname !== "/payments") &&(
-                    <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => navigate(`/payments/${nickName}`)}  
-                    style={{
-                      marginRight: '1rem'
-                    }}
-                  >
-                    Pagos
-                  </Button>
-                  )}
-
 
                 <Badge badgeContent={favoriteCount} color="secondary" style={{marginRight: '1rem'}}>
 
