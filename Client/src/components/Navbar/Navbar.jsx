@@ -46,6 +46,18 @@ function ResponsiveAppBar({ setContainerLogin }) {
   const handleAvatarButton = async (e) => {
     const text = e.target.textContent;
 
+    if (text === "Perfil" && users.types === 'client') {
+      navigate(`/client/dashboard`)
+    }
+
+    if (text === "Perfil" && users.types === 'professional') {
+      navigate(`/professional/dashboardProf`)
+    }
+
+    if (text === "Perfil" && users.types === 'admin') {
+      navigate(`/admin/dashboard`)
+    }
+
     if (text === 'Historial Pagos' && location.pathname !== "/payments") {
       navigate(`/payments/${nickName}`)
     }

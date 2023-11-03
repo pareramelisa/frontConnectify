@@ -7,7 +7,7 @@ console.log(VITE_API_BASE);
 export const userLoginSlice = createSlice({
   name: "usersLogin",
   initialState: {
-    user: [], 
+    user: [],
   },
   reducers: {
     loginUser: (state, action) => {
@@ -32,8 +32,6 @@ export const fetchUserLogin = (form) => {
       endpoint = VITE_API_BASE + `/client/login/`;
     } else if (form.types === "professional") {
       endpoint = VITE_API_BASE + `/professional/login/`;
-    } else if (form.types === "admin") {
-      endpoint = VITE_API_BASE + `/admin/login/`;
     }
 
     try {
