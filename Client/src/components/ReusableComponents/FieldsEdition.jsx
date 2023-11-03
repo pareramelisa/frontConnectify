@@ -97,7 +97,7 @@ const UserInfoCard = ({ user, userImage, editMode, handleEdit, handleSave, setUs
             <Typography variant="subtitle1" gutterBottom>
               Descripción: {user.description}
             </Typography>
-            <Typography variant="body1">{user.bio}</Typography>
+            
           </div>
         )}
       </CardContent>
