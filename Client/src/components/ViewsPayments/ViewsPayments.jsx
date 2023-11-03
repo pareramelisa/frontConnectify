@@ -16,7 +16,8 @@ function ViewsPayments() {
     
     const { pathname, search } = useLocation(); // ( pathname: url - search: Querys )
 
-    
+    console.log("PATH...", pathname)
+    console.log("SEARCH...", search)
     const path = pathname.split("/")[2];
     
     const detail = useSelector((state) => state.detail);
@@ -36,16 +37,40 @@ function ViewsPayments() {
                         //!  GUARDO DATOS EN DB 
 
                     
-            const dataMP = search.split("&");
-                    
-            console.log("PUP...", dataMP);
-                    
-            const valuesMP = {
-                profIDID: dataMP[0].split("=")[1],
-                paymentIDD: dataMP[3].split("=")[1],
-                status: dataMP[4].split("=")[1],
-                paymentType: dataMP[6].split("=")[1],
+            // const dataMP = search.split("&");
+            const dataMP = search.substring(1).split('&')        
+            
+            let payment_id, idProf, status, payment_type;
+
+            for (const pair of dataMP) {
+              const [key, value] = pair.split('=');
+
+              switch (key) {
+                case 'payment_id':
+                  payment_id = value;
+                  break;
+                case 'idProf':
+                  idProf = value;
+                  break;
+                case 'status':
+                  status = value;
+                  break;
+                case 'payment_type':
+                  payment_type = value;
+                  break;
+                
+              }
             }
+
+
+            const valuesMP = {
+                profIDID: idProf,//dataMP[0].split("=")[1],
+                paymentIDD: payment_id,//dataMP[3].split("=")[1],
+                status: status,//dataMP[4].split("=")[1],
+                paymentType: payment_type,//dataMP[6].split("=")[1],
+            }
+
+            console.log("ZZZZZ : ", valuesMP)
 
             const fetchData = async () => {
                 try {
