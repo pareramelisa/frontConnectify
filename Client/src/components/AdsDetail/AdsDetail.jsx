@@ -10,7 +10,6 @@ import {
   List,
   ListItem,
   Typography,
-
 } from "@mui/material";
 import MercadoPago from "../Payments/MercadoPago";
 import "./DetailAd.css";
@@ -22,13 +21,15 @@ import Navbar from "../Navbar/Navbar";
 import { locationUser } from "../../redux/Slices/persistSlice";
 import { Link } from "react-router-dom";
 
-
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 //import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useAuth0 } from "@auth0/auth0-react";
 
-import { fetchAddFavorites, fetchRemoveFavorites} from "../../redux/Slices/favoritesSlice";
+import {
+  fetchAddFavorites,
+  fetchRemoveFavorites,
+} from "../../redux/Slices/favoritesSlice";
 
 const DetailAd = () => {
   const { user } = useAuth0();
@@ -44,9 +45,9 @@ const DetailAd = () => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
 
-
-  const newFav = favorites.some(favorite => favorite.professional._id === detail.detail.creator[0]._id);
-
+  const newFav = favorites.some(
+    (favorite) => favorite.professional._id === detail.detail.creator[0]._id
+  );
 
   useEffect(() => {
     dispatch(fetchDetail(id)).then(() => {
@@ -62,7 +63,6 @@ const DetailAd = () => {
     setUserData(user);
   }, [user]);
 
-
   const handleSaveOrRemoveProfile = () => {
     const formFav = {
       clientId: users._id,
@@ -71,8 +71,8 @@ const DetailAd = () => {
 
     if (!newFav) {
       dispatch(fetchAddFavorites(formFav));
-    }else {
-      dispatch(fetchRemoveFavorites(formFav))
+    } else {
+      dispatch(fetchRemoveFavorites(formFav));
     }
   };
 
@@ -90,32 +90,27 @@ const DetailAd = () => {
         detail.detail.creator && detail.detail.creator.length > 0 ? (
           <Grid container spacing={2}>
             <Grid item xs={8} align="left">
-              <Grid item xs={8} align="left">
-                <Box display="flex" justifyContent="space-between" width="100%">
-                  <Button
-                    sx={{
-                      backgroundColor: !newFav ? "#D9D9D9" : "#3B7BA4",
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                    variant="contained"
-                    onClick={handleSaveOrRemoveProfile}
+              {users.types !== "admin" && users.types !== "professional" && (
+                <Grid item xs={8} align="left">
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    width="100%"
                   >
-                    {!newFav ? <StarBorderIcon /> : <StarIcon />}
-                  </Button>
-                  <Link
-                    to={
-                      userData &&
-                      userData.nickname &&
-                      `/payments/${userData.nickname}`
-                    }
-                  >
-                    <Button variant="outlined" sx={{ marginLeft: "15px" }}>
-                      Pagos
+                    <Button
+                      sx={{
+                        backgroundColor: !newFav ? "#D9D9D9" : "#3B7BA4",
+                        alignItems: "center",
+                        justifyContent: "center",
+                      }}
+                      variant="contained"
+                      onClick={handleSaveOrRemoveProfile}
+                    >
+                      {!newFav ? <StarBorderIcon /> : <StarIcon />}
                     </Button>
-                  </Link>
-                </Box>
-              </Grid>
+                  </Box>
+                </Grid>
+              )}
 
               <Grid item xs={12} md={10} sx={{ margin: "16px" }}>
                 <Typography
@@ -214,7 +209,7 @@ const DetailAd = () => {
                       </div>
                     </Grid>
                   </Grid>
-                  <MercadoPago/>
+                  <MercadoPago />
                 </CardContent>
               </Card>
             </Grid>

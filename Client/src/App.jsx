@@ -12,6 +12,7 @@ import Payments from './components/ViewsPayments/ViewsPayments';
 import ClientProfile from "../src/components/Maquetas/ClientProfile"
 import Chat from './components/Chat/Chat';
 import Cover from "./components/Cover/Cover";
+import DashboardClient from "./views/DashboardClient/DashboardClient";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="/admin/dashboard" element={<DashboardAdmin />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/client/profile" element={<ClientProfile />} />
+          <Route path="/client/dashboard" element={<DashboardClient/>} />
         </Routes>
       </div>
     </>
