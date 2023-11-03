@@ -36,22 +36,26 @@ function Chat({ nickname }) {
 
   const handlerSubmit = (e) => {
     e.preventDefault();
-    socket.emit('message', message, nickname);
-    //Nuestro mensaje
-    const newMessage = {
-      body: message,
-      from: 'Yo',
-    };
-    //Añadimos el mensaje y el resto de mensajes enviados
-    setMessages([newMessage, ...messages]);
-    //Limpiamos el mensaje
-    setMessage('');
+    if (message.trim() !== '') {
+      socket.emit('message', message, nickname);
+      //Nuestro mensaje
+      const newMessage = {
+        body: message,
+        from: 'Yo',
+      };
+      //Añadimos el mensaje y el resto de mensajes enviados
+      setMessages([newMessage, ...messages]);
+      //Limpiamos el mensaje
+      setMessage('');
 
-    //Petición http por POST para guardar el artículo:
-    axios.post(url + `/save`, {
-      message: message,
-      from: userEmail,
-    });
+      //Petición http por POST para guardar el artículo:
+      axios.post(url + `/save`, {
+        message: message,
+        from: userEmail,
+      });
+    } else {
+      window.alert('No puede enviar mensajes vacíos');
+    }
   };
 
   const fetchStoredMessages = async () => {
@@ -87,7 +91,7 @@ function Chat({ nickname }) {
             </div>
           ))}
           <div className="card-body"></div>
-          <small className="text-muted">... Mensajes guardados ...</small>
+          <small className="text-muted">Anteriores mensajes...</small>
           {storedMessages ? (
             storedMessages.length === 0 ? (
               <p>Cargando mensajes...</p>
