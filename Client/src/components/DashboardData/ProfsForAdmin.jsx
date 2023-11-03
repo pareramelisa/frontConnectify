@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import Pagination from "../../components/Pagination/Pagination";
 
 import {
   fetchProfsForAdmin,
@@ -21,11 +22,17 @@ const ProfsForAdmin = () => {
   );
   const clients = useSelector((state) => state.clients.clients);
   const ads = useSelector((state) => state.ads.ads);
-  const deletedProf = useSelector((state) => state.professionals.deleted.data);
-  const deletedClient = useSelector((state) => state.clients.deleted.data);
-  const deletedAd = useSelector((state) => state.ads.deleted);
 
-  // console.log(deletedProf);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [dataPerPage] = useState(10);
+
+  const indexOfLastAd = currentPage * dataPerPage;
+  const indexOfFirstAd = indexOfLastAd - dataPerPage;
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -96,6 +103,9 @@ const ProfsForAdmin = () => {
       setSelectedData(toScrub);
     }
   };
+  const currentData = selectedData
+    ? selectedData.slice(indexOfFirstAd, indexOfLastAd)
+    : [];
 
   const handleBanProf = async () => {
     try {
@@ -135,157 +145,181 @@ const ProfsForAdmin = () => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+      }}
+    >
       <div>
-        <select
-          name="user"
-          id="user type"
-          onChange={(e) => handleUserType(e.target.value)}
-        >
-          <option value="professionals">Profesionales</option>
-          <option value="clients">Clientes</option>
-          <option value="ads">Anuncios</option>
-        </select>
-        {selectedData !== clients && selectedData !== ads && (
+        <div>
           <select
-            name="profession"
-            id="profession"
-            onChange={(e) => handleSelentProfession(e)}
+            name="user"
+            id="user type"
+            onChange={(e) => handleUserType(e.target.value)}
           >
-            <option key="0" value="Todas las Profesiones">
-              Todas las Profesiones
-            </option>
-            {profession.map((prof, index) => (
-              <option key={index} value={prof}>
-                {prof}
-              </option>
-            ))}
+            <option value="professionals">Profesionales</option>
+            <option value="clients">Clientes</option>
+            <option value="ads">Anuncios</option>
           </select>
-        )}
-        {selectedData.length !== professionals.length &&
-          selectedData[0].locationJob && (
-            <div>
-              <button onClick={(e) => handleBanProf(e)}>
-                Suspender Profesión
-              </button>
-              <button onClick={(e) => handleUnbanProf(e)}>
-                Dessuspender Profesión
-              </button>
-            </div>
+          {selectedData !== clients && selectedData !== ads && (
+            <select
+              name="profession"
+              id="profession"
+              onChange={(e) => handleSelentProfession(e)}
+            >
+              <option key="0" value="Todas las Profesiones">
+                Todas las Profesiones
+              </option>
+              {profession.map((prof, index) => (
+                <option key={index} value={prof}>
+                  {prof}
+                </option>
+              ))}
+            </select>
           )}
-      </div>
-      {selectedData.length > 0 ? (
-        selectedData?.map((prof, index) => (
-          <tr key={prof.id}>
-            <th
-              style={{
-                backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
-              }}
-              scope="row"
-            >
-              {index + 1}
-            </th>
-            <td
-              style={{
-                backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
-              }}
-            >
-              {prof.creator ? (
-                <img
-                  src={prof.creator[0].image}
-                  alt=""
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "100%",
-                  }}
-                />
-              ) : (
-                <img
-                  src={
-                    prof.image ||
-                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCMq4cGfAmaJAYVpXFPLY57EzVip1FTMK-ETQH1aU24VD-bYx5wJ4srHFP99zAgqXBvfQ&usqp=CAU"
-                  }
-                  alt="Default Image"
-                  style={{
-                    width: "40px",
-                    height: "40px",
-                    borderRadius: "100%",
-                  }}
-                />
-              )}
-            </td>
-            <td
-              style={{
-                backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
-                width: "100px",
-              }}
-            >
-              {prof.userName || prof.creator[0].userName}
-            </td>
-            <td
-              style={{
-                backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
-                width: "120px",
-              }}
-            >
-              {prof.locationJob ||
-                prof.province ||
-                prof.postingDate?.substring(0, 10)}
-            </td>
-            <td
-              style={{
-                backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
-                width: "250px",
-              }}
-            >
-              {prof.email || prof.creator[0].email}
-            </td>
-
-            <td
-              style={{
-                backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
-                width: "100px",
-              }}
-            >
-              {prof.profession ? prof.profession : "Cliente"}
-            </td>
-            <td
-              style={{
-                backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
-                width: "70px",
-              }}
-            >
-              <button
-                className="btn btn-outline-danger"
-                onClick={(e) => handleDelete(e, prof)}
+          {selectedData.length !== professionals.length &&
+            selectedData[0].locationJob && (
+              <div>
+                <button onClick={(e) => handleBanProf(e)}>
+                  Suspender Profesión
+                </button>
+                <button onClick={(e) => handleUnbanProf(e)}>
+                  Dessuspender Profesión
+                </button>
+              </div>
+            )}
+        </div>
+        {selectedData.length > 0 ? (
+          currentData?.map((prof, index) => (
+            <tr key={prof.id}>
+              <th
+                style={{
+                  backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
+                }}
+                scope="row"
               >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  fill="currentColor"
-                  class="bi bi-x-square-fill"
-                  viewBox="0 0 16 16"
-                >
-                  <path
-                    d={
-                      prof.isDeleted
-                        ? "M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z"
-                        : "M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"
+                {index + 1}
+              </th>
+              <td
+                style={{
+                  backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
+                }}
+              >
+                {prof.creator ? (
+                  <img
+                    src={prof.creator[0].image}
+                    alt=""
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "100%",
+                    }}
+                  />
+                ) : (
+                  <img
+                    src={
+                      prof.image ||
+                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCMq4cGfAmaJAYVpXFPLY57EzVip1FTMK-ETQH1aU24VD-bYx5wJ4srHFP99zAgqXBvfQ&usqp=CAU"
                     }
-                  ></path>
-                </svg>
-              </button>
-            </td>
+                    alt="Default Image"
+                    style={{
+                      width: "40px",
+                      height: "40px",
+                      borderRadius: "100%",
+                    }}
+                  />
+                )}
+              </td>
+              <td
+                style={{
+                  backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
+                  width: "100px",
+                }}
+              >
+                {prof.userName || prof.creator[0].userName}
+              </td>
+              <td
+                style={{
+                  backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
+                  width: "120px",
+                }}
+              >
+                {prof.locationJob ||
+                  prof.province ||
+                  prof.postingDate?.substring(0, 10)}
+              </td>
+              <td
+                style={{
+                  backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
+                  width: "250px",
+                }}
+              >
+                {prof.email || prof.creator[0].email}
+              </td>
+
+              <td
+                style={{
+                  backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
+                  width: "100px",
+                }}
+              >
+                {prof.profession ? prof.profession : "Cliente"}
+              </td>
+              <td
+                style={{
+                  backgroundColor: prof.isDeleted ? "#edd55e" : "#9bdb92",
+                  width: "70px",
+                }}
+              >
+                <button
+                  className="btn btn-outline-danger"
+                  onClick={(e) => handleDelete(e, prof)}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-x-square-fill"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d={
+                        prof.isDeleted
+                          ? "M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm10.03 4.97a.75.75 0 0 1 .011 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.75.75 0 0 1 1.08-.022z"
+                          : "M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM6.25 5C5.56 5 5 5.56 5 6.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C7.5 5.56 6.94 5 6.25 5zm3.5 0c-.69 0-1.25.56-1.25 1.25v3.5a1.25 1.25 0 1 0 2.5 0v-3.5C11 5.56 10.44 5 9.75 5z"
+                      }
+                    ></path>
+                  </svg>
+                </button>
+              </td>
+            </tr>
+          ))
+        ) : (
+          <tr>
+            <td colSpan="9">No se encontraron profecionales</td>
           </tr>
-        ))
-      ) : (
-        <tr>
-          <td colSpan="9">No se encontraron profecionales</td>
-        </tr>
-      )}
-    </>
+        )}
+      </div>
+      <div
+        style={{
+          marginTop: "auto",
+          padding: "20px",
+        }}
+      >
+        {selectedData.length !== 0 ? (
+          <Pagination
+            currentPage={currentPage}
+            adsPerPage={dataPerPage}
+            totalAds={selectedData.length}
+            onPageChange={paginate}
+            currentAds={currentData}
+          />
+        ) : null}
+      </div>
+    </div>
   );
 };
 
