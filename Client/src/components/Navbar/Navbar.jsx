@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -17,19 +17,23 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/Slices/loginSlice";
-import BookIcon from '@mui/icons-material/Book';
-import FolderSpecialIcon from '@mui/icons-material/FolderSpecial';
+import BookIcon from "@mui/icons-material/Book";
+import FolderSpecialIcon from "@mui/icons-material/FolderSpecial";
 
-const settings = ["Perfil", "Logout"];
+const settings = ["Perfil", "Historial Pagos", "Logout"];
 
 function ResponsiveAppBar({ setContainerLogin }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
+  const [nickName, setNickName] = useState(null);
 
   const users = useSelector((state) => state.usersLogin.user);
   const favoriteCount = useSelector((state) => state.favorites.favoriteCount);
+  const favorite = useSelector(
+    (state) => state.favorites.favoriteProfessionals
+  );
   const dispatch = useDispatch();
-  const location = useLocation()
-  const navigate = useNavigate()
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const { user, logout, isAuthenticated } = useAuth0();
 
@@ -44,6 +48,22 @@ function ResponsiveAppBar({ setContainerLogin }) {
   const handleAvatarButton = async (e) => {
     const text = e.target.textContent;
 
+    if (text === "Perfil" && users.types === "client") {
+      navigate(`/client/dashboard`);
+    }
+
+    if (text === "Perfil" && users.types === "professional") {
+      navigate(`/professional/dashboardProf`);
+    }
+
+    if (text === "Perfil" && users.types === "admin") {
+      navigate(`/admin/dashboard`);
+    }
+
+    if (text === "Historial Pagos" && location.pathname !== "/payments") {
+      navigate(`/payments/${nickName}`);
+    }
+
     if (text === "Logout") {
       await dispatch(logoutUser());
     }
@@ -57,6 +77,13 @@ function ResponsiveAppBar({ setContainerLogin }) {
     setContainerLogin(true);
   };
 
+  useEffect(() => {
+    console.log("USERUSER...", user);
+    if (user && user.nickname) {
+      setNickName(user.nickname);
+    }
+  }, [user]);
+
   return (
     <AppBar position="static" style={{ marginBottom: "1.5rem" }}>
       <Container maxWidth="xl">
@@ -69,30 +96,37 @@ function ResponsiveAppBar({ setContainerLogin }) {
               sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
             ></Box>
             <Box sx={{ flexGrow: 0 }}>
-              {isAuthenticated || users.name ? (
+              {isAuthenticated || users.userName ? (
                 <div>
-                  {
-                    (location.pathname !== "/home") &&(
+                  {location.pathname !== "/home" && (
                     <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => navigate('/home')}
-                    style={{
-                      marginRight: '1rem'
-                    }}
-                  >
-                    Home
-                  </Button>
+                      variant="contained"
+                      color="primary"
+                      onClick={() => navigate("/home")}
+                      style={{
+                        marginRight: "1rem",
+                      }}
+                    >
+                      Home
+                    </Button>
                   )}
-                <Badge badgeContent={favoriteCount} color="secondary" style={{marginRight: '1rem'}}>
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={() => navigate('/client/favorites')}
-                  >
-                    <FolderSpecialIcon></FolderSpecialIcon>
-                  </Button>
-                </Badge>
+                  {users.types !== "admin" &&
+                    users.types !== "professional" && (
+                      <Badge
+                        badgeContent={favoriteCount}
+                        color="secondary"
+                        style={{ marginRight: "1rem" }}
+                      >
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={() => navigate("/client/favorites")}
+                        >
+                          <FolderSpecialIcon></FolderSpecialIcon>
+                        </Button>
+                      </Badge>
+                    )}
+
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar

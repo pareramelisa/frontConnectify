@@ -11,7 +11,7 @@ export const theme = createTheme({
   typography: {
     fontFamily: 'Poppins, sans-serif',
     subtitle1: {
-      fontSize: 12, 
+      fontSize: 14, 
     },
     body1: {
       fontWeight: 500,
