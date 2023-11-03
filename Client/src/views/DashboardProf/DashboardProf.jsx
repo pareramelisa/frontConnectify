@@ -1,26 +1,33 @@
-import { Divider, Grid } from "@mui/material"
-import AdsProfesional from "../../components/AdsProfessional/AdsProfessional"
-import BookingProf from "../../components/BookingProf/BookingProf"
-import { CardProfileProf } from "../../components/CardProfileProf/CardProfileProf"
+import { Divider, Grid, Stack } from "@mui/material";
+import AdsProfesional from "../../components/AdsProfessional/AdsProfessional";
+import BookingProf from "../../components/BookingProf/BookingProf";
+import { CardProfileProf } from "../../components/CardProfileProf/CardProfileProf";
+// import NavBarDemo2 from "../../components/NavBarDemo2/NavBarDemo2";
+import NavBar from "../../components/Navbar/Navbar"
+import Footer from "../../components/Footer/Footer";
 
 const DashboardProf = () => {
-    return (
+  return (
+    <div>
       <div>
-        <h1 style={{ margin: "5px 0", padding: "20px" }} >Mi perfil</h1>
-        <Divider />
-        <Grid container spacing={2}>
-          <Grid item xs={4}>
-            <CardProfileProf />
-          </Grid>
-          <Grid item xs={4}>
-            <AdsProfesional />
-          </Grid>
-          <Grid item xs={4}>
-            <BookingProf />
-          </Grid>
-        </Grid>
+        <NavBar />
       </div>
-    );
-  };
+      <h1 style={{ marginLeft: "65px", fontSize: "30px", fontWeight: 300 }}>Mi perfil</h1>
+      <Divider />
+      <Grid container justifyContent={"space-evenly"} sx={{ pb: 25 }}>
+        <Grid item>
+          <CardProfileProf />
+        </Grid>
+        <Grid item>
+          <AdsProfesional />
+          <BookingProf />
+        </Grid>
+      </Grid>
+      <div>
+        <Footer />
+      </div>
+    </div>
+  );
+};
 
-export default DashboardProf
+export default DashboardProf;
