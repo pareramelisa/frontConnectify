@@ -9,7 +9,7 @@ import Favortites from "./components/Favorites/Favorites"
 import DashboardAdmin from "./views/DashboardAdmin/DashboardAdmin";
 import DashboardProf from "./views/DashboardProf/DashboardProf";
 import Payments from './components/ViewsPayments/ViewsPayments';
-import ClientProfile from "../src/components/Maquetas/ClientProfile"
+import ClientProfile from "./components/ClientProfile/ClientProfile"
 import Chat from './components/Chat/Chat';
 import Cover from "./components/Cover/Cover";
 import DashboardClient from "./views/DashboardClient/DashboardClient";
@@ -36,7 +36,8 @@ function App() {
           <Route path="/client/favorites" element={<Favortites />} />
           <Route path="/admin/dashboard" element={<DashboardAdmin />} />
           <Route path="/chat" element={<Chat />} />
-          
+          <Route path="/client/profile" element={<ClientProfile />} />
+          <Route path="/client/dashboard" element={<DashboardClient/>} />
         </Routes>
       </div>
     </>

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Grid } from '@mui/material';
 import { useSelector } from 'react-redux';
-import ReviewItem from "./ReviewShow"
-import ReviewForm from "./ReviewMaker"
-import UserInfoCard from './FieldsEdition';
-import ChatComponent from './ChatLateral';
+import ReviewItem from "../ReusableComponents/ReviewShow"
+import ReviewForm from "../ReusableComponents/ReviewMaker"
+import UserInfoCard from '../ReusableComponents/FieldsEdition';
+import ChatComponent from '../ReusableComponents/ChatLateral';
 import NavBarDemo2 from '../NavBarDemo2/NavBarDemo2'
-import Background from "./Background/Background";
+import Background from "../ReusableComponents/Background/Background";
 
 
 const Profile = () => {
@@ -55,22 +55,15 @@ const Profile = () => {
   };
 
   return (
-    <div>
+    <div style={{ backgroundColor: "transparent", padding: "6px " }}>
       
-      <Grid container spacing={2} style={{ backgroundColor: "transparent", padding: "0px 16px " }}>
+      <Grid container spacing={2} style={{ padding: "0px 16px " }}>
   
-      <Grid item xs={12} md={8}>
+      <Grid item xs={12} md={8} >
       <Background/>
       
-      <UserInfoCard
-    user={user}
-    userImage={userImage}
-    editMode={editMode}
-    handleEdit={handleEdit}
-    handleSave={handleSave}
-    setUser={setUser}
-  />
-        <ReviewForm />
+  
+      <ReviewForm/>
 
         
         <ReviewItem
@@ -86,13 +79,13 @@ const Profile = () => {
       </Grid>
 
       <Grid item xs={12} md={4}>
-  <ChatComponent
-    chatMessages={chatMessages}
-    message={message}
-    setMessage={setMessage}
-    handleSendMessage={handleSendMessage}
-    userAvatar={userImage} // Pasa la imagen del usuario actual
-    userName={userName} // Pasa el nombre del usuario actual
+      <UserInfoCard
+    user={user}
+    userImage={userImage}
+    editMode={editMode}
+    handleEdit={handleEdit}
+    handleSave={handleSave}
+    setUser={setUser}
   />
 </Grid>
 

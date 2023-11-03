@@ -12,7 +12,7 @@ import * as validations from "./ValidationsRegister";
 import NavBarDemo2 from '../NavBarDemo2/NavBarDemo2'
 
 import Button from '@mui/material/Button';
-import Background from "../Maquetas/Background/Background";
+import Background from "../ReusableComponents/Background/Background";
 import LocationSelectors from "./LocationesSelector"
 
 const Registration = () => {
