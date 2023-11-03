@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Grid } from '@mui/material';
+import  Grid  from '@mui/material/Grid';
 import { useSelector } from 'react-redux';
 import ReviewItem from "../ReusableComponents/ReviewShow"
 import ReviewForm from "../ReusableComponents/ReviewMaker"
@@ -85,7 +85,7 @@ const Profile = () => {
       </Grid>
 
       <Grid item xs={12} md={4}>
-        <h2 style={{ padding: "0px 16px " }}>Mis reseñas pendientes</h2>
+        <h2 >Mis reseñas pendientes</h2>
       <ReviewForm/>
 </Grid>
 
