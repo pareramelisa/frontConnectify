@@ -103,17 +103,6 @@ const DetailAd = () => {
                   >
                     {!newFav ? <StarBorderIcon /> : <StarIcon />}
                   </Button>
-                  <Link
-                    to={
-                      userData &&
-                      userData.nickname &&
-                      `/payments/${userData.nickname}`
-                    }
-                  >
-                    <Button variant="outlined" sx={{ marginLeft: "15px" }}>
-                      Pagos
-                    </Button>
-                  </Link>
                 </Box>
               </Grid>
 
