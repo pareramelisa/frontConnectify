@@ -83,83 +83,49 @@ const DetailAd = () => {
       <div className="principal">
         {loading ? (
           <div
-            style={{ backgroundColor: "white", width: "100%", height: "100vh" }}
+            style={{ backgroundColor: 'white', width: '100%', height: '100vh' }}
           >
             Cargando...
           </div>
-        ) : // Verifica si detail.detail.creator existe y tiene una longitud mayor que 0
-        detail.detail.creator && detail.detail.creator.length > 0 ? (
+        ) : detail.detail.creator && detail.detail.creator.length > 0 ? (
           <Grid container spacing={2}>
             <Grid item xs={8} align="left">
-              {users.types !== "admin" && users.types !== "professional" && (
+              {users.types !== 'admin' && users.types !== 'professional' && (
                 <Grid item xs={8} align="left">
-                  <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    width="100%"
-                  >
+                  <Box display="flex" justifyContent="space-between" width="100%">
                     <Button
                       sx={{
-                        backgroundColor: !newFav ? "#D9D9D9" : "#3B7BA4",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        backgroundColor: !newFav ? '#D9D9D9' : '#3B7BA4',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       }}
                       variant="contained"
                       onClick={handleSaveOrRemoveProfile}
                     >
-                      <Button
-                        variant="outlined" // Esto establece el botón con borde
-                        sx={{ margin: '0px' }}
-                      >
-                        Ver mis Favoritos{' '}
-                        <FavoriteBorderIcon sx={{ fontSize: 20 }} />
-                      </Button>
-                    </Link>
-                  </Badge> */}
-
- 
-                {/* <FavoritesNotification/> */}
-                
-                
-                
-                </Box>
-              </Grid>
-              <Grid item xs={12} md={10} sx={{ margin: "16px" }}>
-                <Typography
-                  fontWeight="900"
-                  variant="h3"
-                  sx={{ margin: "10px" }}
-                >
+                      {!newFav ? <StarBorderIcon/> : <StarIcon/>}
+                    </Button>
+                  </Box>
+                </Grid>
+              )}
+              <Grid item xs={12} md={10} sx={{ margin: '16px' }}>
+                <Typography fontWeight="900" variant="h3" sx={{ margin: '10px' }}>
                   {detail.detail.profession}
                 </Typography>
-                <Typography
-                  fontWeight="900"
-                  variant="h5"
-                  sx={{ margin: "10px" }}
-                >
+                <Typography fontWeight="900" variant="h5" sx={{ margin: '10px' }}>
                   Ubicación: {detail.detail.location}
                 </Typography>
-
-                <Typography
-                  fontWeight="900"
-                  variant="h4"
-                  sx={{ margin: "10px" }}
-                >
+                <Typography fontWeight="900" variant="h4" sx={{ margin: '10px' }}>
                   Descripción:
                 </Typography>
-                <Typography
-                  fontWeight="700"
-                  variant="body1"
-                  sx={{ margin: "10px" }}
-                >
+                <Typography fontWeight="700" variant="body1" sx={{ margin: '10px' }}>
                   {detail.detail.description}
                 </Typography>
                 <Card
                   sx={{
-                    width: "100%",
-                    backgroundColor: "#D9D9D9",
-                    padding: "10px",
-                    margin: "0px",
+                    width: '100%',
+                    backgroundColor: '#D9D9D9',
+                    padding: '10px',
+                    margin: '0px',
                   }}
                   align="left"
                 >
@@ -173,16 +139,11 @@ const DetailAd = () => {
                       </div>
                       <div className="profile-text">
                         <Typography variant="h6">⭐5.0</Typography>
-                        <Typography
-                          fontWeight="900"
-                          variant="h5"
-                          component="div"
-                        >
+                        <Typography fontWeight="900" variant="h5" component="div">
                           Maria Emilia Fuentes
                         </Typography>
                         <Typography variant="body2">
-                          Muy amigable, amable y predispuesto a despejar dudas
-                          07/08/23
+                          Muy amigable, amable y predispuesto a despejar dudas 07/08/23
                         </Typography>
                       </div>
                     </div>
@@ -191,20 +152,13 @@ const DetailAd = () => {
               </Grid>
               <Grid item xs={8}></Grid>
             </Grid>
-
             <Grid item xs={12} sm={6} md={4}>
               <Card sx={{ maxWidth: 345, borderRadius: 5 }}>
-                <CardMedia
-                  sx={{ height: 200 }}
-                  image={detail.detail.creator[0].image}
-                  title="tec"
-                />
+                <CardMedia sx={{ height: 200 }} image={detail.detail.creator[0].image} title="tec" />
                 <CardContent>
                   <Typography fontWeight="900" variant="h5" component="div">
-                    {detail.detail.creator[0].name}{" "}
-                    {detail.detail.creator[0].lastName}
+                    {detail.detail.creator[0].name} {detail.detail.creator[0].lastName}
                   </Typography>
-
                   <Grid container spacing={2}>
                     <Grid item xs={12} md={8}>
                       <div>
@@ -221,7 +175,7 @@ const DetailAd = () => {
                       </div>
                     </Grid>
                   </Grid>
-                  <MercadoPago/>
+                  <MercadoPago />
                 </CardContent>
               </Card>
             </Grid>
@@ -233,5 +187,6 @@ const DetailAd = () => {
     </div>
   );
 };
+
 
 export default DetailAd;
