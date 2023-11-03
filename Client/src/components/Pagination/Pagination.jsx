@@ -2,7 +2,7 @@
 import { Container } from './styledPagination';
 import Fab from '@mui/material/Fab';
 import { useState } from 'react';
-import { TextField } from '@mui/material';
+import { TextField, Button } from '@mui/material';
 
 function Pagination({
   currentPage,
@@ -13,6 +13,7 @@ function Pagination({
 }) {
   const [inputPage, setInputPage] = useState(currentPage);
   const totalPages = Math.ceil(totalAds / adsPerPage);
+  const [showGoToPageButton, setShowGoToPageButton] = useState(false);
   const pageNumbers = [];
   for (let i = 1; i <= totalPages; i++) {
     pageNumbers.push(i);
@@ -31,15 +32,20 @@ function Pagination({
   };
   const handleInputChange = (event) => {
     setInputPage(event.target.value);
+
+    if (event.target.value.trim() === '') {
+      setShowGoToPageButton(false);
+    } else {
+      setShowGoToPageButton(true);
+    }
   };
 
-  const handleInputPageChange = (event) => {
-    if (event.key === 'Enter') {
-      const newPage = parseInt(inputPage, 10);
-      if (!isNaN(newPage) && newPage >= 1 && newPage <= totalPages) {
-        onPageChange(newPage);
-        setInputPage(newPage);
-      }
+  const handleGoToPage = () => {
+    const newPage = parseInt(inputPage, 10);
+    if (!isNaN(newPage) && newPage >= 1 && newPage <= totalPages) {
+      onPageChange(newPage);
+      setInputPage(newPage.toString());
+      setShowGoToPageButton(false); // Oculta el botón después de usarlo
     }
   };
 
@@ -56,15 +62,27 @@ function Pagination({
           marginLeft: '1em',
           marginRight: '1em',
           alignItems: 'center',
+          display: 'flex',
+          flexDirection: 'column',
         }}
       >
+        {showGoToPageButton && (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleGoToPage}
+            disabled={!showGoToPageButton}
+            style={{ marginBottom: '1em' }}
+          >
+            Ir
+          </Button>
+        )}
         <TextField
           color="primary"
           focused
-          type="number"
+          type="text"
           value={inputPage}
           onChange={handleInputChange}
-          onKeyDown={handleInputPageChange}
           style={{ width: '80px' }}
         />
         <h4 style={{ margin: '1em 0em 0em 0em', textAlign: 'center' }}>

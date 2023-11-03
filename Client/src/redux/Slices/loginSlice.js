@@ -7,7 +7,7 @@ console.log(VITE_API_BASE);
 export const userLoginSlice = createSlice({
   name: "usersLogin",
   initialState: {
-    user: [], 
+    user: [],
   },
   reducers: {
     loginUser: (state, action) => {
@@ -29,17 +29,15 @@ export const fetchUserLogin = (form) => {
     let endpoint = "";
 
     if (form.types === "client") {
-      endpoint = VITE_API_BASE + `/client/login/`;
+      endpoint = `http://localhost:3001/client/login/`;
     } else if (form.types === "professional") {
       endpoint = VITE_API_BASE + `/professional/login/`;
-    } else if (form.types === "admin") {
-      endpoint = VITE_API_BASE + `/admin/login/`;
     }
 
     try {
       const { data } = await axios.post(endpoint, form);
       console.log(data);
-      if (data.name) {
+      if (data.userName) {
         dispatch(loginUser(data));
         return { access: true };
       }

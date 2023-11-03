@@ -73,14 +73,14 @@ function ViewsPayments() {
             const fetchData = async () => {
                 try {
                     //Veo si ya existe el ID de pago para evitar copias
-                    const checkPayment = await axios.get(`http://localhost:3001/payments/check/${valuesMP.paymentIDD}`);
-                    // const checkPayment = await axios.get(`https://connectifyback-dp-production.up.railway.app/payments/check/${valuesMP.paymentIDD}`);
+                    // const checkPayment = await axios.get(`http://localhost:3001/payments/check/${valuesMP.paymentIDD}`);
+                    const checkPayment = await axios.get(`https://connectifyback-dp-production.up.railway.app/payments/check/${valuesMP.paymentIDD}`);
                     if (checkPayment.data.exists) {
                         searchData();
                     } else {
 
-                        const response = await axios.post("http://localhost:3001/payments/register", {
-                        // const response = await axios.post("https://connectifyback-dp-production.up.railway.app/payments/register", {
+                        // const response = await axios.post("http://localhost:3001/payments/register", {
+                        const response = await axios.post("https://connectifyback-dp-production.up.railway.app/payments/register", {
                             professionalId: valuesMP.profIDID,  //professionalID,  
                             paymentID: valuesMP.paymentIDD,
                             userName: userName,
