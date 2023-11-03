@@ -13,11 +13,12 @@ import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 
 function AdsProfesional() {
   const users = useSelector(state => state.usersLogin.user)
-  
-  const ads = useSelector(state => state.ads.ads)
+  const ads = useSelector(state => state.createAds.createAds)
+
+  console.log(ads)
   const userId = users._id
-  const adsFilter = ads.filter((ad) => ad.creator[0] === userId)
-  console.log(adsFilter)
+  // const adsFilter = ads.filter((ad) => ad.creator[0] === userId)
+
 
   return (
     <List
@@ -44,7 +45,7 @@ function AdsProfesional() {
           </Link>
         </span>
       </ListSubheader >
-      {adsFilter.map((value) => (
+      {[1,2,3].map((value) => (
         <ListItem
           key={value}
           sx={{ padding: "15px"}}
