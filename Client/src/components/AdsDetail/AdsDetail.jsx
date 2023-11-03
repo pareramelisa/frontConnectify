@@ -10,20 +10,21 @@ import {
   List,
   ListItem,
   Typography,
-} from "@mui/material";
-import MercadoPago from "../Payments/MercadoPago";
-import "./DetailAd.css";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { fetchDetail } from "../../redux/Slices/detailSlice";
-import Navbar from "../Navbar/Navbar";
-import { locationUser } from "../../redux/Slices/persistSlice";
-import { Link } from "react-router-dom";
+} from '@mui/material';
+import MercadoPago from '../Payments/MercadoPago';
+import './DetailAd.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { fetchDetail } from '../../redux/Slices/detailSlice';
+import Navbar from '../Navbar/Navbar';
+import { locationUser } from '../../redux/Slices/persistSlice';
+// import { Link } from 'react-router-dom';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
 import ReviewItem from "../ReusableComponents/ReviewShow"
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import StarIcon from "@mui/icons-material/Star";
-//import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useAuth0 } from "@auth0/auth0-react";
 
 import {
@@ -82,57 +83,38 @@ const DetailAd = () => {
       <div className="principal">
         {loading ? (
           <div
-            style={{ backgroundColor: "white", width: "100%", height: "100vh" }}
+            style={{ backgroundColor: 'white', width: '100%', height: '100vh' }}
           >
             Cargando...
           </div>
-        ) : // Verifica si detail.detail.creator existe y tiene una longitud mayor que 0
-        detail.detail.creator && detail.detail.creator.length > 0 ? (
+        ) : detail.detail.creator && detail.detail.creator.length > 0 ? (
           <Grid container spacing={2}>
             <Grid item xs={8} align="left">
-              {users.types !== "admin" && users.types !== "professional" && (
+              {users.types !== 'admin' && users.types !== 'professional' && (
                 <Grid item xs={8} align="left">
-                  <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    width="100%"
-                  >
+                  <Box display="flex" justifyContent="space-between" width="100%">
                     <Button
                       sx={{
-                        backgroundColor: !newFav ? "#D9D9D9" : "#3B7BA4",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        backgroundColor: !newFav ? '#D9D9D9' : '#3B7BA4',
+                        alignItems: 'center',
+                        justifyContent: 'center',
                       }}
                       variant="contained"
                       onClick={handleSaveOrRemoveProfile}
                     >
-                      {!newFav ? <StarBorderIcon /> : <StarIcon />}
+                      {!newFav ? <StarBorderIcon/> : <StarIcon/>}
                     </Button>
                   </Box>
                 </Grid>
               )}
-
-              <Grid item xs={12} md={10} sx={{ margin: "16px" }}>
-                <Typography
-                  fontWeight="900"
-                  variant="h3"
-                  sx={{ margin: "10px" }}
-                >
+              <Grid item xs={12} md={10} sx={{ margin: '16px' }}>
+                <Typography fontWeight="900" variant="h3" sx={{ margin: '10px' }}>
                   {detail.detail.profession}
                 </Typography>
-                <Typography
-                  fontWeight="900"
-                  variant="h5"
-                  sx={{ margin: "10px" }}
-                >
+                <Typography fontWeight="900" variant="h5" sx={{ margin: '10px' }}>
                   Ubicación: {detail.detail.location}
                 </Typography>
-
-                <Typography
-                  fontWeight="900"
-                  variant="h4"
-                  sx={{ margin: "10px" }}
-                >
+                <Typography fontWeight="900" variant="h4" sx={{ margin: '10px' }}>
                   Descripción:
                 </Typography>
                 <Typography
@@ -155,20 +137,13 @@ const DetailAd = () => {
               </Grid>
               <Grid item xs={8}></Grid>
             </Grid>
-
             <Grid item xs={12} sm={6} md={4}>
               <Card sx={{ maxWidth: 345, borderRadius: 5 }}>
-                <CardMedia
-                  sx={{ height: 200 }}
-                  image={detail.detail.creator[0].image}
-                  title="tec"
-                />
+                <CardMedia sx={{ height: 200 }} image={detail.detail.creator[0].image} title="tec" />
                 <CardContent>
                   <Typography fontWeight="900" variant="h5" component="div">
-                    {detail.detail.creator[0].name}{" "}
-                    {detail.detail.creator[0].lastName}
+                    {detail.detail.creator[0].name} {detail.detail.creator[0].lastName}
                   </Typography>
-
                   <Grid container spacing={2}>
                     <Grid item xs={12} md={8}>
                       <div>
@@ -197,5 +172,6 @@ const DetailAd = () => {
     </div>
   );
 };
+
 
 export default DetailAd;
