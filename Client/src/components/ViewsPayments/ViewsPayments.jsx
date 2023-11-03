@@ -11,70 +11,98 @@ import { useAuth0 } from '@auth0/auth0-react';
 import Navbar from "../Navbar/Navbar";
 
 function ViewsPayments() {
-  const { user, isAuthenticated } = useAuth0();
+  
+    const {user, isAuthenticated} = useAuth0();
+    
+    const { pathname, search } = useLocation(); // ( pathname: url - search: Querys )
 
-  const { pathname, search } = useLocation(); // ( pathname: url - search: Querys )
+    console.log("PATH...", pathname)
+    console.log("SEARCH...", search)
+    const path = pathname.split("/")[2];
+    
+    const detail = useSelector((state) => state.detail);
+    
+    const [paymentData, setPaymentData] = useState(null); 
+    const [userName, setUserName] = useState(""); 
+    const [saved, setSaved] = useState(false);
+    const [professionalID, setProfessionalID] = useState(null);
 
-  const detail = useSelector((state) => state.detail);
+   
+    useEffect(() => { 
+        
+        setUserName(path)
 
-  const [paymentData, setPaymentData] = useState(null);
-  const [userName, setUserName] = useState("");
-  const [saved, setSaved] = useState(false);
-  const [professionalID, setProfessionalID] = useState(null);
 
-  useEffect(() => {
-    //Si fue autenticado en google (Por los segundos que tarda en cargar el usuario)
-    if (isAuthenticated) {
-      setUserName(user.nickname);
-    }
-    const idPro = detail.detail.creator[0]._id;
+        if (search) {   //! Si hay search => tiene query (VENGO DE PAGAR)
+                        //!  GUARDO DATOS EN DB 
 
-    setProfessionalID(idPro);
-  }, [user, isAuthenticated, detail]);
+            const dataMP = search.substring(1).split('&')        
+            
+            let payment_id, idProf, status, payment_type;
 
-  useEffect(() => {
-    if (search) {
-      //! Si hay search => tiene query (VENGO DE PAGAR)
-      //!  GUARDO DATOS EN DB
-      const dataMP = search.split("&");
+            for (const pair of dataMP) {
+              const [key, value] = pair.split('=');
 
-      const valuesMP = {
-        paymentIDD: dataMP[2].split("=")[1],
-        status: dataMP[3].split("=")[1],
-        paymentType: dataMP[5].split("=")[1],
-      };
-
-      const fetchData = async () => {
-        try {
-          //Veo si ya existe el ID de pago para evitar copias
-          const checkPayment = await axios.get(
-            VITE_API_BASE + `/payments/check/${valuesMP.paymentIDD}`
-          );
-          if (checkPayment.data.exists) {
-            searchData();
-          } else {
-            const response = await axios.post(
-              VITE_API_BASE + `/payments/register`,
-              {
-                professionalId: professionalID,
-                paymentID: valuesMP.paymentIDD,
-                userName: userName,
-                isCompleted: valuesMP.status,
+              switch (key) {
+                case 'payment_id':
+                  payment_id = value;
+                  break;
+                case 'idProf':
+                  idProf = value;
+                  break;
+                case 'status':
+                  status = value;
+                  break;
+                case 'payment_type':
+                  payment_type = value;
+                  break;
+                
               }
-            );
-            searchData();
-          }
-        } catch (error) {
-          console.log("Error ViewPayments,", error);
+            }
+
+
+            const valuesMP = {
+                profIDID: idProf,//dataMP[0].split("=")[1],
+                paymentIDD: payment_id,//dataMP[3].split("=")[1],
+                status: status,//dataMP[4].split("=")[1],
+                paymentType: payment_type,//dataMP[6].split("=")[1],
+            }
+
+            console.log("ZZZZZ : ", valuesMP)
+
+            const fetchData = async () => {
+                try {
+                    //Veo si ya existe el ID de pago para evitar copias
+                    const checkPayment = await axios.get(`http://localhost:3001/payments/check/${valuesMP.paymentIDD}`);
+                    // const checkPayment = await axios.get(`https://connectifyback-dp-production.up.railway.app/payments/check/${valuesMP.paymentIDD}`);
+                    if (checkPayment.data.exists) {
+                        searchData();
+                    } else {
+
+                        const response = await axios.post("http://localhost:3001/payments/register", {
+                        // const response = await axios.post("https://connectifyback-dp-production.up.railway.app/payments/register", {
+                            professionalId: valuesMP.profIDID,  //professionalID,  
+                            paymentID: valuesMP.paymentIDD,
+                            userName: userName,
+                            isCompleted: valuesMP.status,
+                        });
+                        searchData();
+                        
+                    }
+                } catch (error) {
+                    console.log("Error ViewPayments,", error);
+                }
+            };
+        
+            fetchData(); 
+        
+        } 
+        else {
+            searchData();            
         }
-      };
+    }, [search, userName]); 
 
-      fetchData();
-    } else {
-      searchData();
-    }
-  }, [search, userName]);
-
+  
   // Leyendo datos por userName de la DB -----------------------------------------------------
   const searchData = async () => {
     try {
