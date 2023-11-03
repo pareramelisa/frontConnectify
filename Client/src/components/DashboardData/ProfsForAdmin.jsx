@@ -303,6 +303,22 @@ const ProfsForAdmin = () => {
           </tr>
         )}
       </div>
+      <div
+        style={{
+          marginTop: "auto",
+          padding: "20px",
+        }}
+      >
+        {selectedData.length !== 0 ? (
+          <Pagination
+            currentPage={currentPage}
+            adsPerPage={dataPerPage}
+            totalAds={selectedData.length}
+            onPageChange={paginate}
+            currentAds={currentData}
+          />
+        ) : null}
+      </div>
     </div>
   );
 };
