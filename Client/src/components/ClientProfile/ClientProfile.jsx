@@ -6,7 +6,6 @@ import ReviewForm from "../ReusableComponents/ReviewMaker"
 import UserInfoCard from '../ReusableComponents/FieldsEdition';
 import ChatComponent from '../ReusableComponents/ChatLateral';
 import NavBarDemo2 from '../NavBarDemo2/NavBarDemo2'
-import Background from "../ReusableComponents/Background/Background";
 
 
 const Profile = () => {
@@ -60,7 +59,7 @@ const Profile = () => {
       <Grid container spacing={2} style={{ padding: "0px 16px " }}>
   
       <Grid item xs={12} md={8} >
-      <Background/>
+     
       
       <UserInfoCard
     user={user}
@@ -76,8 +75,8 @@ const Profile = () => {
           review={{
             rating: 4.5,
             text: 'Excelente servicio. Muy contento con el trabajo realizado.',
-            clientProfileImage: 'URL_de_la_foto',
-            clientName: 'Nombre_del_cliente',
+            clientProfileImage: 'https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos-810x540.jpg',
+            clientName: 'Nombre_del_Profesional',
             date: '2023-11-01',
           }}
         />
