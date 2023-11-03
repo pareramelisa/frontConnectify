@@ -55,17 +55,23 @@ const Profile = () => {
   };
 
   return (
-    <div style={{ backgroundColor: "transparent", padding: "6px " }}>
-      
+    <div>
+      <NavBarDemo2/>
       <Grid container spacing={2} style={{ padding: "0px 16px " }}>
   
       <Grid item xs={12} md={8} >
       <Background/>
       
-  
-      <ReviewForm/>
+      <UserInfoCard
+    user={user}
+    userImage={userImage}
+    editMode={editMode}
+    handleEdit={handleEdit}
+    handleSave={handleSave}
+    setUser={setUser}
+  />
 
-        
+    <h2 style={{ padding: "0px 16px " }}>Mis reseñas realizadas</h2>
         <ReviewItem
           review={{
             rating: 4.5,
@@ -79,14 +85,8 @@ const Profile = () => {
       </Grid>
 
       <Grid item xs={12} md={4}>
-      <UserInfoCard
-    user={user}
-    userImage={userImage}
-    editMode={editMode}
-    handleEdit={handleEdit}
-    handleSave={handleSave}
-    setUser={setUser}
-  />
+        <h2 style={{ padding: "0px 16px " }}>Mis reseñas pendientes</h2>
+      <ReviewForm/>
 </Grid>
 
   

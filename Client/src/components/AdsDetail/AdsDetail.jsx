@@ -20,7 +20,7 @@ import { fetchDetail } from "../../redux/Slices/detailSlice";
 import Navbar from "../Navbar/Navbar";
 import { locationUser } from "../../redux/Slices/persistSlice";
 import { Link } from "react-router-dom";
-
+import ReviewItem from "../ReusableComponents/ReviewShow"
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
 //import NotificationsIcon from '@mui/icons-material/Notifications';
@@ -138,44 +138,20 @@ const DetailAd = () => {
                 <Typography
                   fontWeight="700"
                   variant="body1"
-                  sx={{ margin: "10px" }}
+                  sx={{  padding: "0px 16px " }}
                 >
                   {detail.detail.description}
                 </Typography>
-                <Card
-                  sx={{
-                    width: "100%",
-                    backgroundColor: "#D9D9D9",
-                    padding: "10px",
-                    margin: "0px",
-                  }}
-                  align="left"
-                >
-                  <CardContent>
-                    <div className="profile-container">
-                      <div className="profile-circle">
-                        <img
-                          src="https://img.freepik.com/foto-gratis/retrato-hermoso-mujer-joven-posicion-pared-gris_231208-10760.jpg?w=740&t=st=1698081873~exp=1698082473~hmac=aba3c7f8d2e33cab05a648b7e5cb8a3a44a0f1242b4bb85fb6022a36e463fc15"
-                          alt="Imagen de perfil"
-                        />
-                      </div>
-                      <div className="profile-text">
-                        <Typography variant="h6">⭐5.0</Typography>
-                        <Typography
-                          fontWeight="900"
-                          variant="h5"
-                          component="div"
-                        >
-                          Maria Emilia Fuentes
-                        </Typography>
-                        <Typography variant="body2">
-                          Muy amigable, amable y predispuesto a despejar dudas
-                          07/08/23
-                        </Typography>
-                      </div>
-                    </div>
-                  </CardContent>
-                </Card>
+                <h2 style={{ padding: "0px 16px " }}>Reseñas Recibidas</h2>
+        <ReviewItem
+          review={{
+            rating: 4.5,
+            text: 'Excelente servicio. Muy contento con el trabajo realizado.',
+            clientProfileImage: 'https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos-810x540.jpg',
+            clientName: 'Nombre_del_cliente',
+            date: '2023-11-01',
+          }}
+        />
               </Grid>
               <Grid item xs={8}></Grid>
             </Grid>
