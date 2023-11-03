@@ -10,19 +10,20 @@ import {
   List,
   ListItem,
   Typography,
-} from "@mui/material";
-import MercadoPago from "../Payments/MercadoPago";
-import "./DetailAd.css";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
-import { useLocation, useParams } from "react-router-dom";
-import { fetchDetail } from "../../redux/Slices/detailSlice";
-import Navbar from "../Navbar/Navbar";
-import { locationUser } from "../../redux/Slices/persistSlice";
-import { Link } from "react-router-dom";
-
-import StarBorderIcon from "@mui/icons-material/StarBorder";
-import StarIcon from "@mui/icons-material/Star";
+} from '@mui/material';
+import MercadoPago from '../Payments/MercadoPago';
+import './DetailAd.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { useLocation, useParams } from 'react-router-dom';
+import { fetchDetail } from '../../redux/Slices/detailSlice';
+import Navbar from '../Navbar/Navbar';
+import { locationUser } from '../../redux/Slices/persistSlice';
+// import { Link } from 'react-router-dom';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
 //import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useAuth0 } from "@auth0/auth0-react";
 
@@ -106,12 +107,23 @@ const DetailAd = () => {
                       variant="contained"
                       onClick={handleSaveOrRemoveProfile}
                     >
-                      {!newFav ? <StarBorderIcon /> : <StarIcon />}
-                    </Button>
-                  </Box>
-                </Grid>
-              )}
+                      <Button
+                        variant="outlined" // Esto establece el botón con borde
+                        sx={{ margin: '0px' }}
+                      >
+                        Ver mis Favoritos{' '}
+                        <FavoriteBorderIcon sx={{ fontSize: 20 }} />
+                      </Button>
+                    </Link>
+                  </Badge> */}
 
+ 
+                {/* <FavoritesNotification/> */}
+                
+                
+                
+                </Box>
+              </Grid>
               <Grid item xs={12} md={10} sx={{ margin: "16px" }}>
                 <Typography
                   fontWeight="900"
@@ -209,7 +221,7 @@ const DetailAd = () => {
                       </div>
                     </Grid>
                   </Grid>
-                  <MercadoPago />
+                  <MercadoPago/>
                 </CardContent>
               </Card>
             </Grid>
