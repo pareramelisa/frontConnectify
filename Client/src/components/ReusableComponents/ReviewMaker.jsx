@@ -47,7 +47,7 @@ const ReviewForm = ({ professionalId, clientId, onAddReview }) => {
         margin: '20px',         
       }}
     >
-       <h2>Deja una reseña para compartir tu experiencia con {nameProf}</h2>
+       <h2>Deja una reseña sobre {nameProf}</h2>
       <Box>
         <Rating
           name="rating"

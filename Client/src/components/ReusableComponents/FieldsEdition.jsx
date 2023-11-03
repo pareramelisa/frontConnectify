@@ -12,9 +12,9 @@ const UserInfoCard = ({ user, userImage, editMode, handleEdit, handleSave, setUs
         margin: '20px',
       }}
     >
-      <Typography variant="h5" gutterBottom sx={{ border: 'none', borderRadius: 5, padding: 1, margin: '20px' }}>
-        Información del Usuario
-      </Typography>
+     
+       <h2 style={{ border: 'none', borderRadius: 5, padding: 1, margin: '20px' }}>Mi perfil</h2> 
+    
       <CardHeader
         avatar={<Avatar src={userImage} />}
         title={editMode ? (
