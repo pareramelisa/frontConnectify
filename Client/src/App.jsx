@@ -12,7 +12,7 @@ import Payments from './components/ViewsPayments/ViewsPayments';
 import ClientProfile from "../src/components/Maquetas/ClientProfile"
 import Chat from './components/Chat/Chat';
 import Cover from "./components/Cover/Cover";
-import NewBackgroun from "./components/Maquetas/NewBackgroun"
+import DashboardClient from "./views/DashboardClient/DashboardClient";
 
 function App() {
   return (

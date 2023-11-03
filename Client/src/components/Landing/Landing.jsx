@@ -31,10 +31,6 @@ function LandingPage() {
   };
 
   useEffect(() => {
-    dispatch(fetchGetAllFavorites(users._id))
-  }, [users])
-
-  useEffect(() => {
     if (isAuthenticated) {
       dispatch(loginWithGoogle(user.email));
       navigate("/home");

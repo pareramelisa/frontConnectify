@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createAd } from "../../redux/Slices/createAdsSlice";
 import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
@@ -10,6 +10,7 @@ import Footer from "../Footer/Footer";
 
 function CreateAdForm() {
   const dispatch = useDispatch();
+  const user = useSelector((state) => state.usersLogin.user);
 
   const [formData, setFormData] = useState(() => {
     const savedFormData = localStorage.getItem("formData");
@@ -20,10 +21,7 @@ function CreateAdForm() {
           description: "",
           location: "",
           price: "",
-          requiredSkills: "",
-          postingDate: "",
-          expirationDate: "",
-          categories: "",
+          categories: [],
           contractType: "",
           workLocation: "",
           profession: "",
@@ -35,8 +33,14 @@ function CreateAdForm() {
   }, [formData]);
 
   const handleSubmit = (e) => {
+    const userinput = {
+      ...formData,
+      creator: user._id,
+      price: Number(formData.price),
+    };
+    console.log(userinput);
     e.preventDefault();
-    dispatch(createAd(formData));
+    dispatch(createAd(userinput));
   };
 
   return (
@@ -44,15 +48,26 @@ function CreateAdForm() {
       <div>
         <NavBar />
       </div>
-      <h1 style={{ marginLeft: "115px", fontSize: "30px", marginBottom: "20px", fontFamily: "Roboto, sans-serif", fontWeight: 300 }}>Crea tu anuncio</h1>
+      <h1
+        style={{
+          marginLeft: "115px",
+          fontSize: "30px",
+          marginBottom: "20px",
+          fontFamily: "Roboto, sans-serif",
+          fontWeight: 300,
+        }}
+      >
+        Crea tu anuncio
+      </h1>
       <Divider />
-      <Grid container justifyContent="center" sx={{ paddingBottom: 25, paddingTop: 4 }}>
+      <Grid
+        container
+        justifyContent="center"
+        sx={{ paddingBottom: 25, paddingTop: 4 }}
+      >
         <Grid item xs={10}>
-          <Paper
-            elevation={3}
-            sx={{ padding: 10, boxShadow: 10 }}
-          >
-            <form onSubmit={handleSubmit} style={{ textAlign: "center" }}>
+          <Paper elevation={3} sx={{ padding: 10, boxShadow: 10 }}>
+            <form style={{ textAlign: "center" }}>
               <Grid container spacing={5}>
                 <Grid item xs={6} style={{ textAlign: "left" }}>
                   <TextField
@@ -98,22 +113,6 @@ function CreateAdForm() {
                     sx={{ marginBottom: 2 }}
                   />
                   <TextField
-                    label="Habilidades"
-                    variant="standard"
-                    multiline
-                    rows={3}
-                    type="text"
-                    id="requiredSkills"
-                    name="requiredSkills"
-                    value={formData.requiredSkills}
-                    onChange={(e) =>
-                      setFormData({ ...formData, requiredSkills: e.target.value })
-                    }
-                    required
-                    fullWidth
-                    sx={{ marginBottom: 2 }}
-                  />
-                  <TextField
                     label="Categorías"
                     variant="standard"
                     type="text"
@@ -127,7 +126,9 @@ function CreateAdForm() {
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   />
-                  <InputLabel id="contractType">Tipo de contratación</InputLabel>
+                  <InputLabel id="contractType">
+                    Tipo de contratación
+                  </InputLabel>
                   <Select
                     label="Tipo de contratación"
                     variant="standard"
@@ -161,37 +162,9 @@ function CreateAdForm() {
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   />
-                  <TextField
-                    label="Fecha de creación"
-                    variant="standard"
-                    type="date"
-                    id="postingDate"
-                    name="postingDate"
-                    value={formData.postingDate}
-                    InputLabelProps={{ shrink: true }}
-                    onChange={(e) =>
-                      setFormData({ ...formData, postingDate: e.target.value })
-                    }
-                    required
-                    fullWidth
-                    sx={{ marginBottom: 2 }}
-                  />
-                  <TextField
-                    label="Fecha de finalización"
-                    variant="standard"
-                    type="date"
-                    id="expirationDate"
-                    name="expirationDate"
-                    value={formData.expirationDate}
-                    InputLabelProps={{ shrink: true }}
-                    onChange={(e) =>
-                      setFormData({ ...formData, expirationDate: e.target.value })
-                    }
-                    required
-                    fullWidth
-                    sx={{ marginBottom: 2 }}
-                  />
-                  <InputLabel id="workLocation">Modalidad de trabajo:</InputLabel>
+                  <InputLabel id="workLocation">
+                    Modalidad de trabajo:
+                  </InputLabel>
                   <Select
                     label="Modalidad de trabajo"
                     variant="standard"
@@ -223,7 +196,11 @@ function CreateAdForm() {
                 </Grid>
               </Grid>
               <div style={{ paddingTop: "40px" }}>
-                <Button variant="contained" color="primary">
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={handleSubmit}
+                >
                   Crear anuncio
                 </Button>
               </div>
@@ -239,4 +216,3 @@ function CreateAdForm() {
 }
 
 export default CreateAdForm;
-

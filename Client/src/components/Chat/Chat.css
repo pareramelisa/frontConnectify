@@ -1,0 +1,116 @@
+/* Chat Container */
+.chat-container {
+  max-width: fit-content; /* Ancho máximo */
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.card {
+  width: 400px;
+  background-color: #ffffff;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  padding: 1em;
+  /* Otros estilos... */
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* Header */
+.card h5 {
+  margin: 1em;
+  text-align: center;
+}
+
+/* Nickname Form */
+.form-nickname {
+  display: flex;
+  margin-bottom: 20px;
+}
+
+.form-nickname input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+}
+
+.form-nickname button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+}
+
+.form-nickname button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* Chat Form */
+.form-chat {
+  display: flex;
+  margin-bottom: auto;
+}
+
+.form-chat input {
+  flex: 1;
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  margin-top: 2em;
+}
+
+.form-chat button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  cursor: pointer;
+  margin-top: 1em;
+  padding: 1em;
+}
+
+/* Chat Messages */
+#content-chat {
+  max-height: 400px; /* Establece una altura máxima */
+  overflow-y: auto; /* Agrega un desplazamiento vertical cuando sea necesario */
+}
+
+.chat-message {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.chat-bubble {
+  max-width: 70%;
+  padding: 10px;
+  border-radius: 4px;
+}
+
+.user-message {
+  background-color: #4caf50;
+  color: #fff;
+  align-self: flex-end;
+  text-align: right;
+}
+
+.other-message {
+  background-color: #dcdcdc;
+  color: #333;
+}
+
+/* Stored Messages */
+.text-muted {
+  text-align: center;
+  margin: 20px 0;
+}

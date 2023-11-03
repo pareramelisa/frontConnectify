@@ -41,9 +41,7 @@ export const fetchGetAllFavorites = (clientId) => {
   return async (dispatch) => {
     console.log(clientId);
     try {
-      const { data } = await axios.get(
-        `http://localhost:3001/fav/${clientId}/`
-      );
+      const { data } = await axios.get(VITE_API_BASE + `/fav/${clientId}/`);
       console.log(data);
       dispatch(getAllFavorites(data));
     } catch (error) {
@@ -56,10 +54,7 @@ export const fetchAddFavorites = (form) => {
   return async (dispatch) => {
     console.log(form);
     try {
-      const { data } = await axios.post(
-        `http://localhost:3001/fav/save/`,
-        form
-      );
+      const { data } = await axios.post(VITE_API_BASE + `/fav/save/`, form);
       console.log(data);
       dispatch(addFavorite(data));
     } catch (error) {
@@ -72,10 +67,7 @@ export const fetchRemoveFavorites = (form) => {
   return async (dispatch) => {
     console.log(form);
     try {
-      const { data } = await axios.post(
-        `http://localhost:3001/fav/delete/`,
-        form
-      );
+      const { data } = await axios.post(VITE_API_BASE + `/fav/delete/`, form);
       console.log(data);
       dispatch(removeFavorite(data));
     } catch (error) {
