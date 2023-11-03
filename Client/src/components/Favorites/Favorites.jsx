@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import {
   Card,
@@ -12,110 +11,150 @@ import {
 } from "@mui/material";
 import { Link } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
-import Navbar from '../Navbar/Navbar'
+import Navbar from "../Navbar/Navbar";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchGetAllFavorites,
+  fetchAddFavorites,
+  fetchRemoveFavorites,
+} from "../../redux/Slices/favoritesSlice";
 
-import { useDispatch, useSelector } from 'react-redux';
-import { removeFavorite } from '../../redux/Slices/favoritesSlice';
 const Favorites = () => {
-  const [savedProfiles, setSavedProfiles] = useState([]);
+  const users = useSelector((state) => state.usersLogin.user);
   const dispatch = useDispatch();
-  const favoritesCount = useSelector((state) => state.favorites.favoriteCount);
+  const favorites = useSelector(
+    (state) => state.favorites.favoriteProfessionals
+  );
 
   useEffect(() => {
-    // Obtiene las claves del Local Storage que comienzan con "favoritos-"
-    const storageKeys = Object.keys(localStorage).filter((key) => key.startsWith('favoritos-'));
-
-    // Obtiene los perfiles guardados y los almacena en el estado
-    const profiles = storageKeys.map((key) => JSON.parse(localStorage.getItem(key)));
-    setSavedProfiles(profiles);
+    dispatch(fetchGetAllFavorites(users._id));
   }, []);
 
-  useEffect(() => {
-    // Agrega un oyente de evento para capturar cambios en favoritos
-    const handleFavoritesChange = () => {
-      // Cuando el evento se dispare, vuelve a cargar los perfiles guardados
-      const storageKeys = Object.keys(localStorage).filter((key) => key.startsWith('favoritos-'));
-      const profiles = storageKeys.map((key) => JSON.parse(localStorage.getItem(key)));
-      setSavedProfiles(profiles);
-    };
+  const handleRemoveFavorite = (e) => {
+    console.log(e);
+    // const formFav = {
+    //   clientId: users._id,
+    //   professionalId: detail.detail.creator[0]._id,
+    // };
 
-    // Escucha el evento "favoritesChanged"
-    window.addEventListener('favoritesChanged', handleFavoritesChange);
+    // const newFav = favorites.some(favorite => favorite.professional._id === detail.detail.creator[0]._id);
 
-    return () => {
-      window.removeEventListener("favoritesChanged", handleFavoritesChange);
-    };
-  }, []);
-
-  const handleRemoveFavorite = (profile) => {
-    const profileKey = `favoritos-${profile._id}`;
-    localStorage.removeItem(profileKey);
-
-    // Notificar a Redux para actualizar el conteo de favoritos
-    dispatch(removeFavorite(profile));
-    const event = new Event('favoritesChanged');
-    window.dispatchEvent(event);
+    // if (!newFav) {
+    //   dispatch(fetchAddFavorites(formFav));
+    // }else {
+    //   dispatch(fetchRemoveFavorites(formFav))
+    // }
   };
 
   return (
     <div>
-    <Navbar />
-    <div style={{  justifyContent: 'center', padding:"5em" }}>
-      <Typography variant="h4" component="h1">
-        Perfiles Guardados
-      </Typography>
-      {savedProfiles.length > 0 ? (
-        savedProfiles.map((profile, index) => (
-          <Card key={index} sx={{ marginBottom: '16px', width: '90%' }}>
-            <CardContent>
-              <Grid container spacing={2}>
-                <Grid item xs={12} sm={6} md={2}>
-                  <Box display="flex" justifyContent='space-between'>
-                  <IconButton
-                    onClick={() => {
-                      handleRemoveFavorite(profile);
-                    }}
-                  >
-                      <DeleteIcon color="error" />
-                    </IconButton>
-                  </Box>
-                </Grid>
-                <Grid item xs={12} sm={6} md={2}>
-                  <CardMedia
-                    component="img"
-                    height="200"
-                    image={profile.creator[0].image}
-                    alt={`Imagen de ${profile.creator[0].name}`}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                  <Typography variant="h5" component="div">
-                    {profile.creator[0].name} {profile.creator[0].lastName}
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary">
-                    {profile.description}
-                  </Typography>
-                </Grid>
-                <Grid item xs={12} sm={6} md={2}>
-                  
-                </Grid>
-                <Grid item xs={12} sm={6} md={2}>
-                  <Link to={`/detail/${profile._id}`}>
-                    <Button variant="contained" color="primary">
-                      Ver Detalle
-                    </Button>
-                  </Link>
-                </Grid>
-              </Grid>
-            </CardContent>
-          </Card>
-        ))
-      ) : (
-        <p>No tienes perfiles guardados.</p>
-      )}
-    </div>
+      <Navbar />
+      <div style={{ justifyContent: "center", padding: "5em" }}>
+        <Typography variant="h4" component="h1">
+          Perfiles Guardados
+        </Typography>
+        {favorites.length > 0 ? (
+          favorites.map((fav, index) => (
+            <div key={fav.professional._id}>
+              {fav.professional && (
+                <div>
+                  <Card key={index} sx={{ marginBottom: "16px", width: "90%" }}>
+                    <CardContent>
+                      <Grid container spacing={2}>
+                        {/* <Grid item xs={12} sm={6} md={2}>
+                          <Box display="flex" justifyContent="space-between">
+                            <IconButton onClick={handleRemoveFavorite}>
+                              <DeleteIcon color="error" />
+                            </IconButton>
+                          </Box>
+                        </Grid> */}
+                        <Grid item xs={12} sm={6} md={2}>
+                          <CardMedia
+                            component="img"
+                            height="200"
+                            image={fav.professional.image}
+                            alt={`Imagen de ${fav.professional.name}`}
+                          />
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={4}>
+                          <Typography variant="h5" component="div">
+                            {fav.professional.name} {fav.professional.lastName}
+                          </Typography>
+                          <Typography variant="body2" color="text.secondary">
+                            {fav.professional.description}
+                          </Typography>
+                        </Grid>
+                        <Grid item xs={12} sm={6} md={2}></Grid>
+                        <Grid item xs={12} sm={6} md={2}>
+                          <Link to={`/detail/${fav.professional._id}`}>
+                            <Button variant="contained" color="primary">
+                              Ver Detalle
+                            </Button>
+                          </Link>
+                        </Grid>
+                      </Grid>
+                    </CardContent>
+                  </Card>
+                </div>
+              )}
+            </div>
+          ))
+        ) : (
+          <p>No tienes perfiles guardados.</p>
+        )}
+      </div>
     </div>
   );
 };
 
 export default Favorites;
+
+// {favorites.length > 0 ? (
+//   favorites.map((profile, index) => (
+//     <Card key={index} sx={{ marginBottom: '16px', width: '90%' }}>
+//       <CardContent>
+//         <Grid container spacing={2}>
+//           <Grid item xs={12} sm={6} md={2}>
+//             <Box display="flex" justifyContent='space-between'>
+//               <IconButton
+//                 onClick={() => {
+//                   handleRemoveFavorite(profile[0]);
+//                 }}
+//               >
+//                 <DeleteIcon color="error" />
+//               </IconButton>
+//             </Box>
+//           </Grid>
+//           <Grid item xs={12} sm={6} md={2}>
+//             <CardMedia
+//               component="img"
+//               height="200"
+//               image={profile[0]?.professional?.image}
+//               alt={`Imagen de ${profile[0]?.professional?.name}`}
+//             />
+//           </Grid>
+//           <Grid item xs={12} sm={6} md={4}>
+//             <Typography variant="h5" component="div">
+//               {profile[0]?.professional?.name} {profile[0]?.professional?.lastName}
+//             </Typography>
+//             <Typography variant="body2" color="text.secondary">
+//               {profile[0]?.professional?.description}
+//             </Typography>
+//           </Grid>
+//           <Grid item xs={12} sm={6} md={2}>
+//             {/* Otro contenido */}
+//           </Grid>
+//           <Grid item xs={12} sm={6} md={2}>
+//             <Link to={`/detail/${profile[0]?.professional?._id}`}>
+//               <Button variant="contained" color="primary">
+//                 Ver Detalle
+//               </Button>
+//             </Link>
+//           </Grid>
+//         </Grid>
+//       </CardContent>
+//     </Card>
+//   ))
+// ) : (
+//   <p>No tienes perfiles guardados.</p>
+// )}
