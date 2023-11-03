@@ -1,69 +1,64 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/prop-types */
-import { useEffect } from "react";
-import {
-  postComments,
-  getCommentById,
-} from "../../redux/Slices/commentSlice";
+import { FetchAllComments, commentPost } from "../../redux/Slices/commentSlice"
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
 
-const Comments = ({ clientId, professionalId }) => {
-  console.log(professionalId, "prof componente")
-  const dispatch = useDispatch();
-  const comments = useSelector((state) => state.comment?.comments || []);
-  const [newComment, setNewComment] = useState("");
+const comments = ({clientId, professionalId}) => {
+const dispatch = useDispatch();
+const [newComment, setNewComment] = useState("")
+const comments = useSelector((state) => state.commentSlice.comments);
 
-  const handleComment = () => {
-    if (newComment.trim() !== "") {
-      const commentData = {
-        comment: newComment,
-        client: clientId,
-        professional: professionalId,
-      };
+useEffect (() => {
+  dispatch(FetchAllComments())
+}, [dispatch])
 
-      // Enviar el comentario
-      dispatch(postComments(commentData));
+// Filtra los comentarios que coinciden con el ID del profesional
+  const filteredComments = comments.filter((comment) => comment.professional === professionalId);
+  console.log(professionalId, "este es el ID com")
 
-      // Limpiar el campo de comentario después de enviar
-      setNewComment("");
-    }
-  };
+const handleComment = () => {
+  if (newComment.trim() !== "") {
+    const commentData = {
+      comment: newComment,
+      client: clientId, // Asegúrate de tener el cliente disponible
+      professional: professionalId, // Asegúrate de tener el profesional disponible
+    };
 
-  useEffect(() => {
-    dispatch(getCommentById(professionalId));
-  }, [dispatch, professionalId]);
-  console.log(professionalId)
+    dispatch(commentPost(commentData));
+    setNewComment("");
+}
 
- 
+}
 
-  return (
-    <div>
-      {comments.length > 0 ? ( // Verifica si hay comentarios disponibles
-        <div>
-          <h3>Comentarios</h3>
-          <ul>
-            {comments.map((comment) => (
-              <li key={comment._id}>
-                <div>{comment.comment}</div>
-              </li>
-            ))}
-          </ul>
-        </div>
-      ) : (
-        <p>No hay comentarios disponibles.</p> // Mensaje si no hay comentarios
-      )}
-
+return (
+  <div>
+    {filteredComments.length > 0 ? (
       <div>
-        <h2>Agregar comentario</h2>
-        <textarea
-          name="Comentario"
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-        />
-        <button onClick={handleComment}>Enviar</button>
+        <h3>Comentarios</h3>
+        <ul>
+          {filteredComments.map((comment) => (
+            <li key={comment._id}>
+              <div>{comment.comment}</div>
+            </li>
+          ))}
+        </ul>
+        <div>
+          <h2>Agregar comentario</h2>
+          <textarea
+            name="Comentario"
+            value={newComment}
+            onChange={(e) => setNewComment(e.target.value)}
+          />
+          <button onClick={handleComment}>Enviar</button>
+        </div>
       </div>
-    </div>
-  );
+    ) : (
+      <p>No hay comentarios disponibles.</p>
+    )}
+  </div>
+);
 };
 
-export default Comments
+export default comments;

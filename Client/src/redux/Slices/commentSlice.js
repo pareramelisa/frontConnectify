@@ -32,7 +32,7 @@ export const { getAllComments, getCommentById, deleteComments, postComments } =
 export default commentSlice.reducer;
 export const FetchAllComments = () => {
   return async (dispatch) => {
-    const endpoint = URL + `/comments/`;
+    const endpoint = `http://localhost:3001/comments/`;
     try {
       const response = await axios(endpoint);
       const comments = response.data;
