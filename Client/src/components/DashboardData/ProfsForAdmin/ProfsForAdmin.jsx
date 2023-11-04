@@ -1,20 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Pagination from "../../components/Pagination/Pagination";
+import Pagination from "./Pagination";
+import style from "./ProfsForAdmin.module.css";
 
 import {
   fetchProfsForAdmin,
   deleteProfByIdAdmin,
-} from "../../redux/Slices/professionalSlice";
+} from "../../../redux/Slices/professionalSlice";
 import {
   fetchClientsForAdmin,
   deleteClientByIdAdmin,
-} from "../../redux/Slices/clientSlice";
+} from "../../../redux/Slices/clientSlice";
 import {
   fetchAdsForAdmin,
   deleteAdByIdAdmin,
-} from "../../redux/Slices/adsSlice";
-import SupportPopUp from "./SupportPopUp/SupportPopUp";
+} from "../../../redux/Slices/adsSlice";
+import SupportPopUp from "../SupportPopUp/SupportPopUp";
 
 const ProfsForAdmin = () => {
   const dispatch = useDispatch();
@@ -78,9 +79,12 @@ const ProfsForAdmin = () => {
   };
 
   const handleUserType = (e) => {
+    setCurrentPage(1);
     if (e === "professionals") setSelectedData(professionals);
     if (e === "clients") setSelectedData(clients);
+    // setCurrentPage(1);
     if (e === "ads") setSelectedData(ads);
+    // setCurrentPage(1);
   };
   const [selectedData, setSelectedData] = useState(professionals);
 
@@ -96,6 +100,7 @@ const ProfsForAdmin = () => {
     if (e.target.value === "Todas las Profesiones") {
       setSelectedData(professionals);
     } else {
+      setCurrentPage(1);
       const profClass = e.target.value;
       const toScrub = professionals.filter(
         (prof) => prof.profession == profClass
@@ -146,10 +151,18 @@ const ProfsForAdmin = () => {
   };
 
   const [isModalVisible, setIsModalVisible] = useState(false);
-  const handlePopUp = (e, prof) => {
-    isModalVisible ? setIsModalVisible(false) : setIsModalVisible(true);
-    SupportPopUp(isModalVisible, prof._id);
+  const [selectedProfessional, setSelectedProfessional] = useState(null);
+
+  const handlePopUp = (prof) => {
+    setSelectedProfessional(prof);
+    console.log(prof);
+    !isModalVisible ? setIsModalVisible(true) : setIsModalVisible(false);
     console.log("PopUp de " + prof.name);
+  };
+
+  const handleClosePopUp = () => {
+    setSelectedProfessional(null);
+    setIsModalVisible(false);
   };
 
   return (
@@ -282,7 +295,10 @@ const ProfsForAdmin = () => {
                 }}
               >
                 <button
-                  className="btn btn-outline-danger"
+                  style={{
+                    backgroundColor: prof.isDeleted ? "#9bdb92" : "#edd55e",
+                  }}
+                  // className="btn btn-outline-danger"
                   onClick={(e) => handleDelete(e, prof)}
                 >
                   <svg
@@ -304,22 +320,24 @@ const ProfsForAdmin = () => {
                 </button>
                 <button
                   style={{
-                    // fontWeight: "bold"
+                    backgroundColor: "light blue",
                     height: "25px",
                     width: "75px",
                     fontSize: "13px",
                     paddingTop: "3px",
                   }}
-                  onClick={(e) => handlePopUp(e, prof)}
+                  onClick={() => handlePopUp(prof)}
                 >
                   Soporte
                 </button>
-                {isModalVisible && (
-                  <SupportPopUp
-                    isVisible={isModalVisible}
-                    professional={selectedProfessional}
-                    onClose={handlePopUp}
-                  />
+                {isModalVisible && selectedProfessional === prof && (
+                  <div className={style.vemos}>
+                    <SupportPopUp
+                      isVisible={isModalVisible}
+                      professional={selectedProfessional}
+                      onClose={handleClosePopUp}
+                    />
+                  </div>
                 )}
               </td>
             </tr>
