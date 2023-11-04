@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import style from './PaymentsCard.module.css';
 import { useDispatch, useSelector } from 'react-redux';
+import { useAuth0 } from '@auth0/auth0-react';
 
 
 
@@ -14,12 +15,19 @@ function PaymentsCard(data) {
     const [professionalData, setProfessionalData] = useState(null)
     const [buyDate, setBuyDate] = useState(null)
     const [buyState, setBuyState] = useState(null)
+    const {isAuthenticated, user} = useAuth0
+    const users = useSelector(state => state.usersLogin.user)
     
     useEffect(()=>{
+        if (isAuthenticated) {
+            dispatch(fetchUserLoginWithGoogle({ email: user.email }));
+          }
        setProfessionalData(profData);
        setBuyDate(bDate);
        setBuyState(bState);
     },[profData, bDate, bState])
+
+    console.log(users);
 
   return (
     <div className={style.contentAll}>

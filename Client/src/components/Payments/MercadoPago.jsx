@@ -13,7 +13,8 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 function mercadoPago() {
     // USER es el Usuario registrado
-    const {user} = useAuth0();
+    const {user, isAuthenticated} = useAuth0();
+    const users = useSelector(state => state.usersLogin.user)
 
     // DETAIL es el detalle del Professional
     const detail = useSelector((state) => state.detail);
@@ -34,11 +35,19 @@ function mercadoPago() {
     // const detailPr = detail;
     
     useEffect(()=>{
-      setUserDataOk(user);
-    },[user])
+      if (isAuthenticated) {
+        setUserDataOk(user.nickname);
+        console.log('Google');
+      }
+      if (users) {
+        setUserDataOk(users.userName)
+        console.log('Local');
+      }
+    },[user, users, userDataOk])
 
     useEffect(()=>{
       console.log("USER-DATA...", userDataOk);
+      
     },[userDataOk])
     
 
@@ -77,7 +86,7 @@ function mercadoPago() {
             // const response = await axios.post("http://localhost:3001/create_preference", 
             {   
               idProf:detail.detail.creator[0]._id,//detailProf.detail._id,
-              userName: userDataOk.nickname,
+              userName: userDataOk,
               description: descriptionBuy,
               price:detail.detail.price,
               quantity: 1,
