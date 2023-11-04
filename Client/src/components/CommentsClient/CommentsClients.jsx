@@ -1,64 +1,77 @@
 /* eslint-disable no-unused-vars */
-/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable react/prop-types */
-import { FetchAllComments, commentPost } from "../../redux/Slices/commentSlice"
-import { useEffect, useState } from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useEffect } from "react";
+import { getComments, postComment } from "../../redux/Slices/commentSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
+const Comments = () => {
+  const { user, isAuthenticated } = useAuth0();
+  const dispatch = useDispatch();
+  const comments = useSelector((state) => state.detail);
+  const [newComment, setNewComment] = useState("");
+  const [professionalId, setProfessionalId] = useState(""); // Almacenar professionalId en el estado
+  
 
-const comments = ({clientId, professionalId}) => {
-const dispatch = useDispatch();
-const [newComment, setNewComment] = useState("")
-const comments = useSelector((state) => state.commentSlice.comments);
+  useEffect(() => {
+    if (isAuthenticated) {
+      let clientId;
 
-useEffect (() => {
-  dispatch(FetchAllComments())
-}, [dispatch])
+      if (user.sub.includes("google")) {
+        clientId = user.nickname;
+      } else {
+        clientId = user.userName;
+      }
 
-// Filtra los comentarios que coinciden con el ID del profesional
-  const filteredComments = comments.filter((comment) => comment.professional === professionalId);
-  console.log(professionalId, "este es el ID com")
+      const paymentId = clientId;
+      dispatch(getComments(paymentId));
+    }
+    
+  }, [dispatch, isAuthenticated, user]);
 
-const handleComment = () => {
-  if (newComment.trim() !== "") {
-    const commentData = {
-      comment: newComment,
-      client: clientId, // Asegúrate de tener el cliente disponible
-      professional: professionalId, // Asegúrate de tener el profesional disponible
-    };
+  const handleComment = () => {
+    if (newComment.trim() !== "") {
+      const commentData = {
+        comment: newComment,
+        client: user.userName || user.nickname,
+        professionalId: comments.detail.creator[0]._id,
+      };
+      console.log(professionalId, "profesional");
 
-    dispatch(commentPost(commentData));
-    setNewComment("");
-}
+      console.log(user.userName, user.nickname,  "cliente");
+      // Enviar el comentario al servidor utilizando Redux Toolkit
+      dispatch(postComment(commentData));
 
-}
+      // Limpiar el campo de comentario después de enviar
+      setNewComment("");
+    }
+  };
 
-return (
-  <div>
-    {filteredComments.length > 0 ? (
-      <div>
-        <h3>Comentarios</h3>
+  return (
+    <div>
+      <h3>Comentarios</h3>
+      {comments.length > 0 ? (
         <ul>
-          {filteredComments.map((comment) => (
-            <li key={comment._id}>
+          {comments.map((comment) => (
+            <li key={comment.detail.creator[0]._id}>
               <div>{comment.comment}</div>
             </li>
           ))}
         </ul>
-        <div>
-          <h2>Agregar comentario</h2>
-          <textarea
-            name="Comentario"
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-          />
-          <button onClick={handleComment}>Enviar</button>
-        </div>
+      ) : (
+        <p>El profesional aún no tiene comentarios.</p>
+      )}
+      <div>
+        <h2>Agregar comentario</h2>
+        <textarea
+          name="Comentario"
+          value={newComment}
+          onChange={(e) => setNewComment(e.target.value)}
+        />
+        <button onClick={handleComment}>Enviar</button>
       </div>
-    ) : (
-      <p>No hay comentarios disponibles.</p>
-    )}
-  </div>
-);
+    </div>
+  );
 };
 
-export default comments;
+export default Comments;
