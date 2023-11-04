@@ -4,14 +4,14 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchUserRegister } from "../../redux/Slices/registerSlice";
 import style from "./register.module.css";
-import TextField from '@mui/material/TextField';
+import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { InputLabel } from "@mui/material";
 import * as validations from "./ValidationsRegister";
-import NavBarDemo2 from '../NavBarDemo2/NavBarDemo2'
+import NavBarDemo2 from "../NavBarDemo2/NavBarDemo2";
 import photo from "../../assets/register.png";
-import Button from '@mui/material/Button';
+import Button from "@mui/material/Button";
 
 const Registration = () => {
   const navigate = useNavigate();
@@ -35,10 +35,6 @@ const Registration = () => {
         };
   });
 
-  useEffect(() => {
-    console.log(54545454);
-  }, [clientRegister.remoteWork]);
-
   const routeLocation = useLocation();
   const ifProfRoute = routeLocation.pathname === "/professional/registration";
   const ifClientRoute = routeLocation.pathname === "/client/registration";
@@ -49,7 +45,11 @@ const Registration = () => {
 
   const renderPasswordToggle = () => (
     <button type="button" onClick={handleHidePassword}>
-      {passwordType ? <Visibility style={{ fontSize: 18 }} /> : <VisibilityOff style={{ fontSize: 18 }}/>}
+      {passwordType ? (
+        <Visibility style={{ fontSize: 18 }} />
+      ) : (
+        <VisibilityOff style={{ fontSize: 18 }} />
+      )}
     </button>
   );
   const handleHidePassword = () => {
@@ -87,7 +87,6 @@ const Registration = () => {
 
     if (clientRegister.profession.length === 0) {
       const response = await dispatch(fetchUserRegister(formData, "client"));
-      console.log(response);
       if (response === "Successfully registered client.") {
         alert(response);
         localStorage.removeItem("clientRegisterData");
@@ -125,11 +124,7 @@ const Registration = () => {
 
   const handleChange = (e) => {
     const { name, type, value } = e.target;
-    if (type === "checkbox") console.log(e.target.checked);
-    console.log(name);
-
-    console.log(e.target.checked);
-    setRemoteWork(e.target.checked);
+    if (type === "checkbox") setRemoteWork(e.target.checked);
     const nameArray = name.split(".");
 
     if (nameArray.length === 2) {
@@ -144,10 +139,7 @@ const Registration = () => {
     } else {
       setClientRegister({ ...clientRegister, [name]: value });
     }
-    console.log(clientRegister);
-    console.log(formData);
   };
-  console.log(remoteWork);
 
   const handleImageUpload = (e) => {
     const image = e.target.files[0];
@@ -160,12 +152,9 @@ const Registration = () => {
         image: URL.createObjectURL(image),
       });
     }
-    console.log("Image file name: " + image.name);
-    console.log("Image file size: " + image.size + " bytes");
-    console.log("Image file type: " + image.type);
+
     const imageFile = formData.get("image");
-    console.log(imageFile);
-    console.log(formData.get("image"));
+
     const imgElement = document.createElement("img");
     imgElement.src = URL.createObjectURL(image);
   };
@@ -226,21 +215,33 @@ const Registration = () => {
   };
 
   return (
-    <div style={{
-      position: 'absolute',
-      width: '100%',
-      height: '140vh',
-      background: `url(${photo})`,
-      backgroundPosition: 'right',
-      backgroundSize: 'cover',
-      backgroundAttachment: 'fixed'
-    }}>
-      <NavBarDemo2/>
-      
-      <div style={{ columns: "1", columnGap: '1rem', padding: '0rem 8rem 6rem 12rem', justifyContent: 'center', alignItems: 'center', breakInside: 'avoid', width: 'min-content', backgroundColor: 'transparent' }}>
-    
+    <div
+      style={{
+        position: "absolute",
+        width: "100%",
+        height: "140vh",
+        background: `url(${photo})`,
+        backgroundPosition: "right",
+        backgroundSize: "cover",
+        backgroundAttachment: "fixed",
+      }}
+    >
+      <NavBarDemo2 />
+
+      <div
+        style={{
+          columns: "1",
+          columnGap: "1rem",
+          padding: "0rem 8rem 6rem 12rem",
+          justifyContent: "center",
+          alignItems: "center",
+          breakInside: "avoid",
+          width: "min-content",
+          backgroundColor: "transparent",
+        }}
+      >
         <form onSubmit={(e) => handleSubmit(e)}>
-          <div style={{ padding: '5px'}}>
+          <div style={{ padding: "5px" }}>
             <InputLabel htmlFor="name">Nombre</InputLabel>
             <TextField
               type="text"
@@ -251,7 +252,7 @@ const Registration = () => {
               fullWidth
             />
           </div>
-          <div style={{ padding: '5px'}}>
+          <div style={{ padding: "5px" }}>
             <InputLabel htmlFor="lastName">Apellido</InputLabel>
             <TextField
               type="text"
@@ -262,7 +263,7 @@ const Registration = () => {
               fullWidth
             />
           </div>
-          <div style={{ padding: '5px'}}>
+          <div style={{ padding: "5px" }}>
             <InputLabel htmlFor="userName">Nombre de Usuario</InputLabel>
             <TextField
               type="text"
@@ -273,7 +274,7 @@ const Registration = () => {
               fullWidth
             />
           </div>
-          <div style={{ padding: '5px'}}>
+          <div style={{ padding: "5px" }}>
             <InputLabel htmlFor="email">Email :</InputLabel>
             <TextField
               type="email"
@@ -283,9 +284,11 @@ const Registration = () => {
               placeholder="Email"
               fullWidth
             />
-            {errorMessages.email && <div className="error">{errorMessages.email}</div>}
+            {errorMessages.email && (
+              <div className="error">{errorMessages.email}</div>
+            )}
           </div>
-          <div style={{ padding: '5px'}}>
+          <div style={{ padding: "5px" }}>
             <InputLabel htmlFor="password">Contraseña: </InputLabel>
             <TextField
               type={passwordType ? "text" : "password"}
@@ -297,7 +300,7 @@ const Registration = () => {
             />
             {renderPasswordToggle()}
           </div>
-          <div style={{ padding: '5px'}}>
+          <div style={{ padding: "5px" }}>
             <h2>Dirección</h2>
             <InputLabel htmlFor="province">Provincia</InputLabel>
             <TextField
@@ -308,7 +311,7 @@ const Registration = () => {
               placeholder="Provincia"
               fullWidth
             />
-            <div style={{ padding: '5px'}}></div>
+            <div style={{ padding: "5px" }}></div>
             <InputLabel htmlFor="location">Localidad</InputLabel>
             <TextField
               type="text"
@@ -320,7 +323,7 @@ const Registration = () => {
             />
           </div>
           {ifProfRoute && (
-            <div style={{ backgroundColor: 'transparent'}}>
+            <div style={{ backgroundColor: "transparent" }}>
               <div>
                 <h2>Area de trabajo</h2>
                 <InputLabel htmlFor="provinceJob">Provincia</InputLabel>
@@ -332,7 +335,7 @@ const Registration = () => {
                   placeholder="Provincia"
                   fullWidth
                 />
-                <div style={{ padding: '5px'}}></div>
+                <div style={{ padding: "5px" }}></div>
                 <InputLabel htmlFor="locationJob">Localidad</InputLabel>
                 <TextField
                   type="text"
@@ -343,7 +346,7 @@ const Registration = () => {
                   fullWidth
                 />
               </div>
-              <div style={{ padding: '5px'}}></div>
+              <div style={{ padding: "5px" }}></div>
               <InputLabel htmlFor="profession">Profesión</InputLabel>
               <TextField
                 type="text"
@@ -353,7 +356,7 @@ const Registration = () => {
                 placeholder="profesión"
                 fullWidth
               />
-              <div style={{ padding: '5px'}}></div>
+              <div style={{ padding: "5px" }}></div>
               <InputLabel htmlFor="description">Descripción</InputLabel>
               <TextField
                 type="text"
@@ -363,7 +366,7 @@ const Registration = () => {
                 placeholder="descripción"
                 fullWidth
               />
-              <div style={{ padding: '5px'}}></div>
+              <div style={{ padding: "5px" }}></div>
               <InputLabel htmlFor="remoteWork">Trabajo Remoto</InputLabel>
               <TextField
                 type="checkbox"
@@ -373,7 +376,7 @@ const Registration = () => {
               />
             </div>
           )}
-          <div style={{ padding: '5px'}}></div>
+          <div style={{ padding: "5px" }}></div>
           <InputLabel htmlFor="image">Imagen</InputLabel>
           <input
             type="file"
@@ -381,11 +384,15 @@ const Registration = () => {
             name="image"
             onChange={handleImageUpload}
           />
-          {errorMessages.image && <div style={{ color: "red" }}>{errorMessages.image}</div>}
+          {errorMessages.image && (
+            <div style={{ color: "red" }}>{errorMessages.image}</div>
+          )}
           <div>
-            <div style={{ padding: '10px'}}></div>
+            <div style={{ padding: "10px" }}></div>
             {areAllProfFieldsCompleted() && ifProfRoute && (
-              <Button variant="contained" color="secondary"
+              <Button
+                variant="contained"
+                color="secondary"
                 type="submit"
                 style={{
                   width: "100%",
@@ -398,7 +405,9 @@ const Registration = () => {
               </Button>
             )}
             {areAllClienFieldsCompleted() && ifClientRoute && (
-              <Button variant="contained" color="secondary"
+              <Button
+                variant="contained"
+                color="secondary"
                 type="submit"
                 style={{
                   width: "100%",
