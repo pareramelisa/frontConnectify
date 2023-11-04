@@ -1,4 +1,4 @@
-import './Team.css';
+import styles from './Team.module.css';
 
 const Team = () => {
   const teamData = [
@@ -49,16 +49,16 @@ const Team = () => {
   ];
 
   return (
-    <div className="content">
-      <ul className="team">
-        <h1>Nuestro Equipo</h1>
+    <div className={styles['team-content']}>
+      <ul className={styles['team-container']}>
+        <h1 className={styles['team-title']}>Nuestro Equipo</h1>
         {teamData.map((member, index) => (
-          <li className="member" key={index}>
-            <div className="thumb">
+          <li className={styles['team-member']} key={index}>
+            <div className={styles['team-thumb']}>
               <img src={member.image} alt={member.name} />
             </div>
-            <div className="description">
-              <h3>{member.name}</h3>
+            <div className={styles['team-description']}>
+              <h3 className={styles['team-member-title']}>{member.name}</h3>
               <p>
                 {member.role}
                 <br />
@@ -66,6 +66,7 @@ const Team = () => {
                   href={`https://github.com/${member.gitHubHandle}`}
                   target="_blank"
                   rel="noopener noreferrer"
+                  className={styles['team-description-link']}
                 >
                   @{member.gitHubHandle}
                 </a>
