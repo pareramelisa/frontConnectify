@@ -77,6 +77,9 @@ const DetailAd = () => {
     }
   };
 
+  console.log(users);
+  console.log(user);
+
   return (
     <div>
       <Navbar />

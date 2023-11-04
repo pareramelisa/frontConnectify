@@ -81,6 +81,8 @@ function ResponsiveAppBar({ setContainerLogin }) {
     console.log("USERUSER...", user);
     if (user && user.nickname) {
       setNickName(user.nickname);
+    }else{
+      setNickName(users.userName)
     }
   }, [user]);
 

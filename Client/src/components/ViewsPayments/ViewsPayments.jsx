@@ -108,6 +108,7 @@ function ViewsPayments() {
     try {
       const resp = await axios.get(
         VITE_API_BASE + `/payments/search/${userName}`
+        // `http://localhost:3001/payments/search/${userName}`
       );
       setPaymentData(resp.data);
     } catch (error) {
