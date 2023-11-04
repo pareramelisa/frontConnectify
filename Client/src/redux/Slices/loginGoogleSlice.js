@@ -19,7 +19,7 @@ export const { loginWithGoogle } = loginWithGoogleSlice.actions;
 
 export default loginWithGoogleSlice.reducer;
 
-// Hace el fetch del para el login del usuario
+// Hace el fetch del para el login del usuario de Google
 export const fetchUserLoginWithGoogle = (form) => {
   return async (dispatch) => {
     let endpoint = VITE_API_BASE + `/client/googlelogin`;
