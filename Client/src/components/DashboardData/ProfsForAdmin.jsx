@@ -14,6 +14,7 @@ import {
   fetchAdsForAdmin,
   deleteAdByIdAdmin,
 } from "../../redux/Slices/adsSlice";
+import SupportPopUp from "./SupportPopUp/SupportPopUp";
 
 const ProfsForAdmin = () => {
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ const ProfsForAdmin = () => {
   const ads = useSelector((state) => state.ads.ads);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [dataPerPage] = useState(10);
+  const [dataPerPage] = useState(8);
 
   const indexOfLastAd = currentPage * dataPerPage;
   const indexOfFirstAd = indexOfLastAd - dataPerPage;
@@ -142,6 +143,13 @@ const ProfsForAdmin = () => {
       );
       setSelectedData(update);
     } catch (error) {}
+  };
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const handlePopUp = (e, prof) => {
+    isModalVisible ? setIsModalVisible(false) : setIsModalVisible(true);
+    SupportPopUp(isModalVisible, prof._id);
+    console.log("PopUp de " + prof.name);
   };
 
   return (
@@ -294,6 +302,25 @@ const ProfsForAdmin = () => {
                     ></path>
                   </svg>
                 </button>
+                <button
+                  style={{
+                    // fontWeight: "bold"
+                    height: "25px",
+                    width: "75px",
+                    fontSize: "13px",
+                    paddingTop: "3px",
+                  }}
+                  onClick={(e) => handlePopUp(e, prof)}
+                >
+                  Soporte
+                </button>
+                {isModalVisible && (
+                  <SupportPopUp
+                    isVisible={isModalVisible}
+                    professional={selectedProfessional}
+                    onClose={handlePopUp}
+                  />
+                )}
               </td>
             </tr>
           ))
