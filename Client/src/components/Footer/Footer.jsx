@@ -1,8 +1,6 @@
 import './Footer.css';
 import { BsFacebook, BsLinkedin, BsInstagram } from 'react-icons/bs';
 import { AiOutlineTwitter } from 'react-icons/ai';
-// import image from '../../assets/connectify.svg';
-// import { Link } from 'react-router-dom';
 
 export default function Footer() {
   return (
@@ -37,8 +35,8 @@ export default function Footer() {
       </ul>
       <ul className="menu">
         <li className="menu__item">
-          <a className="menu__link" href="#">
-            Home
+          <a className="menu__link" href="ourTeam">
+            Nuestro Equipo
           </a>
         </li>
         <li className="menu__item">

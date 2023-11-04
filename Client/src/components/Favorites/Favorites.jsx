@@ -9,7 +9,7 @@ import {
   Box,
   IconButton,
 } from "@mui/material";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Navbar from "../Navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
@@ -25,6 +25,8 @@ const Favorites = () => {
   const favorites = useSelector(
     (state) => state.favorites.favoriteProfessionals
   );
+  const ads = useSelector((state) => state.ads.ads);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchGetAllFavorites(users._id));
@@ -44,6 +46,14 @@ const Favorites = () => {
     // }else {
     //   dispatch(fetchRemoveFavorites(formFav))
     // }
+  };
+
+  const handleAdsDetails = (id) => {
+    ads.forEach((ad) => {
+      if (ad.creator[0]._id === id) {
+        navigate(`/detail/${ad._id}`);
+      }
+    });
   };
 
   return (
@@ -86,11 +96,17 @@ const Favorites = () => {
                         </Grid>
                         <Grid item xs={12} sm={6} md={2}></Grid>
                         <Grid item xs={12} sm={6} md={2}>
-                          <Link to={`/detail/${fav.professional._id}`}>
-                            <Button variant="contained" color="primary">
-                              Ver Detalle
-                            </Button>
-                          </Link>
+                          {/* <Link to={`/detail/${fav.professional._id}`}> */}
+                          <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={() =>
+                              handleAdsDetails(fav.professional._id)
+                            }
+                          >
+                            Ver Detalle
+                          </Button>
+                          {/* </Link> */}
                         </Grid>
                       </Grid>
                     </CardContent>
@@ -108,53 +124,3 @@ const Favorites = () => {
 };
 
 export default Favorites;
-
-// {favorites.length > 0 ? (
-//   favorites.map((profile, index) => (
-//     <Card key={index} sx={{ marginBottom: '16px', width: '90%' }}>
-//       <CardContent>
-//         <Grid container spacing={2}>
-//           <Grid item xs={12} sm={6} md={2}>
-//             <Box display="flex" justifyContent='space-between'>
-//               <IconButton
-//                 onClick={() => {
-//                   handleRemoveFavorite(profile[0]);
-//                 }}
-//               >
-//                 <DeleteIcon color="error" />
-//               </IconButton>
-//             </Box>
-//           </Grid>
-//           <Grid item xs={12} sm={6} md={2}>
-//             <CardMedia
-//               component="img"
-//               height="200"
-//               image={profile[0]?.professional?.image}
-//               alt={`Imagen de ${profile[0]?.professional?.name}`}
-//             />
-//           </Grid>
-//           <Grid item xs={12} sm={6} md={4}>
-//             <Typography variant="h5" component="div">
-//               {profile[0]?.professional?.name} {profile[0]?.professional?.lastName}
-//             </Typography>
-//             <Typography variant="body2" color="text.secondary">
-//               {profile[0]?.professional?.description}
-//             </Typography>
-//           </Grid>
-//           <Grid item xs={12} sm={6} md={2}>
-//             {/* Otro contenido */}
-//           </Grid>
-//           <Grid item xs={12} sm={6} md={2}>
-//             <Link to={`/detail/${profile[0]?.professional?._id}`}>
-//               <Button variant="contained" color="primary">
-//                 Ver Detalle
-//               </Button>
-//             </Link>
-//           </Grid>
-//         </Grid>
-//       </CardContent>
-//     </Card>
-//   ))
-// ) : (
-//   <p>No tienes perfiles guardados.</p>
-// )}
