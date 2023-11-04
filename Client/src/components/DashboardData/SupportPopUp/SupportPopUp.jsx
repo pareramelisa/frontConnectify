@@ -11,9 +11,9 @@ const SupportPopUp = ({ isVisible, professional, onClose }) => {
           </h2>
         </div>
         <div className={style.buttons}>
-          <button>Editar Perfil</button>
+          {!professional.creator && <button>Editar Perfil</button>}
           <button>Ver Detalle</button>
-          <button>Editar Aviso</button>
+          {professional.profession && <button>Editar Aviso</button>}
           <button>Enviar Mensaje</button>
         </div>
       </div>

@@ -82,9 +82,7 @@ const ProfsForAdmin = () => {
     setCurrentPage(1);
     if (e === "professionals") setSelectedData(professionals);
     if (e === "clients") setSelectedData(clients);
-    // setCurrentPage(1);
     if (e === "ads") setSelectedData(ads);
-    // setCurrentPage(1);
   };
   const [selectedData, setSelectedData] = useState(professionals);
 
@@ -203,10 +201,16 @@ const ProfsForAdmin = () => {
           {selectedData.length !== professionals.length &&
             selectedData[0].locationJob && (
               <div>
-                <button onClick={(e) => handleBanProf(e)}>
+                <button
+                  style={{ backgroundColor: "#3b7ba4" }}
+                  onClick={(e) => handleBanProf(e)}
+                >
                   Suspender Profesión
                 </button>
-                <button onClick={(e) => handleUnbanProf(e)}>
+                <button
+                  style={{ backgroundColor: "#3b7ba4" }}
+                  onClick={(e) => handleUnbanProf(e)}
+                >
                   Dessuspender Profesión
                 </button>
               </div>
@@ -320,7 +324,7 @@ const ProfsForAdmin = () => {
                 </button>
                 <button
                   style={{
-                    backgroundColor: "light blue",
+                    backgroundColor: "#3B7BA4",
                     height: "25px",
                     width: "75px",
                     fontSize: "13px",

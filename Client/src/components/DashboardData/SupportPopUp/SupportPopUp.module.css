@@ -11,6 +11,9 @@
   z-index: 999;
   background-color: rgba(0, 0, 0, 0.5);
 }
+.modal button {
+  background-color: #3b7ba4;
+}
 
 .overlay {
   position: relative;
@@ -31,6 +34,7 @@
 
 .buttons button {
   margin: 0 10px;
+  background-color: #3b7ba4;
 }
 
 .buttons {
