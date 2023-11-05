@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react';
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
@@ -43,7 +45,7 @@ function mercadoPago() {
         setUserDataOk(users.userName)
         console.log('Local');
       }
-    },[user, users, userDataOk])
+    },[user, users, userDataOk, isAuthenticated])
 
     useEffect(()=>{
       console.log("USER-DATA...", userDataOk);

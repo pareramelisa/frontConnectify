@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from "react";
 import {
   Button,
@@ -19,18 +20,9 @@ import { useLocation, useParams } from 'react-router-dom';
 import { fetchDetail } from '../../redux/Slices/detailSlice';
 import Navbar from '../Navbar/Navbar';
 import { locationUser } from '../../redux/Slices/persistSlice';
-// import { Link } from 'react-router-dom';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-<<<<<<< HEAD
-
-=======
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
->>>>>>> 0c44cf5eb01497812bb03efe2e2acef09e8797c4
-//import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useAuth0 } from "@auth0/auth0-react";
-
 import {
   fetchAddFavorites,
   fetchRemoveFavorites,
@@ -182,12 +174,7 @@ const DetailAd = () => {
                       </div>
                     </Grid>
                   </Grid>
-<<<<<<< HEAD
-                  
 
-=======
->>>>>>> 0c44cf5eb01497812bb03efe2e2acef09e8797c4
-                  <MercadoPago />
                 </CardContent>
               </Card>
             </Grid>
