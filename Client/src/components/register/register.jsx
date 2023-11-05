@@ -8,9 +8,9 @@ import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { InputLabel } from "@mui/material";
-import * as validations from "./ValidationsRegister";
+import validateImageFormat  from "./ValidationsRegister";
 import NavBarDemo2 from "../NavBarDemo2/NavBarDemo2";
-import photo from "../../assets/register.png";
+import { ValidationGroup } from 'mui-validate';
 import Button from "@mui/material/Button";
 
 const Registration = () => {
@@ -61,13 +61,13 @@ const Registration = () => {
     e.preventDefault();
     const errors = {};
 
-    // Validación de correo electrónico
-    errors.email = validations.validateEmail(clientRegister.email);
+   
 
     // Validación de formato de imagen
-    errors.image = validations.validateImageFormat(formData.get("image"));
+    errors.image = validateImageFormat(formData.get("image"));
 
     setErrorMessages(errors);
+    console.log(errors);
 
     if (Object.values(errors).some((error) => error !== null)) {
       return;
@@ -215,31 +215,10 @@ const Registration = () => {
   };
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        width: "100%",
-        height: "140vh",
-        background: `url(${photo})`,
-        backgroundPosition: "right",
-        backgroundSize: "cover",
-        backgroundAttachment: "fixed",
-      }}
-    >
+    <div >
       <NavBarDemo2 />
 
-      <div
-        style={{
-          columns: "1",
-          columnGap: "1rem",
-          padding: "0rem 8rem 6rem 12rem",
-          justifyContent: "center",
-          alignItems: "center",
-          breakInside: "avoid",
-          width: "min-content",
-          backgroundColor: "transparent",
-        }}
-      >
+      <div >
         <form onSubmit={(e) => handleSubmit(e)}>
           <div style={{ padding: "5px" }}>
             <InputLabel htmlFor="name">Nombre</InputLabel>
@@ -273,6 +252,9 @@ const Registration = () => {
               placeholder="Nombre de Usuario"
               fullWidth
             />
+            {errorMessages.name && (
+              <div className="error">{errorMessages.name}</div>
+            )}
           </div>
           <div style={{ padding: "5px" }}>
             <InputLabel htmlFor="email">Email :</InputLabel>

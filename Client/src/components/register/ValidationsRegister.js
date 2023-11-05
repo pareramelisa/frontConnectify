@@ -3,11 +3,10 @@
 export function validateEmail(value) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(value)) {
-      return 'Correo electrónico no válido.';
+      return 'No válido. No debe incluir caracteres especiales';
     }
     return null; // No hay error
   }
-  
   // Función para validar el formato de imagen (png o jpg)
   export function validateImageFormat(file) {
     if (file) {
