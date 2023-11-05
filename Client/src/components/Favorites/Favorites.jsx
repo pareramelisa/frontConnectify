@@ -33,8 +33,6 @@ const Favorites = () => {
   }, []);
 
   const handleRemoveFavorite = (e) => {
-    console.log(e.currentTarget.id);
-    console.log(e.currentTarget.value);
     const formFav = {
       clientId: e.currentTarget.value,
       professionalId: e.currentTarget.id,
@@ -43,8 +41,6 @@ const Favorites = () => {
       dispatch(fetchRemoveFavorites(formFav))
 
   };
-
-  console.log(favorites);
 
   const handleAdsDetails = (id) => {
     ads.forEach((ad) => {
