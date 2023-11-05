@@ -43,7 +43,6 @@ const Home = () => {
   //* Estados globales
   const adsFiltered = useSelector((state) => state.ads.adsFiltered);
   const ads = useSelector((state) => state.ads.ads);
-  const adsFilter = useSelector(state => state.persistUser.adsFilter)
   const { isAuthenticated, user } = useAuth0();
   //traer usuario ya después de iniciar sesión
   const nickname = user?.nickname || ''; // Usando operador opcional para evitar errores si no está definido
@@ -101,7 +100,6 @@ const Home = () => {
         sortPrice,
       })
     );
-    setCurrentPage(1);
   };
 
   //* Función para limpiar los filtros da error, por ahora comentada
@@ -136,7 +134,7 @@ const Home = () => {
     setPopUpLogin(false);
   };
 
-  console.log(adsFilter);
+  console.log(adsFiltered);
 
   return (
     <div>
@@ -260,7 +258,7 @@ const Home = () => {
           <Fab
             color="primary"
             className={styles.spinButton}
-            onClick={(e) => clearFilters(e)}
+            onClick={clearFilters}
             style={{
               zIndex: '1',
             }}
