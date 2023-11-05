@@ -27,6 +27,7 @@ import {
   fetchAddFavorites,
   fetchRemoveFavorites,
 } from "../../redux/Slices/favoritesSlice";
+import Comments from "../CommentsClient/CommentsClients";
 
 const DetailAd = () => {
   const { user } = useAuth0();
@@ -50,11 +51,11 @@ const DetailAd = () => {
     dispatch(fetchDetail(id)).then(() => {
       setLoading(false);
     });
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     dispatch(locationUser(location.pathname));
-  }, [location]);
+  }, [dispatch, location]);
 
   useEffect(() => {
     setUserData(user);
@@ -174,7 +175,7 @@ const DetailAd = () => {
                       </div>
                     </Grid>
                   </Grid>
-
+<Comments />
                 </CardContent>
               </Card>
             </Grid>

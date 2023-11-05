@@ -33,8 +33,8 @@ function mercadoPago() {
 
     const [userDataOk, setUserDataOk] = useState(null);
     const [detailProf, setDetailProf] = useState(null);
-
-    // const detailPr = detail;
+const [paymentId, setPaymentId] = useState("")
+  
     
     useEffect(()=>{
       if (isAuthenticated) {
@@ -63,17 +63,7 @@ function mercadoPago() {
       useEffect(() => {
         if (detail.detail.price) setServicePrice(detail.detail.price);
         if (detail.detail.title) setDescriptionBuy(detail.detail.title);
-        // if (price) setServicePrice(price);
-        // if (description) setDescriptionBuy(description);
-        // if (userData) setUserDataOk(userData);
-        // if (detail) setDetailProf(detail);
-
-        // if (detailProf && detailProf.detail) {
-        //     console.log("DETAIL-PROF", detailProf.detail._id);
-        //   } else {
-        //     console.log("Cargando DETAIL...");
-        //   }
-
+       
       }, [userDataOk, detail]);
      
     

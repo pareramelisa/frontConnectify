@@ -9,37 +9,32 @@ const Comments = () => {
   const { user, isAuthenticated } = useAuth0();
   const dispatch = useDispatch();
   const comments = useSelector((state) => state.detail);
+  const users = useSelector(state => state.usersLogin.user)
   const [newComment, setNewComment] = useState("");
   const [professionalId, setProfessionalId] = useState(""); // Almacenar professionalId en el estado
-  
+  const [userDataOk, setUserDataOk] = useState("");
+
 
   useEffect(() => {
     if (isAuthenticated) {
-      let clientId;
-
-      if (user.sub.includes("google")) {
-        clientId = user.nickname;
-      } else {
-        clientId = user.userName;
-      }
-
-      const paymentId = clientId;
-      dispatch(getComments(paymentId));
+      // Si el usuario está autenticado, obtén el valor correcto
+      setUserDataOk(user.nickname || users.userName);
     }
-    
-  }, [dispatch, isAuthenticated, user]);
+  }, [user, users, isAuthenticated]);
 
   const handleComment = () => {
     if (newComment.trim() !== "") {
       const commentData = {
         comment: newComment,
-        client: user.userName || user.nickname,
+        client: userDataOk,
         professionalId: comments.detail.creator[0]._id,
       };
-      console.log(professionalId, "profesional");
+      
+      
+      console.log("professionalId:", comments.detail.creator[0]._id);
+  
 
-      console.log(user.userName, user.nickname,  "cliente");
-      // Enviar el comentario al servidor utilizando Redux Toolkit
+      console.log("commentData:", commentData);
       dispatch(postComment(commentData));
 
       // Limpiar el campo de comentario después de enviar
