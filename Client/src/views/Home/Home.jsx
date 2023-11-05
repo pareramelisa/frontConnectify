@@ -43,6 +43,7 @@ const Home = () => {
   //* Estados globales
   const adsFiltered = useSelector((state) => state.ads.adsFiltered);
   const ads = useSelector((state) => state.ads.ads);
+  const adsFilter = useSelector(state => state.persistUser.adsFilter)
   const { isAuthenticated, user } = useAuth0();
   //traer usuario ya después de iniciar sesión
   const nickname = user?.nickname || ''; // Usando operador opcional para evitar errores si no está definido
@@ -126,7 +127,6 @@ const Home = () => {
   //* useEffect para actualizar el estado de los anuncios
   useEffect(() => {
     dispatch(locationUser(location.pathname));
-    dispatch(fetchAds());
     if (isAuthenticated) {
       dispatch(fetchUserLoginWithGoogle({ email: user.email }));
     }
@@ -135,6 +135,8 @@ const Home = () => {
   const handlerCloseLoginPopUp = () => {
     setPopUpLogin(false);
   };
+
+  console.log(adsFilter);
 
   return (
     <div>
@@ -246,7 +248,7 @@ const Home = () => {
         <div>
           <Fab
             color="primary"
-            onClick={() => applyFilters()}
+            onClick={applyFilters}
             style={{
               zIndex: '1',
             }}
