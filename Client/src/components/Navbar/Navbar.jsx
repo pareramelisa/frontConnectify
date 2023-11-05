@@ -91,7 +91,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <div className="containerNav">
-            <Link to="/">
+            <Link to="/home">
               <img src={logo} alt="" className="logoNav" />
             </Link>
             <Box
