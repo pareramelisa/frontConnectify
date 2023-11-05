@@ -86,7 +86,7 @@ const commentSlice = createSlice({
         state.comments = action.payload;
       })
       .addCase(getComments.rejected, (state, action) => {
-        state.error = action.error.payload;
+        state.error = action.error.message;
       })
       .addCase(deleteComments.fulfilled, (state, action) => {
         state.comments = state.comments.filter(
