@@ -1,10 +1,11 @@
 /* eslint-disable no-useless-catch */
-import { createSlice } from '@reduxjs/toolkit';
-import { applyFilters } from './adsSlice';
-import axios from 'axios';
+import { createSlice } from "@reduxjs/toolkit";
+import { applyFilters } from "./adsSlice";
+const VITE_API_BASE = import.meta.env.VITE_API_BASE;
+import axios from "axios";
 
 const FilterSlice = createSlice({
-  name: 'filter',
+  name: "filter",
   initialState: {
     filterApplied: [],
   },
@@ -24,11 +25,13 @@ export const fetchFilter = ({
   province,
   minPrice,
   maxPrice,
+  sortPrice,
 }) => {
   return async (dispatch) => {
     try {
-      let url =
-        'https://connectifyback-dp-production.up.railway.app/ads/filters?';
+      // let url = `http://localhost:3001/ads/filters?`;
+      let url = VITE_API_BASE + `/ads/filters?`;
+      // 'https://connectifyback-dp-production.up.railway.app/ads/filters?';
 
       // Valida y construye la URL de la solicitud en función de los parámetros proporcionados
       if (minPrice && maxPrice) {
@@ -42,6 +45,9 @@ export const fetchFilter = ({
       }
       if (province) {
         url += `province=${province}&`;
+      }
+      if (sortPrice) {
+        url += `sortPrice=${sortPrice}&`;
       }
 
       const { data } = await axios.get(url);

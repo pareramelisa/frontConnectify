@@ -10,13 +10,12 @@ import { useLocation, Link } from "react-router-dom";
 import { locationUser } from "../../redux/Slices/persistSlice";
 import validationLogin from "./validationLogin";
 
-
-const Login = ({ setContainerLogin }) => {
+const Login = ({ setContainerLogin, setPopUpLogin }) => {
   const dispatch = useDispatch();
   const [showLogin, setShowLogin] = useState(false);
   const [showLoginClient, setShowLoginClient] = useState(false);
   const [showLoginProfessional, setShowLoginProfessional] = useState(false);
-
+  
   const location = useLocation();
 
   const { loginWithRedirect, isAuthenticated } = useAuth0();
@@ -43,20 +42,20 @@ const Login = ({ setContainerLogin }) => {
   const onSubmit = async (e) => {
     e.preventDefault();
     const result = await dispatch(fetchUserLogin(form));
-    if (result) {
+    console.log(result);
+    if (result.access === true) {
       setShowLogin(true);
       setShowLoginProfessional(false);
       setShowLoginClient(false);
+      setContainerLogin(false);
+    } else {
+      setPopUpLogin(true); // Mostrar el mensaje emergente para el inicio de sesión incorrecto
     }
-    setContainerLogin(false);
   };
 
   const handlerLoginGoogle = () => {
-    
     loginWithRedirect();
-    
   };
-
 
   const handleShowClient = (e) => {
     const propiedad = "types";
@@ -98,6 +97,8 @@ const Login = ({ setContainerLogin }) => {
       setContainerLogin(true);
     }
   };
+
+  
 
   return (
     <div
@@ -143,18 +144,22 @@ const Login = ({ setContainerLogin }) => {
           >
             <CancelRoundedIcon />
           </IconButton>
-          <div style={{
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'center',
-            alignItems: 'center'
-          }}>
-            <h2 style={{paddingBottom: '3rem'}}>Inicio Sesion</h2>
-            <div style={{
-              display:'flex',
-              gap: '2rem',
-              marginBottom: '4rem'
-              }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <h2 style={{ paddingBottom: "3rem" }}>Inicio Sesion</h2>
+            <div
+              style={{
+                display: "flex",
+                gap: "2rem",
+                marginBottom: "4rem",
+              }}
+            >
               <Button
                 id="client"
                 variant="contained"
@@ -204,7 +209,7 @@ const Login = ({ setContainerLogin }) => {
             alignItems: "center",
             flexDirection: "column",
             backgroundColor: "rgba(255,255,255,0.9)",
-            gap: '1rem'
+            gap: "1rem",
           }}
         >
           <IconButton
@@ -248,15 +253,19 @@ const Login = ({ setContainerLogin }) => {
               </div>
             )}
           </div>
-          <div style={{
-            width: '70%'
-          }}>
-            <div style={{
-              width: '100%',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '0.8rem'
-            }}>
+          <div
+            style={{
+              width: "70%",
+            }}
+          >
+            <div
+              style={{
+                width: "100%",
+                display: "flex",
+                flexDirection: "column",
+                gap: "0.8rem",
+              }}
+            >
               <TextField
                 label="Email"
                 variant="outlined"
@@ -283,10 +292,14 @@ const Login = ({ setContainerLogin }) => {
           <Button variant="outlined" type="submit" sx={{ mt: 2 }}>
             Submit
           </Button>
-          <Link to={'/client/registration'}>
-          <Typography variant="body2" color="text.secondary" style={{fontSize: '1rem', color: "#5241e8",}}>
+          <Link to={"/client/registration"}>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              style={{ fontSize: "1rem", color: "#5241e8" }}
+            >
               No tenes cuenta aun?
-          </Typography>
+            </Typography>
           </Link>
         </Box>
       )}
@@ -307,7 +320,7 @@ const Login = ({ setContainerLogin }) => {
             alignItems: "center",
             flexDirection: "column",
             backgroundColor: "rgba(255,255,255,0.9)",
-            gap: '2rem'
+            gap: "2rem",
           }}
         >
           <IconButton
@@ -364,10 +377,14 @@ const Login = ({ setContainerLogin }) => {
           <Button variant="outlined" type="submit" sx={{ mt: 2 }}>
             Submit
           </Button>
-          <Link to={'/professional/registration'}>
-          <Typography variant="body2" color="text.secondary" style={{fontSize: '1rem', color: "#5241e8",}}>
+          <Link to={"/professional/registration"}>
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              style={{ fontSize: "1rem", color: "#5241e8" }}
+            >
               No tenes cuenta aun?
-          </Typography>
+            </Typography>
           </Link>
         </Box>
       )}

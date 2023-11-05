@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Button,
   Card,
@@ -19,20 +19,40 @@ import { useLocation, useParams } from 'react-router-dom';
 import { fetchDetail } from '../../redux/Slices/detailSlice';
 import Navbar from '../Navbar/Navbar';
 import { locationUser } from '../../redux/Slices/persistSlice';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+<<<<<<< HEAD
 
+=======
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
+>>>>>>> 0c44cf5eb01497812bb03efe2e2acef09e8797c4
 //import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useAuth0 } from "@auth0/auth0-react";
+
+import {
+  fetchAddFavorites,
+  fetchRemoveFavorites,
+} from "../../redux/Slices/favoritesSlice";
 
 const DetailAd = () => {
+  const { user } = useAuth0();
   const { id } = useParams();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
   const location = useLocation();
-  const [isSaved, setIsSaved] = useState(false); // Agregamos el estado para controlar si se ha guardado el perfil
 
+  const favorites = useSelector(
+    (state) => state.favorites.favoriteProfessionals
+  );
+  const users = useSelector((state) => state.usersLogin.user);
   const [loading, setLoading] = useState(true);
+  const [userData, setUserData] = useState(null);
+
+  const newFav = favorites.some(
+    (favorite) => favorite.professional._id === detail.detail.creator[0]._id
+  );
 
   useEffect(() => {
     dispatch(fetchDetail(id)).then(() => {
@@ -42,43 +62,27 @@ const DetailAd = () => {
 
   useEffect(() => {
     dispatch(locationUser(location.pathname));
-  }, []);
+  }, [location]);
 
-  // Guardar los datos del profesional en el Local Storage
+  useEffect(() => {
+    setUserData(user);
+  }, [user]);
+
   const handleSaveOrRemoveProfile = () => {
-    const localStorageKey = `favoritos-${id}`;
-    if (isSaved) {
-      // Eliminar el perfil de favoritos (usando la clave adecuada)
-      localStorage.removeItem(localStorageKey);
+    const formFav = {
+      clientId: users._id,
+      professionalId: detail.detail.creator[0]._id,
+    };
+
+    if (!newFav) {
+      dispatch(fetchAddFavorites(formFav));
     } else {
-      // Guardar el perfil como favorito (usando la clave adecuada)
-      localStorage.setItem(localStorageKey, JSON.stringify(detail.detail));
-
-      // Emite un evento personalizado para notificar cambios en favoritos
-      const event = new Event('favoritesChanged');
-      window.dispatchEvent(event);
+      dispatch(fetchRemoveFavorites(formFav));
     }
-
-    // Actualizar el estado `isSaved` para reflejar si el perfil está guardado o no
-    setIsSaved(!isSaved);
   };
 
-  useEffect(() => {
-    // Verificar si el perfil ya está guardado en el localStorage
-    const savedProfile = localStorage.getItem(`favoritos-${id}`);
-    console.log(`Favoritos guardados:${savedProfile}`);
-    setIsSaved(!!savedProfile); // Establecer el estado en función de si se encuentra en localStorage
-  }, []);
-
-  const savedProfileKeys = Object.keys(localStorage);
-
-  useEffect(() => {
-    // Verificar la cantidad de perfiles guardados en el localStorage
-    const count = savedProfileKeys.filter((key) =>
-      key.startsWith('favoritos-')
-    ).length;
-    setIsSaved(count > 0);
-  }, []);
+  console.log(users);
+  console.log(user);
 
   return (
     <div>
@@ -90,75 +94,37 @@ const DetailAd = () => {
           >
             Cargando...
           </div>
-        ) : // Verifica si detail.detail.creator existe y tiene una longitud mayor que 0
-        detail.detail.creator && detail.detail.creator.length > 0 ? (
+        ) : detail.detail.creator && detail.detail.creator.length > 0 ? (
           <Grid container spacing={2}>
             <Grid item xs={8} align="left">
-              <Grid item xs={8} align="left">
-                <Box display="flex" justifyContent="space-between" width="100%">
-                  <Button
-                    sx={{
-                      backgroundColor: isSaved ? '#3B7BA4' : '#D9D9D9',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                    }}
-                    variant="contained"
-                    onClick={handleSaveOrRemoveProfile}
-                  >
-                    {isSaved ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-                  </Button>
-                  <Badge
-                    badgeContent={
-                      savedProfileKeys.filter((key) =>
-                        key.startsWith('favoritos-')
-                      ).length
-                    }
-                    color="secondary"
-                  >
-                    <Link
-                      to="/client/favorites"
-                      style={{ textDecoration: 'none' }}
+              {users.types !== 'admin' && users.types !== 'professional' && (
+                <Grid item xs={8} align="left">
+                  <Box display="flex" justifyContent="space-between" width="100%">
+                    <Button
+                      sx={{
+                        backgroundColor: !newFav ? '#D9D9D9' : '#3B7BA4',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                      variant="contained"
+                      onClick={handleSaveOrRemoveProfile}
                     >
-                      <Button
-                        variant="outlined" // Esto establece el botón con borde
-                        sx={{ margin: '0px' }}
-                      >
-                        Ver mis Favoritos{' '}
-                        <FavoriteBorderIcon sx={{ fontSize: 20 }} />
-                      </Button>
-                    </Link>
-                  </Badge>
-                </Box>
-              </Grid>
-
+                      {!newFav ? <StarBorderIcon/> : <StarIcon/>}
+                    </Button>
+                  </Box>
+                </Grid>
+              )}
               <Grid item xs={12} md={10} sx={{ margin: '16px' }}>
-                <Typography
-                  fontWeight="900"
-                  variant="h3"
-                  sx={{ margin: '10px' }}
-                >
+                <Typography fontWeight="900" variant="h3" sx={{ margin: '10px' }}>
                   {detail.detail.profession}
                 </Typography>
-                <Typography
-                  fontWeight="900"
-                  variant="h5"
-                  sx={{ margin: '10px' }}
-                >
+                <Typography fontWeight="900" variant="h5" sx={{ margin: '10px' }}>
                   Ubicación: {detail.detail.location}
                 </Typography>
-
-                <Typography
-                  fontWeight="900"
-                  variant="h4"
-                  sx={{ margin: '10px' }}
-                >
+                <Typography fontWeight="900" variant="h4" sx={{ margin: '10px' }}>
                   Descripción:
                 </Typography>
-                <Typography
-                  fontWeight="700"
-                  variant="body1"
-                  sx={{ margin: '10px' }}
-                >
+                <Typography fontWeight="700" variant="body1" sx={{ margin: '10px' }}>
                   {detail.detail.description}
                 </Typography>
                 <Card
@@ -180,16 +146,11 @@ const DetailAd = () => {
                       </div>
                       <div className="profile-text">
                         <Typography variant="h6">⭐5.0</Typography>
-                        <Typography
-                          fontWeight="900"
-                          variant="h5"
-                          component="div"
-                        >
+                        <Typography fontWeight="900" variant="h5" component="div">
                           Maria Emilia Fuentes
                         </Typography>
                         <Typography variant="body2">
-                          Muy amigable, amable y predispuesto a despejar dudas
-                          07/08/23
+                          Muy amigable, amable y predispuesto a despejar dudas 07/08/23
                         </Typography>
                       </div>
                     </div>
@@ -198,20 +159,13 @@ const DetailAd = () => {
               </Grid>
               <Grid item xs={8}></Grid>
             </Grid>
-
             <Grid item xs={12} sm={6} md={4}>
               <Card sx={{ maxWidth: 345, borderRadius: 5 }}>
-                <CardMedia
-                  sx={{ height: 200 }}
-                  image={detail.detail.creator[0].image}
-                  title="tec"
-                />
+                <CardMedia sx={{ height: 200 }} image={detail.detail.creator[0].image} title="tec" />
                 <CardContent>
                   <Typography fontWeight="900" variant="h5" component="div">
-                    {detail.detail.creator[0].name}{' '}
-                    {detail.detail.creator[0].lastName}
+                    {detail.detail.creator[0].name} {detail.detail.creator[0].lastName}
                   </Typography>
-
                   <Grid container spacing={2}>
                     <Grid item xs={12} md={8}>
                       <div>
@@ -228,8 +182,11 @@ const DetailAd = () => {
                       </div>
                     </Grid>
                   </Grid>
+<<<<<<< HEAD
                   
 
+=======
+>>>>>>> 0c44cf5eb01497812bb03efe2e2acef09e8797c4
                   <MercadoPago />
                 </CardContent>
               </Card>
@@ -243,5 +200,6 @@ const DetailAd = () => {
     </div>
   );
 };
+
 
 export default DetailAd;
