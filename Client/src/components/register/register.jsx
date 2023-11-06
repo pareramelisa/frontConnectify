@@ -8,9 +8,7 @@ import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { InputLabel , Box} from "@mui/material";
-import * as validations from "./ValidationsRegister";
 import NavBarDemo2 from "../NavBarDemo2/NavBarDemo2";
-import photo from "../../assets/register.png";
 import Button from "@mui/material/Button";
 
 const Registration = () => {
@@ -109,9 +107,10 @@ const Registration = () => {
 
     const errors = {};
     // Validación de formato de imagen
-    errors.image = validations.validateImageFormat(formData.get("image"));
+    errors.image = validateImageFormat(formData.get("image"));
 
     setErrorMessages(errors);
+    console.log(errors);
 
     if (validateEmail(email)) {
     
@@ -342,6 +341,9 @@ const Registration = () => {
               placeholder="Nombre de Usuario"
               fullWidth
             />
+            {errorMessages.name && (
+              <div className="error">{errorMessages.name}</div>
+            )}
           </div>
           <div style={{ padding: "5px" }}>
             <TextField
