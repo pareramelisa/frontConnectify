@@ -1,16 +1,16 @@
-import { debounce } from "lodash";
+
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchUserRegister } from "../../redux/Slices/registerSlice";
-import style from "./register.module.css";
+
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { InputLabel , Box} from "@mui/material";
 import * as validations from "./ValidationsRegister";
 import NavBarDemo2 from "../NavBarDemo2/NavBarDemo2";
-import photo from "../../assets/register.png";
+
 import Button from "@mui/material/Button";
 
 const Registration = () => {
