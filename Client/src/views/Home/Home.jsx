@@ -38,6 +38,7 @@ const Home = () => {
   const [locationProf, setLocationProf] = useState('');
   const [popUpLogin, setPopUpLogin] = useState(false);
   const [sortPrice, setSortPrice] = useState('');
+  const [workLocation, setWorkLocation] = useState('');
   const [chatOpen, setChatOpen] = useState(false);
 
   //* Estados globales
@@ -79,6 +80,10 @@ const Home = () => {
     setPriceRange(value);
   };
 
+  const handleRemoteWork = (e) => {
+    setWorkLocation(e.target.value);
+  };
+
   const handlesortPrice = (e) => {
     e.preventDefault();
     console.log(e.target.value);
@@ -89,12 +94,14 @@ const Home = () => {
   useEffect(() => {
     console.log('sortPrice has been updated: ' + sortPrice);
   }, [sortPrice]);
+
   //* Función para aplicar los filtros
   const applyFilters = async () => {
     dispatch(
       fetchFilter({
         profession,
         locationProf,
+        workLocation,
         minPrice: priceRange[0],
         maxPrice: priceRange[1],
         sortPrice,
@@ -110,6 +117,7 @@ const Home = () => {
     setLocationProf('');
     setSortPrice('');
     setPriceRange([1000, 10000]);
+    setWorkLocation('');
     dispatch(fetchAds());
   };
 
@@ -243,6 +251,17 @@ const Home = () => {
             </Select>
           </FormControl>
         </div>
+        <FormControl sx={{ m: 1, minWidth: 170, maxWidth: 200 }}>
+          <InputLabel>Trabajo</InputLabel>
+          <Select
+            id="workLocation"
+            onChange={handleRemoteWork}
+            value={workLocation}
+          >
+            <MenuItem value="Remoto">Remoto</MenuItem>
+            <MenuItem value="Presencial">Presencial</MenuItem>
+          </Select>
+        </FormControl>
         <div>
           <Fab
             color="primary"
