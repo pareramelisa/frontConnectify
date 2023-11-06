@@ -7,7 +7,7 @@ import style from "./register.module.css";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { InputLabel } from "@mui/material";
+import { InputLabel , Box} from "@mui/material";
 import * as validations from "./ValidationsRegister";
 import NavBarDemo2 from "../NavBarDemo2/NavBarDemo2";
 import photo from "../../assets/register.png";
@@ -42,32 +42,92 @@ const Registration = () => {
   const [passwordType, setPasswordType] = useState();
   const [remoteWork, setRemoteWork] = useState(false);
   const [formData, setFormData] = useState(new FormData());
+  const [email, setEmail] = useState("")
+  const [error, setError] = useState({
+    error: false,
+    message:""
+  })
 
   const renderPasswordToggle = () => (
-    <button type="button" onClick={handleHidePassword}>
+    <Button type="button" onClick={handleHidePassword}>
       {passwordType ? (
         <Visibility style={{ fontSize: 18 }} />
       ) : (
         <VisibilityOff style={{ fontSize: 18 }} />
       )}
-    </button>
+    </Button>
   );
   const handleHidePassword = () => {
     setPasswordType(!passwordType);
   };
 
+  function validateEmail(email) {
+    if (!email) {
+      setError({
+        error: true,
+        message: "El campo de correo electrónico no puede estar vacío.",
+      });
+      return false;
+    }
+  
+    // Verificar si el valor contiene el carácter "+"
+    if (email.includes("+")) {
+      setError({
+        error: true,
+        message: "El correo electrónico no puede contener el carácter '+'",
+      });
+      return false;
+    }
+  
+    // Verificar la validez del formato del correo electrónico
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
+    if (!emailRegex.test(email)) {
+      setError({
+        error: true,
+        message: "Correo electrónico no válido.",
+      });
+      return false;
+    }
+  
+    // El correo electrónico es válido y no contiene caracteres no permitidos, puedes limpiar el mensaje de error
+    setError({
+      error: false,
+      message: "",
+    });
+  
+    // Actualizar el estado del campo "email"
+    setEmail(email);
+  
+    return true;
+  }
+  
+  
+
   const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const errors = {};
-
-    // Validación de correo electrónico
-    errors.email = validations.validateEmail(clientRegister.email);
-
     // Validación de formato de imagen
     errors.image = validations.validateImageFormat(formData.get("image"));
 
     setErrorMessages(errors);
+
+    if (validateEmail(email)) {
+    
+          setError({
+            error: false,
+            message: "",
+          });
+
+        } else {
+          // El correo electrónico es inválido, muestra un mensaje de error y no envíes el formulario
+          setError({
+            error: true,
+            message: "Email no valido, no puede contener caracteres especiales",
+          });
+        }
+        
 
     if (Object.values(errors).some((error) => error !== null)) {
       return;
@@ -124,6 +184,24 @@ const Registration = () => {
 
   const handleChange = (e) => {
     const { name, type, value } = e.target;
+
+    if (name === "email") {
+      // Verificar si el valor contiene el carácter "+"
+      if (value.includes("+")) {
+        setError({
+          error: true,
+          message: "El correo electrónico no puede contener el carácter '+'",
+        });
+      } else {
+        // El correo electrónico es válido, puedes limpiar el mensaje de error
+        setError({
+          error: false,
+          message: "",
+        });
+      }
+      // Actualizar el estado del campo "email"
+      setEmail(value);
+    }
     if (type === "checkbox") setRemoteWork(e.target.checked);
     const nameArray = name.split(".");
 
@@ -215,35 +293,24 @@ const Registration = () => {
   };
 
   return (
-    <div
-      style={{
-        position: "absolute",
-        width: "100%",
-        height: "140vh",
-        background: `url(${photo})`,
-        backgroundPosition: "right",
-        backgroundSize: "cover",
-        backgroundAttachment: "fixed",
-      }}
-    >
+    <div>
       <NavBarDemo2 />
 
       <div
         style={{
-          columns: "1",
-          columnGap: "1rem",
-          padding: "0rem 8rem 6rem 12rem",
+          padding: " 6rem ",
           justifyContent: "center",
           alignItems: "center",
-          breakInside: "avoid",
-          width: "min-content",
+          width: "800px",
           backgroundColor: "transparent",
         }}
       >
-        <form onSubmit={(e) => handleSubmit(e)}>
+        <Box component="form" onSubmit={(e) => handleSubmit(e)}>
           <div style={{ padding: "5px" }}>
-            <InputLabel htmlFor="name">Nombre</InputLabel>
+            
             <TextField
+            id="name"
+            label="Nombre"
               type="text"
               name="name"
               value={clientRegister.name}
@@ -253,8 +320,9 @@ const Registration = () => {
             />
           </div>
           <div style={{ padding: "5px" }}>
-            <InputLabel htmlFor="lastName">Apellido</InputLabel>
             <TextField
+            id="Apellido"
+            label="Apellido"
               type="text"
               name="lastName"
               value={clientRegister.lastName}
@@ -264,8 +332,9 @@ const Registration = () => {
             />
           </div>
           <div style={{ padding: "5px" }}>
-            <InputLabel htmlFor="userName">Nombre de Usuario</InputLabel>
             <TextField
+            id="Usuario"
+            label="Nombre de usuario"
               type="text"
               name="userName"
               value={clientRegister.userName}
@@ -275,22 +344,25 @@ const Registration = () => {
             />
           </div>
           <div style={{ padding: "5px" }}>
-            <InputLabel htmlFor="email">Email :</InputLabel>
             <TextField
+            id="email"
+            label="Email"
               type="email"
               name="email"
               value={clientRegister.email}
               onChange={handleChange}
               placeholder="Email"
               fullWidth
+              helperText= {error.message}
+              error={error.error}
             />
-            {errorMessages.email && (
-              <div className="error">{errorMessages.email}</div>
-            )}
+            
           </div>
           <div style={{ padding: "5px" }}>
-            <InputLabel htmlFor="password">Contraseña: </InputLabel>
+            
             <TextField
+            id="contraseña"
+            label="Contraseña"
               type={passwordType ? "text" : "password"}
               value={clientRegister.password}
               name="password"
@@ -301,9 +373,9 @@ const Registration = () => {
             {renderPasswordToggle()}
           </div>
           <div style={{ padding: "5px" }}>
-            <h2>Dirección</h2>
-            <InputLabel htmlFor="province">Provincia</InputLabel>
+            <h2>Dirección personal</h2>
             <TextField
+            label="Provincia"
               type="text"
               name="province"
               value={clientRegister.province}
@@ -312,8 +384,8 @@ const Registration = () => {
               fullWidth
             />
             <div style={{ padding: "5px" }}></div>
-            <InputLabel htmlFor="location">Localidad</InputLabel>
             <TextField
+            label="Cuidad"
               type="text"
               name="location"
               value={clientRegister.location}
@@ -326,8 +398,8 @@ const Registration = () => {
             <div style={{ backgroundColor: "transparent" }}>
               <div>
                 <h2>Area de trabajo</h2>
-                <InputLabel htmlFor="provinceJob">Provincia</InputLabel>
                 <TextField
+                label="Provincia (laboral)"
                   type="text"
                   name="provinceJob"
                   value={clientRegister.provinceJob}
@@ -336,8 +408,8 @@ const Registration = () => {
                   fullWidth
                 />
                 <div style={{ padding: "5px" }}></div>
-                <InputLabel htmlFor="locationJob">Localidad</InputLabel>
                 <TextField
+                label="Cuidad (laboral)"
                   type="text"
                   name="locationJob"
                   value={clientRegister.locationJob}
@@ -347,24 +419,25 @@ const Registration = () => {
                 />
               </div>
               <div style={{ padding: "5px" }}></div>
-              <InputLabel htmlFor="profession">Profesión</InputLabel>
+              <InputLabel htmlFor="profession">Profesión u oficio.</InputLabel>
               <TextField
                 type="text"
                 name="profession"
                 value={clientRegister.profession}
                 onChange={handleChange}
-                placeholder="profesión"
+                placeholder="profesión u oficio."
                 fullWidth
               />
               <div style={{ padding: "5px" }}></div>
-              <InputLabel htmlFor="description">Descripción</InputLabel>
+              <InputLabel htmlFor="description">Biografia descriptiva</InputLabel>
               <TextField
                 type="text"
                 name="description"
                 value={clientRegister.description}
                 onChange={handleChange}
-                placeholder="descripción"
+                placeholder="Comparte tus habilidades con la comunidad de Connectify"
                 fullWidth
+                rows="5"
               />
               <div style={{ padding: "5px" }}></div>
               <InputLabel htmlFor="remoteWork">Trabajo Remoto</InputLabel>
@@ -420,7 +493,7 @@ const Registration = () => {
               </Button>
             )}
           </div>
-        </form>
+        </Box>
       </div>
     </div>
   );
