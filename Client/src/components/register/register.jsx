@@ -7,7 +7,7 @@ import { fetchUserRegister } from "../../redux/Slices/registerSlice";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { InputLabel , Box} from "@mui/material";
+import { InputLabel , Box, Select,  MenuItem} from "@mui/material";
 import * as validations from "./ValidationsRegister";
 import NavBarDemo2 from "../NavBarDemo2/NavBarDemo2";
 
@@ -47,6 +47,14 @@ const Registration = () => {
     error: false,
     message:""
   })
+
+  const provinces = [
+    'Seleccionar', // Opción predeterminada
+    'Provincia 1',
+    'Provincia 2',
+    'Provincia 3',
+    // Agrega más provincias según tus necesidades
+  ];
 
   const renderPasswordToggle = () => (
     <Button type="button" onClick={handleHidePassword}>
@@ -298,13 +306,14 @@ const Registration = () => {
 
       <div
         style={{
-          padding: " 6rem ",
+          padding: "4rem ",
           justifyContent: "center",
           alignItems: "center",
           width: "800px",
           backgroundColor: "transparent",
         }}
       >
+        <h1>Registrate </h1>
         <Box component="form" onSubmit={(e) => handleSubmit(e)}>
           <div style={{ padding: "5px" }}>
             
@@ -374,7 +383,7 @@ const Registration = () => {
           </div>
           <div style={{ padding: "5px" }}>
             <h2>Dirección personal</h2>
-            <TextField
+            <Select
             label="Provincia"
               type="text"
               name="province"
@@ -382,7 +391,13 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="Provincia"
               fullWidth
-            />
+            >
+              {provinces.map((province) => (
+          <MenuItem key={province} value={province}>
+            {province}
+          </MenuItem>
+        ))}
+        </Select>
             <div style={{ padding: "5px" }}></div>
             <TextField
             label="Cuidad"
