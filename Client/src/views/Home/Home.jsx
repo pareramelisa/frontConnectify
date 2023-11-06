@@ -100,7 +100,6 @@ const Home = () => {
         sortPrice,
       })
     );
-    setCurrentPage(1);
   };
 
   //* Función para limpiar los filtros da error, por ahora comentada
@@ -126,7 +125,6 @@ const Home = () => {
   //* useEffect para actualizar el estado de los anuncios
   useEffect(() => {
     dispatch(locationUser(location.pathname));
-    dispatch(fetchAds());
     if (isAuthenticated) {
       dispatch(fetchUserLoginWithGoogle({ email: user.email }));
     }
@@ -135,6 +133,8 @@ const Home = () => {
   const handlerCloseLoginPopUp = () => {
     setPopUpLogin(false);
   };
+
+  console.log(adsFiltered);
 
   return (
     <div>
@@ -246,7 +246,7 @@ const Home = () => {
         <div>
           <Fab
             color="primary"
-            onClick={() => applyFilters()}
+            onClick={applyFilters}
             style={{
               zIndex: '1',
             }}
@@ -258,7 +258,7 @@ const Home = () => {
           <Fab
             color="primary"
             className={styles.spinButton}
-            onClick={(e) => clearFilters(e)}
+            onClick={clearFilters}
             style={{
               zIndex: '1',
             }}
