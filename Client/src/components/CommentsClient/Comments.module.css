@@ -1,0 +1,29 @@
+.textarea {
+    width: 100%;
+    min-height: 100px;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    margin-top: 16px;
+  }
+
+  .button{
+    background-color: #1976D2;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 8px 16px;
+    font-size: 16px;
+    margin-top: 16px;
+    cursor: pointer;      
+  }
+
+  #custom-rating .MuiRating-iconFilled {
+    font-size: 2rem; /* Aumenta el tamaño de las estrellas llenas */
+  }
+  
+  #custom-rating .MuiRating-iconEmpty {
+    font-size: 2rem; /* Aumenta el tamaño de las estrellas vacías */
+  }
+  
