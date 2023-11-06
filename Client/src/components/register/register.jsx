@@ -37,6 +37,16 @@ const Registration = () => {
   });
 
   useEffect(() => {
+    if (clientRegister.email) {
+      const userName = clientRegister.email.split("@")[0];
+      setClientRegister((prevState) => ({
+        ...prevState,
+        userName: userName,
+      }));
+    }
+  }, [clientRegister.email]);
+
+  useEffect(() => {
     localStorage.setItem("clientRegisterData", JSON.stringify(clientRegister));
     console.log("Local storage updated:", localStorage.getItem("clientRegisterData"));
   }, [clientRegister]);
@@ -80,10 +90,7 @@ const Registration = () => {
   const citiesInSelectedProvince = selectCitiesByProvince(miApi, selectedProvParticular);
   console.log('Ciudades en la provincia seleccionada:', citiesInSelectedProvince);
 
-  const [cities, setCities] = useState({
-    residence: [],
-    work: [],
-  });
+
 
   const renderPasswordToggle = () => (
     <Button type="button" onClick={handleHidePassword}>
@@ -384,19 +391,7 @@ const Registration = () => {
               required
             />
           </div>
-          <div style={{ padding: "5px" }}>
-            <TextField
-            id="Usuario"
-            label="Nombre de usuario"
-              type="text"
-              name="userName"
-              value={clientRegister.userName}
-              onChange={handleChange}
-              placeholder="Nombre de Usuario"
-              fullWidth
-              required
-            />
-          </div>
+          
           <div style={{ padding: "5px" }}>
             <TextField
             id="email"
