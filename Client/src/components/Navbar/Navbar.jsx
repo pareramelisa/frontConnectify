@@ -81,6 +81,8 @@ function ResponsiveAppBar({ setContainerLogin }) {
     console.log("USERUSER...", user);
     if (user && user.nickname) {
       setNickName(user.nickname);
+    }else{
+      setNickName(users.userName)
     }
   }, [user]);
 
@@ -89,7 +91,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <div className="containerNav">
-            <Link to="/">
+            <Link to="/home">
               <img src={logo} alt="" className="logoNav" />
             </Link>
             <Box

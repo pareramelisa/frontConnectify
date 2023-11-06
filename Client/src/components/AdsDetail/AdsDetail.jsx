@@ -43,6 +43,7 @@ const DetailAd = () => {
     (state) => state.favorites.favoriteProfessionals
   );
   const users = useSelector((state) => state.usersLogin.user);
+  const userGoogle = useSelector((state) => state.googleLogin.user);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
 
@@ -65,10 +66,21 @@ const DetailAd = () => {
   }, [user]);
 
   const handleSaveOrRemoveProfile = () => {
-    const formFav = {
-      clientId: users._id,
-      professionalId: detail.detail.creator[0]._id,
-    };
+    let formFav
+    if (users._id) {
+      formFav = {
+        clientId: users._id,
+        professionalId: detail.detail.creator[0]._id,
+      };
+    }else{
+      formFav = {
+        clientId: userGoogle._id,
+        professionalId: detail.detail.creator[0]._id,
+      };
+    }
+    
+    console.log(formFav);
+
 
     if (!newFav) {
       dispatch(fetchAddFavorites(formFav));
@@ -76,6 +88,9 @@ const DetailAd = () => {
       dispatch(fetchRemoveFavorites(formFav));
     }
   };
+
+  console.log(users);
+  console.log(userGoogle);
 
   return (
     <div>
