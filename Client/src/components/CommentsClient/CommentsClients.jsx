@@ -24,27 +24,36 @@ const Comments = () => {
     if (isAuthenticated) {
       // Si el usuario está autenticado, obtén el valor correcto
       setUserDataOk(user.nickname || users.userName);
+
     }
     dispatch(getComments());
     console.log(comments, "getcom");
+    
   }, [user, users, isAuthenticated, dispatch]);
 
+  console.log(users, "comment");
+
+  const handleChange = (newRating) => {
+    setRating(newRating); // Actualiza el valor de rating
+  };
   
 
   const handleComment = () => {
-    if (newComment.trim() !== "") {
+    if (newComment.trim() !== "" ) {
       const commentData = {
         comment: newComment,
-        client: userDataOk,
+        client: users.userName,
         professionalId: detail.detail.creator[0]._id,
-        rating,
+        rating: rating,
       };
-
+      console.log(rating);
+      console.log("userDataOk:", userDataOk);
       dispatch(postComment(commentData));
-
+      console.log("El rating no es válido");
       // Limpiar el campo de comentario después de enviar
       setNewComment("");
       setRating(0);
+     
     }
   };
 
@@ -88,8 +97,10 @@ const Comments = () => {
               <Rating
                 name="rating"
                 value={rating}
+                count={5}
+                size={24}
                 precision={0.5}
-                onChange={(event, newRating) => setRating(newRating)}
+                onChange={handleChange}
               />
               <textarea
                 name="Comentario"
@@ -121,7 +132,12 @@ const Comments = () => {
                 <CardContent>
                   <div className="profile-container">
                     <div className="profile-text">
-                      <Typography variant="h6">⭐</Typography>
+                    <Typography variant="h6">
+  {[...Array(comment.rating)].map((_, index) => (
+    <span key={index}>⭐</span>
+  ))}
+</Typography>
+                     
                       <Typography variant="body2" sx={{ fontSize: "15px" }}>
                         {comment.comment}
                       </Typography>
@@ -131,10 +147,29 @@ const Comments = () => {
               </Card>
             ))
           ) : (
-            <p>El profesional aún no tiene comentarios.</p>
-          )}
-        </div>
-      </Box>
+            <Card
+            sx={{
+              width: "75%",
+              backgroundColor: "#D9D9D9",
+              padding: "10px",
+              margin: "10px 0",
+              marginRight: "750px",
+            }}
+            align="left"
+          >
+            <CardContent>
+              <div className="profile-container">
+                <div className="profile-text">
+                  <Typography variant="body2" sx={{ fontSize: "15px", fontWeight: "bold"}}>
+                    El profesional aún no tiene comentarios.
+                  </Typography>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </Box>
     </div>
   );
 };

@@ -19,11 +19,3 @@
     cursor: pointer;      
   }
 
-  #custom-rating .MuiRating-iconFilled {
-    font-size: 2rem; /* Aumenta el tamaño de las estrellas llenas */
-  }
-  
-  #custom-rating .MuiRating-iconEmpty {
-    font-size: 2rem; /* Aumenta el tamaño de las estrellas vacías */
-  }
-  

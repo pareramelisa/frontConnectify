@@ -3,7 +3,6 @@
 import React, { useEffect, useState } from 'react';
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
-
 import { useSelector } from 'react-redux';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -23,7 +22,7 @@ function mercadoPago() {
 
     const PUBLIC_KEY = "TEST-50156f30-252b-4623-bbba-ed453620d49f";
   
-    console.log("PAKAPAKA...", detail)
+
 
     const [preferenceId, setPreferenceId] = useState(null);
     const [descriptionBuy, setDescriptionBuy] = useState("Gracias por la compra!")
