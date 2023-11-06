@@ -33,7 +33,13 @@ const Registration = () => {
           provinceJob: "",
           locationJob: "",
         };
+        
   });
+
+  useEffect(() => {
+    localStorage.setItem("clientRegisterData", JSON.stringify(clientRegister));
+    console.log("Local storage updated:", localStorage.getItem("clientRegisterData"));
+  }, [clientRegister]);
 
   const routeLocation = useLocation();
   const ifProfRoute = routeLocation.pathname === "/professional/registration";
@@ -260,6 +266,7 @@ const Registration = () => {
     } else {
       setClientRegister({ ...clientRegister, [name]: value });
     }
+    
   };
 
   const handleImageUpload = (e) => {
@@ -361,6 +368,7 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="Nombre"
               fullWidth
+              required
             />
           </div>
           <div style={{ padding: "5px" }}>
@@ -373,6 +381,7 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="Apellido"
               fullWidth
+              required
             />
           </div>
           <div style={{ padding: "5px" }}>
@@ -385,6 +394,7 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="Nombre de Usuario"
               fullWidth
+              required
             />
           </div>
           <div style={{ padding: "5px" }}>
@@ -397,6 +407,7 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="Email"
               fullWidth
+              required
               helperText= {error.message}
               error={error.error}
             />
@@ -413,12 +424,13 @@ const Registration = () => {
               onChange={handleChange}
               placeholder="Contraseña"
               fullWidth
+              required
             />
             {renderPasswordToggle()}
           </div>
           <div style={{ padding: "5px" }}>
             <h2>Dirección personal</h2>
-            <h3>Provincia de Residancia</h3>
+            <h3>Provincia de Residencia</h3>
             <Select        
               type="text"
               name="province"
@@ -426,6 +438,7 @@ const Registration = () => {
               onChange={handleChange}
               default="Provincia"
               fullWidth
+              required
             >
                <MenuItem value="filterProvinciasParticular">Elija Provincia</MenuItem>
               {provincesList.map((province) => (
@@ -434,13 +447,14 @@ const Registration = () => {
           </MenuItem>
         ))}
         </Select>
-            <div style={{ padding: "5px" }}></div>
-            <h3>Ciudad de Residencia</h3>
-            <select
+  <div style={{ padding: "5px" }}></div>
+  <h3>Ciudad de Residencia</h3>
+  <select
   name="location"
   value={clientRegister.location}
   onChange={handleChange}
-  fullWidth
+  
+  required
 >
   <option value="">Elija Ciudad</option>
   {citiesInSelectedProvince.map((city, index) => (
@@ -463,6 +477,7 @@ const Registration = () => {
                   onChange={handleChange}
                   placeholder="Provincia"
                   fullWidth
+                  required
                 />
                 <div style={{ padding: "5px" }}></div>
                 <TextField
@@ -473,28 +488,32 @@ const Registration = () => {
                   onChange={handleChange}
                   placeholder="Localidad"
                   fullWidth
+                  required
                 />
               </div>
               <div style={{ padding: "5px" }}></div>
-              <InputLabel htmlFor="profession">Profesión u oficio.</InputLabel>
+              
               <TextField
+              label="Profesión u oficio."
                 type="text"
                 name="profession"
                 value={clientRegister.profession}
                 onChange={handleChange}
                 placeholder="profesión u oficio."
                 fullWidth
+                required
               />
               <div style={{ padding: "5px" }}></div>
-              <InputLabel htmlFor="description">Biografia descriptiva</InputLabel>
+              
               <TextField
+              label="Biografia descriptiva"
                 type="text"
                 name="description"
                 value={clientRegister.description}
                 onChange={handleChange}
                 placeholder="Comparte tus habilidades con la comunidad de Connectify"
                 fullWidth
-                rows="5"
+                required                
               />
               <div style={{ padding: "5px" }}></div>
               <InputLabel htmlFor="remoteWork">Trabajo Remoto</InputLabel>
