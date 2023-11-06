@@ -86,14 +86,9 @@ const Home = () => {
 
   const handlesortPrice = (e) => {
     e.preventDefault();
-    console.log(e.target.value);
     setSortPrice(e.target.value);
-    console.log(sortPrice);
   };
 
-  useEffect(() => {
-    console.log('sortPrice has been updated: ' + sortPrice);
-  }, [sortPrice]);
 
   //* Función para aplicar los filtros
   const applyFilters = async () => {
@@ -141,8 +136,6 @@ const Home = () => {
   const handlerCloseLoginPopUp = () => {
     setPopUpLogin(false);
   };
-
-  console.log(adsFiltered);
 
   return (
     <div>
@@ -309,6 +302,7 @@ const Home = () => {
             <img
               src="https://i.pinimg.com/originals/33/1c/3d/331c3d4d2200ab540675c1d56d96bba8.gif"
               alt="Obrero"
+              style={{ width: '500px' }}
             />
             <h2
               style={{
