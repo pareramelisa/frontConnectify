@@ -89,6 +89,7 @@ const Home = () => {
     setSortPrice(e.target.value);
   };
 
+
   //* Función para aplicar los filtros
   const applyFilters = async () => {
     dispatch(
