@@ -80,6 +80,12 @@ function CreateAdForm() {
                     onChange={(e) =>
                       setFormData({ ...formData, title: e.target.value })
                     }
+                    error={formData.title === ""}
+                    helperText={
+                      formData.title === ""
+                        ? "Este campo es obligatorio"
+                        : " "
+                    }
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -94,6 +100,10 @@ function CreateAdForm() {
                     onChange={(e) =>
                       setFormData({ ...formData, location: e.target.value })
                     }
+                    error={formData.location === ""}
+                    helperText={
+                      formData.location === "" ? "Este campo es obligatorio" : " "
+                    }
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -104,10 +114,15 @@ function CreateAdForm() {
                     type="number"
                     id="price"
                     name="price"
+                    min="1"
                     value={formData.price}
                     onChange={(e) =>
                       setFormData({ ...formData, price: e.target.value })
                     }
+                    error={formData.precio === ""}
+                    helperText={
+                      formData.precio === "" ? "Este campo es obligatorio" : " "
+                    }                   
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -121,6 +136,10 @@ function CreateAdForm() {
                     value={formData.categories}
                     onChange={(e) =>
                       setFormData({ ...formData, categories: e.target.value })
+                    }
+                    error={formData.categories === ""}
+                    helperText={
+                      formData.categories === "" ? "Este campo es obligatorio" : " "
                     }
                     required
                     fullWidth
@@ -136,6 +155,10 @@ function CreateAdForm() {
                     value={formData.contractType}
                     onChange={(e) =>
                       setFormData({ ...formData, contractType: e.target.value })
+                    }
+                    error={formData.contractType === ""}
+                    helperText={
+                      formData.contractType === "" ? "Este campo es obligatorio" : " "
                     }
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -158,6 +181,10 @@ function CreateAdForm() {
                     onChange={(e) =>
                       setFormData({ ...formData, description: e.target.value })
                     }
+                    error={formData.description === ""}
+                    helperText={
+                      formData.description === "" ? "Este campo es obligatorio" : " "
+                    }
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -173,6 +200,11 @@ function CreateAdForm() {
                     onChange={(e) =>
                       setFormData({ ...formData, workLocation: e.target.value })
                     }
+                    error={formData.workLocation === ""}
+                    helperText={
+                      formData.workLocation === "" ? "Este campo es obligatorio" : " "
+                    }
+                    
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   >
@@ -188,6 +220,10 @@ function CreateAdForm() {
                     value={formData.profession}
                     onChange={(e) =>
                       setFormData({ ...formData, profession: e.target.value })
+                    }
+                    error={formData.profession === ""}
+                    helperText={
+                      formData.profession === "" ? "Este campo es obligatorio" : " "
                     }
                     required
                     fullWidth
