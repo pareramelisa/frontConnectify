@@ -1,4 +1,4 @@
-
+import miApi from '../../../localidades.json';
 import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -48,13 +48,36 @@ const Registration = () => {
     message:""
   })
 
-  const provinces = [
-    'Seleccionar', // Opción predeterminada
-    'Provincia 1',
-    'Provincia 2',
-    'Provincia 3',
-    // Agrega más provincias según tus necesidades
-  ];
+ 
+
+  function getProvinces(data) {
+    const provinces = data.localidades.map((provincia) => {
+      return provincia.provincia.nombre;
+    });
+    return [...new Set(provinces)];
+  }
+
+  const provincesList = getProvinces(miApi);
+  console.log('Lista de provincias:', provincesList);
+
+  const selectedProvParticular = clientRegister.province;
+  console.log('Provincia seleccionada:', selectedProvParticular);
+
+  function selectCitiesByProvince(data, selectedProvince) {
+    const cities = data.localidades.filter((ciudad) => {
+      return ciudad.provincia.nombre === selectedProvince;
+    });
+    const sortedCities = [...new Set(cities)].sort((a, b) => a.nombre.localeCompare(b.nombre));
+    return sortedCities;
+  }
+
+  const citiesInSelectedProvince = selectCitiesByProvince(miApi, selectedProvParticular);
+  console.log('Ciudades en la provincia seleccionada:', citiesInSelectedProvince);
+
+  const [cities, setCities] = useState({
+    residence: [],
+    work: [],
+  });
 
   const renderPasswordToggle = () => (
     <Button type="button" onClick={handleHidePassword}>
@@ -189,6 +212,18 @@ const Registration = () => {
   useEffect(() => {
     localStorage.setItem("clientRegisterData", JSON.stringify(clientRegister));
   }, [clientRegister]);
+
+  useEffect(() => {
+    if (clientRegister.province) {
+      const citiesInSelectedProvince = selectCitiesByProvince(miApi, clientRegister.province);
+      console.log('Ciudades en la provincia seleccionada:', citiesInSelectedProvince);
+  
+      setClientRegister(prevState => ({
+        ...prevState,
+        location: citiesInSelectedProvince[0] ? citiesInSelectedProvince[0].nombre : ""
+      }));
+    }
+  }, [clientRegister.province]);
 
   const handleChange = (e) => {
     const { name, type, value } = e.target;
@@ -383,31 +418,38 @@ const Registration = () => {
           </div>
           <div style={{ padding: "5px" }}>
             <h2>Dirección personal</h2>
-            <Select
-            label="Provincia"
+            <h3>Provincia de Residancia</h3>
+            <Select        
               type="text"
               name="province"
               value={clientRegister.province}
               onChange={handleChange}
-              placeholder="Provincia"
+              default="Provincia"
               fullWidth
             >
-              {provinces.map((province) => (
+               <MenuItem value="filterProvinciasParticular">Elija Provincia</MenuItem>
+              {provincesList.map((province) => (
           <MenuItem key={province} value={province}>
             {province}
           </MenuItem>
         ))}
         </Select>
             <div style={{ padding: "5px" }}></div>
-            <TextField
-            label="Cuidad"
-              type="text"
-              name="location"
-              value={clientRegister.location}
-              onChange={handleChange}
-              placeholder="Localidad"
-              fullWidth
-            />
+            <h3>Ciudad de Residencia</h3>
+            <select
+  name="location"
+  value={clientRegister.location}
+  onChange={handleChange}
+  fullWidth
+>
+  <option value="">Elija Ciudad</option>
+  {citiesInSelectedProvince.map((city, index) => (
+    <option key={index} value={city.nombre}>
+      {city.nombre}
+    </option>
+  ))}
+</select>
+       
           </div>
           {ifProfRoute && (
             <div style={{ backgroundColor: "transparent" }}>
