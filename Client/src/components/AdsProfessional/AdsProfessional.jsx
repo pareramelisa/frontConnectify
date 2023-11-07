@@ -13,12 +13,7 @@ import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 
 function AdsProfesional() {
   const users = useSelector(state => state.usersLogin.user)
-  
-<<<<<<< HEAD
   const ads = useSelector(state => state.createAds.createAds) //Estado de redux que trae todos los anuncios creados desde el form 
-=======
-  const ads = useSelector(state => state.createAds.createAds)
->>>>>>> ee9032183be6f7d08e072de44ad5928885f6c0c8
   const userId = users._id
   const adsFilter = ads.filter((ad) => ad.creator[0] === userId)
   console.log(adsFilter)
