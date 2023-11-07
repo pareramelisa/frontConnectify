@@ -101,7 +101,7 @@ function ViewsPayments() {
         else {
             searchData();            
         }
-    }, [search]); 
+    }, [search, userName]); 
 
   
   // Leyendo datos por userName de la DB -----------------------------------------------------
