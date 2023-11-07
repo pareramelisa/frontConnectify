@@ -54,6 +54,7 @@ const Registration = () => {
     console.log("Local storage updated:", localStorage.getItem("clientRegisterData"));
   }, [clientRegister]);
 
+
   const routeLocation = useLocation();
   const ifProfRoute = routeLocation.pathname === "/professional/registration";
   const ifClientRoute = routeLocation.pathname === "/client/registration";
@@ -219,21 +220,31 @@ const Registration = () => {
     }
   };
 
-  useEffect(() => {
-    localStorage.setItem("clientRegisterData", JSON.stringify(clientRegister));
-  }, [clientRegister]);
+
 
   useEffect(() => {
     if (clientRegister.province) {
+      // Obtén las ciudades de la provincia desde el API
       const citiesInSelectedProvince = selectCitiesByProvince(miApi, clientRegister.province);
       console.log('Ciudades en la provincia seleccionada:', citiesInSelectedProvince);
   
+      const defaultLocation = citiesInSelectedProvince.length > 0
+        ? { nombre: "Elija una ciudad de la provincia seleccionada", value: "" }
+        : { nombre: "Elija una ciudad de la provincia seleccionada", value: "" };
+  
+      // Guarda el valor predeterminado en localStorage
+      localStorage.setItem('location', defaultLocation.value);
+  
+      // Actualiza el estado con las ciudades y la opción predeterminada
       setClientRegister(prevState => ({
         ...prevState,
-        location: citiesInSelectedProvince[0] ? citiesInSelectedProvince[0].nombre : ""
+        location: defaultLocation.value,
+        // Agrega las ciudades a tu objeto clientRegister (si es necesario)
+        cities: citiesInSelectedProvince,
       }));
     }
   }, [clientRegister.province]);
+  
 
   const handleChange = (e) => {
     const { name, type, value } = e.target;
