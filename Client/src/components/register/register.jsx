@@ -14,8 +14,8 @@ import NavBarDemo2 from "../NavBarDemo2/NavBarDemo2";
 import Button from "@mui/material/Button";
 
 const Registration = () => {
-  const navigate = useNavigate();
-//localStorage.clear();
+  //const navigate = useNavigate();
+localStorage.clear();
   const [errorMessages, setErrorMessages] = useState({});
   const [clientRegister, setClientRegister] = useState(() => {
     let localStorageData = localStorage.getItem("clientRegisterData");
@@ -62,7 +62,7 @@ const Registration = () => {
   const ifClientRoute = routeLocation.pathname === "/client/registration";
 
   const [passwordType, setPasswordType] = useState();
-  const [remoteWork, setRemoteWork] = useState("");
+  const [remoteWork, setRemoteWork] = useState(false);
   const [formData, setFormData] = useState(new FormData());
   const [email, setEmail] = useState("")
   const [error, setError] = useState({
@@ -78,7 +78,7 @@ const Registration = () => {
   }
 
   const provincesList = getProvinces(miApi);
-  console.log('Lista de provincias:', provincesList);
+  
 
   const selectedProvParticular = clientRegister.province;
   console.log('Provincia seleccionada:', selectedProvParticular);
@@ -157,20 +157,15 @@ const Registration = () => {
 
     setErrorMessages(errors);
 
-    if (validateEmail(email)) {
-    
-          setError({
-            error: false,
-            message: "",
-          });
+  // Validación del correo electrónico
+  if (validateEmail(email)) {
+    errors.mail = null; // Correo electrónico válido
+  } else {
+    // El correo electrónico es inválido, muestra un mensaje de error
+    errors.mail = "Email no valido, no puede contener caracteres especiales";
+  }
 
-        } else {
-          // El correo electrónico es inválido, muestra un mensaje de error y no envíes el formulario
-          setError({
-            error: true,
-            message: "Email no valido, no puede contener caracteres especiales",
-          });
-        }
+  setErrorMessages(errors);
         
 
     if (Object.values(errors).some((error) => error !== null)) {
@@ -220,6 +215,7 @@ const Registration = () => {
         }
       }
     }
+
   };
 
 
@@ -264,7 +260,9 @@ const Registration = () => {
       // Actualizar el estado del campo "email"
       setEmail(value);
     }
+    
     if (type === "checkbox") setRemoteWork(e.target.checked);
+    
     const nameArray = name.split(".");
 
     if (nameArray.length === 2) {
@@ -518,30 +516,18 @@ const Registration = () => {
               />
               <div style={{ padding: "5px" }}></div>
               <InputLabel htmlFor="remoteWork">Trabajo Remoto</InputLabel>
-              <div>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="remoteWork"
-                    value={true}
-                    checked={remoteWork === true}
-                    onChange={handleChange}
-                  />
-                  Si
-                </label>
-              </div>
-              <div>
-                <label>
-                  <input
-                    type="checkbox"
-                    name="remoteWork"
-                    value={false}
-                    checked={remoteWork === false}
-                    onChange={handleChange}
-                  />
-                  No
-                </label>
-              </div>
+              <Select
+                labelId="remoteWork-label"
+                id="remoteWork"
+                name="remoteWork"
+                value={clientRegister.remoteWork}
+                onChange={handleChange}
+                required
+              >
+                <MenuItem value={true}>Si</MenuItem>
+                <MenuItem value={false}>No</MenuItem>
+              </Select>
+                            
             </div>
           )}
           <div style={{ padding: "5px" }}></div>
