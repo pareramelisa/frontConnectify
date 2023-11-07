@@ -20,7 +20,7 @@ const createAdsSlice = createSlice({
       })
       .addCase(createAd.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        state.createAds.push = action.payload;
+        state.createAds.push(action.payload);
       })
       .addCase(createAd.rejected, (state, action) => {
         state.status = 'failed';
@@ -29,5 +29,5 @@ const createAdsSlice = createSlice({
   },
 });
 
-export const dataAds = (state) => state.createAds.ads;
+export const dataAds = (state) => state.createAds.createAds;
 export default createAdsSlice.reducer;

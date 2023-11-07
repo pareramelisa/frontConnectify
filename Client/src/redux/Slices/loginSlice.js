@@ -1,13 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 const VITE_API_BASE = import.meta.env.VITE_API_BASE;
-console.log(VITE_API_BASE);
 
 // Setea el estado de usuario cuando hacen login o logout
 export const userLoginSlice = createSlice({
   name: "usersLogin",
   initialState: {
-    user: [], 
+    user: [],
   },
   reducers: {
     loginUser: (state, action) => {
@@ -32,14 +31,12 @@ export const fetchUserLogin = (form) => {
       endpoint = VITE_API_BASE + `/client/login/`;
     } else if (form.types === "professional") {
       endpoint = VITE_API_BASE + `/professional/login/`;
-    } else if (form.types === "admin") {
-      endpoint = VITE_API_BASE + `/admin/login/`;
     }
 
     try {
       const { data } = await axios.post(endpoint, form);
       console.log(data);
-      if (data.name) {
+      if (data.userName) {
         dispatch(loginUser(data));
         return { access: true };
       }
