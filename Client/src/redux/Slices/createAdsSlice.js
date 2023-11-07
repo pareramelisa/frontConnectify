@@ -29,5 +29,5 @@ const createAdsSlice = createSlice({
   },
 });
 
-export const dataAds = (state) => state.createAds.ads;
+export const dataAds = (state) => state.createAds.createAds;
 export default createAdsSlice.reducer;
