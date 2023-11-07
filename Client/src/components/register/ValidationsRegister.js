@@ -5,7 +5,7 @@ export function validateEmail(value) {
   if (!emailRegex.test(value)) {
     return 'No válido. No debe incluir caracteres especiales';
   }
-  return null; // No hay error
+  return null; 
 }
   
   // Función para validar el formato de imagen (png o jpg)
