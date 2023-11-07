@@ -21,6 +21,7 @@ function ViewsPayments() {
     const path = pathname.split("/")[2];
     
     const detail = useSelector((state) => state.detail);
+    const users = useSelector((state) => state.usersLogin.user);
     
     const [paymentData, setPaymentData] = useState(null); 
     const [userName, setUserName] = useState(""); 
@@ -100,7 +101,7 @@ function ViewsPayments() {
         else {
             searchData();            
         }
-    }, [search, userName]); 
+    }, [search]); 
 
   
   // Leyendo datos por userName de la DB -----------------------------------------------------

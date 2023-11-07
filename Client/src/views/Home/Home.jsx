@@ -128,7 +128,7 @@ const Home = () => {
     if (isAuthenticated) {
       dispatch(fetchUserLoginWithGoogle({ email: user.email }));
     }
-  }, []);
+  }, [isAuthenticated, user]);
 
   const handlerCloseLoginPopUp = () => {
     setPopUpLogin(false);
