@@ -14,8 +14,8 @@ import NavBarDemo2 from "../NavBarDemo2/NavBarDemo2";
 import Button from "@mui/material/Button";
 
 const Registration = () => {
-  //const navigate = useNavigate();
-localStorage.clear();
+const navigate = useNavigate();
+//localStorage.clear();
   const [errorMessages, setErrorMessages] = useState({});
   const [clientRegister, setClientRegister] = useState(() => {
     let localStorageData = localStorage.getItem("clientRegisterData");
