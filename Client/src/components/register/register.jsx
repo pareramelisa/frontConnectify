@@ -15,6 +15,7 @@ import Button from "@mui/material/Button";
 
 const Registration = () => {
   const navigate = useNavigate();
+//localStorage.clear();
   const [errorMessages, setErrorMessages] = useState({});
   const [clientRegister, setClientRegister] = useState(() => {
     let localStorageData = localStorage.getItem("clientRegisterData");
@@ -32,6 +33,7 @@ const Registration = () => {
           location: "",
           provinceJob: "",
           locationJob: "",
+          remoteWork: "",
         };
         
   });
@@ -60,7 +62,7 @@ const Registration = () => {
   const ifClientRoute = routeLocation.pathname === "/client/registration";
 
   const [passwordType, setPasswordType] = useState();
-  const [remoteWork, setRemoteWork] = useState(false);
+  const [remoteWork, setRemoteWork] = useState("");
   const [formData, setFormData] = useState(new FormData());
   const [email, setEmail] = useState("")
   const [error, setError] = useState({
@@ -241,6 +243,7 @@ const Registration = () => {
       setClientRegister(prevState => ({
         ...prevState,
         location: defaultLocation.value,
+        provinceJob: prevState.province, // Establece provinceJob al mismo valor que province
       }));
     }
   }, [clientRegister.province]);
@@ -276,7 +279,15 @@ const Registration = () => {
     } else {
       setClientRegister({ ...clientRegister, [name]: value });
     }
-    
+    if (name === 'location') {
+      setClientRegister((prevState) => ({
+        ...prevState,
+        
+        ...prevState,
+       
+  locationJob: value, // Sincroniza locationJob con la selección de location
+      }));
+    }
   };
 
   const handleImageUpload = (e) => {
@@ -310,6 +321,7 @@ const Registration = () => {
       locationJob,
       profession,
       description,
+      remoteWork,
       image,
     } = clientRegister;
 
@@ -325,6 +337,7 @@ const Registration = () => {
       locationJob &&
       profession &&
       description &&
+      remoteWork &&
       image
     );
   };
@@ -427,8 +440,9 @@ const Registration = () => {
             {renderPasswordToggle()}
           </div>
           <div style={{ padding: "5px" }}>
-            <h2>Dirección personal</h2>
-            <h3>Provincia de Residencia</h3>
+            <h2>Ubicación dentro de Argentina</h2>
+            <h3>Provincia*</h3>
+            <FormControl fullWidth required>
             <Select        
               type="text"
               name="province"
@@ -445,8 +459,9 @@ const Registration = () => {
           </MenuItem>
         ))}
         </Select>
+        </FormControl>
   <div style={{ padding: "5px" }}></div>
-  <h3>Ciudad de Residencia</h3>
+  <h3>Ciudad*</h3>
   <FormControl fullWidth required>
     
     <Select
@@ -470,33 +485,12 @@ const Registration = () => {
      
     </Select>
   </FormControl>
-       
           </div>
           {ifProfRoute && (
             <div style={{ backgroundColor: "transparent" }}>
               <div>
                 <h2>Area de trabajo</h2>
-                <TextField
-                label="Provincia (laboral)"
-                  type="text"
-                  name="provinceJob"
-                  value={clientRegister.provinceJob}
-                  onChange={handleChange}
-                  placeholder="Provincia"
-                  fullWidth
-                  required
-                />
-                <div style={{ padding: "5px" }}></div>
-                <TextField
-                label="Cuidad (laboral)"
-                  type="text"
-                  name="locationJob"
-                  value={clientRegister.locationJob}
-                  onChange={handleChange}
-                  placeholder="Localidad"
-                  fullWidth
-                  required
-                />
+                
               </div>
               <div style={{ padding: "5px" }}></div>
               
@@ -524,12 +518,30 @@ const Registration = () => {
               />
               <div style={{ padding: "5px" }}></div>
               <InputLabel htmlFor="remoteWork">Trabajo Remoto</InputLabel>
-              <TextField
-                type="checkbox"
-                name="remoteWork"
-                value={remoteWork}
-                onChange={handleChange}
-              />
+              <div>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="remoteWork"
+                    value={true}
+                    checked={remoteWork === true}
+                    onChange={handleChange}
+                  />
+                  Si
+                </label>
+              </div>
+              <div>
+                <label>
+                  <input
+                    type="checkbox"
+                    name="remoteWork"
+                    value={false}
+                    checked={remoteWork === false}
+                    onChange={handleChange}
+                  />
+                  No
+                </label>
+              </div>
             </div>
           )}
           <div style={{ padding: "5px" }}></div>
@@ -543,43 +555,47 @@ const Registration = () => {
           {errorMessages.image && (
             <div style={{ color: "red" }}>{errorMessages.image}</div>
           )}
-          <div>
-            <div style={{ padding: "10px" }}></div>
-            {areAllProfFieldsCompleted() && ifProfRoute && (
-              <Button
-                variant="contained"
-                color="secondary"
-                type="submit"
-                style={{
-                  width: "100%",
-                  paddingInline: "35px",
-                  paddingBlock: "10px",
-                  marginBottom: "20px",
-                }}
-              >
-                Enviar formulario
-              </Button>
-            )}
-            {areAllClienFieldsCompleted() && ifClientRoute && (
-              <Button
-                variant="contained"
-                color="secondary"
-                type="submit"
-                style={{
-                  width: "100%",
-                  paddingInline: "35px",
-                  paddingBlock: "10px",
-                  marginBottom: "20px",
-                }}
-              >
-                Enviar formulario
-              </Button>
-            )}
-          </div>
-        </Box>
-      </div>
-    </div>
-  );
-};
+                    {(!areAllProfFieldsCompleted() && ifProfRoute) || (!areAllClienFieldsCompleted() && ifClientRoute) ? (
+                      <p>Completá todos los campos para poder enviar este formulario</p>
+                    ) : (
+                      <div>
+                        <div style={{ padding: "10px" }}></div>
+                        {areAllProfFieldsCompleted() && ifProfRoute && (
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            type="submit"
+                            style={{
+                              width: "100%",
+                              paddingInline: "35px",
+                              paddingBlock: "10px",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            Enviar formulario
+                          </Button>
+                        )}
+                        {areAllClienFieldsCompleted() && ifClientRoute && (
+                          <Button
+                            variant="contained"
+                            color="secondary"
+                            type="submit"
+                            style={{
+                              width: "100%",
+                              paddingInline: "35px",
+                              paddingBlock: "10px",
+                              marginBottom: "20px",
+                            }}
+                          >
+                            Enviar formulario
+                          </Button>
+                        )}
+                      </div>
+                    )}
+                  </Box>
+                </div>
+              </div>
+            );
+          };
 
 export default Registration;
