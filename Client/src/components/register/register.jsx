@@ -7,7 +7,7 @@ import { fetchUserRegister } from "../../redux/Slices/registerSlice";
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { InputLabel , Box, Select,  MenuItem} from "@mui/material";
+import { InputLabel , Box, Select,  MenuItem, FormControl} from "@mui/material";
 import * as validations from "./ValidationsRegister";
 import NavBarDemo2 from "../NavBarDemo2/NavBarDemo2";
 
@@ -39,9 +39,12 @@ const Registration = () => {
   useEffect(() => {
     if (clientRegister.email) {
       const userName = clientRegister.email.split("@")[0];
+      const currentDate = new Date();
+    const dateString = currentDate.toISOString().substring(0, 10); // Obtén la fecha en formato "YYYY-MM-DD"
+    const uniqueUserName = `${userName}_${dateString}`;
       setClientRegister((prevState) => ({
         ...prevState,
-        userName: userName,
+        userName: uniqueUserName,
       }));
     }
   }, [clientRegister.email]);
@@ -67,9 +70,7 @@ const Registration = () => {
  
 
   function getProvinces(data) {
-    const provinces = data.localidades.map((provincia) => {
-      return provincia.provincia.nombre;
-    });
+    const provinces = data.localidades.map((provincia) => { return provincia.provincia.nombre; });
     return [...new Set(provinces)];
   }
 
@@ -133,11 +134,8 @@ const Registration = () => {
       return false;
     }
   
-    // El correo electrónico es válido y no contiene caracteres no permitidos, puedes limpiar el mensaje de error
-    setError({
-      error: false,
-      message: "",
-    });
+   
+    setError({ error: false, message: "", });
   
     // Actualizar el estado del campo "email"
     setEmail(email);
@@ -146,7 +144,6 @@ const Registration = () => {
   }
   
   
-
   const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -248,12 +245,7 @@ const Registration = () => {
           error: true,
           message: "El correo electrónico no puede contener el carácter '+'",
         });
-      } else {
-        // El correo electrónico es válido, puedes limpiar el mensaje de error
-        setError({
-          error: false,
-          message: "",
-        });
+      } else { setError({ error: false,  message: "", });
       }
       // Actualizar el estado del campo "email"
       setEmail(value);
@@ -444,20 +436,29 @@ const Registration = () => {
         </Select>
   <div style={{ padding: "5px" }}></div>
   <h3>Ciudad de Residencia</h3>
-  <select
-  name="location"
-  value={clientRegister.location}
-  onChange={handleChange}
-  
-  required
->
-  <option value="">Elija Ciudad</option>
-  {citiesInSelectedProvince.map((city, index) => (
-    <option key={index} value={city.nombre}>
-      {city.nombre}
-    </option>
-  ))}
-</select>
+  <FormControl fullWidth required>
+    
+    <Select
+      labelId="location-label"
+      id="location"
+      name="location"
+      value={clientRegister.location}
+      onChange={handleChange}
+      fullWidth
+      required
+    >
+       <MenuItem key="default" value="">
+          Elija una cuidad de la provincia seleccionada
+        </MenuItem>
+      {[citiesInSelectedProvince.map((city, index) => (
+          <MenuItem key={index} value={city.nombre}>
+            {city.nombre}
+          </MenuItem>
+        ))
+      ]}
+     
+    </Select>
+  </FormControl>
        
           </div>
           {ifProfRoute && (
