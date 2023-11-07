@@ -1,4 +1,6 @@
 import styles from './Team.module.css';
+import ButtonBack from '../../Utils/ButtonBack/ButtonBack';
+import { Link } from 'react-router-dom';
 
 const Team = () => {
   const teamData = [
@@ -51,6 +53,18 @@ const Team = () => {
   return (
     <div className={styles['team-content']}>
       <ul className={styles['team-container']}>
+        <div
+          style={{
+            color: 'red',
+            top: '3em',
+            left: '3em',
+            position: 'absolute',
+          }}
+        >
+          <Link to="/home">
+            <ButtonBack />
+          </Link>
+        </div>
         <h1 className={styles['team-title']}>Nuestro Equipo</h1>
         {teamData.map((member, index) => (
           <li className={styles['team-member']} key={index}>

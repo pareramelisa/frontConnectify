@@ -38,6 +38,7 @@ const Home = () => {
   const [locationProf, setLocationProf] = useState('');
   const [popUpLogin, setPopUpLogin] = useState(false);
   const [sortPrice, setSortPrice] = useState('');
+  const [workLocation, setWorkLocation] = useState('');
   const [chatOpen, setChatOpen] = useState(false);
 
   //* Estados globales
@@ -79,28 +80,28 @@ const Home = () => {
     setPriceRange(value);
   };
 
-  const handlesortPrice = (e) => {
-    e.preventDefault();
-    console.log(e.target.value);
-    setSortPrice(e.target.value);
-    console.log(sortPrice);
+  const handleRemoteWork = (e) => {
+    setWorkLocation(e.target.value);
   };
 
-  useEffect(() => {
-    console.log('sortPrice has been updated: ' + sortPrice);
-  }, [sortPrice]);
+  const handlesortPrice = (e) => {
+    e.preventDefault();
+    setSortPrice(e.target.value);
+  };
+
+
   //* Función para aplicar los filtros
   const applyFilters = async () => {
     dispatch(
       fetchFilter({
         profession,
         locationProf,
+        workLocation,
         minPrice: priceRange[0],
         maxPrice: priceRange[1],
         sortPrice,
       })
     );
-    setCurrentPage(1);
   };
 
   //* Función para limpiar los filtros da error, por ahora comentada
@@ -110,6 +111,7 @@ const Home = () => {
     setLocationProf('');
     setSortPrice('');
     setPriceRange([1000, 10000]);
+    setWorkLocation('');
     dispatch(fetchAds());
   };
 
@@ -126,7 +128,6 @@ const Home = () => {
   //* useEffect para actualizar el estado de los anuncios
   useEffect(() => {
     dispatch(locationUser(location.pathname));
-    dispatch(fetchAds());
     if (isAuthenticated) {
       dispatch(fetchUserLoginWithGoogle({ email: user.email }));
     }
@@ -243,10 +244,21 @@ const Home = () => {
             </Select>
           </FormControl>
         </div>
+        <FormControl sx={{ m: 1, minWidth: 170, maxWidth: 200 }}>
+          <InputLabel>Trabajo</InputLabel>
+          <Select
+            id="workLocation"
+            onChange={handleRemoteWork}
+            value={workLocation}
+          >
+            <MenuItem value="Remoto">Remoto</MenuItem>
+            <MenuItem value="Presencial">Presencial</MenuItem>
+          </Select>
+        </FormControl>
         <div>
           <Fab
             color="primary"
-            onClick={() => applyFilters()}
+            onClick={applyFilters}
             style={{
               zIndex: '1',
             }}
@@ -258,7 +270,7 @@ const Home = () => {
           <Fab
             color="primary"
             className={styles.spinButton}
-            onClick={(e) => clearFilters(e)}
+            onClick={clearFilters}
             style={{
               zIndex: '1',
             }}
@@ -290,6 +302,7 @@ const Home = () => {
             <img
               src="https://i.pinimg.com/originals/33/1c/3d/331c3d4d2200ab540675c1d56d96bba8.gif"
               alt="Obrero"
+              style={{ width: '500px' }}
             />
             <h2
               style={{
