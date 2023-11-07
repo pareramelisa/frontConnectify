@@ -224,6 +224,8 @@ const Registration = () => {
 
   useEffect(() => {
     if (clientRegister.province) {
+      
+
       // Obtén las ciudades de la provincia desde el API
       const citiesInSelectedProvince = selectCitiesByProvince(miApi, clientRegister.province);
       console.log('Ciudades en la provincia seleccionada:', citiesInSelectedProvince);
@@ -239,8 +241,6 @@ const Registration = () => {
       setClientRegister(prevState => ({
         ...prevState,
         location: defaultLocation.value,
-        // Agrega las ciudades a tu objeto clientRegister (si es necesario)
-        cities: citiesInSelectedProvince,
       }));
     }
   }, [clientRegister.province]);
