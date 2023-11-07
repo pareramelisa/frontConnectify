@@ -14,7 +14,7 @@ import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 function AdsProfesional() {
   const users = useSelector(state => state.usersLogin.user)
   
-  const ads = useSelector(state => state.ads.ads)
+  const ads = useSelector(state => state.createAds.createAds)
   const userId = users._id
   const adsFilter = ads.filter((ad) => ad.creator[0] === userId)
   console.log(adsFilter)
@@ -44,9 +44,9 @@ function AdsProfesional() {
           </Link>
         </span>
       </ListSubheader >
-      {adsFilter.map((value) => (
+      {adsFilter.map((ad) => (
         <ListItem
-          key={value}
+          key={ad.id}
           sx={{ padding: "15px"}}
           disableGutters
           secondaryAction={
@@ -61,7 +61,7 @@ function AdsProfesional() {
           }
         >
           <Typography variant="body2" color="black" sx={{ fontSize: "15px" }}>
-          {`Nombre del anuncio ${value}`}
+          {`${ad.title}`}
           </Typography>
         </ListItem>
       ))}

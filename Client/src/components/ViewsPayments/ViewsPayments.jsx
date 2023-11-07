@@ -21,6 +21,7 @@ function ViewsPayments() {
     const path = pathname.split("/")[2];
     
     const detail = useSelector((state) => state.detail);
+    const users = useSelector((state) => state.usersLogin.user);
     
     const [paymentData, setPaymentData] = useState(null); 
     const [userName, setUserName] = useState(""); 
@@ -108,6 +109,7 @@ function ViewsPayments() {
     try {
       const resp = await axios.get(
         VITE_API_BASE + `/payments/search/${userName}`
+        // `http://localhost:3001/payments/search/${userName}`
       );
       setPaymentData(resp.data);
     } catch (error) {
