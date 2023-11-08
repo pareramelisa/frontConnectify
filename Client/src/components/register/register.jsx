@@ -231,7 +231,7 @@ const navigate = useNavigate();
       // Actualiza el estado con las ciudades y la opción predeterminada
       setClientRegister(prevState => ({
         ...prevState,
-        location: defaultLocation.value,
+        location: clientRegister.location,
         provinceJob: prevState.province, // Establece provinceJob al mismo valor que province
       }));
     }
@@ -276,9 +276,25 @@ const navigate = useNavigate();
         
         ...prevState,
        
-  locationJob: value, // Sincroniza locationJob con la selección de location
+  locationJob: value,
+  location: value, 
       }));
     }
+
+    // Validación específica para "name" y "Apellido"
+  if ((name === 'name') || (name === 'lastName' )) {
+    // Transformar la primera letra a mayúscula
+    const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1);
+    // Validar que solo haya una palabra
+    const isOneWord = /^[^\s]+$/.test(capitalizedValue);
+
+    if (isOneWord) {
+      setClientRegister((prevState) => ({
+        ...prevState,
+        [name]: capitalizedValue,
+      }));
+    } 
+  }
   };
 
   const handleImageUpload = (e) => {
@@ -464,7 +480,7 @@ const navigate = useNavigate();
       fullWidth
       required
     >
-       <MenuItem key="default" value="">
+       <MenuItem key="default" value={ clientRegister.location}>
           Elija una cuidad de la provincia seleccionada
         </MenuItem>
       {[citiesInSelectedProvince.map((city, index) => (
