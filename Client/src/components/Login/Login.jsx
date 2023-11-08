@@ -1,4 +1,5 @@
 import { Box, Button, TextField, IconButton, Typography } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
 import GoogleIcon from "@mui/icons-material/Google";
 import { useState } from "react";
 import { fetchUserLogin } from "../../redux/Slices/loginSlice";
@@ -63,7 +64,7 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
       setPopUpGoogle(false)
     }
 
-    setTimeout(loginGoogle, 500)
+    setTimeout(loginGoogle, 2000)
   };
 
   const handleShowClient = (e) => {
@@ -420,8 +421,10 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
             alignItems: 'center',
             flexDirection: 'column'
           }}>
-            <h4>Serás redirigado a una página segura</h4>
-            <h4>Para iniciar sesión con Google</h4>
+            <h4>Redirigiendo a Login de Google</h4>
+            <Box>
+              <CircularProgress/>
+            </Box>
           </div>
         </div>
       )}
