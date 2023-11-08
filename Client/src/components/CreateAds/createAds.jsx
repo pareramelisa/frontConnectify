@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createAd } from "../../redux/Slices/createAdsSlice";
 import TextField from "@mui/material/TextField";
@@ -21,27 +21,51 @@ function CreateAdForm() {
           description: "",
           location: "",
           price: "",
-          categories: [],
+          categories: "",
           contractType: "",
           workLocation: "",
           profession: "",
         };
   });
 
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  const isFormFilled = Object.values(formData).every(value => value !== '');
+
   useEffect(() => {
     localStorage.setItem("formData", JSON.stringify(formData));
   }, [formData]);
 
-  const handleSubmit = (e) => {
+  const handleInputChange = (fieldName, value) => {
+    if (fieldName !== 'price' && !/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]*$/.test(value)) {
+      return;
+    }
+  
+    if (fieldName === 'price' && (value === '' || parseInt(value) < 1)) {
+      return;
+    }
+  
+    setFormData({ ...formData, [fieldName]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     const userinput = {
       ...formData,
       creator: user._id,
       price: Number(formData.price),
     };
-    console.log(userinput);
-    e.preventDefault();
-    dispatch(createAd(userinput));
-  };
+
+    try {
+      await dispatch(createAd(userinput));
+      setIsSuccess(true);
+      setTimeout(() => {
+        setIsSuccess(false);
+      }, 3000); // Ocultar el mensaje después de 3 segundos
+    } catch (error) {
+      console.error("Error al crear el anuncio:", error);
+    }
+  } 
 
   return (
     <div>
@@ -67,7 +91,7 @@ function CreateAdForm() {
       >
         <Grid item xs={10}>
           <Paper elevation={3} sx={{ padding: 10, boxShadow: 10 }}>
-            <form style={{ textAlign: "center" }}>
+            <form style={{ textAlign: "center" }} onSubmit={handleSubmit}>
               <Grid container spacing={5}>
                 <Grid item xs={6} style={{ textAlign: "left" }}>
                   <TextField
@@ -77,9 +101,7 @@ function CreateAdForm() {
                     id="title"
                     name="title"
                     value={formData.title}
-                    onChange={(e) =>
-                      setFormData({ ...formData, title: e.target.value })
-                    }
+                    onChange={(e) => handleInputChange('title', e.target.value)}
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -91,9 +113,7 @@ function CreateAdForm() {
                     id="location"
                     name="location"
                     value={formData.location}
-                    onChange={(e) =>
-                      setFormData({ ...formData, location: e.target.value })
-                    }
+                    onChange={(e) => handleInputChange('location', e.target.value)}
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -105,9 +125,7 @@ function CreateAdForm() {
                     id="price"
                     name="price"
                     value={formData.price}
-                    onChange={(e) =>
-                      setFormData({ ...formData, price: e.target.value })
-                    }
+                    onChange={(e) => handleInputChange('price', e.target.value)}
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -119,9 +137,7 @@ function CreateAdForm() {
                     id="categories"
                     name="categories"
                     value={formData.categories}
-                    onChange={(e) =>
-                      setFormData({ ...formData, categories: e.target.value })
-                    }
+                    onChange={(e) => handleInputChange('categories', e.target.value)}
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -134,9 +150,7 @@ function CreateAdForm() {
                     variant="standard"
                     name="contractType"
                     value={formData.contractType}
-                    onChange={(e) =>
-                      setFormData({ ...formData, contractType: e.target.value })
-                    }
+                    onChange={(e) => handleInputChange('contractType', e.target.value)}
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   >
@@ -155,9 +169,7 @@ function CreateAdForm() {
                     id="description"
                     name="description"
                     value={formData.description}
-                    onChange={(e) =>
-                      setFormData({ ...formData, description: e.target.value })
-                    }
+                    onChange={(e) => handleInputChange('description', e.target.value)}
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -170,9 +182,7 @@ function CreateAdForm() {
                     variant="standard"
                     name="workLocation"
                     value={formData.workLocation}
-                    onChange={(e) =>
-                      setFormData({ ...formData, workLocation: e.target.value })
-                    }
+                    onChange={(e) => handleInputChange('workLocation', e.target.value)}
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   >
@@ -186,9 +196,7 @@ function CreateAdForm() {
                     id="profession"
                     name="profession"
                     value={formData.profession}
-                    onChange={(e) =>
-                      setFormData({ ...formData, profession: e.target.value })
-                    }
+                    onChange={(e) => handleInputChange('profession', e.target.value)}
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -199,10 +207,16 @@ function CreateAdForm() {
                 <Button
                   variant="contained"
                   color="primary"
-                  onClick={handleSubmit}
+                  type="submit"
+                  disabled={!isFormFilled}
                 >
                   Crear anuncio
                 </Button>
+                {isSuccess && (
+                  <p style={{ color: "green", marginTop: "10px" }}>
+                    El anuncio se ha creado con éxito.
+                  </p>
+                )}
               </div>
             </form>
           </Paper>
