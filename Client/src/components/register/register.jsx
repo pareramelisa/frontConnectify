@@ -378,7 +378,7 @@ const navigate = useNavigate();
 
       <div
         style={{
-          padding: "0rem 3rem ",
+          padding: "3rem 3rem ",
           justifyContent: "center",
           alignItems: "center",
           width: "800px",
