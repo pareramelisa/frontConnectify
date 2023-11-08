@@ -12,6 +12,7 @@ import userSlice from "./Slices/loginGoogleSlice";
 import clientSlice from "./Slices/clientSlice";
 import loginWithGoogleSlice from "./Slices/loginGoogleSlice";
 import favoritesSlice from "./Slices/favoritesSlice";
+import adsDeleteSlice from "./Slices/adsDeleteSlice";
 
 
 // Clave y Almacenamiento por defecto
@@ -22,6 +23,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   ads: adsSlice,
+  adsDelete: adsDeleteSlice,
   detail: detailSlice,
   createAds: createAdsSlice,
   professionals: professionalSlice,
