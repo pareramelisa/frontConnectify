@@ -133,9 +133,18 @@ const Home = () => {
     }
   }, [isAuthenticated, user]);
 
+  useEffect(() => {
+    if (adsFiltered.length < 1) {
+      dispatch(fetchAds());
+    }
+  },[])
+
   const handlerCloseLoginPopUp = () => {
     setPopUpLogin(false);
   };
+
+  console.log(currentAds);
+  console.log(ads);
 
   return (
     <div>
