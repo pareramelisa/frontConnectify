@@ -1,5 +1,5 @@
 import AdminDashboard from "../../components/DashboardData/Dashboard";
-import ProfsForAdmin from "../../components/DashboardData/ProfsForAdmin";
+import ProfsForAdmin from "../../components/DashboardData/ProfsForAdmin/ProfsForAdmin";
 import Header from "../../components/DashboardData/Header";
 
 const DashboardAdmin = () => {
