@@ -4,6 +4,7 @@ import { Grid } from '@mui/material';
 import UserInfoCard from './UserInfoCardClient';
 import ButtonBack from '../../components/Utils/ButtonBack/ButtonBack';
 import NavBarDemo2 from '../../components/NavBarDemo2/NavBarDemo2';
+import ReviewItem from '../../components/ReusableComponents/ReviewShow';
 
 const DashboardClient = () => {
 
@@ -68,7 +69,15 @@ const DashboardClient = () => {
       </Grid>
 
       <Grid item xs={12} md={4}>
- 
+      <ReviewItem
+          review={{
+            rating: 4.5,
+            text: 'Excelente servicio. Muy contento con el trabajo realizado.',
+            clientProfileImage: 'URL_de_la_foto',
+            clientName: 'Nombre_del_cliente',
+            date: '2023-11-01',
+          }}
+        />
 </Grid>
 
   
