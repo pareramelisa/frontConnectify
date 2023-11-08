@@ -1,11 +1,11 @@
 /* eslint-disable no-useless-catch */
-import { createSlice } from "@reduxjs/toolkit";
-import { applyFilters } from "./adsSlice";
+import { createSlice } from '@reduxjs/toolkit';
+import { applyFilters } from './adsSlice';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE;
-import axios from "axios";
+import axios from 'axios';
 
 const FilterSlice = createSlice({
-  name: "filter",
+  name: 'filter',
   initialState: {
     filterApplied: [],
   },
@@ -23,6 +23,7 @@ export const fetchFilter = ({
   profession,
   locationProf,
   province,
+  workLocation,
   minPrice,
   maxPrice,
   sortPrice,
@@ -49,7 +50,9 @@ export const fetchFilter = ({
       if (sortPrice) {
         url += `sortPrice=${sortPrice}&`;
       }
-
+      if (workLocation) {
+        url += `workLocation=${workLocation}&`;
+      }
       const { data } = await axios.get(url);
       dispatch(applyFilters(data));
     } catch (error) {

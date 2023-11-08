@@ -1,4 +1,5 @@
 import { Box, Button, TextField, IconButton, Typography } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
 import GoogleIcon from "@mui/icons-material/Google";
 import { useState } from "react";
 import { fetchUserLogin } from "../../redux/Slices/loginSlice";
@@ -15,7 +16,8 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
   const [showLogin, setShowLogin] = useState(false);
   const [showLoginClient, setShowLoginClient] = useState(false);
   const [showLoginProfessional, setShowLoginProfessional] = useState(false);
-  
+  const [popUpGoogle, setPopUpGoogle] = useState(false);
+
   const location = useLocation();
 
   const { loginWithRedirect, isAuthenticated } = useAuth0();
@@ -53,8 +55,16 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
     }
   };
 
+  // loginWithRedirect();
+
   const handlerLoginGoogle = () => {
-    loginWithRedirect();
+    setPopUpGoogle(true);
+    const loginGoogle = () => {
+      loginWithRedirect()
+      setPopUpGoogle(false)
+    }
+
+    setTimeout(loginGoogle, 2000)
   };
 
   const handleShowClient = (e) => {
@@ -97,8 +107,6 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
       setContainerLogin(true);
     }
   };
-
-  
 
   return (
     <div
@@ -387,6 +395,38 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
             </Typography>
           </Link>
         </Box>
+      )}
+
+      {popUpGoogle && (
+        <div
+          style={{
+            position: "absolute",
+            width: "25rem",
+            height: "10rem",
+            top: "38%",
+            left: "36%",
+            border: "2px solid black",
+            borderRadius: "20px",
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            flexDirection: "column",
+            backgroundColor: "rgba(255,255,255,0.9)",
+            zIndex: "1000",
+          }}
+        >
+          <div style={{
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            flexDirection: 'column'
+          }}>
+            <h4>Redirigiendo a Login de Google</h4>
+            <Box>
+              <CircularProgress/>
+            </Box>
+          </div>
+        </div>
       )}
     </div>
   );

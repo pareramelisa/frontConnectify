@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Button,
   Card,
@@ -19,18 +19,19 @@ import { useLocation, useParams } from 'react-router-dom';
 import { fetchDetail } from '../../redux/Slices/detailSlice';
 import Navbar from '../Navbar/Navbar';
 import { locationUser } from '../../redux/Slices/persistSlice';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
-import ReviewItem from "../ReusableComponents/ReviewShow"
-import { useAuth0 } from "@auth0/auth0-react";
+//import NotificationsIcon from '@mui/icons-material/Notifications';
+import { useAuth0 } from '@auth0/auth0-react';
 
 import {
   fetchAddFavorites,
   fetchRemoveFavorites,
-} from "../../redux/Slices/favoritesSlice";
+} from '../../redux/Slices/favoritesSlice';
+import ButtonBack from '../Utils/ButtonBack/ButtonBack';
 
 const DetailAd = () => {
   const { user } = useAuth0();
@@ -43,6 +44,7 @@ const DetailAd = () => {
     (state) => state.favorites.favoriteProfessionals
   );
   const users = useSelector((state) => state.usersLogin.user);
+  const userGoogle = useSelector((state) => state.googleLogin.user);
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
 
@@ -65,10 +67,18 @@ const DetailAd = () => {
   }, [user]);
 
   const handleSaveOrRemoveProfile = () => {
-    const formFav = {
-      clientId: users._id,
-      professionalId: detail.detail.creator[0]._id,
-    };
+    let formFav;
+    if (users._id) {
+      formFav = {
+        clientId: users._id,
+        professionalId: detail.detail.creator[0]._id,
+      };
+    } else {
+      formFav = {
+        clientId: userGoogle._id,
+        professionalId: detail.detail.creator[0]._id,
+      };
+    }
 
     if (!newFav) {
       dispatch(fetchAddFavorites(formFav));
@@ -90,9 +100,18 @@ const DetailAd = () => {
         ) : detail.detail.creator && detail.detail.creator.length > 0 ? (
           <Grid container spacing={2}>
             <Grid item xs={8} align="left">
+              <div style={{ paddingBottom: '1em' }}>
+                <Link to={'/home'}>
+                  <ButtonBack />
+                </Link>
+              </div>
               {users.types !== 'admin' && users.types !== 'professional' && (
                 <Grid item xs={8} align="left">
-                  <Box display="flex" justifyContent="space-between" width="100%">
+                  <Box
+                    display="flex"
+                    justifyContent="space-between"
+                    width="100%"
+                  >
                     <Button
                       sx={{
                         backgroundColor: !newFav ? '#D9D9D9' : '#3B7BA4',
@@ -102,47 +121,88 @@ const DetailAd = () => {
                       variant="contained"
                       onClick={handleSaveOrRemoveProfile}
                     >
-                      {!newFav ? <StarBorderIcon/> : <StarIcon/>}
+                      {!newFav ? <StarBorderIcon /> : <StarIcon />}
                     </Button>
                   </Box>
                 </Grid>
               )}
               <Grid item xs={12} md={10} sx={{ margin: '16px' }}>
-                <Typography fontWeight="900" variant="h3" sx={{ margin: '10px' }}>
+                <Typography
+                  fontWeight="900"
+                  variant="h3"
+                  sx={{ margin: '10px' }}
+                >
                   {detail.detail.profession}
                 </Typography>
-                <Typography fontWeight="900" variant="h5" sx={{ margin: '10px' }}>
+                <Typography
+                  fontWeight="900"
+                  variant="h5"
+                  sx={{ margin: '10px' }}
+                >
                   Ubicación: {detail.detail.location}
                 </Typography>
-                <Typography fontWeight="900" variant="h4" sx={{ margin: '10px' }}>
+                <Typography
+                  fontWeight="900"
+                  variant="h4"
+                  sx={{ margin: '10px' }}
+                >
                   Descripción:
                 </Typography>
                 <Typography
                   fontWeight="700"
                   variant="body1"
-                  sx={{  padding: "0px 16px " }}
+                  sx={{ margin: '10px' }}
                 >
                   {detail.detail.description}
                 </Typography>
-                <h2 style={{ padding: "0px 16px " }}>Reseñas Recibidas</h2>
-        <ReviewItem
-          review={{
-            rating: 4.5,
-            text: 'Excelente servicio. Muy contento con el trabajo realizado.',
-            clientProfileImage: 'https://www.dzoom.org.es/wp-content/uploads/2020/02/portada-foto-perfil-redes-sociales-consejos-810x540.jpg',
-            clientName: 'Nombre_del_cliente',
-            date: '2023-11-01',
-          }}
-        />
+                <Card
+                  sx={{
+                    width: '100%',
+                    backgroundColor: '#D9D9D9',
+                    padding: '10px',
+                    margin: '0px',
+                  }}
+                  align="left"
+                >
+                  <CardContent>
+                    <div className="profile-container">
+                      <div className="profile-circle">
+                        <img
+                          src="https://img.freepik.com/foto-gratis/retrato-hermoso-mujer-joven-posicion-pared-gris_231208-10760.jpg?w=740&t=st=1698081873~exp=1698082473~hmac=aba3c7f8d2e33cab05a648b7e5cb8a3a44a0f1242b4bb85fb6022a36e463fc15"
+                          alt="Imagen de perfil"
+                        />
+                      </div>
+                      <div className="profile-text">
+                        <Typography variant="h6">⭐5.0</Typography>
+                        <Typography
+                          fontWeight="900"
+                          variant="h5"
+                          component="div"
+                        >
+                          Maria Emilia Fuentes
+                        </Typography>
+                        <Typography variant="body2">
+                          Muy amigable, amable y predispuesto a despejar dudas
+                          07/08/23
+                        </Typography>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
               </Grid>
               <Grid item xs={8}></Grid>
             </Grid>
             <Grid item xs={12} sm={6} md={4}>
               <Card sx={{ maxWidth: 345, borderRadius: 5 }}>
-                <CardMedia sx={{ height: 200 }} image={detail.detail.creator[0].image} title="tec" />
+                <CardMedia
+                  sx={{ height: 200 }}
+                  image={detail.detail.creator[0].image}
+                  title="tec"
+                />
                 <CardContent>
                   <Typography fontWeight="900" variant="h5" component="div">
-                    {detail.detail.creator[0].name} {detail.detail.creator[0].lastName}
+                    {detail.detail.creator[0].name}{' '}
+                    {detail.detail.creator[0].lastName}
                   </Typography>
                   <Grid container spacing={2}>
                     <Grid item xs={12} md={8}>
@@ -172,6 +232,5 @@ const DetailAd = () => {
     </div>
   );
 };
-
 
 export default DetailAd;

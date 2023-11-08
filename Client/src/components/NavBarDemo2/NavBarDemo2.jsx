@@ -6,7 +6,7 @@ import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
-import logo from "../../assets/connectify.svg";
+import logo from "../../assets/ConnectifyLetras.svg";
 import "./Navbar2.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
