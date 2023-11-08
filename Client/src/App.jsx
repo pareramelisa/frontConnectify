@@ -9,7 +9,7 @@ import Favortites from './components/Favorites/Favorites';
 import DashboardAdmin from './views/DashboardAdmin/DashboardAdmin';
 import DashboardProf from './views/DashboardProf/DashboardProf';
 import Payments from './components/ViewsPayments/ViewsPayments';
-import ClientProfile from '../src/components/Maquetas/ClientProfile';
+import ClientProfile from './views/DashboardClient/DashboardClient';
 import Chat from './components/Chat/Chat';
 import Cover from './components/Cover/Cover';
 import DashboardClient from './views/DashboardClient/DashboardClient';
