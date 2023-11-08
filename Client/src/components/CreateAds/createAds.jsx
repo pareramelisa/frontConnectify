@@ -65,7 +65,7 @@ function CreateAdForm() {
     } catch (error) {
       console.error("Error al crear el anuncio:", error);
     }
-  };
+  } 
 
   return (
     <div>
