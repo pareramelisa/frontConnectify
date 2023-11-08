@@ -13,7 +13,7 @@ const UserInfoCard = ({ user, userImage, editMode, handleEdit, handleSave, setUs
       }}
     >
      
-       <h2 style={{ border: 'none', borderRadius: 5, padding: 1, margin: '20px' }}>Mi perfil</h2> 
+       <h3 style={{ border: 'none', borderRadius: 5, padding: 1, margin: '20px' }}>Mi perfil</h3> 
     
       <CardHeader
         avatar={<Avatar src={userImage} />}
@@ -22,6 +22,7 @@ const UserInfoCard = ({ user, userImage, editMode, handleEdit, handleSave, setUs
             label="Nombre"
             value={user.name}
             fullWidth
+            required
             onChange={(e) => setUser({ ...user, name: e.target.value })}
           />
         ) : (
@@ -42,54 +43,41 @@ const UserInfoCard = ({ user, userImage, editMode, handleEdit, handleSave, setUs
                 label="Apellido"
                 value={user.LastName}
                 fullWidth
+                required
                 onChange={(e) => setUser({ ...user, LastName: e.target.value })}
               />
             </div>
-            <div style={{ marginBottom: '10px' }}>
+            {/* <div style={{ marginBottom: '10px' }}>
               <TextField
                 label="Email"
                 value={user.email}
                 fullWidth
+                required
                 onChange={(e) => setUser({ ...user, email: e.target.value })}
               />
-            </div>
+            </div> */}
             <div style={{ marginBottom: '10px' }}>
               <TextField
-                label="Provincia"
+                label="Provincia falta connectar con el selector de ciudades"
                 value={user.province}
                 fullWidth
+                required
                 onChange={(e) => setUser({ ...user, province: e.target.value })}
               />
             </div>
             <div style={{ marginBottom: '10px' }}>
               <TextField
-                label="Ciudad"
+                label="Ciudad falta connectar con el selector de ciudades"
                 value={user.location}
                 fullWidth
+                required
                 onChange={(e) => setUser({ ...user, location: e.target.value })}
               />
             </div>
-            <div style={{ marginBottom: '10px' }}>
-              <TextField
-                label="Profesión"
-                value={user.profession}
-                fullWidth
-                onChange={(e) => setUser({ ...user, profession: e.target.value })}
-              />
-            </div>
-            <div style={{ marginBottom: '10px' }}>
-              <TextField
-                label="Descripción"
-                value={user.description}
-                fullWidth
-                multiline
-                rows={6}
-                style={{ fontWeight: 'normal' }} // Aplica el estilo aquí
-                onChange={(e) => setUser({ ...user, description: e.target.value })}
-              />
-            </div>
+            
+            
             <Button onClick={handleSave} variant="contained" color="primary" style={{ marginTop: '5px' }}>
-              Guardar
+              Guardar cambios
             </Button>
           </div>
         ) : (
