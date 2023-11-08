@@ -54,7 +54,7 @@ function CreateAdForm() {
       ...formData,
       creator: user._id,
       price: Number(formData.price),
-    };
+    }
 
     try {
       await dispatch(createAd(userinput));
