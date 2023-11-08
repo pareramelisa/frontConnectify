@@ -110,13 +110,6 @@ const navigate = useNavigate();
   };
 
   function validateEmail(email) {
-    if (!email) {
-      setError({
-        error: true,
-        message: "El campo de correo electrónico no puede estar vacío.",
-      });
-      return false;
-    }
   
     // Verificar si el valor contiene el carácter "+"
     if (email.includes("+")) {
@@ -369,14 +362,14 @@ const navigate = useNavigate();
 
       <div
         style={{
-          padding: "4rem ",
+          padding: "0rem 3rem ",
           justifyContent: "center",
           alignItems: "center",
           width: "800px",
           backgroundColor: "transparent",
         }}
       >
-        <h1>Registrate </h1>
+        <h2>Registrate </h2>
         <Box component="form" onSubmit={(e) => handleSubmit(e)}>
           <div style={{ padding: "5px" }}>
             
@@ -438,8 +431,8 @@ const navigate = useNavigate();
             {renderPasswordToggle()}
           </div>
           <div style={{ padding: "5px" }}>
-            <h2>Ubicación dentro de Argentina</h2>
-            <h3>Provincia*</h3>
+            <h3>Ubicación dentro de Argentina</h3>
+            <h4>Provincia*</h4>
             <FormControl fullWidth required>
             <Select        
               type="text"
@@ -458,8 +451,8 @@ const navigate = useNavigate();
         ))}
         </Select>
         </FormControl>
-  <div style={{ padding: "5px" }}></div>
-  <h3>Ciudad*</h3>
+ 
+  <h4>Ciudad*</h4>
   <FormControl fullWidth required>
     
     <Select
@@ -487,10 +480,10 @@ const navigate = useNavigate();
           {ifProfRoute && (
             <div style={{ backgroundColor: "transparent" }}>
               <div>
-                <h2>Area de trabajo</h2>
+                <h2>Oferta de servicios</h2>
                 
               </div>
-              <div style={{ padding: "5px" }}></div>
+             
               
               <TextField
               label="Profesión u oficio."
@@ -537,12 +530,13 @@ const navigate = useNavigate();
             accept="image/*"
             name="image"
             onChange={handleImageUpload}
+            style={{ width: "100%", height: "50px", fontSize: "18px" }}
           />
           {errorMessages.image && (
             <div style={{ color: "red" }}>{errorMessages.image}</div>
           )}
                     {(!areAllProfFieldsCompleted() && ifProfRoute) || (!areAllClienFieldsCompleted() && ifClientRoute) ? (
-                      <p>Completá todos los campos para poder enviar este formulario</p>
+                      <p style={{ color: "red" }}>Completá todos los campos para poder enviar este formulario</p>
                     ) : (
                       <div>
                         <div style={{ padding: "10px" }}></div>
