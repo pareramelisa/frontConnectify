@@ -10,7 +10,7 @@ import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { InputLabel } from "@mui/material";
 import * as validations from "./ValidationsRegister";
 import NavBarDemo2 from '../NavBarDemo2/NavBarDemo2'
-import photo from "../../assets/register.png";
+// import photo from "../../assets/register.png";
 import Button from '@mui/material/Button';
 
 const Registration = () => {

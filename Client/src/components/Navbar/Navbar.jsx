@@ -11,7 +11,7 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
-import logo from "../../assets/connectify.svg";
+import logo from "../../assets/ConnectifyLetras.svg";
 import "./Navbar.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -81,6 +81,8 @@ function ResponsiveAppBar({ setContainerLogin }) {
     console.log("USERUSER...", user);
     if (user && user.nickname) {
       setNickName(user.nickname);
+    }else{
+      setNickName(users.userName)
     }
   }, [user]);
 
@@ -89,7 +91,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <div className="containerNav">
-            <Link to="/">
+            <Link to="/home">
               <img src={logo} alt="" className="logoNav" />
             </Link>
             <Box
