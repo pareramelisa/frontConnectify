@@ -3,7 +3,7 @@
 export function validateEmail(value) {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     if (!emailRegex.test(value)) {
-      return 'No válido. No debe incluir caracteres especiales';
+      return 'Revisar este campo. El email debe tener un formato válido y no debe estar registrado con anterioridad.';
     }
     return null; // No hay error
   }

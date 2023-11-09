@@ -5,6 +5,7 @@ import UserInfoCard from './UserInfoCardClient';
 import ButtonBack from '../../components/Utils/ButtonBack/ButtonBack';
 import NavBarDemo2 from '../../components/NavBarDemo2/NavBarDemo2';
 import ReviewItem from '../../components/ReusableComponents/ReviewShow';
+//import { useHistory } from 'react-router-dom';
 
 const DashboardClient = () => {
 
@@ -49,6 +50,7 @@ const DashboardClient = () => {
       <NavBarDemo2/>
       <div style={{ margin: '0em 3em' }}>
     <ButtonBack /> 
+    
     <Grid container spacing={3}>
     
       <Grid item xs={12} md={8}>
@@ -69,12 +71,13 @@ const DashboardClient = () => {
       </Grid>
 
       <Grid item xs={12} md={4}>
+        <h3>Reseñas realizadas</h3>
       <ReviewItem
           review={{
             rating: 4.5,
             text: 'Excelente servicio. Muy contento con el trabajo realizado.',
             clientProfileImage: 'URL_de_la_foto',
-            clientName: 'Nombre_del_cliente',
+            clientName: 'Nombre_del_profesional que brindo el servicio',
             date: '2023-11-01',
           }}
         />
