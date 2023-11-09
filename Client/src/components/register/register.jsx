@@ -63,7 +63,7 @@ const navigate = useNavigate();
 
   useEffect(() => {
     updateUserName();
-    formData.set("image", "");
+    setClientRegister(prevState => ({ ...prevState, image: "" }));
   }, []);
 
   const routeLocation = useLocation();
