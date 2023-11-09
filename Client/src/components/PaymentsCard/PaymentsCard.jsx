@@ -69,7 +69,6 @@ console.log(users, "us")
       </div>
 
         <button onClick={() => setShowCommentBox(true)}>Dejar reseña</button>
-
      
       {showCommentBox && (
         <CommentBox onClose={handleCloseCommentBox} />

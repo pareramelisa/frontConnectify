@@ -41,7 +41,6 @@ const CommentBox = ({onClose}) => {
     }
   };
 
-
   return (
     <div>
       <Box

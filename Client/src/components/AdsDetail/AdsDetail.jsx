@@ -209,7 +209,6 @@ const DetailAd = () => {
                     </div>
                   </CardContent>
                 </Card>
-
               </Grid>
               <Grid item xs={8}></Grid>
             </Grid>
