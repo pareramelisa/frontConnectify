@@ -1,66 +1,20 @@
-import { useNavigate } from "react-router-dom";
-import { Button, Typography } from "@mui/material";
-import "./Cover.css";
-// import Logo from "../../assets/connectify.svg";
-// import Logo2 from "../../assets/logo.svg";
-import { useAuth0 } from "@auth0/auth0-react";
-import { AiOutlineHome } from "react-icons/ai";
-import { useEffect, useState } from "react";
-import Login from "../Login/Login";
-import { useDispatch, useSelector } from "react-redux";
-import { loginWithGoogle } from "../../redux/Slices/loginGoogleSlice";
-import IconButton from '@mui/material/IconButton'
-import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
-import { fetchGetAllFavorites } from "../../redux/Slices/favoritesSlice";
-
-
-import Landing from '../Landing/Landing'
-
+import style from "./Cover.module.css";
 
 
 function Cover() {
-  const navigate = useNavigate();
-  const users = useSelector((state) => state.usersLogin.user);
-  const favorites = useSelector((state) => state.favorites.favoriteProfessionals)
-  const { isAuthenticated, user } = useAuth0();
-  const [containerLogin, setContainerLogin] = useState(false);
-  const [popUpLogin, setPopUpLogin] = useState(false);
-  const dispatch = useDispatch();
-
-  const handlerButtonLogin = () => {
-    if (!isAuthenticated) {
-      setContainerLogin(true);
-    } else {
-      navigate("/home");
-    }
-  };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(loginWithGoogle(user.email));
-      navigate("/home");
-    }
-  }, [dispatch, isAuthenticated, navigate]);
-
-  // Aca sacas el PopUp
-  const handlerCloseLoginPopUp = () => {
-    setPopUpLogin(false);
-  };
-
-  console.log(users._id);
-  console.log(favorites)
+ 
 
    return (
     <>
-      <svg version="1.1" id="home-anim" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+      <svg version="1.1" className={style.homeAnim} id="home-anim" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
         viewBox="0 0 1820 1080"  xml:space="preserve">
 
-      <g id="home">
+      <g className={style.home} id="home">
         <defs>
           <rect id="masque" y="0.4" width="1820" height="1080"/>
         </defs>
         
-        <g id="light-blue">
+        <g className={style.lightBlue} id="light-blue">
           <line x1="630.8" y1="894.3" x2="476.3" y2="1048.8"/>
           <line x1="858.2" y1="823.9" x2="1012.7" y2="669.4"/>
           <line x1="1066.9" y1="458.2" x2="912.4" y2="612.7"/>
@@ -92,7 +46,7 @@ function Cover() {
           <line x1="1029.7" y1="113.6" x2="875.2" y2="268.2"/>
           <line x1="1257.1" y1="43.3" x2="1411.6" y2="-111.2"/>
         </g>
-        <g id="red">
+        <g className={style.red} id="red">
           <line x1="794.4" y1="883.4" x2="639.8" y2="1037.9"/>
           <line x1="694.6" y1="834.8" x2="849.2" y2="680.3"/>
           <line x1="1230.4" y1="447.3" x2="1075.9" y2="601.8"/>
@@ -123,7 +77,7 @@ function Cover() {
           <line x1="1193.3" y1="102.7" x2="1038.7" y2="257.3"/>
           <line x1="1093.5" y1="54.2" x2="1248.1" y2="-100.3"/>
         </g>
-        <g id="blue">
+        <g className={style.blue} id="blue">
           <line x1="225.8" y1="1151" x2="534.9" y2="841.9"/>
           <line x1="827.1" y1="1003.3" x2="518" y2="1312.3"/>
           <line x1="661.9" y1="714.9" x2="971" y2="405.9"/>
