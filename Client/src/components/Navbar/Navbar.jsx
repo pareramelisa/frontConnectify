@@ -61,7 +61,8 @@ function ResponsiveAppBar({ setContainerLogin }) {
     }
 
     if (text === "Logout" && users) {
-      await dispatch(logoutUser());
+      dispatch(logoutUser());
+      navigate('/home')
     }
 
     if (text === "Logout" && isAuthenticated) {
