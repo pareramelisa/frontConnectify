@@ -8,16 +8,19 @@ import userRegisterSlice from "./Slices/loginSlice";
 import createAdsSlice from "./Slices/createAdsSlice";
 import detailSlice from "./Slices/detailSlice";
 import persistUserSlice from "./Slices/persistSlice";
-import userSlice from "./Slices/loginGoogleSlice";
 import clientSlice from "./Slices/clientSlice";
 import loginWithGoogleSlice from "./Slices/loginGoogleSlice";
+
+import commentSlice from "./Slices/commentSlice";
+
 import favoritesSlice from "./Slices/favoritesSlice";
 import adsDeleteSlice from "./Slices/adsDeleteSlice";
 
 
+
 // Clave y Almacenamiento por defecto
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
 };
 
@@ -32,7 +35,11 @@ const rootReducer = combineReducers({
   usersRegister: userRegisterSlice,
   persistUser: persistUserSlice,
   googleLogin: loginWithGoogleSlice,
+
+  comment: commentSlice,
+
   favorites: favoritesSlice,
+
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

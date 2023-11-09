@@ -1,66 +1,95 @@
-/* eslint-disable react/prop-types */
+/* eslint-disable no-unused-vars */
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Card, CardContent, Typography } from '@mui/material';
+import { getComments } from '../../redux/Slices/commentSlice';
 
-import { useEffect } from "react";
-import {
-  getComments,
-  postComment,
-  deleteComments,
-} from "../../redux/Slices/commentSlice"
-import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
-const Comments = ({ clientId, professionalId }) => {
+function CommentsClient() {
+  const { isAuthenticated, user } = useAuth0();
   const dispatch = useDispatch();
-  const comments = useSelector((state) => state.comment?.comments || []);
-  const [newComment, setNewComment] = useState("");
+  const users = useSelector((state) => state.usersLogin.user);
+  const comments = useSelector((state) => state.comment.comments);
+  const detail = useSelector((state) => state.detail);
+  const professionalId = detail.detail.creator[0]._id;
+
+  const [commentsForProfessional, setCommentsForProfessional] = useState([]);
+  const [newComment, setNewComment] = useState('');
+  const [userDataOk, setUserDataOk] = useState('');
 
   useEffect(() => {
-    dispatch(getComments());
-  }, [dispatch]);
-
-  const handleComment = () => {
-    if (newComment.trim() !== ""){
-    
-        const commentData = {
-          comment: newComment,
-          client: clientId, 
-          professional: professionalId,
-        };
-  
-        // Enviar el comentario al servidor utilizando Redux Toolkit
-        dispatch(postComment(commentData));
-  
-        // Limpiar el campo de comentario después de enviar
-        setNewComment("");
-      }
+    if (isAuthenticated) {
+      setUserDataOk(user.nickname || users.userName);
     }
+    dispatch(getComments());
+  }, [user, users, isAuthenticated, dispatch]);
 
-  const handleDeleteComment = (commentId) => {
-    dispatch(deleteComments(commentId));
-  };
+  // Filtra los comentarios solo para el profesional en cuestión
+  useEffect(() => {
+    const filteredComments = comments.filter(
+      (comment) => comment.Professional._id === professionalId
+    );
+    setCommentsForProfessional(filteredComments);
+  }, [comments, professionalId]);
 
   return (
-    <div>
-      <h3>Comentarios</h3>
-      <ul>
-        {comments.map((comment) => {
-          <li key={comment._id}>
-            <div>{comment.comment}</div>
-            <button onClick={() => handleDeleteComment(comment._Id)}>
-              Eliminar
-            </button>
-          </li>;
-        })}
-      </ul>
+    
+
       <div>
-        <h2>Agregar comentario</h2>
-        <textarea
-          name="Comentario"
-          value={newComment}
-          onChange={(e) => setNewComment(e.target.value)}
-        />
-        <button onClick={handleComment}>Enviar</button>
-      </div>
+        {commentsForProfessional.length > 0 ? (
+          commentsForProfessional.map((comment) => (
+            <Card
+              key={comment._id}
+              sx={{
+                width: '75%',
+                backgroundColor: '#D9D9D9',
+                padding: '10px',
+                margin: '10px 0',
+                marginRight: '750px',
+              }}
+              align="left"
+            >
+              <CardContent>
+                <div className="profile-container">
+                  <div className="profile-text">
+                    <Typography variant="h6">
+                      {[...Array(comment.rating)].map((_, index) => (
+                        <span key={index}>⭐</span>
+                      ))}
+                    </Typography>
+                    <Typography variant="body2" sx={{ fontSize: '15px' }}>
+                      {comment.comment}
+                    </Typography>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))
+        ) : (
+          <Card
+            sx={{
+              width: '75%',
+              backgroundColor: '#D9D9D9',
+              padding: '10px',
+              margin: '10px 0',
+              marginRight: '750px',
+            }}
+            align="left"
+          >
+            <CardContent>
+              <div className="profile-container">
+                <div className="profile-text">
+                  <Typography variant="body2" sx={{ fontSize: '15px', fontWeight: 'bold' }}>
+                    El profesional aún no tiene comentarios.
+                  </Typography>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        )}
+    
     </div>
   );
-};
- export default Comments;
+}
+
+export default CommentsClient;
