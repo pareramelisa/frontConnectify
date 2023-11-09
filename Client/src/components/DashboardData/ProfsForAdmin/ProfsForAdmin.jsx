@@ -36,6 +36,7 @@ const ProfsForAdmin = () => {
   };
 
   useEffect(() => {
+    console.log(765765);
     const fetchData = async () => {
       try {
         await dispatch(fetchClientsForAdmin());
