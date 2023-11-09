@@ -24,6 +24,7 @@ import 'rc-slider/assets/index.css';
 import Footer from '../../components/Footer/Footer';
 import Chat from '../../components/Chat/Chat';
 import ButtonTop from '../../components/Utils/ButtonTop/ButtonTop';
+import Loading from '../../components/Utils/Loading/Loading';
 import { useAuth0 } from '@auth0/auth0-react';
 import { fetchUserLoginWithGoogle } from '../../redux/Slices/loginGoogleSlice';
 
@@ -41,6 +42,7 @@ const Home = () => {
   const [sortPrice, setSortPrice] = useState('');
   const [workLocation, setWorkLocation] = useState('');
   const [chatOpen, setChatOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   //* Estados globales
   const adsFiltered = useSelector((state) => state.ads.adsFiltered);
@@ -137,14 +139,12 @@ const Home = () => {
     if (adsFiltered.length < 1) {
       dispatch(fetchAds());
     }
+    setIsLoading(false);
   }, []);
 
   const handlerCloseLoginPopUp = () => {
     setPopUpLogin(false);
   };
-
-  console.log(currentAds);
-  console.log(ads);
 
   return (
     <div>
@@ -299,7 +299,11 @@ const Home = () => {
         </div>
       </div>
       <div className={styles.container}>
-        {currentAds.length !== 0 && adsFiltered.length !== 0 ? (
+        {isLoading ? (
+          <div>
+            <Loading />
+          </div>
+        ) : adsFiltered.length !== 0 ? (
           <div className={styles.card}>
             {currentAds.map((ad) => (
               <Professional
@@ -321,11 +325,11 @@ const Home = () => {
             <img
               src="https://i.pinimg.com/originals/33/1c/3d/331c3d4d2200ab540675c1d56d96bba8.gif"
               alt="Obrero"
-              style={{ width: '500px' }}
+              style={{ width: '400px' }}
             />
             <h2
               style={{
-                paddingLeft: '3.5em',
+                paddingLeft: '1.5em',
                 paddingBottom: '5em',
               }}
             >
