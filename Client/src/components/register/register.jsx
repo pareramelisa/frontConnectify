@@ -64,6 +64,7 @@ const navigate = useNavigate();
   useEffect(() => {
     updateUserName();
     setClientRegister(prevState => ({ ...prevState, image: "" }));
+
   }, []);
 
   const routeLocation = useLocation();
@@ -159,11 +160,11 @@ const navigate = useNavigate();
     errors.image = validations.validateImageFormat(formData.get("image"));
     
     // Validación del correo electrónico
-    if (validateEmail(email)) {
+    if (validateEmail(clientRegister.email)) {
       errors.mail = null; // Correo electrónico válido
     } else {
       // El correo electrónico es inválido, muestra un mensaje de error
-      errors.mail = "Email no valido, no puede contener caracteres especiales";
+      errors.mail = "Email no valido, no puede contener caracteres especiales y debe estar completo.";
     }
     
     setErrorMessages(errors);
@@ -580,7 +581,7 @@ const navigate = useNavigate();
             <div style={{ color: "red" }}>{errorMessages.image}</div>
           )}
                     {(!areAllProfFieldsCompleted() && ifProfRoute) || (!areAllClienFieldsCompleted() && ifClientRoute) ? (
-                      <p style={{ color: "red" }}>Completá todos los campos para poder enviar este formulario</p>
+                      <p style={{ color: "red" }}>Completá todos los campos sin errores para poder enviar este formulario</p>
                     ) : (
                       <div>
                         <div style={{ padding: "10px" }}></div>
