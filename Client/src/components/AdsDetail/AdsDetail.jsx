@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useState } from 'react';
 import {
   Button,
@@ -19,19 +20,21 @@ import { useLocation, useParams } from 'react-router-dom';
 import { fetchDetail } from '../../redux/Slices/detailSlice';
 import Navbar from '../Navbar/Navbar';
 import { locationUser } from '../../redux/Slices/persistSlice';
-import { Link } from 'react-router-dom';
+
 import FavoriteIcon from '@mui/icons-material/Favorite';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
-//import NotificationsIcon from '@mui/icons-material/Notifications';
 import { useAuth0 } from '@auth0/auth0-react';
-
+import './DetailAd.css';
+import { Link } from 'react-router-dom';
 import {
   fetchAddFavorites,
   fetchRemoveFavorites,
 } from '../../redux/Slices/favoritesSlice';
+// import Comments from '../CommentsClient/CommentsClients';
 import ButtonBack from '../Utils/ButtonBack/ButtonBack';
+import Loading from '../Utils/Loading/Loading';
 
 const DetailAd = () => {
   const { user } = useAuth0();
@@ -56,11 +59,11 @@ const DetailAd = () => {
     dispatch(fetchDetail(id)).then(() => {
       setLoading(false);
     });
-  }, [dispatch]);
+  }, [dispatch, id]);
 
   useEffect(() => {
     dispatch(locationUser(location.pathname));
-  }, [location]);
+  }, [dispatch, location]);
 
   useEffect(() => {
     setUserData(user);
@@ -92,11 +95,7 @@ const DetailAd = () => {
       <Navbar />
       <div className="principal">
         {loading ? (
-          <div
-            style={{ backgroundColor: 'white', width: '100%', height: '100vh' }}
-          >
-            Cargando...
-          </div>
+          <Loading />
         ) : detail.detail.creator && detail.detail.creator.length > 0 ? (
           <Grid container spacing={2}>
             <Grid item xs={8} align="left">
@@ -126,6 +125,7 @@ const DetailAd = () => {
                   </Box>
                 </Grid>
               )}
+
               <Grid item xs={12} md={10} sx={{ margin: '16px' }}>
                 <Typography
                   fontWeight="900"
@@ -220,6 +220,7 @@ const DetailAd = () => {
                       </div>
                     </Grid>
                   </Grid>
+
                   <MercadoPago />
                 </CardContent>
               </Card>
@@ -228,6 +229,7 @@ const DetailAd = () => {
         ) : (
           <div>No hay creadores disponibles.</div>
         )}
+        {/* <Comments /> */}
       </div>
     </div>
   );

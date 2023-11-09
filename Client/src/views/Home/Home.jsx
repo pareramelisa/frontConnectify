@@ -23,6 +23,8 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Footer from '../../components/Footer/Footer';
 import Chat from '../../components/Chat/Chat';
+import ButtonTop from '../../components/Utils/ButtonTop/ButtonTop';
+import Loading from '../../components/Utils/Loading/Loading';
 import { useAuth0 } from '@auth0/auth0-react';
 import { fetchUserLoginWithGoogle } from '../../redux/Slices/loginGoogleSlice';
 
@@ -40,6 +42,7 @@ const Home = () => {
   const [sortPrice, setSortPrice] = useState('');
   const [workLocation, setWorkLocation] = useState('');
   const [chatOpen, setChatOpen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   //* Estados globales
   const adsFiltered = useSelector((state) => state.ads.adsFiltered);
@@ -47,7 +50,7 @@ const Home = () => {
   const { isAuthenticated, user } = useAuth0();
   //traer usuario ya después de iniciar sesión
   const nickname = user?.nickname || ''; // Usando operador opcional para evitar errores si no está definido
-  const email = user?.email || '';
+  //const email = user?.email || ''; Usar cuando se necesite el email
 
   //* Paginado
   const [currentPage, setCurrentPage] = useState(1);
@@ -88,7 +91,6 @@ const Home = () => {
     e.preventDefault();
     setSortPrice(e.target.value);
   };
-
 
   //* Función para aplicar los filtros
   const applyFilters = async () => {
@@ -137,14 +139,12 @@ const Home = () => {
     if (adsFiltered.length < 1) {
       dispatch(fetchAds());
     }
-  },[])
+    setIsLoading(false);
+  }, []);
 
   const handlerCloseLoginPopUp = () => {
     setPopUpLogin(false);
   };
-
-  console.log(currentAds);
-  console.log(ads);
 
   return (
     <div>
@@ -200,7 +200,17 @@ const Home = () => {
       <div className={styles.filterStyle}>
         <div>
           <FormControl sx={{ m: 1, minWidth: 140, maxWidth: 200 }}>
-            <InputLabel>Profesion</InputLabel>
+            <InputLabel
+              sx={{
+                '&:focus-within': {
+                  '& ~ .MuiInputLabel-root': {
+                    marginTop: '-0.8em',
+                  },
+                },
+              }}
+            >
+              Profesion
+            </InputLabel>
             <Select
               id="ProfesionSearch"
               onChange={handleProfession}
@@ -289,7 +299,11 @@ const Home = () => {
         </div>
       </div>
       <div className={styles.container}>
-        {currentAds.length !== 0 && adsFiltered.length !== 0 ? (
+        {isLoading ? (
+          <div>
+            <Loading />
+          </div>
+        ) : adsFiltered.length !== 0 ? (
           <div className={styles.card}>
             {currentAds.map((ad) => (
               <Professional
@@ -311,11 +325,11 @@ const Home = () => {
             <img
               src="https://i.pinimg.com/originals/33/1c/3d/331c3d4d2200ab540675c1d56d96bba8.gif"
               alt="Obrero"
-              style={{ width: '500px' }}
+              style={{ width: '400px' }}
             />
             <h2
               style={{
-                paddingLeft: '3.5em',
+                paddingLeft: '1.5em',
                 paddingBottom: '5em',
               }}
             >
@@ -324,18 +338,23 @@ const Home = () => {
           </div>
         )}
       </div>
-      <button
-        className="open-chat-button"
-        onClick={toggleChat}
-        style={{
-          position: 'fixed',
-          bottom: '20px',
-          right: '20px',
-          zIndex: 9999, // Asegura que el botón del chat aparezca por encima de otros contenidos
-        }}
-      >
-        Abrir Chat
-      </button>
+      <div className={styles.buttonContainer}>
+        <ButtonTop />
+      </div>
+      {isAuthenticated ? (
+        <button
+          className="open-chat-button"
+          onClick={toggleChat}
+          style={{
+            position: 'fixed',
+            bottom: '20px',
+            right: '20px',
+            zIndex: 9999, // Asegura que el botón del chat aparezca por encima de otros contenidos
+          }}
+        >
+          Abrir Chat
+        </button>
+      ) : null}
       {chatOpen && <Chat nickname={nickname} />}
       {currentAds.length !== 0 && adsFiltered.length !== 0 ? (
         <Pagination
