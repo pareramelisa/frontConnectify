@@ -32,7 +32,7 @@ import {
   fetchAddFavorites,
   fetchRemoveFavorites,
 } from '../../redux/Slices/favoritesSlice';
-import Comments from '../CommentsClient/CommentsClients';
+// import Comments from '../CommentsClient/CommentsClients';
 import ButtonBack from '../Utils/ButtonBack/ButtonBack';
 import Loading from '../Utils/Loading/Loading';
 
@@ -229,7 +229,7 @@ const DetailAd = () => {
         ) : (
           <div>No hay creadores disponibles.</div>
         )}
-        <Comments />
+        {/* <Comments /> */}
       </div>
     </div>
   );
