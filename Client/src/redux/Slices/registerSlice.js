@@ -32,7 +32,7 @@ export const fetchUserRegister = (userData, type) => {
         return data.message;
       } catch (error) {
         console.log(error);
-        return "Revise los datos ingresados. Su email o nombre ya se encuentra registrado";
+        return "Revise los datos ingresados. Su email ya se encuentra registrado";
       }
     } else if (type === "professional") {
       const endpoint = `${VITE_API_BASE}/professional/register`;
@@ -43,7 +43,7 @@ export const fetchUserRegister = (userData, type) => {
         return data.message;
       } catch (error) {
         console.log(error);
-        return "Revise los datos ingresados. Su email o nombre ya se encuentra registrado";
+        return "Revise los datos ingresados. Su email ya se encuentra registrado";
       }
     }
   };

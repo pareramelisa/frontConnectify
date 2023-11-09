@@ -3,128 +3,59 @@ import { FormControl, InputLabel, MenuItem, Select } from '@mui/material';
 import miApi from '../../../localidades.json';
 
 function LocationSelectors() {
-  const [provinciasParticular, setProvinciasParticular] = useState([]);
-  const [ciudadesParticular, setCiudadesParticular] = useState([]);
-  const [selectedProvParticular, setSelectedProvParticular] = useState('');
+  const [provincias, setProvincias] = useState([]);
+  const [ciudades, setCiudades] = useState([]);
+  const [selectedDireccion, setSelectedDireccion] = useState('');
 
-  const [provinciasLaboral, setProvinciasLaboral] = useState([]);
-  const [ciudadesLaboral, setCiudadesLaboral] = useState([]);
-  const [selectedProvLaboral, setSelectedProvLaboral] = useState('');
-
-  const [selectedCiudadParticular, setSelectedCiudadParticular] = useState('');
-  const [selectedCiudadLaboral, setSelectedCiudadLaboral] = useState('');
-
-  const handlerProvinciasParticular = (event) => {
+  const handlerProvincias = (event) => {
     const provincia = event.target.value;
-    setSelectedProvParticular(provincia);
+    const direccion = provincia + (selectedCiudad ? ', ' + selectedCiudad : '');
+    setSelectedDireccion(direccion);
   };
 
-  const handlerProvinciasLaboral = (event) => {
-    const provincia = event.target.value;
-    setSelectedProvLaboral(provincia);
+  const handlerCiudades = (event) => {
+    const ciudad = event.target.value;
+    const direccion = (selectedProv ? selectedProv + ', ' : '') + ciudad;
+    setSelectedDireccion(direccion);
   };
 
   useEffect(() => {
-    const cityParticular = miApi.localidades.filter((ciudad) => {
-      return ciudad.provincia.nombre === selectedProvParticular;
+    const cities = miApi.localidades.filter((ciudad) => {
+      return ciudad.provincia.nombre === selectedProv;
     });
-    const sortedCitiesParticular = [...new Set(cityParticular)].sort((a, b) => a.nombre.localeCompare(b.nombre));
-    setCiudadesParticular(sortedCitiesParticular);
-  }, [selectedProvParticular]);
+    const sortedCities = [...new Set(cities)].sort((a, b) => a.nombre.localeCompare(b.nombre));
+    setCiudades(sortedCities);
+  }, [selectedProv]);
 
   useEffect(() => {
-    const provParticular = miApi.localidades.map((provincia) => {
+    const provs = miApi.localidades.map((provincia) => {
       return provincia.provincia.nombre;
     });
-    const provSetParticular = new Set(provParticular);
-    setProvinciasParticular([...provSetParticular].sort());
-  }, []);
-
-  useEffect(() => {
-    const cityLaboral = miApi.localidades.filter((ciudad) => {
-      return ciudad.provincia.nombre === selectedProvLaboral;
-    });
-    const sortedCitiesLaboral = [...new Set(cityLaboral)].sort((a, b) => a.nombre.localeCompare(b.nombre));
-    setCiudadesLaboral(sortedCitiesLaboral);
-  }, [selectedProvLaboral]);
-
-  useEffect(() => {
-    const provLaboral = miApi.localidades.map((provincia) => {
-      return provincia.provincia.nombre;
-    });
-    const provSetLaboral = new Set(provLaboral);
-    setProvinciasLaboral([...provSetLaboral].sort());
+    const provSet = new Set(provs);
+    setProvincias([...provSet].sort());
   }, []);
 
   return (
     <div style={{ padding: '15px' , backgroundColor: 'white'}}>
       <div style={{ padding: '5px' }}>
         <FormControl variant="outlined" fullWidth style={{ backgroundColor: 'white', marginBottom: '5px' }}>
-          <InputLabel>Provincia (Particular)</InputLabel>
+          <InputLabel>Dirección</InputLabel>
           <Select
-            value={selectedProvParticular}
-            onChange={handlerProvinciasParticular}
-            label="Provincia (Particular)"
+            value={selectedDireccion}
+            onChange={(event) => setSelectedDireccion(event.target.value)}
+            label="Dirección"
           >
-            <MenuItem value="filterProvinciasParticular">Elija Provincia</MenuItem>
-            {provinciasParticular.map((provincia, index) => (
-              <MenuItem key={index} value={provincia}>{provincia}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
-  
-      <div style={{ padding: '5px' }}>
-        <FormControl variant="outlined" fullWidth style={{ backgroundColor: 'white', marginBottom: '5px' }}>
-          <InputLabel>Ciudad (Particular)</InputLabel>
-          <Select
-            value={selectedCiudadParticular}
-            onChange={(event) => setSelectedCiudadParticular(event.target.value)}
-            label="Ciudad (Particular)"
-          >
-            <MenuItem value="filterCiudadesParticular">Elija Ciudad</MenuItem>
-            {ciudadesParticular.map((ciudad, index) => (
-              <MenuItem key={index} value={ciudad.nombre}>{ciudad.nombre}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
-  
-      <div style={{ padding: '5px' }}>
-        <FormControl variant="outlined" fullWidth style={{ backgroundColor: 'white', marginBottom: '5px' }}>
-          <InputLabel>Provincia (Laboral)</InputLabel>
-          <Select
-            value={selectedProvLaboral}
-            onChange={handlerProvinciasLaboral}
-            label="Provincia (Laboral)"
-          >
-            <MenuItem value="filterProvinciasLaboral">Elija Provincia</MenuItem>
-            {provinciasLaboral.map((provincia, index) => (
-              <MenuItem key={index} value={provincia}>{provincia}</MenuItem>
-            ))}
-          </Select>
-        </FormControl>
-      </div>
-  
-      <div style={{ padding: '5px' }}>
-        <FormControl variant="outlined" fullWidth style={{ backgroundColor: 'white' }}>
-          <InputLabel>Ciudad (Laboral)</InputLabel>
-          <Select
-            value={selectedCiudadLaboral}
-            onChange={(event) => setSelectedCiudadLaboral(event.target.value)}
-            label="Ciudad (Laboral)"
-          >
-            <MenuItem value="filterCiudadesLaboral">Elija Ciudad</MenuItem>
-            {ciudadesLaboral.map((ciudad, index) => (
-              <MenuItem key={index} value={ciudad.nombre}>{ciudad.nombre}</MenuItem>
+            <MenuItem value="">Elija Dirección</MenuItem>
+            {provincias.map((provincia, index) => (
+              ciudades.filter(ciudad => ciudad.provincia.nombre === provincia).map((ciudad, index) => (
+                <MenuItem key={index} value={provincia + ', ' + ciudad.nombre}>{provincia + ', ' + ciudad.nombre}</MenuItem>
+              ))
             ))}
           </Select>
         </FormControl>
       </div>
     </div>
   );
-  
-  
 }
 
 export default LocationSelectors;
