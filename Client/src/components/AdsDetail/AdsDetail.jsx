@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Button,
   Card,
@@ -11,30 +11,30 @@ import {
   List,
   ListItem,
   Typography,
-} from '@mui/material';
-import MercadoPago from '../Payments/MercadoPago';
-import './DetailAd.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import { fetchDetail } from '../../redux/Slices/detailSlice';
-import Navbar from '../Navbar/Navbar';
-import { locationUser } from '../../redux/Slices/persistSlice';
+} from "@mui/material";
+import MercadoPago from "../Payments/MercadoPago";
+import "./DetailAd.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { fetchDetail } from "../../redux/Slices/detailSlice";
+import Navbar from "../Navbar/Navbar";
+import { locationUser } from "../../redux/Slices/persistSlice";
 
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import StarIcon from '@mui/icons-material/Star';
-import { useAuth0 } from '@auth0/auth0-react';
-import './DetailAd.css';
-import { Link } from 'react-router-dom';
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
+import { useAuth0 } from "@auth0/auth0-react";
+import "./DetailAd.css";
+import { Link } from "react-router-dom";
 import {
   fetchAddFavorites,
   fetchRemoveFavorites,
-} from '../../redux/Slices/favoritesSlice';
-import Comments from '../CommentsClient/CommentsClients';
-import ButtonBack from '../Utils/ButtonBack/ButtonBack';
-import Loading from '../Utils/Loading/Loading';
+} from "../../redux/Slices/favoritesSlice";
+import Comments from "../CommentsClient/CommentsClients";
+import ButtonBack from "../Utils/ButtonBack/ButtonBack";
+import Loading from "../Utils/Loading/Loading";
 
 const DetailAd = () => {
   const { user } = useAuth0();
@@ -52,7 +52,8 @@ const DetailAd = () => {
   const [userData, setUserData] = useState(null);
 
   const newFav = favorites.some(
-    (favorite) => favorite?.professional?._id === detail?.detail?.creator[0]?._id
+    (favorite) =>
+      favorite?.professional?._id === detail?.detail?.creator[0]?._id
   );
 
   useEffect(() => {
@@ -99,12 +100,12 @@ const DetailAd = () => {
         ) : detail.detail.creator && detail.detail.creator.length > 0 ? (
           <Grid container spacing={2}>
             <Grid item xs={8} align="left">
-              <div style={{ paddingBottom: '1em' }}>
-                <Link to={'/home'}>
+              <div style={{ paddingBottom: "1em" }}>
+                <Link to={"/home"}>
                   <ButtonBack />
                 </Link>
               </div>
-              {users.types !== 'admin' && users.types !== 'professional' && (
+              {users.types !== "admin" && users.types !== "professional" && (
                 <Grid item xs={8} align="left">
                   <Box
                     display="flex"
@@ -113,9 +114,9 @@ const DetailAd = () => {
                   >
                     <Button
                       sx={{
-                        backgroundColor: !newFav ? '#D9D9D9' : '#3B7BA4',
-                        alignItems: 'center',
-                        justifyContent: 'center',
+                        backgroundColor: !newFav ? "#D9D9D9" : "#3B7BA4",
+                        alignItems: "center",
+                        justifyContent: "center",
                       }}
                       variant="contained"
                       onClick={handleSaveOrRemoveProfile}
@@ -126,36 +127,35 @@ const DetailAd = () => {
                 </Grid>
               )}
 
-              <Grid item xs={12} md={10} sx={{ margin: '16px' }}>
+              <Grid item xs={12} md={10} sx={{ margin: "16px" }}>
                 <Typography
                   fontWeight="900"
                   variant="h3"
-                  sx={{ margin: '10px' }}
+                  sx={{ margin: "10px" }}
                 >
                   {detail.detail.profession}
                 </Typography>
                 <Typography
                   fontWeight="900"
                   variant="h5"
-                  sx={{ margin: '10px' }}
+                  sx={{ margin: "10px" }}
                 >
                   Ubicación: {detail.detail.location}
                 </Typography>
                 <Typography
                   fontWeight="900"
                   variant="h4"
-                  sx={{ margin: '10px' }}
+                  sx={{ margin: "10px" }}
                 >
                   Descripción:
                 </Typography>
                 <Typography
                   fontWeight="700"
                   variant="body1"
-                  sx={{ margin: '10px' }}
+                  sx={{ margin: "10px" }}
                 >
                   {detail.detail.description}
                 </Typography>
-           
               </Grid>
               <Grid item xs={8}></Grid>
             </Grid>
@@ -168,7 +168,7 @@ const DetailAd = () => {
                 />
                 <CardContent>
                   <Typography fontWeight="900" variant="h5" component="div">
-                    {detail.detail.creator[0].name}{' '}
+                    {detail.detail.creator[0].name}{" "}
                     {detail.detail.creator[0].lastName}
                   </Typography>
                   <Grid container spacing={2}>
