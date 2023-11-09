@@ -8,12 +8,19 @@ import HideSourceIcon from '@mui/icons-material/HideSource';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import { ListSubheader, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
+import { deleteAd } from '../../redux/Slices/adsDeleteSlice';
 
 function AdsProfesional() {
+
+  const dispatch = useDispatch()
+
+  const handleDisable = (id) => {
+    dispatch(deleteAd(id));
+  };
+
   const users = useSelector(state => state.usersLogin.user)
-  
   const ads = useSelector(state => state.createAds.createAds)
   const userId = users._id
   const adsFilter = ads.filter((ad) => ad.creator[0] === userId)
@@ -51,7 +58,8 @@ function AdsProfesional() {
           disableGutters
           secondaryAction={
             <>
-              <IconButton aria-label="comment">
+              <IconButton aria-label="comment"
+              onClick={() => handleDisable(ad._id)}>
                 <HideSourceIcon />
               </IconButton>
               <IconButton aria-label="edit">
