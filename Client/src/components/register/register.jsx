@@ -333,6 +333,8 @@ const navigate = useNavigate();
 
     const imgElement = document.createElement("img");
     imgElement.src = URL.createObjectURL(image);
+
+    
   };
 
   const areAllProfFieldsCompleted = () => {
