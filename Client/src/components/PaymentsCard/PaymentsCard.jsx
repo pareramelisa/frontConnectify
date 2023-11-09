@@ -16,7 +16,7 @@ function PaymentsCard(data) {
   const [buyState, setBuyState] = useState(null);
   const { isAuthenticated, user } = useAuth0;
   const users = useSelector((state) => state.usersLogin.user);
-  const [showCommentBox, setShowCommentBox] = useState(false);
+ // const [showCommentBox, setShowCommentBox] = useState(false);
   const comments = useSelector((state) => state.comment.comments);
   const [userComments, setUserComments] = useState([]);
 
@@ -37,9 +37,9 @@ console.log(users, "us")
   
 
 
-  const handleCloseCommentBox = () => {
-    setShowCommentBox(false);
-   };
+  // const handleCloseCommentBox = () => {
+  //   setShowCommentBox(false);
+  //  };
 
 
 
