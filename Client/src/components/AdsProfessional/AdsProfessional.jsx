@@ -53,7 +53,7 @@ function AdsProfesional() {
       </ListSubheader >
       {adsFilter.map((ad) => (
         <ListItem
-          key={ad.id}
+          key={ad._id}
           sx={{ padding: "15px"}}
           disableGutters
           secondaryAction={
