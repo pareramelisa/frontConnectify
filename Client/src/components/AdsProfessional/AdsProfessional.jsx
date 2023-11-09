@@ -16,12 +16,14 @@ import { useState } from 'react';
 function AdsProfesional() {
 
   const [disableSucces, setDisableSucces] = useState(false);
+  const [disableColor, setDisableColor] = useState(false)
 
   const dispatch = useDispatch()
 
   const handleDisable = (id) => {
     dispatch(deleteAd(id));
     setDisableSucces(true);
+    setDisableColor(true)
       setTimeout(() => {
         setDisableSucces(false);
       }, 3000)
@@ -80,7 +82,7 @@ function AdsProfesional() {
             </>
           }
         >
-          <Typography variant="body2" color="black" sx={{ fontSize: "15px" }}>
+          <Typography variant="body2" color={disableColor ? "grey" : "black"} sx={{ fontSize: "15px" }}>
             {`${ad.title}`}
           </Typography>
         </ListItem>
