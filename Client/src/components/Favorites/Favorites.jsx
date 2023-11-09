@@ -57,9 +57,9 @@ const Favorites = () => {
         <Typography variant="h4" component="h1">
           Perfiles Guardados
         </Typography>
-        {favorites.length > 0 ? (
-          favorites.map((fav, index) => (
-            <div key={fav.professional._id}>
+        {favorites?.length > 0 ? (
+          favorites?.map((fav, index) => (
+            <div key={fav?.professional?._id}>
               {fav.professional && (
                 <div>
                   <Card key={index} sx={{ marginBottom: "16px", width: "90%" }}>
