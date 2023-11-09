@@ -66,7 +66,7 @@ export const fetchRemoveFavorites = (form) => {
     console.log(form);
     try {
       const { data } = await axios.post(
-        `http://localhost:3001/fav/delete/`,
+        VITE_API_BASE + `/fav/delete/`,
         form
       );
       console.log(data);

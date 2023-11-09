@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import style from "./PaymentsCard.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import CommentBox from "../CommentsClient/CommentBox";
+// import CommentBox from "../CommentsClient/CommentBox";
 import fetchUserLoginWithGoogle from "../../redux/Slices/loginGoogleSlice";
 
 function PaymentsCard(data) {
@@ -70,9 +70,9 @@ console.log(users, "us")
 
         <button onClick={() => setShowCommentBox(true)}>Dejar reseña</button>
      
-      {showCommentBox && (
+      {/* {showCommentBox && (
         <CommentBox onClose={handleCloseCommentBox} />
-      )}
+      )} */}
     </div>
   );
 }
