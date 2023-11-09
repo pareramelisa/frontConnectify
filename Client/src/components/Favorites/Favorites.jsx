@@ -33,19 +33,13 @@ const Favorites = () => {
   }, []);
 
   const handleRemoveFavorite = (e) => {
-    console.log(e);
-    // const formFav = {
-    //   clientId: users._id,
-    //   professionalId: detail.detail.creator[0]._id,
-    // };
+    const formFav = {
+      clientId: e.currentTarget.value,
+      professionalId: e.currentTarget.id,
+    };
 
-    // const newFav = favorites.some(favorite => favorite.professional._id === detail.detail.creator[0]._id);
+      dispatch(fetchRemoveFavorites(formFav))
 
-    // if (!newFav) {
-    //   dispatch(fetchAddFavorites(formFav));
-    // }else {
-    //   dispatch(fetchRemoveFavorites(formFav))
-    // }
   };
 
   const handleAdsDetails = (id) => {
@@ -71,13 +65,17 @@ const Favorites = () => {
                   <Card key={index} sx={{ marginBottom: "16px", width: "90%" }}>
                     <CardContent>
                       <Grid container spacing={2}>
-                        {/* <Grid item xs={12} sm={6} md={2}>
+                        <Grid item xs={12} sm={6} md={2}>
                           <Box display="flex" justifyContent="space-between">
-                            <IconButton onClick={handleRemoveFavorite}>
+                            <IconButton
+                              onClick={handleRemoveFavorite}
+                              id={fav.professional._id}
+                              value={fav.client}
+                            >
                               <DeleteIcon color="error" />
                             </IconButton>
                           </Box>
-                        </Grid> */}
+                        </Grid>
                         <Grid item xs={12} sm={6} md={2}>
                           <CardMedia
                             component="img"

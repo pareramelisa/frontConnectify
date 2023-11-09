@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import Pagination from "../../components/Pagination/Pagination";
+import Pagination from "./Pagination";
+import style from "./ProfsForAdmin.module.css";
 
 import {
   fetchProfsForAdmin,
   deleteProfByIdAdmin,
-} from "../../redux/Slices/professionalSlice";
+} from "../../../redux/Slices/professionalSlice";
 import {
   fetchClientsForAdmin,
   deleteClientByIdAdmin,
-} from "../../redux/Slices/clientSlice";
+} from "../../../redux/Slices/clientSlice";
 import {
   fetchAdsForAdmin,
   deleteAdByIdAdmin,
-} from "../../redux/Slices/adsSlice";
+} from "../../../redux/Slices/adsSlice";
+import SupportPopUp from "../SupportPopUp/SupportPopUp";
 
 const ProfsForAdmin = () => {
   const dispatch = useDispatch();
@@ -24,7 +26,7 @@ const ProfsForAdmin = () => {
   const ads = useSelector((state) => state.ads.ads);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [dataPerPage] = useState(10);
+  const [dataPerPage] = useState(8);
 
   const indexOfLastAd = currentPage * dataPerPage;
   const indexOfFirstAd = indexOfLastAd - dataPerPage;
@@ -77,6 +79,7 @@ const ProfsForAdmin = () => {
   };
 
   const handleUserType = (e) => {
+    setCurrentPage(1);
     if (e === "professionals") setSelectedData(professionals);
     if (e === "clients") setSelectedData(clients);
     if (e === "ads") setSelectedData(ads);
@@ -95,6 +98,7 @@ const ProfsForAdmin = () => {
     if (e.target.value === "Todas las Profesiones") {
       setSelectedData(professionals);
     } else {
+      setCurrentPage(1);
       const profClass = e.target.value;
       const toScrub = professionals.filter(
         (prof) => prof.profession == profClass
@@ -144,6 +148,21 @@ const ProfsForAdmin = () => {
     } catch (error) {}
   };
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedProfessional, setSelectedProfessional] = useState(null);
+
+  const handlePopUp = (prof) => {
+    setSelectedProfessional(prof);
+    console.log(prof);
+    !isModalVisible ? setIsModalVisible(true) : setIsModalVisible(false);
+    console.log("PopUp de " + prof.name);
+  };
+
+  const handleClosePopUp = () => {
+    setSelectedProfessional(null);
+    setIsModalVisible(false);
+  };
+
   return (
     <div
       style={{
@@ -182,10 +201,16 @@ const ProfsForAdmin = () => {
           {selectedData.length !== professionals.length &&
             selectedData[0].locationJob && (
               <div>
-                <button onClick={(e) => handleBanProf(e)}>
+                <button
+                  style={{ backgroundColor: "#3b7ba4" }}
+                  onClick={(e) => handleBanProf(e)}
+                >
                   Suspender Profesión
                 </button>
-                <button onClick={(e) => handleUnbanProf(e)}>
+                <button
+                  style={{ backgroundColor: "#3b7ba4" }}
+                  onClick={(e) => handleUnbanProf(e)}
+                >
                   Dessuspender Profesión
                 </button>
               </div>
@@ -274,7 +299,10 @@ const ProfsForAdmin = () => {
                 }}
               >
                 <button
-                  className="btn btn-outline-danger"
+                  style={{
+                    backgroundColor: prof.isDeleted ? "#9bdb92" : "#edd55e",
+                  }}
+                  // className="btn btn-outline-danger"
                   onClick={(e) => handleDelete(e, prof)}
                 >
                   <svg
@@ -294,6 +322,27 @@ const ProfsForAdmin = () => {
                     ></path>
                   </svg>
                 </button>
+                <button
+                  style={{
+                    backgroundColor: "#3B7BA4",
+                    height: "25px",
+                    width: "75px",
+                    fontSize: "13px",
+                    paddingTop: "3px",
+                  }}
+                  onClick={() => handlePopUp(prof)}
+                >
+                  Soporte
+                </button>
+                {isModalVisible && selectedProfessional === prof && (
+                  <div className={style.vemos}>
+                    <SupportPopUp
+                      isVisible={isModalVisible}
+                      professional={selectedProfessional}
+                      onClose={handleClosePopUp}
+                    />
+                  </div>
+                )}
               </td>
             </tr>
           ))

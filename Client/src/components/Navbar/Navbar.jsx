@@ -11,14 +11,17 @@ import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
-import logo from "../../assets/connectify.svg";
-import "./Navbar.css";
+import logo from "../../assets/logoTituloC001.png";
+// import "./Navbar.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/Slices/loginSlice";
 import BookIcon from "@mui/icons-material/Book";
 import FolderSpecialIcon from "@mui/icons-material/FolderSpecial";
+
+import style from './Navbar.module.css';
+import carpetaEstrella from '../../assets/carpetaEstrella002.svg'
 
 const settings = ["Perfil", "Historial Pagos", "Logout"];
 
@@ -90,24 +93,19 @@ function ResponsiveAppBar({ setContainerLogin }) {
     <AppBar position="static" style={{ marginBottom: "1.5rem" }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <div className="containerNav">
-            <Link to="/">
-              <img src={logo} alt="" className="logoNav" />
+          <div className={style.containerNav}>
+            <Link to="/home">
+              <img src={logo} alt="" className={style.logoNav} />
             </Link>
-            <Box
-              sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}
-            ></Box>
+            
             <Box sx={{ flexGrow: 0 }}>
               {isAuthenticated || users.userName ? (
                 <div>
                   {location.pathname !== "/home" && (
-                    <Button
-                      variant="contained"
-                      color="primary"
+                    <Button className={style.buttonHome}
+                      
                       onClick={() => navigate("/home")}
-                      style={{
-                        marginRight: "1rem",
-                      }}
+                      
                     >
                       Home
                     </Button>
@@ -119,13 +117,19 @@ function ResponsiveAppBar({ setContainerLogin }) {
                         color="secondary"
                         style={{ marginRight: "1rem" }}
                       >
-                        <Button
+                        {/* <Button
                           variant="contained"
-                          color="primary"
+                          // color="primary"
                           onClick={() => navigate("/client/favorites")}
                         >
+                          <img className={style.imgCarpetaEstrella} src={carpetaEstrella} alt="" />
                           <FolderSpecialIcon></FolderSpecialIcon>
-                        </Button>
+                        </Button> */}
+                        
+                        <button className={style.buttonCarpeta} onClick={() => navigate("/client/favorites")}>
+                          <img className={style.imgCarpetaEstrella} src={carpetaEstrella} alt="" />
+                        </button>
+                      
                       </Badge>
                     )}
 
@@ -143,9 +147,9 @@ function ResponsiveAppBar({ setContainerLogin }) {
                   variant="contained"
                   color="primary"
                   onClick={handlerButtonLogin}
-                  className="button"
+                  className={style.button}
                 >
-                  Ir a Login
+                  Login
                 </Button>
               )}
 

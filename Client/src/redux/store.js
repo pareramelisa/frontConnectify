@@ -14,6 +14,7 @@ import loginWithGoogleSlice from "./Slices/loginGoogleSlice";
 import commentSlice from "./Slices/commentSlice";
 
 import favoritesSlice from "./Slices/favoritesSlice";
+import adsDeleteSlice from "./Slices/adsDeleteSlice";
 
 
 
@@ -25,6 +26,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   ads: adsSlice,
+  adsDelete: adsDeleteSlice,
   detail: detailSlice,
   createAds: createAdsSlice,
   professionals: professionalSlice,
