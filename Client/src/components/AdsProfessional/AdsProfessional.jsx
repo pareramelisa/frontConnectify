@@ -8,13 +8,20 @@ import HideSourceIcon from '@mui/icons-material/HideSource';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
 import { ListSubheader, Typography } from '@mui/material';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
+import { deleteAd } from '../../redux/Slices/adsDeleteSlice';
 
 function AdsProfesional() {
+
+  const dispatch = useDispatch()
+
+  const handleDisable = (id) => {
+    dispatch(deleteAd(id));
+  };
+
   const users = useSelector(state => state.usersLogin.user)
-  
-  const ads = useSelector(state => state.ads.ads)
+  const ads = useSelector(state => state.createAds.createAds)
   const userId = users._id
   const adsFilter = ads.filter((ad) => ad.creator[0] === userId)
   console.log(adsFilter)
@@ -44,14 +51,15 @@ function AdsProfesional() {
           </Link>
         </span>
       </ListSubheader >
-      {adsFilter.map((value) => (
+      {adsFilter.map((ad) => (
         <ListItem
-          key={value}
+          key={ad.id}
           sx={{ padding: "15px"}}
           disableGutters
           secondaryAction={
             <>
-              <IconButton aria-label="comment">
+              <IconButton aria-label="comment"
+              onClick={() => handleDisable(ad._id)}>
                 <HideSourceIcon />
               </IconButton>
               <IconButton aria-label="edit">
@@ -61,7 +69,7 @@ function AdsProfesional() {
           }
         >
           <Typography variant="body2" color="black" sx={{ fontSize: "15px" }}>
-          {`Nombre del anuncio ${value}`}
+          {`${ad.title}`}
           </Typography>
         </ListItem>
       ))}

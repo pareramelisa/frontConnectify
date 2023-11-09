@@ -4,10 +4,14 @@ export const persistUserSlice = createSlice({
   name: "persistUser",
   initialState: {
     location: "",
+    adsFilter: [],
   },
   reducers: {
     locationUser: (state, action) => {
       state.location = action.payload;
+    },
+    adsPersistFilter: (state, action) => {
+      state.adsFilter = action.payload;
     },
   },
 });

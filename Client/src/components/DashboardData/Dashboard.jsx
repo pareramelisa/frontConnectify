@@ -18,7 +18,7 @@ const AdminDashboard = () => {
         >
           <FinancialSummary />
           <UserStatistics />
-          <TransactionList />
+          {/* <TransactionList /> */}
         </div>
         <TransactionChart />
       </header>
