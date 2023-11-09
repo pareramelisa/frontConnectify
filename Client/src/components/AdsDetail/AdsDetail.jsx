@@ -52,7 +52,7 @@ const DetailAd = () => {
   const [userData, setUserData] = useState(null);
 
   const newFav = favorites.some(
-    (favorite) => favorite.professional._id === detail.detail.creator[0]._id
+    (favorite) => favorite?.professional?._id === detail?.detail?.creator[0]?._id
   );
 
   useEffect(() => {
