@@ -162,6 +162,7 @@ const DetailAd = () => {
             <Grid item xs={12} sm={6} md={4}>
               <Card sx={{ maxWidth: 345, borderRadius: 5 }}>
                 <CardMedia
+                
                   sx={{ height: 200 }}
                   image={detail.detail.creator[0].image}
                   title="tec"

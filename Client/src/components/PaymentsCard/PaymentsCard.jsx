@@ -20,7 +20,6 @@ function PaymentsCard(data) {
   //const comments = useSelector((state) => state.comment.comments);
   const [userComments, setUserComments] = useState([]);
 
-
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchUserLoginWithGoogle({ email: user.email }));
@@ -28,20 +27,14 @@ function PaymentsCard(data) {
     setProfessionalData(profData);
     setBuyDate(bDate);
     setBuyState(bState);
-
-    
   }, [profData, bDate, bState, isAuthenticated, dispatch]);
 
-//console.log(comments, "com")
-console.log(users, "us")
-  
-
+  //console.log(comments, "com")
+  console.log(users, "us");
 
   const handleCloseCommentBox = () => {
     setShowCommentBox(false);
-   };
-
-
+  };
 
   return (
     <div className={style.contentAll}>
@@ -68,11 +61,9 @@ console.log(users, "us")
         {buyState && <h5>{buyState}</h5>}
       </div>
 
-        <button onClick={() => setShowCommentBox(true)}>Dejar reseña</button>
-     
-      {showCommentBox && (
-        <CommentBox onClose={handleCloseCommentBox} />
-      )}
+      <button onClick={() => setShowCommentBox(true)}>Dejar reseña</button>
+
+      {showCommentBox && <CommentBox onClose={handleCloseCommentBox} />}
     </div>
   );
 }
