@@ -23,6 +23,7 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Footer from '../../components/Footer/Footer';
 import Chat from '../../components/Chat/Chat';
+import ButtonTop from '../../components/Utils/ButtonTop/ButtonTop';
 import { useAuth0 } from '@auth0/auth0-react';
 import { fetchUserLoginWithGoogle } from '../../redux/Slices/loginGoogleSlice';
 
@@ -47,7 +48,7 @@ const Home = () => {
   const { isAuthenticated, user } = useAuth0();
   //traer usuario ya después de iniciar sesión
   const nickname = user?.nickname || ''; // Usando operador opcional para evitar errores si no está definido
-  const email = user?.email || '';
+  //const email = user?.email || ''; Usar cuando se necesite el email
 
   //* Paginado
   const [currentPage, setCurrentPage] = useState(1);
@@ -88,7 +89,6 @@ const Home = () => {
     e.preventDefault();
     setSortPrice(e.target.value);
   };
-
 
   //* Función para aplicar los filtros
   const applyFilters = async () => {
@@ -137,7 +137,7 @@ const Home = () => {
     if (adsFiltered.length < 1) {
       dispatch(fetchAds());
     }
-  },[])
+  }, []);
 
   const handlerCloseLoginPopUp = () => {
     setPopUpLogin(false);
@@ -200,7 +200,17 @@ const Home = () => {
       <div className={styles.filterStyle}>
         <div>
           <FormControl sx={{ m: 1, minWidth: 140, maxWidth: 200 }}>
-            <InputLabel>Profesion</InputLabel>
+            <InputLabel
+              sx={{
+                '&:focus-within': {
+                  '& ~ .MuiInputLabel-root': {
+                    marginTop: '-0.8em',
+                  },
+                },
+              }}
+            >
+              Profesion
+            </InputLabel>
             <Select
               id="ProfesionSearch"
               onChange={handleProfession}
@@ -324,18 +334,23 @@ const Home = () => {
           </div>
         )}
       </div>
-      <button
-        className="open-chat-button"
-        onClick={toggleChat}
-        style={{
-          position: 'fixed',
-          bottom: '20px',
-          right: '20px',
-          zIndex: 9999, // Asegura que el botón del chat aparezca por encima de otros contenidos
-        }}
-      >
-        Abrir Chat
-      </button>
+      <div className={styles.buttonContainer}>
+        <ButtonTop />
+      </div>
+      {isAuthenticated ? (
+        <button
+          className="open-chat-button"
+          onClick={toggleChat}
+          style={{
+            position: 'fixed',
+            bottom: '20px',
+            right: '20px',
+            zIndex: 9999, // Asegura que el botón del chat aparezca por encima de otros contenidos
+          }}
+        >
+          Abrir Chat
+        </button>
+      ) : null}
       {chatOpen && <Chat nickname={nickname} />}
       {currentAds.length !== 0 && adsFiltered.length !== 0 ? (
         <Pagination
