@@ -32,7 +32,11 @@ export const fetchUserRegister = (userData, type) => {
         return data.message;
       } catch (error) {
         console.log(error);
-        return "Revise los datos ingresados. Su email o nombre ya se encuentra registrado";
+        if (error.response.status === 400) {
+          return "Este mail ya estaba registrado en nuestra base de datos. Recupere su contraseña o intente con otro mail.";
+        } else {
+          return "Error del servidor";
+        }
       }
     } else if (type === "professional") {
       const endpoint = `${VITE_API_BASE}/professional/register`;
@@ -43,7 +47,11 @@ export const fetchUserRegister = (userData, type) => {
         return data.message;
       } catch (error) {
         console.log(error);
-        return "Revise los datos ingresados. Su email o nombre ya se encuentra registrado";
+        if (error.response.status === 400) {
+          return "Este mail ya estaba registrado en nuestra base de datos. Recupere su contraseña o intente con otro mail.";
+        } else {
+          return "Error del servidor";
+        }
       }
     }
   };
