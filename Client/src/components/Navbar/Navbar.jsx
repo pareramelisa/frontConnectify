@@ -158,7 +158,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <Typography textalign="center" onClick={handleAvatarButton}>
+                    <p onClick={handleAvatarButton}>
                       {setting === "Historial Pagos" && users.types === "client"
                         ? setting
                         : setting === "Historial Pagos" &&
@@ -166,7 +166,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
                             users.types === "professional")
                         ? ""
                         : setting}
-                    </Typography>
+                    </p>
                   </MenuItem>
                 ))}
               </Menu>
