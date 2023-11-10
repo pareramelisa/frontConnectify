@@ -10,9 +10,9 @@ export const postComment = createAsyncThunk(
   async (commentData) => {
     try {
       // const endpoint = VITE_API_BASE + `/comments`
-      const endpoint = "http://localhost:3001/comments";
+      //const endpoint = "http://localhost:3001/comments";
 
-      // const endpoint = VITE_API_BASE + `/comments/postComments`
+      const endpoint = VITE_API_BASE + `/comments`
       // "https://connectifyback-dp-production.up.railway.app/comments/postComments";
 
       const response = await axios.post(endpoint, commentData);
@@ -27,9 +27,9 @@ export const postComment = createAsyncThunk(
 export const getComments = createAsyncThunk("comment/getComment", async () => {
   try {
     // const endpoint = VITE_API_BASE + `/comments`
-    const endpoint = "http://localhost:3001/comments";
+    //const endpoint = "http://localhost:3001/comments";
 
-    // const endpoint = VITE_API_BASE + `/comments/postComments`
+    const endpoint = VITE_API_BASE + `/comments`
     // "https://connectifyback-dp-production.up.railway.app/comments/getComments";
 
     const response = await axios(endpoint);
