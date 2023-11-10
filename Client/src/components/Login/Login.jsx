@@ -55,7 +55,6 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
     }
   };
 
-  // loginWithRedirect();
 
   const handlerLoginGoogle = () => {
     setPopUpGoogle(true);
