@@ -41,6 +41,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
     setAnchorElUser(null);
   };
 
+  // Funciones del Menu
   const handleAvatarButton = async (e) => {
     const text = e.target.textContent;
 
@@ -126,16 +127,18 @@ function ResponsiveAppBar({ setContainerLogin }) {
                     </IconButton>
                   </Tooltip>
                 </div>
-              ) : (
-                <Button
+              ) : 
+                location.pathname !== "/client/registration" && location.pathname !== "/professional/registration" ?
+                (<Button
                   variant="contained"
                   color="primary"
                   onClick={handlerButtonLogin}
                   className={style.button}
                 >
                   Login
-                </Button>
-              )}
+                </Button>) :
+                null
+              }
 
               <Menu
                 sx={{ mt: "45px" }}
