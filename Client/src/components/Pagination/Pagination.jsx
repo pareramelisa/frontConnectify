@@ -51,11 +51,14 @@ function Pagination({
 
   return (
     <Container>
-      {currentPage > 1 && (
-        <Fab variant="extended" color="primary" onClick={handlePrevPage}>
-          Back
-        </Fab>
-      )}
+      <Fab
+        variant="extended"
+        color="primary"
+        onClick={handlePrevPage}
+        disabled={currentPage === 1} // Deshabilitar el botón en la página 1
+      >
+        Back
+      </Fab>
       <div
         style={{
           marginTop: '2.7em',

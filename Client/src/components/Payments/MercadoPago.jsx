@@ -1,7 +1,8 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable react-hooks/rules-of-hooks */
 import React, { useEffect, useState } from 'react';
 import { initMercadoPago, Wallet } from "@mercadopago/sdk-react";
 import axios from "axios";
-
 import { useSelector } from 'react-redux';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -21,7 +22,7 @@ function mercadoPago() {
 
     const PUBLIC_KEY = "TEST-50156f30-252b-4623-bbba-ed453620d49f";
   
-    console.log("PAKAPAKA...", detail)
+
 
     const [preferenceId, setPreferenceId] = useState(null);
     const [descriptionBuy, setDescriptionBuy] = useState("Gracias por la compra!")
@@ -31,8 +32,8 @@ function mercadoPago() {
 
     const [userDataOk, setUserDataOk] = useState(null);
     const [detailProf, setDetailProf] = useState(null);
-
-    // const detailPr = detail;
+const [paymentId, setPaymentId] = useState("")
+  
     
     useEffect(()=>{
       if (isAuthenticated) {
@@ -43,7 +44,7 @@ function mercadoPago() {
         setUserDataOk(users.userName)
         console.log('Local');
       }
-    },[user, users, userDataOk])
+    },[user, users, userDataOk, isAuthenticated])
 
     useEffect(()=>{
       console.log("USER-DATA...", userDataOk);
@@ -61,17 +62,7 @@ function mercadoPago() {
       useEffect(() => {
         if (detail.detail.price) setServicePrice(detail.detail.price);
         if (detail.detail.title) setDescriptionBuy(detail.detail.title);
-        // if (price) setServicePrice(price);
-        // if (description) setDescriptionBuy(description);
-        // if (userData) setUserDataOk(userData);
-        // if (detail) setDetailProf(detail);
-
-        // if (detailProf && detailProf.detail) {
-        //     console.log("DETAIL-PROF", detailProf.detail._id);
-        //   } else {
-        //     console.log("Cargando DETAIL...");
-        //   }
-
+       
       }, [userDataOk, detail]);
      
     
