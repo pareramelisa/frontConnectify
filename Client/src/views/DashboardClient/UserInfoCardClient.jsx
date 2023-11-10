@@ -16,7 +16,7 @@ const UserInfoCard = ({ user, userImage, editMode, handleEdit, handleSave, setUs
        <h3 style={{ border: 'none', borderRadius: 5, padding: 1, margin: '20px' }}>Mi perfil</h3> 
     
       <CardHeader
-        avatar={<Avatar src={userImage} />}
+        avatar={<Avatar src={userImage} sx={{ width: 100, height: 100 }} />}
         title={editMode ? (
           <TextField
             label="Nombre"

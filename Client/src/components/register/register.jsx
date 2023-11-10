@@ -201,8 +201,8 @@ const navigate = useNavigate();
     
     if (clientRegister.profession.length === 0) {
       const response = await dispatch(fetchUserRegister(formData, "client"));
-      if (response === "Se ha registrado exitosamente. Ahora podrá hacer su ingreso en el Login con su email y contraseña") {
-        alert(response);
+      if (response === "Successfully registered client.") {
+        alert("Se ha registrado exitosamente. Ahora podrá hacer su ingreso en el Login con su email y contraseña");
         localStorage.removeItem("clientRegisterData");
         navigate("/home");
       } else {
@@ -217,8 +217,8 @@ const navigate = useNavigate();
         const response = await dispatch(
           fetchUserRegister(formData, "professional")
         );
-        if (response === "Se ha registrado exitosamente. Ahora podrá hacer su ingreso en el Login con su email y contraseña") {
-          alert(response);
+        if (response === "Profesional registrado exitosamente") {
+          alert("Se ha registrado exitosamente. Ahora podrá hacer su ingreso en el Login con su email y contraseña");
           localStorage.removeItem("clientRegisterData");
           navigate("/home");
         } else {
