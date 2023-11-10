@@ -15,7 +15,7 @@ import Button from "@mui/material/Button";
 
 const Registration = () => {
 const navigate = useNavigate();
-//localStorage.clear();
+///localStorage.clear();
   const [errorMessages, setErrorMessages] = useState({});
   const [clientRegister, setClientRegister] = useState(() => {
     let localStorageData = localStorage.getItem("clientRegisterData");
@@ -121,14 +121,14 @@ const navigate = useNavigate();
 
   function validateEmail(email) {
   
-    // Verificar si el valor contiene el carácter "+"
-    if (email.includes("+")) {
+    if (email.includes(",") || email.includes("+")) {
       setError({
         error: true,
-        message: "El correo electrónico no puede contener el carácter '+'",
+        message: "El correo electrónico no puede contener los caracteres ',' o '+'",
       });
       return false;
     }
+
   
     // Verificar la validez del formato del correo electrónico
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
@@ -177,7 +177,10 @@ const navigate = useNavigate();
     setError({
       error: true,
       message: errors.mail,
-    });      
+    });    
+    
+    console.log("clientRegister:", clientRegister);
+    console.log("remoteWork:", remoteWork);
 
     if (Object.values(errors).some((error) => error !== null)) {
       return;
@@ -195,9 +198,10 @@ const navigate = useNavigate();
     formData.set("provinceJob", clientRegister.provinceJob);
     formData.set("remoteWork", remoteWork);
 
+    
     if (clientRegister.profession.length === 0) {
       const response = await dispatch(fetchUserRegister(formData, "client"));
-      if (response === "Successfully registered client.") {
+      if (response === "Se ha registrado exitosamente. Ahora podrá hacer su ingreso en el Login con su email y contraseña") {
         alert(response);
         localStorage.removeItem("clientRegisterData");
         navigate("/home");
@@ -213,7 +217,7 @@ const navigate = useNavigate();
         const response = await dispatch(
           fetchUserRegister(formData, "professional")
         );
-        if (response === "Profesional registrado exitosamente") {
+        if (response === "Se ha registrado exitosamente. Ahora podrá hacer su ingreso en el Login con su email y contraseña") {
           alert(response);
           localStorage.removeItem("clientRegisterData");
           navigate("/home");
@@ -261,13 +265,28 @@ const navigate = useNavigate();
 
     if (name === "email") {
       // Verificar si el valor contiene el carácter "+"
-      if (value.includes("+")) {
+      if (value.includes("+"))  {
         setError({
           error: true,
           message: "El correo electrónico no puede contener el carácter '+'",
         });
-      } else { setError({ error: false,  message: "", });
+      } else if (value.includes(",")) {
+        setError({
+          error: true,
+          message: "El correo electrónico no puede contener comas.",
+        });
+      } else if (!/\S+@\S+\.\S+/.test(value)) {
+        setError({
+          error: true,
+          message: "Completar su correo hasta obtener un formato válido.",
+        });
+      } else { 
+        setError({ 
+          error: false,  
+          message: "", 
+        });
       }
+
       // Actualizar el estado del campo "email"
       setEmail(value);
     }
@@ -401,7 +420,7 @@ const navigate = useNavigate();
 
       <div
         style={{
-          padding: "3rem 3rem ",
+          padding: "2rem 8rem ",
           justifyContent: "center",
           alignItems: "center",
           width: "800px",
