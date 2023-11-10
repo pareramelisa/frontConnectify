@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
@@ -18,7 +19,6 @@ const Professional = ({
   description,
   profession,
   image,
-  categories,
   setContainerLogin
 }) => {
   
