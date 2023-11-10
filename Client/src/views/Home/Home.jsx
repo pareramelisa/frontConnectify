@@ -1,13 +1,15 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import IconButton from '@mui/material/IconButton';
-import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-import Fab from '@mui/material/Fab';
+// import InputLabel from '@mui/material/InputLabel';
+// import MenuItem from '@mui/material/MenuItem';
+// import FormControl from '@mui/material/FormControl';
+// import Select from '@mui/material/Select';
+// import IconButton from '@mui/material/IconButton';
+// import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+// import Fab from '@mui/material/Fab';
 import { IoMdRefresh } from 'react-icons/io';
 import { MdPersonSearch } from 'react-icons/md';
+import React from 'react';
+
 import { useState, useEffect } from 'react';
 import Navbar from '../../components/Navbar/Navbar';
 import Login from '../../components/Login/Login';
@@ -27,6 +29,9 @@ import ButtonTop from '../../components/Utils/ButtonTop/ButtonTop';
 import Loading from '../../components/Utils/Loading/Loading';
 import { useAuth0 } from '@auth0/auth0-react';
 import { fetchUserLoginWithGoogle } from '../../redux/Slices/loginGoogleSlice';
+import { Label } from 'recharts';
+
+import Cover from '../../components/Cover/Cover';
 
 const Home = () => {
   //* Declaraciones de variables
@@ -148,7 +153,9 @@ const Home = () => {
 
   return (
     <div>
+      <Cover/>
       <Navbar setContainerLogin={setContainerLogin} />
+      <div className={styles.container111}>
       {containerLogin ? (
         <Login
           setContainerLogin={setContainerLogin}
@@ -198,105 +205,123 @@ const Home = () => {
         </div>
       )}
       <div className={styles.filterStyle}>
-        <div>
-          <FormControl sx={{ m: 1, minWidth: 140, maxWidth: 200 }}>
-            <InputLabel
-              sx={{
-                '&:focus-within': {
-                  '& ~ .MuiInputLabel-root': {
-                    marginTop: '-0.8em',
-                  },
-                },
-              }}
-            >
-              Profesion
-            </InputLabel>
-            <Select
-              id="ProfesionSearch"
-              onChange={handleProfession}
-              value={profession}
-            >
-              {uniqueProfessions.map((profession) => (
-                <MenuItem key={profession} value={profession}>
-                  {profession}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
+
+            <div className={styles.contProfesionales}>
+              <div className={styles.contenedorSelect}>
+                <div className={styles.contentselect}>  
+                  
+                    <select className={styles.selectCss} id="ProfesionSearch"
+                      onChange={handleProfession}
+                      >
+                      <option value=" " disabled selected >Elige una profesión</option>
+                      {uniqueProfessions.map((profession, id) => (
+                        <option key={id} value={profession}>{profession}</option>
+                      ))}
+                    </select>
+                  
+                    <select className={`${styles.selectCss} ${styles.selCity}`} id="LocationSearch"
+                      onChange={handleLocation}
+                      >
+                      <option value=" " disabled selected >Elige una ciudad</option>
+                      {uniqueLocations.map((locations, id) => (
+                        <option key={id} value={locations}>{locations}</option>
+                      ))}
+                    </select>
+                  
+                </div>
+              </div>
+            </div>
+            
+        
+            <div className={styles.contPrecios}>
+                <div className={styles.contMinMax}>
+                    <span className={styles.minMax}>min: ${priceRange[0]}</span> 
+                    <span className={styles.minMax}>Max: ${priceRange[1]}</span>
+                </div>
+                <Slider 
+                    trackStyle={{ backgroundColor: "orange", height: 4}}
+                    railStyle={{ backgroundColor: "white", height: 4 }}
+                    handleStyle={{
+                      
+                      borderColor: "#1a659a",
+                      height: 10,
+                      width: 10,
+                      marginLeft: 0,
+                      marginTop: -3,
+                      backgroundColor: "#ffffff"
+                    }}
+                    range
+                    min={1000}
+                    max={10000}
+                    step={100}
+                    value={priceRange}
+                    onChange={handlePriceRangeChange}
+                />
+            </div>
+
+
+            <div className={styles.contOrdenar}>
+              {/* <label>
+                Orden
+              </label> */}
+              <select className={`${styles.selectCss} ${styles.selectOrder}`} id="sortPrice" onChange={handlesortPrice}>
+              <option value=" " disabled selected >Ordenar:</option><option value="asc">Ascendente</option>
+                  <option value="desc">Descendente</option>
+              </select>
+              {/* <FormControl sx={{ m: 1, minWidth: 170, maxWidth: 200 }}>
+                <InputLabel>Orden por Precio</InputLabel>
+                <Select id="sortPrice" onChange={handlesortPrice} value={sortPrice}>
+                  <MenuItem value="asc">Ascendente</MenuItem>
+                  <MenuItem value="desc">Descendente</MenuItem>
+                </Select>
+              </FormControl> */}
+            </div>
+            {/* <FormControl sx={{ m: 1, minWidth: 170, maxWidth: 200 }}>
+              <InputLabel>Trabajo</InputLabel> */}
+            <div className={styles.contRemoto}>  
+              <select className={`${styles.selectCss} ${styles.selectRemoto}`} id="workLocation" onChange={handleRemoteWork}>
+                <option value="" disabled selected>Tipo</option>
+                <option value="Remoto">Remoto</option>
+                <option value="Presencial">Presencial</option>
+              </select>
+            {/* </FormControl> */}
+            </div>
+        <div className={styles.contButtons}>   
+            <div className={styles.contButton}>
+
+              <button className={styles.applyFilter} onClick={applyFilters}>
+                <MdPersonSearch style={{ fontSize: '2em', marginLeft:'-0.7rem', marginTop:'-0.4rem'}} />
+              </button>
+
+              {/* <Fab
+                color="primary"
+                onClick={applyFilters}
+                style={{
+                  zIndex: '1',
+                }}
+              >
+                <MdPersonSearch style={{ fontSize: '2.5em' }} />
+              </Fab> */}
+            </div>
+            <div className={styles.contClear}>
+              <button className={`${styles.applyFilter} ${styles.clear}`} onClick={clearFilters}>
+                <IoMdRefresh style={{ fontSize: '2em', marginLeft:'-0.85rem', marginTop:'-0.3rem' }} />
+              
+              </button>
+              {/* <Fab
+                color="primary"
+                className={styles.spinButton}
+                onClick={clearFilters}
+                style={{
+                  zIndex: '1',
+                }}
+              >
+                <IoMdRefresh style={{ fontSize: '2em' }} />
+              </Fab> */}
+            </div>
+
         </div>
-        <div>
-          <FormControl sx={{ m: 1, minWidth: 140, maxWidth: 200 }}>
-            <InputLabel>Ciudad</InputLabel>
-            <Select
-              id="LocationSearch"
-              onChange={handleLocation}
-              value={locationProf}
-            >
-              {uniqueLocations.map((locations) => (
-                <MenuItem key={locations} value={locations}>
-                  {locations}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </div>
-        <div>
-          <label>Selecciona un rango de precios:</label>
-          <div>
-            <span>${priceRange[0]}</span> - <span>${priceRange[1]}</span>
-          </div>
-          <Slider
-            range
-            min={1000}
-            max={10000}
-            step={100}
-            value={priceRange}
-            onChange={handlePriceRangeChange}
-          />
-        </div>
-        <div>
-          <FormControl sx={{ m: 1, minWidth: 170, maxWidth: 200 }}>
-            <InputLabel>Orden por Precio</InputLabel>
-            <Select id="sortPrice" onChange={handlesortPrice} value={sortPrice}>
-              <MenuItem value="asc">Ascendente</MenuItem>
-              <MenuItem value="desc">Descendente</MenuItem>
-            </Select>
-          </FormControl>
-        </div>
-        <FormControl sx={{ m: 1, minWidth: 170, maxWidth: 200 }}>
-          <InputLabel>Trabajo</InputLabel>
-          <Select
-            id="workLocation"
-            onChange={handleRemoteWork}
-            value={workLocation}
-          >
-            <MenuItem value="Remoto">Remoto</MenuItem>
-            <MenuItem value="Presencial">Presencial</MenuItem>
-          </Select>
-        </FormControl>
-        <div>
-          <Fab
-            color="primary"
-            onClick={applyFilters}
-            style={{
-              zIndex: '1',
-            }}
-          >
-            <MdPersonSearch style={{ fontSize: '2.5em' }} />
-          </Fab>
-        </div>
-        <div>
-          <Fab
-            color="primary"
-            className={styles.spinButton}
-            onClick={clearFilters}
-            style={{
-              zIndex: '1',
-            }}
-          >
-            <IoMdRefresh style={{ fontSize: '2em' }} />
-          </Fab>
-        </div>
+            
       </div>
       <div className={styles.container}>
         {isLoading ? (
@@ -366,6 +391,7 @@ const Home = () => {
         />
       ) : null}
       <Footer />
+      </div>
     </div>
   );
 };
