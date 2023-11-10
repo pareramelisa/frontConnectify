@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import style from "./PaymentsCard.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-// import CommentBox from "../CommentsClient/CommentBox";
+import CommentBox from "../CommentsClient/CommentBox";
 import fetchUserLoginWithGoogle from "../../redux/Slices/loginGoogleSlice";
 
 function PaymentsCard(data) {
@@ -16,11 +16,10 @@ function PaymentsCard(data) {
   const [buyState, setBuyState] = useState(null);
   const { isAuthenticated, user } = useAuth0;
   const users = useSelector((state) => state.usersLogin.user);
-  const [showCommentBox, setShowCommentBox] = useState(false);
+
   //const comments = useSelector((state) => state.comment.comments);
   const [userComments, setUserComments] = useState([]);
-
-
+ console.log(data, "data")
   useEffect(() => {
     if (isAuthenticated) {
       dispatch(fetchUserLoginWithGoogle({ email: user.email }));
@@ -28,19 +27,10 @@ function PaymentsCard(data) {
     setProfessionalData(profData);
     setBuyDate(bDate);
     setBuyState(bState);
-
-    
   }, [profData, bDate, bState, isAuthenticated, dispatch]);
 
-//console.log(comments, "com")
-console.log(users, "us")
-  
-
-
-  // const handleCloseCommentBox = () => {
-  //   setShowCommentBox(false);
-  //  };
-
+  //console.log(comments, "com")
+  console.log(users, "us");
 
 
   return (
@@ -68,11 +58,8 @@ console.log(users, "us")
         {buyState && <h5>{buyState}</h5>}
       </div>
 
-        <button onClick={() => setShowCommentBox(true)}>Dejar reseña</button>
-     
-      {/* {showCommentBox && (
-        <CommentBox onClose={handleCloseCommentBox} />
-      )} */}
+      
+
     </div>
   );
 }
