@@ -9,7 +9,7 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { InputLabel , Box, Select,  MenuItem, FormControl} from "@mui/material";
 import * as validations from "./ValidationsRegister";
-import NavBarDemo2 from "../NavBarDemo2/NavBarDemo2";
+import Navbar from '../Navbar/Navbar'
 
 import Button from "@mui/material/Button";
 
@@ -397,7 +397,7 @@ const navigate = useNavigate();
 
   return (
     <div>
-      <NavBarDemo2 />
+      <Navbar />
 
       <div
         style={{
@@ -624,3 +624,4 @@ const navigate = useNavigate();
           };
 
 export default Registration;
+
