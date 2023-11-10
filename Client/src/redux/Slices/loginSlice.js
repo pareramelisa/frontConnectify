@@ -28,10 +28,12 @@ export const fetchUserLogin = (form) => {
     let endpoint = "";
 
     if (form.types === "client") {
-      endpoint = VITE_API_BASE + `/client/login/`;
+      endpoint = `http://localhost:3001/client/login/`;
     } else if (form.types === "professional") {
       endpoint = VITE_API_BASE + `/professional/login/`;
     }
+
+    console.log(endpoint);
 
     try {
       const { data } = await axios.post(endpoint, form);
