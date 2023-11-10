@@ -13,7 +13,7 @@ const DashboardAdmin = () => {
           style={{
             flex: 5,
             justifySelf: "center",
-            // marginTop: "5%",
+
             marginLeft: "7%",
           }}
         >
