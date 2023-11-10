@@ -9,19 +9,21 @@ import { Card, CardContent, Typography, Box } from "@mui/material";
 import Rating from "react-rating-stars-component";
 import style from "./Comments.module.css";
 
-const CommentBox = ({ onClose }) => {
+const CommentBox = ({ onClose, professionalId }) => {
   const { user, isAuthenticated } = useAuth0();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
   const users = useSelector((state) => state.usersLogin.user);
-
+  const comments = useSelector((state) => state.comment.comments);
   const [newComment, setNewComment] = useState("");
   const [userDataOk, setUserDataOk] = useState("");
   const [rating, setRating] = useState(0);
+  const [isCommentBoxOpen, setIsCommentBoxOpen] = useState(false);
 
   const handleChange = (newRating) => {
     setRating(newRating);
   };
+
 
   const handleComment = () => {
     if (newComment.trim() !== "") {
@@ -82,7 +84,10 @@ const CommentBox = ({ onClose }) => {
               onChange={(e) => setNewComment(e.target.value)}
               className={style.textarea}
             />
-
+            {isCommentBoxOpen &&
+            <button onClick={onClose} className={style.button}>
+              X
+            </button>}
             <button onClick={handleComment} className={style.button}>
               Enviar
             </button>

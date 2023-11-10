@@ -35,6 +35,7 @@ import {
 import Comments from "../CommentsClient/CommentsClients";
 import ButtonBack from "../Utils/ButtonBack/ButtonBack";
 import Loading from "../Utils/Loading/Loading";
+import CommentBox from "../CommentsClient/CommentBox";
 
 const DetailAd = () => {
   const { user } = useAuth0();
@@ -162,7 +163,7 @@ const DetailAd = () => {
             <Grid item xs={12} sm={6} md={4}>
               <Card sx={{ maxWidth: 345, borderRadius: 5 }}>
                 <CardMedia
-                
+
                   sx={{ height: 200 }}
                   image={detail.detail.creator[0].image}
                   title="tec"
@@ -190,6 +191,7 @@ const DetailAd = () => {
                   </Grid>
 
                   <MercadoPago />
+                 
                 </CardContent>
               </Card>
             </Grid>
