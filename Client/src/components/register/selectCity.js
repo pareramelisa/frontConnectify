@@ -1,11 +1,15 @@
 import miApi from '../../../localidades.json';
 
-function selectCitiesByProvince(data, selectedProvince) {
-  const cities = data.localidades.filter((ciudad) => {
-    return ciudad.provincia.nombre === selectedProvince;
+function getCitiesByProvince(data) {
+  const citiesByProvince = {};
+  data.localidades.forEach((ciudad) => {
+    const provincia = ciudad.provincia.nombre;
+    if (!citiesByProvince[provincia]) {
+      citiesByProvince[provincia] = [];
+    }
+    citiesByProvince[provincia].push(ciudad.nombre);
   });
-  const sortedCities = [...new Set(cities)].sort((a, b) => a.nombre.localeCompare(b.nombre));
-  return sortedCities;
+  return citiesByProvince;
 }
 
 function getProvinces(data) {
@@ -17,9 +21,13 @@ function getProvinces(data) {
 
 // Luego puedes usar estas funciones de la siguiente manera:
 
-const selectedProvParticular = 'Nombre de la provincia que deseas seleccionar';
-const citiesInSelectedProvince = selectCitiesByProvince(miApi, selectedProvParticular);
+const citiesByProvince = getCitiesByProvince(miApi);
+console.log('Lista de ciudades por provincia:', citiesByProvince);
+
+const selectedProvince = 'Nombre de la provincia que deseas seleccionar';
+const citiesInSelectedProvince = citiesByProvince[selectedProvince];
 console.log('Ciudades en la provincia seleccionada:', citiesInSelectedProvince);
 
 const provincesList = getProvinces(miApi);
 console.log('Lista de provincias:', provincesList);
+

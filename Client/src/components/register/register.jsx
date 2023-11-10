@@ -9,13 +9,13 @@ import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import { InputLabel , Box, Select,  MenuItem, FormControl} from "@mui/material";
 import * as validations from "./ValidationsRegister";
-import NavBarDemo2 from "../NavBarDemo2/NavBarDemo2";
+import Navbar from '../Navbar/Navbar'
 
 import Button from "@mui/material/Button";
 
 const Registration = () => {
 const navigate = useNavigate();
-//localStorage.clear();
+///localStorage.clear();
   const [errorMessages, setErrorMessages] = useState({});
   const [clientRegister, setClientRegister] = useState(() => {
     let localStorageData = localStorage.getItem("clientRegisterData");
@@ -33,29 +33,39 @@ const navigate = useNavigate();
           location: "",
           provinceJob: "",
           locationJob: "",
-          remoteWork: "",
+          
         };
         
   });
 
-  useEffect(() => {
+  const updateUserName = () => {
     if (clientRegister.email) {
       const userName = clientRegister.email.split("@")[0];
       const currentDate = new Date();
-    const dateString = currentDate.toISOString().substring(0, 10); // Obtén la fecha en formato "YYYY-MM-DD"
-    const uniqueUserName = `${userName}_${dateString}`;
+      const dateString = currentDate.toISOString().substring(0, 10); // Obtén la fecha en formato "YYYY-MM-DD"
+      const uniqueUserName = `${userName}${dateString}`.replace(/[^a-zA-Z0-9]/g, ''); // Elimina los caracteres especiales del string
       setClientRegister((prevState) => ({
         ...prevState,
         userName: uniqueUserName,
       }));
     }
+  };
+
+
+  useEffect(() => {
+    updateUserName();
   }, [clientRegister.email]);
 
   useEffect(() => {
     localStorage.setItem("clientRegisterData", JSON.stringify(clientRegister));
-    console.log("Local storage updated:", localStorage.getItem("clientRegisterData"));
+    
   }, [clientRegister]);
 
+  useEffect(() => {
+    updateUserName();
+    setClientRegister(prevState => ({ ...prevState, image: "" }));
+
+  }, []);
 
   const routeLocation = useLocation();
   const ifProfRoute = routeLocation.pathname === "/professional/registration";
@@ -81,7 +91,7 @@ const navigate = useNavigate();
   
 
   const selectedProvParticular = clientRegister.province;
-  console.log('Provincia seleccionada:', selectedProvParticular);
+  //console.log('Provincia seleccionada:', selectedProvParticular);
 
   function selectCitiesByProvince(data, selectedProvince) {
     const cities = data.localidades.filter((ciudad) => {
@@ -92,7 +102,7 @@ const navigate = useNavigate();
   }
 
   const citiesInSelectedProvince = selectCitiesByProvince(miApi, selectedProvParticular);
-  console.log('Ciudades en la provincia seleccionada:', citiesInSelectedProvince);
+  //console.log('Ciudades en la provincia seleccionada:', citiesInSelectedProvince);
 
 
 
@@ -111,14 +121,14 @@ const navigate = useNavigate();
 
   function validateEmail(email) {
   
-    // Verificar si el valor contiene el carácter "+"
-    if (email.includes("+")) {
+    if (email.includes(",") || email.includes("+")) {
       setError({
         error: true,
-        message: "El correo electrónico no puede contener el carácter '+'",
+        message: "El correo electrónico no puede contener los caracteres ',' o '+'",
       });
       return false;
     }
+
   
     // Verificar la validez del formato del correo electrónico
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/i;
@@ -145,21 +155,36 @@ const navigate = useNavigate();
     e.preventDefault();
 
     const errors = {};
+
     // Validación de formato de imagen
     errors.image = validations.validateImageFormat(formData.get("image"));
-
+    
+    // Validación del correo electrónico
+    if (validateEmail(clientRegister.email)) {
+      errors.mail = null; // Correo electrónico válido
+    } else {
+      // El correo electrónico es inválido, muestra un mensaje de error
+      errors.mail = "Email no valido, no puede contener caracteres especiales y debe estar completo.";
+      setError({
+        error: true,
+        message: errors.mail,
+      });
+    }
+    
     setErrorMessages(errors);
-
-  // Validación del correo electrónico
-  if (validateEmail(email)) {
-    errors.mail = null; // Correo electrónico válido
-  } else {
-    // El correo electrónico es inválido, muestra un mensaje de error
-    errors.mail = "Email no valido, no puede contener caracteres especiales";
-  }
-
-  setErrorMessages(errors);
-        
+    
+    // Si hay un error en el correo electrónico o en la imagen, muestra un mensaje de alerta
+    if (errors.mail !== null || errors.image !== null) {
+      alert("Hay errores en el formulario. Por favor, revisa los campos e intenta de nuevo.");
+    } else {
+      setError({
+        error: false,
+        message: "",
+      });
+    }
+    
+    console.log("clientRegister:", clientRegister);
+    console.log("remoteWork:", remoteWork);
 
     if (Object.values(errors).some((error) => error !== null)) {
       return;
@@ -177,10 +202,11 @@ const navigate = useNavigate();
     formData.set("provinceJob", clientRegister.provinceJob);
     formData.set("remoteWork", remoteWork);
 
+    
     if (clientRegister.profession.length === 0) {
       const response = await dispatch(fetchUserRegister(formData, "client"));
       if (response === "Successfully registered client.") {
-        alert(response);
+        alert("Se ha registrado exitosamente. Ahora podrá hacer su ingreso en el Login con su email y contraseña");
         localStorage.removeItem("clientRegisterData");
         navigate("/home");
       } else {
@@ -196,7 +222,7 @@ const navigate = useNavigate();
           fetchUserRegister(formData, "professional")
         );
         if (response === "Profesional registrado exitosamente") {
-          alert(response);
+          alert("Se ha registrado exitosamente. Ahora podrá hacer su ingreso en el Login con su email y contraseña");
           localStorage.removeItem("clientRegisterData");
           navigate("/home");
         } else {
@@ -219,7 +245,7 @@ const navigate = useNavigate();
 
       // Obtén las ciudades de la provincia desde el API
       const citiesInSelectedProvince = selectCitiesByProvince(miApi, clientRegister.province);
-      console.log('Ciudades en la provincia seleccionada:', citiesInSelectedProvince);
+      
   
       const defaultLocation = citiesInSelectedProvince.length > 0
         ? { nombre: "Elija una ciudad de la provincia seleccionada", value: "" }
@@ -231,7 +257,7 @@ const navigate = useNavigate();
       // Actualiza el estado con las ciudades y la opción predeterminada
       setClientRegister(prevState => ({
         ...prevState,
-        location: defaultLocation.value,
+        location: clientRegister.location,
         provinceJob: prevState.province, // Establece provinceJob al mismo valor que province
       }));
     }
@@ -243,19 +269,35 @@ const navigate = useNavigate();
 
     if (name === "email") {
       // Verificar si el valor contiene el carácter "+"
-      if (value.includes("+")) {
+      if (value.includes("+"))  {
         setError({
           error: true,
           message: "El correo electrónico no puede contener el carácter '+'",
         });
-      } else { setError({ error: false,  message: "", });
+      } else if (value.includes(",")) {
+        setError({
+          error: true,
+          message: "El correo electrónico no puede contener comas.",
+        });
+      } else if (!/\S+@\S+\.\S+/.test(value)) {
+        setError({
+          error: true,
+          message: "Completar su correo hasta obtener un formato válido.",
+        });
+      } else { 
+        setError({ 
+          error: false,  
+          message: "", 
+        });
       }
+
       // Actualizar el estado del campo "email"
       setEmail(value);
     }
     
     if (type === "checkbox") setRemoteWork(e.target.checked);
     
+
     const nameArray = name.split(".");
 
     if (nameArray.length === 2) {
@@ -270,15 +312,33 @@ const navigate = useNavigate();
     } else {
       setClientRegister({ ...clientRegister, [name]: value });
     }
+
+
     if (name === 'location') {
       setClientRegister((prevState) => ({
         ...prevState,
         
         ...prevState,
        
-  locationJob: value, // Sincroniza locationJob con la selección de location
+  locationJob: value,
+  location: value, 
       }));
     }
+
+    // Validación específica para "name" y "Apellido"
+  if ((name === 'name') || (name === 'lastName' )) {
+    // Transformar la primera letra a mayúscula
+    const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1);
+    // Validar que solo haya una palabra
+    const isOneWord = /^[^\s]+$/.test(capitalizedValue);
+
+    if (isOneWord) {
+      setClientRegister((prevState) => ({
+        ...prevState,
+        [name]: capitalizedValue,
+      }));
+    } 
+  }
   };
 
   const handleImageUpload = (e) => {
@@ -297,6 +357,8 @@ const navigate = useNavigate();
 
     const imgElement = document.createElement("img");
     imgElement.src = URL.createObjectURL(image);
+
+    
   };
 
   const areAllProfFieldsCompleted = () => {
@@ -312,7 +374,7 @@ const navigate = useNavigate();
       locationJob,
       profession,
       description,
-      remoteWork,
+      //remoteWork,
       image,
     } = clientRegister;
 
@@ -328,7 +390,7 @@ const navigate = useNavigate();
       locationJob &&
       profession &&
       description &&
-      remoteWork &&
+      
       image
     );
   };
@@ -358,11 +420,11 @@ const navigate = useNavigate();
 
   return (
     <div>
-      <NavBarDemo2 />
+      <Navbar />
 
       <div
         style={{
-          padding: "0rem 3rem ",
+          padding: "2rem 8rem ",
           justifyContent: "center",
           alignItems: "center",
           width: "800px",
@@ -403,7 +465,7 @@ const navigate = useNavigate();
             <TextField
             id="email"
             label="Email"
-              type="email"
+              type="text"
               name="email"
               value={clientRegister.email}
               onChange={handleChange}
@@ -412,6 +474,7 @@ const navigate = useNavigate();
               required
               helperText= {error.message}
               error={error.error}
+              autoComplete="off"
             />
             
           </div>
@@ -427,6 +490,7 @@ const navigate = useNavigate();
               placeholder="Contraseña"
               fullWidth
               required
+              autoComplete="off"
             />
             {renderPasswordToggle()}
           </div>
@@ -464,7 +528,7 @@ const navigate = useNavigate();
       fullWidth
       required
     >
-       <MenuItem key="default" value="">
+       <MenuItem key="default" value={ clientRegister.location}>
           Elija una cuidad de la provincia seleccionada
         </MenuItem>
       {[citiesInSelectedProvince.map((city, index) => (
@@ -507,19 +571,16 @@ const navigate = useNavigate();
                 fullWidth
                 required                
               />
-              <div style={{ padding: "5px" }}></div>
-              <InputLabel htmlFor="remoteWork">Trabajo Remoto</InputLabel>
-              <Select
-                labelId="remoteWork-label"
-                id="remoteWork"
-                name="remoteWork"
-                value={clientRegister.remoteWork}
-                onChange={handleChange}
-                required
-              >
-                <MenuItem value={true}>Si</MenuItem>
-                <MenuItem value={false}>No</MenuItem>
-              </Select>
+              <div style={{ padding: "5px" }}>
+              <label htmlFor="remoteWork">Trabajo Remoto</label>
+            <input
+              type="checkbox"
+              // id="myCheckbox"
+              name="remoteWork"
+              value={remoteWork}
+              onChange={handleChange}
+            />
+          </div>
                             
             </div>
           )}
@@ -532,11 +593,18 @@ const navigate = useNavigate();
             onChange={handleImageUpload}
             style={{ width: "100%", height: "50px", fontSize: "18px" }}
           />
+          {clientRegister.image && (
+          <img
+            src={clientRegister.image}
+            alt="Uploaded Image"
+            style={{ maxWidth: "100px" }}
+          />
+        )}
           {errorMessages.image && (
             <div style={{ color: "red" }}>{errorMessages.image}</div>
           )}
                     {(!areAllProfFieldsCompleted() && ifProfRoute) || (!areAllClienFieldsCompleted() && ifClientRoute) ? (
-                      <p style={{ color: "red" }}>Completá todos los campos para poder enviar este formulario</p>
+                      <p style={{ color: "red" }}>Completá todos los campos sin errores para poder enviar este formulario</p>
                     ) : (
                       <div>
                         <div style={{ padding: "10px" }}></div>
@@ -566,7 +634,7 @@ const navigate = useNavigate();
                               paddingBlock: "10px",
                               marginBottom: "20px",
                             }}
-                          >
+                           >
                             Enviar formulario
                           </Button>
                         )}
@@ -579,3 +647,4 @@ const navigate = useNavigate();
           };
 
 export default Registration;
+

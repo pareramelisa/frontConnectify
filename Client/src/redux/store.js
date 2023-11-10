@@ -11,7 +11,7 @@ import persistUserSlice from "./Slices/persistSlice";
 import clientSlice from "./Slices/clientSlice";
 import loginWithGoogleSlice from "./Slices/loginGoogleSlice";
 
-import commentSlice from "./Slices/commentSlice";
+ import commentSlice from "./Slices/commentSlice";
 
 import favoritesSlice from "./Slices/favoritesSlice";
 import adsDeleteSlice from "./Slices/adsDeleteSlice";
