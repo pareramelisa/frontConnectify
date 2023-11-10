@@ -41,6 +41,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
     setAnchorElUser(null);
   };
 
+  // Funciones del Menu
   const handleAvatarButton = async (e) => {
     const text = e.target.textContent;
 
