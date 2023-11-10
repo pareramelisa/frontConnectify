@@ -87,16 +87,39 @@ export const deleteCommentByIdAdmin = (id) => {
     }
   };
 };
+export const checkCommentByIdAdmin = (id) => {
+  return async (dispatch) => {
+    const endpoint = VITE_API_BASE + `/comments/${id}/check`;
+    try {
+      const checked = await axios.patch(endpoint, id);
+      dispatch(checkComment(checked));
+
+      return checked;
+    } catch (error) {
+      console.log(error);
+      return "No se pudo marcar dicho comentario";
+    }
+  };
+};
 
 const commentSlice = createSlice({
   name: "comment",
-  initialState: { comments: [], status: "idle", error: null, deleted: {} },
+  initialState: {
+    comments: [],
+    status: "idle",
+    error: null,
+    deleted: {},
+    checked: {},
+  },
   reducers: {
     getAllComments: (state, action) => {
       state.comments = action.payload;
     },
     deleteComment: (state, action) => {
       state.deleted = action.payload;
+    },
+    checkComment: (state, action) => {
+      state.checked = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -130,6 +153,7 @@ const commentSlice = createSlice({
   },
 });
 
-export const { getAllComments, deleteComment } = commentSlice.actions;
+export const { getAllComments, deleteComment, checkComment } =
+  commentSlice.actions;
 
 export default commentSlice.reducer;

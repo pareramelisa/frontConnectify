@@ -26,6 +26,7 @@ const ProfsForAdmin = () => {
   const ads = useSelector((state) => state.ads.ads);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [showButton, setShowButton] = useState(false);
   const [dataPerPage] = useState(8);
 
   const indexOfLastAd = currentPage * dataPerPage;
@@ -98,6 +99,7 @@ const ProfsForAdmin = () => {
   const handleSelentProfession = (e) => {
     if (e.target.value === "Todas las Profesiones") {
       setSelectedData(professionals);
+      setShowButton(false);
     } else {
       setCurrentPage(1);
       const profClass = e.target.value;
@@ -106,6 +108,7 @@ const ProfsForAdmin = () => {
       );
 
       setSelectedData(toScrub);
+      setShowButton(true);
     }
   };
   const currentData = selectedData
@@ -199,23 +202,22 @@ const ProfsForAdmin = () => {
               ))}
             </select>
           )}
-          {selectedData.length !== professionals.length &&
-            selectedData[0].locationJob && (
-              <div>
-                <button
-                  style={{ backgroundColor: "#3b7ba4" }}
-                  onClick={(e) => handleBanProf(e)}
-                >
-                  Suspender Profesión
-                </button>
-                <button
-                  style={{ backgroundColor: "#3b7ba4" }}
-                  onClick={(e) => handleUnbanProf(e)}
-                >
-                  Dessuspender Profesión
-                </button>
-              </div>
-            )}
+          {showButton && (
+            <div>
+              <button
+                style={{ backgroundColor: "#3b7ba4" }}
+                onClick={(e) => handleBanProf(e)}
+              >
+                Suspender Profesión
+              </button>
+              <button
+                style={{ backgroundColor: "#3b7ba4" }}
+                onClick={(e) => handleUnbanProf(e)}
+              >
+                Dessuspender Profesión
+              </button>
+            </div>
+          )}
         </div>
         {selectedData.length > 0 ? (
           currentData?.map((prof, index) => (
