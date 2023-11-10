@@ -83,7 +83,7 @@ export const deleteCommentByIdAdmin = (id) => {
       return deleted;
     } catch (error) {
       console.log(error);
-      return "No se pudo bannear dicho cliente";
+      return "No se pudo censurar dicho comentario";
     }
   };
 };
