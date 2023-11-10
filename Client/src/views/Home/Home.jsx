@@ -153,8 +153,8 @@ const Home = () => {
 
   return (
     <div>
-      <Navbar setContainerLogin={setContainerLogin} />
       <Cover/>
+      <Navbar setContainerLogin={setContainerLogin} />
       <div className={styles.container111}>
       {containerLogin ? (
         <Login

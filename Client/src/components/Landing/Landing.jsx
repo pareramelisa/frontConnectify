@@ -27,7 +27,7 @@ function LandingPage() {
   
   
    return (
-    <>
+    <div className={style.contLanding}>
       <Cover />
 
       <div className={style.contenedorLanding}>
@@ -56,7 +56,7 @@ function LandingPage() {
 	
 	
 
-    </>
+    </div>
   );
 }
 

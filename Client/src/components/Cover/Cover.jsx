@@ -5,9 +5,9 @@ function Cover() {
  
 
    return (
-    <>
+    <div className={style.contCover}>
       <svg version="1.1" className={style.homeAnim} id="home-anim" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
-        viewBox="0 0 1820 1080"  xml:space="preserve">
+        viewBox="0 0 1820 840"  xml:space="preserve">
 
       <g className={style.home} id="home">
         <defs>
@@ -117,7 +117,7 @@ function Cover() {
       {/* <Landing/> */}
 
 
-    </>
+    </div>
   );
 }
 
