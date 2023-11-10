@@ -215,6 +215,7 @@ const Home = () => {
               id="ProfesionSearch"
               onChange={handleProfession}
               value={profession}
+              label="Profesion"
             >
               {uniqueProfessions.map((profession) => (
                 <MenuItem key={profession} value={profession}>
@@ -231,6 +232,7 @@ const Home = () => {
               id="LocationSearch"
               onChange={handleLocation}
               value={locationProf}
+              label="Ciudad"
             >
               {uniqueLocations.map((locations) => (
                 <MenuItem key={locations} value={locations}>
@@ -257,18 +259,19 @@ const Home = () => {
         <div>
           <FormControl sx={{ m: 1, minWidth: 170, maxWidth: 200 }}>
             <InputLabel>Orden por Precio</InputLabel>
-            <Select id="sortPrice" onChange={handlesortPrice} value={sortPrice}>
+            <Select id="sortPrice" label="Orden por Precio" onChange={handlesortPrice} value={sortPrice}>
               <MenuItem value="asc">Ascendente</MenuItem>
               <MenuItem value="desc">Descendente</MenuItem>
             </Select>
           </FormControl>
         </div>
         <FormControl sx={{ m: 1, minWidth: 170, maxWidth: 200 }}>
-          <InputLabel>Trabajo</InputLabel>
+          <InputLabel>Tipo de trabajo</InputLabel>
           <Select
             id="workLocation"
             onChange={handleRemoteWork}
             value={workLocation}
+            label="Tipo de trabajo"
           >
             <MenuItem value="Remoto">Remoto</MenuItem>
             <MenuItem value="Presencial">Presencial</MenuItem>

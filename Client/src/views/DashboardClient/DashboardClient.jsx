@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Grid } from '@mui/material';
 import UserInfoCard from './UserInfoCardClient';
-import ButtonBack from '../../components/Utils/ButtonBack/ButtonBack';
+
 import Navbar from '../../components/Navbar/Navbar'
 import ReviewItem from '../../components/ReusableComponents/ReviewShow';
 //import { useHistory } from 'react-router-dom';
@@ -49,7 +49,6 @@ const DashboardClient = () => {
     <div>
       <Navbar/>
       <div style={{ margin: '0em 3em' }}>
-    <ButtonBack /> 
     
     <Grid container spacing={3}>
     
