@@ -8,8 +8,11 @@ import style from "./CommentsForAdmin.module.css";
 
 const CommentsForAdmin = () => {
   const comments = useSelector((state) => state.comments.comments);
+  // const comments = useSelector((state) =>
+  //   state.comments.comments.filter((comment) => !comment.isChecked)
+  // );
+
   const deleted = useSelector((state) => state.comments.deleted);
-  console.log(deleted);
   const dispatch = useDispatch();
   const [allComments, setAllComments] = useState(comments);
 
@@ -17,6 +20,8 @@ const CommentsForAdmin = () => {
     const fetchData = async () => {
       try {
         const response = await dispatch(fetchCommentsForAdmin());
+        // const newState = response.filter((comment) => !comment.isChecked)
+        // setAllComments(newState);
         setAllComments(response);
       } catch (error) {
         console.error("Falló el fetcheo", error);
