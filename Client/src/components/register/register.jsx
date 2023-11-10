@@ -165,6 +165,10 @@ const navigate = useNavigate();
     } else {
       // El correo electrónico es inválido, muestra un mensaje de error
       errors.mail = "Email no valido, no puede contener caracteres especiales y debe estar completo.";
+      setError({
+        error: true,
+        message: errors.mail,
+      });
     }
     
     setErrorMessages(errors);
@@ -172,12 +176,12 @@ const navigate = useNavigate();
     // Si hay un error en el correo electrónico o en la imagen, muestra un mensaje de alerta
     if (errors.mail !== null || errors.image !== null) {
       alert("Hay errores en el formulario. Por favor, revisa los campos e intenta de nuevo.");
+    } else {
+      setError({
+        error: false,
+        message: "",
+      });
     }
-    
-    setError({
-      error: true,
-      message: errors.mail,
-    });    
     
     console.log("clientRegister:", clientRegister);
     console.log("remoteWork:", remoteWork);
