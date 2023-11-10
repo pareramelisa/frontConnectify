@@ -66,8 +66,8 @@ export const getCommentById = createAsyncThunk(
 );
 export const fetchCommentsForAdmin = () => {
   return async (dispatch) => {
-    //  const endpoint = VITE_API_BASE + `/comments`;
-    const endpoint = `http://localhost:3001/comments`;
+    const endpoint = VITE_API_BASE + `/comments`;
+    // const endpoint = `http://localhost:3001/comments`;
     try {
       const response = await axios.get(endpoint);
       const comments = response.data;
