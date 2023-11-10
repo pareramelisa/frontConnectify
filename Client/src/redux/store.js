@@ -10,7 +10,7 @@ import detailSlice from "./Slices/detailSlice";
 import persistUserSlice from "./Slices/persistSlice";
 import clientSlice from "./Slices/clientSlice";
 import loginWithGoogleSlice from "./Slices/loginGoogleSlice";
-
+import adsUpdateSlice from "./Slices/adsUpdateSlice"
  import commentSlice from "./Slices/commentSlice";
 
 import favoritesSlice from "./Slices/favoritesSlice";
@@ -27,6 +27,7 @@ const persistConfig = {
 const rootReducer = combineReducers({
   ads: adsSlice,
   adsDelete: adsDeleteSlice,
+  adsUpdate: adsUpdateSlice,
   detail: detailSlice,
   createAds: createAdsSlice,
   professionals: professionalSlice,

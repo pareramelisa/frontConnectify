@@ -7,11 +7,16 @@ import MenuItem from "@mui/material/MenuItem";
 import { Button, Divider, Grid, InputLabel, Paper } from "@mui/material";
 import NavBar from "../../components/Navbar/Navbar";
 import Footer from "../Footer/Footer";
+import { useNavigate, useParams } from "react-router-dom";
+import { updateAd } from "../../redux/Slices/adsUpdateSlice";
 
 function CreateAdForm() {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.usersLogin.user);
-
+  const { adId } = useParams();
+  const ads = useSelector((state) => state.createAds.createAds);
+  const adsFilter = ads.filter((ad) => ad._id === adId);
+  console.log(adsFilter);
   const [formData, setFormData] = useState(() => {
     const savedFormData = localStorage.getItem("formData");
     return savedFormData
@@ -30,42 +35,84 @@ function CreateAdForm() {
 
   const [isSuccess, setIsSuccess] = useState(false);
 
-  const isFormFilled = Object.values(formData).every(value => value !== '');
+  const isFormFilled = Object.values(formData).every((value) => value !== "");
 
   useEffect(() => {
     localStorage.setItem("formData", JSON.stringify(formData));
   }, [formData]);
 
+  useEffect(() => {
+    const {
+      title,
+      description,
+      location,
+      price,
+      categories,
+      contractType,
+      workLocation,
+      profession,
+    } = adsFilter[0];
+    if (adId) {
+      setFormData({
+        title,
+        description,
+        location,
+        price,
+        categories,
+        contractType,
+        workLocation,
+        profession,
+      });
+    }
+  }, [adId]);
+
   const handleInputChange = (fieldName, value) => {
-    if (fieldName !== 'price' && !/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]*$/.test(value)) {
+    if (fieldName !== "price" && !/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]*$/.test(value)) {
       return;
     }
-  
-    if (fieldName === 'price' && (value === '' || parseInt(value) < 1)) {
+
+    if (fieldName === "price" && (value === "" || parseInt(value) < 1)) {
       return;
     }
-  
+
     setFormData({ ...formData, [fieldName]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userinput = {
+    const userinputEdit = {
       ...formData,
-      creator: user._id,
-      price: Number(formData.price),
-    }
+    };
 
-    try {
-      await dispatch(createAd(userinput));
-      setIsSuccess(true);
-      setTimeout(() => {
-        setIsSuccess(false);
-      }, 3000); // Ocultar el mensaje después de 3 segundos
-    } catch (error) {
-      console.error("Error al crear el anuncio:", error);
+    console.log(userinputEdit);
+    if (adId) {
+      /*       try {
+        dispatch(updateAd(adId, userinputEdit));
+        setIsSuccess(true);
+        setTimeout(() => {
+          setIsSuccess(false);
+        }, 3000); // Ocultar el mensaje después de 3 segundos
+      } catch (error) {
+        console.error("Error al crear el anuncio:", error);
+      } */
+    } else {
+      // try y catch solo para create
+      const userinput = {
+        ...formData,
+        creator: user._id,
+        price: Number(formData.price),
+      };
+      try {
+        dispatch(createAd(userinput));
+        setIsSuccess(true);
+        setTimeout(() => {
+          setIsSuccess(false);
+        }, 3000); // Ocultar el mensaje después de 3 segundos
+      } catch (error) {
+        console.error("Error al crear el anuncio:", error);
+      }
     }
-  } 
+  };
 
   return (
     <div>
@@ -81,7 +128,7 @@ function CreateAdForm() {
           fontWeight: 300,
         }}
       >
-        Crea tu anuncio
+        {adId ? "Edita tu anuncio" : "Crea tu anuncio"}
       </h1>
       <Divider />
       <Grid
@@ -101,7 +148,7 @@ function CreateAdForm() {
                     id="title"
                     name="title"
                     value={formData.title}
-                    onChange={(e) => handleInputChange('title', e.target.value)}
+                    onChange={(e) => handleInputChange("title", e.target.value)}
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -113,7 +160,9 @@ function CreateAdForm() {
                     id="location"
                     name="location"
                     value={formData.location}
-                    onChange={(e) => handleInputChange('location', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("location", e.target.value)
+                    }
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -125,7 +174,7 @@ function CreateAdForm() {
                     id="price"
                     name="price"
                     value={formData.price}
-                    onChange={(e) => handleInputChange('price', e.target.value)}
+                    onChange={(e) => handleInputChange("price", e.target.value)}
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -137,7 +186,9 @@ function CreateAdForm() {
                     id="categories"
                     name="categories"
                     value={formData.categories}
-                    onChange={(e) => handleInputChange('categories', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("categories", e.target.value)
+                    }
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -150,7 +201,9 @@ function CreateAdForm() {
                     variant="standard"
                     name="contractType"
                     value={formData.contractType}
-                    onChange={(e) => handleInputChange('contractType', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("contractType", e.target.value)
+                    }
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   >
@@ -169,7 +222,9 @@ function CreateAdForm() {
                     id="description"
                     name="description"
                     value={formData.description}
-                    onChange={(e) => handleInputChange('description', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("description", e.target.value)
+                    }
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -182,7 +237,9 @@ function CreateAdForm() {
                     variant="standard"
                     name="workLocation"
                     value={formData.workLocation}
-                    onChange={(e) => handleInputChange('workLocation', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("workLocation", e.target.value)
+                    }
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   >
@@ -196,7 +253,9 @@ function CreateAdForm() {
                     id="profession"
                     name="profession"
                     value={formData.profession}
-                    onChange={(e) => handleInputChange('profession', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange("profession", e.target.value)
+                    }
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
@@ -210,7 +269,7 @@ function CreateAdForm() {
                   type="submit"
                   disabled={!isFormFilled}
                 >
-                  Crear anuncio
+                  {adId ? "Editar anuncio" : "Crear anuncio"}
                 </Button>
                 {isSuccess && (
                   <p style={{ color: "green", marginTop: "10px" }}>
