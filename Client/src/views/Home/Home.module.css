@@ -77,3 +77,12 @@
     transform: rotate(360deg);
   }
 }
+
+/* Boton para subir */
+.buttonContainer {
+  position: fixed;
+  bottom: -40%;
+  top: 80%;
+  left: 6%;
+  transform: translate(-50%, -50%);
+}

@@ -12,14 +12,10 @@ import Tooltip from "@mui/material/Tooltip";
 import Badge from "@mui/material/Badge";
 import MenuItem from "@mui/material/MenuItem";
 import logo from "../../assets/logoTituloC001.png";
-// import "./Navbar.css";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/Slices/loginSlice";
-import BookIcon from "@mui/icons-material/Book";
-import FolderSpecialIcon from "@mui/icons-material/FolderSpecial";
-
 import style from './Navbar.module.css';
 import carpetaEstrella from '../../assets/carpetaEstrella002.svg'
 
@@ -31,9 +27,6 @@ function ResponsiveAppBar({ setContainerLogin }) {
 
   const users = useSelector((state) => state.usersLogin.user);
   const favoriteCount = useSelector((state) => state.favorites.favoriteCount);
-  const favorite = useSelector(
-    (state) => state.favorites.favoriteProfessionals
-  );
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -48,6 +41,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
     setAnchorElUser(null);
   };
 
+  // Funciones del Menu
   const handleAvatarButton = async (e) => {
     const text = e.target.textContent;
 
@@ -67,11 +61,12 @@ function ResponsiveAppBar({ setContainerLogin }) {
       navigate(`/payments/${nickName}`);
     }
 
-    if (text === "Logout") {
-      await dispatch(logoutUser());
+    if (text === "Logout" && users) {
+      dispatch(logoutUser());
+      navigate('/home')
     }
 
-    if (text === "Logout") {
+    if (text === "Logout" && isAuthenticated) {
       logout();
     }
   };
@@ -81,7 +76,6 @@ function ResponsiveAppBar({ setContainerLogin }) {
   };
 
   useEffect(() => {
-    console.log("USERUSER...", user);
     if (user && user.nickname) {
       setNickName(user.nickname);
     }else{
@@ -117,15 +111,6 @@ function ResponsiveAppBar({ setContainerLogin }) {
                         color="secondary"
                         style={{ marginRight: "1rem" }}
                       >
-                        {/* <Button
-                          variant="contained"
-                          // color="primary"
-                          onClick={() => navigate("/client/favorites")}
-                        >
-                          <img className={style.imgCarpetaEstrella} src={carpetaEstrella} alt="" />
-                          <FolderSpecialIcon></FolderSpecialIcon>
-                        </Button> */}
-                        
                         <button className={style.buttonCarpeta} onClick={() => navigate("/client/favorites")}>
                           <img className={style.imgCarpetaEstrella} src={carpetaEstrella} alt="" />
                         </button>
@@ -142,16 +127,18 @@ function ResponsiveAppBar({ setContainerLogin }) {
                     </IconButton>
                   </Tooltip>
                 </div>
-              ) : (
-                <Button
+              ) : 
+                location.pathname !== "/client/registration" && location.pathname !== "/professional/registration" ?
+                (<Button
                   variant="contained"
                   color="primary"
                   onClick={handlerButtonLogin}
                   className={style.button}
                 >
                   Login
-                </Button>
-              )}
+                </Button>) :
+                null
+              }
 
               <Menu
                 sx={{ mt: "45px" }}
