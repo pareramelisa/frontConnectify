@@ -96,13 +96,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
               {isAuthenticated || users.userName ? (
                 <div>
                   {location.pathname !== "/home" && (
-                    <Button className={style.buttonHome}
-                      
-                      onClick={() => navigate("/home")}
-                      
-                    >
-                      Home
-                    </Button>
+                    <button className={style.buttonHome} onClick={() => navigate("/home")}>Home</button>
                   )}
                   {users.types !== "admin" &&
                     users.types !== "professional" && (
@@ -158,15 +152,12 @@ function ResponsiveAppBar({ setContainerLogin }) {
               >
                 {settings.map((setting) => (
                   <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <p onClick={handleAvatarButton}>
-                      {setting === "Historial Pagos" && users.types === "client"
-                        ? setting
-                        : setting === "Historial Pagos" &&
-                          (users.types === "admin" ||
-                            users.types === "professional")
-                        ? ""
-                        : setting}
-                    </p>
+                    {
+                      setting === "Historial Pagos" && (users.types === "admin" || users.types === "professional") ?
+                      null :
+                      <Typography onClick={handleAvatarButton}>{setting}</Typography>
+                      
+                    }
                   </MenuItem>
                 ))}
               </Menu>
