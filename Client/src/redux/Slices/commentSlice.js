@@ -80,7 +80,8 @@ export const fetchCommentsForAdmin = () => {
 };
 export const deleteCommentByIdAdmin = (id) => {
   return async (dispatch) => {
-    const endpoint = VITE_API_BASE + `/comments/${id}/delete`;
+    // const endpoint = VITE_API_BASE + `/comments/${id}/delete`;
+    const endpoint = "http://localhost:3001" + `/comments/${id}/delete`;
     try {
       const deleted = await axios.patch(endpoint, id);
       dispatch(deleteComment(deleted));
@@ -91,20 +92,21 @@ export const deleteCommentByIdAdmin = (id) => {
     }
   };
 };
-// export const checkCommentByIdAdmin = (id) => {
-//   return async (dispatch) => {
-//     const endpoint = VITE_API_BASE + `/comments/${id}/check`;
-//     try {
-//       const checked = await axios.patch(endpoint, id);
-//       dispatch(checkComment(checked));
+export const checkCommentByIdAdmin = (id) => {
+  return async (dispatch) => {
+    // const endpoint = VITE_API_BASE + `/comments/${id}/check`;
+    const endpoint = "http://localhost:3001" + `/comments/${id}/check`;
+    try {
+      const checked = await axios.patch(endpoint, id);
+      dispatch(checkComment(checked));
 
-//       return checked;
-//     } catch (error) {
-//       console.log(error);
-//       return "No se pudo marcar como revisado dicho comentario";
-//     }
-//   };
-// };
+      return checked;
+    } catch (error) {
+      console.log(error);
+      return "No se pudo marcar como revisado dicho comentario";
+    }
+  };
+};
 
 const commentSlice = createSlice({
   name: "comment",
@@ -113,7 +115,7 @@ const commentSlice = createSlice({
     status: "idle",
     error: null,
     deleted: {},
-    // checked: {},
+    checked: {},
   },
   reducers: {
     getAllComments: (state, action) => {
@@ -122,9 +124,9 @@ const commentSlice = createSlice({
     deleteComment: (state, action) => {
       state.deleted = action.payload;
     },
-    // checkComment: (state, action) => {
-    //   state.checked = action.payload;
-    // },
+    checkComment: (state, action) => {
+      state.checked = action.payload;
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -157,10 +159,7 @@ const commentSlice = createSlice({
   },
 });
 
-export const {
-  getAllComments,
-  deleteComment,
-  //  checkComment
-} = commentSlice.actions;
+export const { getAllComments, deleteComment, checkComment } =
+  commentSlice.actions;
 
 export default commentSlice.reducer;
