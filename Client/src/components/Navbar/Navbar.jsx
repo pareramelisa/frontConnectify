@@ -19,13 +19,15 @@ import { logoutUser } from "../../redux/Slices/loginSlice";
 import style from './Navbar.module.css';
 import carpetaEstrella from '../../assets/carpetaEstrella002.svg'
 
-const settings = ["Perfil", "Historial Pagos", "Logout"];
 
 function ResponsiveAppBar({ setContainerLogin }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [nickName, setNickName] = useState(null);
+  const [users, setUsers] = useState('')
 
-  const users = useSelector((state) => state.usersLogin.user);
+  const usersLocal = useSelector((state) => state.usersLogin.user);
+  const usersGoogle = useSelector((state) => state.googleLogin.user);
+
   const favoriteCount = useSelector((state) => state.favorites.favoriteCount);
   const dispatch = useDispatch();
   const location = useLocation();
@@ -45,15 +47,15 @@ function ResponsiveAppBar({ setContainerLogin }) {
   const handleAvatarButton = async (e) => {
     const text = e.target.textContent;
 
-    if (text === "Perfil" && users.types === "client") {
+    if (text === "Dashboard" && users === "client") {
       navigate(`/client/dashboard`);
     }
 
-    if (text === "Perfil" && users.types === "professional") {
+    if (text === "Dashboard" && users === "professional") {
       navigate(`/professional/dashboardProf`);
     }
 
-    if (text === "Perfil" && users.types === "admin") {
+    if (text === "Dashboard" && users === "admin") {
       navigate(`/admin/dashboard`);
     }
 
@@ -61,7 +63,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
       navigate(`/payments/${nickName}`);
     }
 
-    if (text === "Logout" && users) {
+    if (text === "Logout" && usersLocal) {
       dispatch(logoutUser());
       navigate('/home')
     }
@@ -75,6 +77,28 @@ function ResponsiveAppBar({ setContainerLogin }) {
     setContainerLogin(true);
   };
 
+  console.log(usersLocal.types);
+
+  useEffect(() => {
+    if (usersGoogle) {
+      setUsers(usersGoogle.types)
+    }
+
+    if (usersLocal.types === 'client') {
+      setUsers('client')
+    }
+
+    if (usersLocal.types === 'professional') {
+      setUsers('professional')
+    }
+
+    if (usersLocal.types === 'admin') {
+      setUsers('admin')
+    }
+    
+  }, [usersLocal, usersGoogle])
+
+
   useEffect(() => {
     if (user && user.nickname) {
       setNickName(user.nickname);
@@ -82,6 +106,11 @@ function ResponsiveAppBar({ setContainerLogin }) {
       setNickName(users.userName)
     }
   }, [user]);
+
+console.log(users);
+console.log(usersGoogle);
+console.log(usersLocal);
+
 
   return (
     <AppBar position="static" style={{ marginBottom: "1.5rem" }}>
@@ -93,13 +122,13 @@ function ResponsiveAppBar({ setContainerLogin }) {
             </Link>
             
             <Box sx={{ flexGrow: 0 }}>
-              {isAuthenticated || users.userName ? (
+              {isAuthenticated || usersLocal.userName ? (
                 <div>
                   {location.pathname !== "/home" && (
                     <button className={style.buttonHome} onClick={() => navigate("/home")}>Home</button>
                   )}
-                  {users.types !== "admin" &&
-                    users.types !== "professional" && (
+                  {users !== "admin" &&
+                    users !== "professional" && (
                       <Badge
                         badgeContent={favoriteCount}
                         color="secondary"
@@ -116,7 +145,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar
                         alt="Remy Sharp"
-                        src={user ? user.picture : users ? users.image : null}
+                        src={user ? user.picture : usersLocal ? usersLocal.image : null}
                       />
                     </IconButton>
                   </Tooltip>
@@ -151,14 +180,14 @@ function ResponsiveAppBar({ setContainerLogin }) {
                 onClose={handleCloseUserMenu}
               >
                 {
-                  users.types === "admin" || users.types === "professional" ?
+                  users === "admin" || users === "professional" ?
                   <ul className={style.menuAvatar} onClick={handleCloseUserMenu}>
-                    <li onClick={handleAvatarButton}>Perfil</li>
+                    <li onClick={handleAvatarButton}>Dashboard</li>
                     <li onClick={handleAvatarButton}>Logout</li>
                   </ul> :
-                  users.types === "client" &&
+                  users === "client" &&
                   <ul className={style.menuAvatar}>
-                    <li onClick={handleAvatarButton}>Perfil</li>
+                    <li onClick={handleAvatarButton}>Dashboard</li>
                     <li onClick={handleAvatarButton}>Historial Pagos</li>
                     <li onClick={handleAvatarButton}>Logout</li>
                   </ul>
