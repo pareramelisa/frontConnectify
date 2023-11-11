@@ -32,7 +32,7 @@ const rootReducer = combineReducers({
   persistUser: persistUserSlice,
   googleLogin: loginWithGoogleSlice,
   favorites: favoritesSlice,
-  comments: commentSlice,
+  comment: commentSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
