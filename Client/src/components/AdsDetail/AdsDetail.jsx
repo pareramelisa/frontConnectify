@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from "react";
+import { useState } from 'react';
 import {
   Button,
   Card,
@@ -11,6 +11,7 @@ import {
   List,
   ListItem,
   Typography,
+
 } from "@mui/material";
 import MercadoPago from "../Payments/MercadoPago";
 // import "./DetailAd.css";
@@ -44,6 +45,7 @@ const DetailAd = () => {
   const detail = useSelector((state) => state.detail);
   const location = useLocation();
   const favorites = useSelector((state) => state.favorites.favoriteProfessionals);
+
   const users = useSelector((state) => state.usersLogin.user);
   const userGoogle = useSelector((state) => state.googleLogin.user);
 
@@ -56,6 +58,7 @@ const DetailAd = () => {
   const newFav = favorites.some(
     (favorite) =>
       favorite.professional._id === detail.detail.creator[0]._id
+
   );
 
   useEffect(() => {
@@ -110,6 +113,7 @@ const handleOverlay = ()=>{
     <div>
       <Cover />
       <Navbar />
+
       <div className={style.principal}>
         <div className={style.shadow}>
         
@@ -151,6 +155,7 @@ const handleOverlay = ()=>{
                       </Box>
                     </Grid>
                   )}
+
 
                   <Grid item xs={12} md={10} sx={{ margin: "16px" }}>
                     <Typography

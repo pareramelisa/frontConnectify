@@ -11,23 +11,58 @@
 .logoNav{
   width: 15rem;
   margin-top: 1rem;
-  /* background-color: yellow; */
 }
 
 .buttonHome {
-  /* margin-right: 5rem; */
-  background-color: red;
+  color: #ffffff;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 6px;
+  background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  margin-right: 0.5rem;
+}
+
+.buttonHome:hover{
+  border: 1px solid #e2af2f;
+  border-radius: 5px;
 }
 
 .imgCarpetaEstrella {
   width: 2rem;
   margin-top: 0rem;
   margin-left: 0rem;
-  /* background-color: blue; */
 }
+
 .buttonCarpeta {
   margin-top: 0rem;
   height: auto;
   width: auto;
   background-color: transparent;
+  outline: none;
+  border: none;
+  cursor: pointer;
+}
+
+.menuAvatar{
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  list-style: none;
+  padding-inline-start: 0px;
+  padding-inline-end: 0px;
+  padding: 5px 10px;
+  transition: all 0.4s ease;
+}
+
+.menuAvatar li{
+  color: #000000;
+  cursor: pointer;
+}
+
+.menuAvatar li:hover{
+  background-color: #3b7ba4;
+  color: #ffffff;
 }
