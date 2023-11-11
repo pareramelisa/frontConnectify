@@ -8,6 +8,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 import style from './MercadoPago.module.css'
 
+
 // config();
 // const PUBLIC_KEY = process.env.PUBLIC_KEY;
 

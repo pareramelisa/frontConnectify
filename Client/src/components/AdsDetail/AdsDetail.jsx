@@ -38,6 +38,8 @@ import ButtonBack from "../Utils/ButtonBack/ButtonBack";
 import Loading from "../Utils/Loading/Loading";
 import Cover from '../Cover/Cover';
 
+
+
 const DetailAd = () => {
   const { user } = useAuth0();
   const { id } = useParams();

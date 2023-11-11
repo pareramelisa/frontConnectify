@@ -115,6 +115,7 @@
   transition: all 0.2s ease-in;
 }
 
+
 .buttonContratar:hover {
   background: rgb(61, 106, 255);
   box-shadow: 0 0 30px 5px rgba(0, 142, 236, 0.815);
