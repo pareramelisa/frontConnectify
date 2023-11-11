@@ -33,7 +33,7 @@ import {
   fetchAddFavorites,
   fetchRemoveFavorites,
 } from "../../redux/Slices/favoritesSlice";
-// import Comments from "../CommentsClient/CommentsClients";
+import Comments from "../CommentsClient/CommentsClients";
 import ButtonBack from "../Utils/ButtonBack/ButtonBack";
 import Loading from "../Utils/Loading/Loading";
 import Cover from '../Cover/Cover';
@@ -250,7 +250,9 @@ const handleOverlay = ()=>{
             ) : (
               <div>No hay creadores disponibles.</div>
             )}
-          {/* <Comments /> */}
+          
+          <Comments id={detail.detail.creator?.[0]?._id || ''} />
+
         </div>    
       </div>
     </div>
