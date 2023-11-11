@@ -150,16 +150,19 @@ function ResponsiveAppBar({ setContainerLogin }) {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    {
-                      setting === "Historial Pagos" && (users.types === "admin" || users.types === "professional") ?
-                      null :
-                      <Typography onClick={handleAvatarButton}>{setting}</Typography>
-                      
-                    }
-                  </MenuItem>
-                ))}
+                {
+                  users.types === "admin" || users.types === "professional" ?
+                  <ul className={style.menuAvatar} onClick={handleCloseUserMenu}>
+                    <li onClick={handleAvatarButton}>Perfil</li>
+                    <li onClick={handleAvatarButton}>Logout</li>
+                  </ul> :
+                  users.types === "client" &&
+                  <ul className={style.menuAvatar}>
+                    <li onClick={handleAvatarButton}>Perfil</li>
+                    <li onClick={handleAvatarButton}>Historial Pagos</li>
+                    <li onClick={handleAvatarButton}>Logout</li>
+                  </ul>
+                }
               </Menu>
             </Box>
           </div>

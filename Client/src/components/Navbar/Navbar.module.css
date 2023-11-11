@@ -45,3 +45,24 @@
   border: none;
   cursor: pointer;
 }
+
+.menuAvatar{
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  list-style: none;
+  padding-inline-start: 0px;
+  padding-inline-end: 0px;
+  padding: 5px 10px;
+  transition: all 0.4s ease;
+}
+
+.menuAvatar li{
+  color: #000000;
+  cursor: pointer;
+}
+
+.menuAvatar li:hover{
+  background-color: #3b7ba4;
+  color: #ffffff;
+}
