@@ -96,13 +96,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
               {isAuthenticated || users.userName ? (
                 <div>
                   {location.pathname !== "/home" && (
-                    <Button className={style.buttonHome}
-                      
-                      onClick={() => navigate("/home")}
-                      
-                    >
-                      Home
-                    </Button>
+                    <button className={style.buttonHome} onClick={() => navigate("/home")}>Home</button>
                   )}
                   {users.types !== "admin" &&
                     users.types !== "professional" && (
@@ -156,19 +150,19 @@ function ResponsiveAppBar({ setContainerLogin }) {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
               >
-                {settings.map((setting) => (
-                  <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                    <p onClick={handleAvatarButton}>
-                      {setting === "Historial Pagos" && users.types === "client"
-                        ? setting
-                        : setting === "Historial Pagos" &&
-                          (users.types === "admin" ||
-                            users.types === "professional")
-                        ? ""
-                        : setting}
-                    </p>
-                  </MenuItem>
-                ))}
+                {
+                  users.types === "admin" || users.types === "professional" ?
+                  <ul className={style.menuAvatar} onClick={handleCloseUserMenu}>
+                    <li onClick={handleAvatarButton}>Perfil</li>
+                    <li onClick={handleAvatarButton}>Logout</li>
+                  </ul> :
+                  users.types === "client" &&
+                  <ul className={style.menuAvatar}>
+                    <li onClick={handleAvatarButton}>Perfil</li>
+                    <li onClick={handleAvatarButton}>Historial Pagos</li>
+                    <li onClick={handleAvatarButton}>Logout</li>
+                  </ul>
+                }
               </Menu>
             </Box>
           </div>

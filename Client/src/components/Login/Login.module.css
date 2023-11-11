@@ -217,7 +217,7 @@ img{
 .spanFormEmail{
     position: absolute;
     font-size: 0.8rem;
-    top: 180px;
+    top: 170px;
     color: #e22f2f;
     font-weight: bold;
 }
@@ -225,7 +225,7 @@ img{
 .spanFormPass{
     position: absolute;
     font-size: 0.8rem;
-    top: 235px;
+    top: 225px;
     color: #e22f2f;
     font-weight: bold;
 }

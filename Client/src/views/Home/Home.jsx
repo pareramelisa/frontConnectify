@@ -68,28 +68,75 @@ const Home = () => {
     setCurrentPage(pageNumber);
   };
 
+  useEffect(() => {
+
+    if (adsFiltered.length < 1) {
+      localStorage.setItem('locationProf', '')
+      localStorage.setItem('profession', '')
+      localStorage.setItem('priceRange', JSON.stringify([1000, 10000]));
+      localStorage.setItem('workLocation', '')
+      localStorage.setItem('sortPrice', '')
+    }
+    
+    const savedLocationProf = localStorage.getItem('locationProf');
+    if (savedLocationProf && adsFiltered.length > 0) {
+      setLocationProf(savedLocationProf)
+    }
+
+    const savedProfession = localStorage.getItem('profession');
+    if (savedProfession && adsFiltered.length > 0) {
+      setProfession(savedProfession)
+    }
+
+    const savedPriceRange = JSON.parse(localStorage.getItem('priceRange'));
+    if (savedPriceRange) {
+      setPriceRange(savedPriceRange);
+    }
+
+    const savedWorkLocation = localStorage.getItem('workLocation');
+    if (savedWorkLocation && adsFiltered.length > 0) {
+      setWorkLocation(savedWorkLocation)
+    }
+
+    const savedSortPrice = localStorage.getItem('sortPrice');
+    if (savedSortPrice && adsFiltered.length > 0) {
+      setSortPrice(savedSortPrice)
+    }
+
+  }, [])
+
   //* Filtros Combinados
   const handleLocation = (e) => {
     e.preventDefault();
     setLocationProf(e.target.value);
+
+    localStorage.setItem('locationProf', e.target.value)
   };
 
   const handleProfession = (e) => {
     e.preventDefault();
     setProfession(e.target.value);
+
+    localStorage.setItem('profession', e.target.value)
   };
 
   const handlePriceRangeChange = (value) => {
     setPriceRange(value);
+
+    localStorage.setItem('priceRange', JSON.stringify(value));
   };
 
   const handleRemoteWork = (e) => {
     setWorkLocation(e.target.value);
+
+    localStorage.setItem('workLocation', e.target.value)
   };
 
   const handlesortPrice = (e) => {
     e.preventDefault();
     setSortPrice(e.target.value);
+
+    localStorage.setItem('sortPrice', e.target.value)
   };
 
   //* Función para aplicar los filtros
@@ -115,6 +162,12 @@ const Home = () => {
     setPriceRange([1000, 10000]);
     setWorkLocation('');
     dispatch(fetchAds());
+
+    localStorage.setItem('locationProf', '')
+    localStorage.setItem('profession', '')
+    localStorage.setItem('priceRange', JSON.stringify([1000, 10000]));
+    localStorage.setItem('workLocation', '')
+    localStorage.setItem('sortPrice', '')
   };
 
   //* Función para abrir el chat

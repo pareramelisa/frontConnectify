@@ -10,6 +10,7 @@ import style from "./Login.module.css";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { BsFillArrowLeftCircleFill } from "react-icons/bs";
 import Logo from "../../assets/LogoCLogin.png";
+import LogoGoogle from '../../assets/Logo-Google.png'
 
 const Login = ({ setContainerLogin, setPopUpLogin }) => {
   const dispatch = useDispatch();
@@ -190,7 +191,7 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
             <div className={style.line}></div>
             <button className={style.btnGoogle} onClick={handlerLoginGoogle}>
               <img
-                src="https://assets.stickpng.com/images/5847f9cbcef1014c0b5e48c8.png"
+                src={LogoGoogle}
                 alt=""
                 className={style.imageGoogle}
               />
