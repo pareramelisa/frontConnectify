@@ -69,6 +69,15 @@ const Home = () => {
   };
 
   useEffect(() => {
+
+    if (adsFiltered.length < 1) {
+      localStorage.setItem('locationProf', '')
+      localStorage.setItem('profession', '')
+      localStorage.setItem('priceRange', JSON.stringify([1000, 10000]));
+      localStorage.setItem('workLocation', '')
+      localStorage.setItem('sortPrice', '')
+    }
+    
     const savedLocationProf = localStorage.getItem('locationProf');
     if (savedLocationProf && adsFiltered.length > 0) {
       setLocationProf(savedLocationProf)
