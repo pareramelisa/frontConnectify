@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -5,16 +6,19 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Card, CardContent, Typography } from "@mui/material";
 import { getComments } from "../../redux/Slices/commentSlice";
 
-function CommentsClient() {
+function CommentsClient({id}) {
   const { isAuthenticated, user } = useAuth0();
   const dispatch = useDispatch();
   const users = useSelector((state) => state.usersLogin.user);
   const comments = useSelector((state) => state.comment.comments);
   const detail = useSelector((state) => state.detail);
-  const professionalId = detail.detail.creator[0]._id;
-  const [commentsForProfessional, setCommentsForProfessional] = useState([]);
+ const [commentsForProfessional, setCommentsForProfessional] = useState([]);
   const [newComment, setNewComment] = useState("");
   const [userDataOk, setUserDataOk] = useState("");
+
+  const professionalId = id;
+
+
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -22,6 +26,7 @@ function CommentsClient() {
     }
     dispatch(getComments());
   }, [user, users, isAuthenticated, dispatch]);
+
 
   // Filtra los comentarios solo para el profesional en cuestión
   useEffect(() => {
@@ -31,6 +36,8 @@ function CommentsClient() {
     setCommentsForProfessional(filteredComments);
   }, [comments, professionalId]);
   console.log(comments, "comentarios");
+  console.log(professionalId, "prof")
+
   return (
     <div>
       {commentsForProfessional.length > 0 ? (

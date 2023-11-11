@@ -199,7 +199,7 @@ const DetailAd = () => {
         ) : (
           <div>No hay creadores disponibles.</div>
         )}
-        <Comments />
+        <Comments id={detail.detail.creator[0]._id}/>
       </div>
     </div>
   );
