@@ -25,7 +25,7 @@ function ViewsPayments() {
 
   const detail = useSelector((state) => state.detail);
   const users = useSelector((state) => state.usersLogin.user);
-  const comments = useSelector((state) => state.comment.comments);
+  const comments = useSelector((state) => state.comment.comments || []);
   const [paymentData, setPaymentData] = useState(null);
   const [userName, setUserName] = useState("");
   

@@ -68,28 +68,79 @@ const Home = () => {
     setCurrentPage(pageNumber);
   };
 
+  useEffect(() => {
+
+    if (adsFiltered.length < 1) {
+      localStorage.setItem('locationProf', '')
+      localStorage.setItem('profession', '')
+      localStorage.setItem('priceRange', JSON.stringify([1000, 10000]));
+      localStorage.setItem('workLocation', '')
+      localStorage.setItem('sortPrice', '')
+    }
+    
+    const savedLocationProf = localStorage.getItem('locationProf');
+    if (savedLocationProf && adsFiltered.length > 0) {
+      setLocationProf(savedLocationProf)
+    }
+
+    const savedProfession = localStorage.getItem('profession');
+    if (savedProfession && adsFiltered.length > 0) {
+      setProfession(savedProfession)
+    }
+
+    const savedPriceRange = JSON.parse(localStorage.getItem('priceRange'));
+    if (savedPriceRange) {
+      setPriceRange(savedPriceRange);
+    }
+
+    const savedWorkLocation = localStorage.getItem('workLocation');
+    if (savedWorkLocation && adsFiltered.length > 0) {
+      setWorkLocation(savedWorkLocation)
+    }
+
+    const savedSortPrice = localStorage.getItem('sortPrice');
+    if (savedSortPrice && adsFiltered.length > 0) {
+      setSortPrice(savedSortPrice)
+    }
+
+  }, [])
+
+  useEffect(() => {
+    paginate(1)
+  }, [adsFiltered])
+
   //* Filtros Combinados
   const handleLocation = (e) => {
     e.preventDefault();
     setLocationProf(e.target.value);
+
+    localStorage.setItem('locationProf', e.target.value)
   };
 
   const handleProfession = (e) => {
     e.preventDefault();
     setProfession(e.target.value);
+
+    localStorage.setItem('profession', e.target.value)
   };
 
   const handlePriceRangeChange = (value) => {
     setPriceRange(value);
+
+    localStorage.setItem('priceRange', JSON.stringify(value));
   };
 
   const handleRemoteWork = (e) => {
     setWorkLocation(e.target.value);
+
+    localStorage.setItem('workLocation', e.target.value)
   };
 
   const handlesortPrice = (e) => {
     e.preventDefault();
     setSortPrice(e.target.value);
+
+    localStorage.setItem('sortPrice', e.target.value)
   };
 
   //* Función para aplicar los filtros
@@ -104,6 +155,7 @@ const Home = () => {
         sortPrice,
       })
     );
+    
   };
 
   //* Función para limpiar los filtros da error, por ahora comentada
@@ -115,6 +167,14 @@ const Home = () => {
     setPriceRange([1000, 10000]);
     setWorkLocation('');
     dispatch(fetchAds());
+
+    localStorage.setItem('locationProf', '')
+    localStorage.setItem('profession', '')
+    localStorage.setItem('priceRange', JSON.stringify([1000, 10000]));
+    localStorage.setItem('workLocation', '')
+    localStorage.setItem('sortPrice', '')
+
+    setCurrentPage(1)
   };
 
   //* Función para abrir el chat
@@ -145,6 +205,8 @@ const Home = () => {
   const handlerCloseLoginPopUp = () => {
     setPopUpLogin(false);
   };
+
+  console.log(currentPage);
 
   return (
     <div>
@@ -306,9 +368,26 @@ const Home = () => {
           <div>
             <Loading />
           </div>
-        ) : adsFiltered.length !== 0 ? (
+        ) : currentAds.length !== 0 ? (
           <div className={styles.card}>
             {currentAds.map((ad) => (
+              <Professional
+                key={ad._id}
+                id={ad._id}
+                name={ad.creator[0].name}
+                lastName={ad.creator[0].lastName}
+                location={ad.location}
+                description={ad.description}
+                price={ad.price}
+                profession={ad.profession}
+                image={ad.creator[0].image}
+                setContainerLogin={setContainerLogin}
+              />
+            ))}
+          </div>
+        ) : adsFiltered.length !== 0 ? (
+          <div className={styles.card}>
+            {adsFiltered.map((ad) => (
               <Professional
                 key={ad._id}
                 id={ad._id}
@@ -359,7 +438,7 @@ const Home = () => {
         </button>
       ) : null}
       {chatOpen && <Chat nickname={nickname} />}
-      {currentAds.length !== 0 && adsFiltered.length !== 0 ? (
+      {currentAds.length !== 0 || adsFiltered.length !== 0 ? (
         <Pagination
           currentPage={currentPage}
           adsPerPage={adsPerPage}
