@@ -19,7 +19,6 @@ import { logoutUser } from "../../redux/Slices/loginSlice";
 import style from './Navbar.module.css';
 import carpetaEstrella from '../../assets/carpetaEstrella002.svg'
 
-const settings = ["Perfil", "Historial Pagos", "Logout"];
 
 function ResponsiveAppBar({ setContainerLogin }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
@@ -78,15 +77,27 @@ function ResponsiveAppBar({ setContainerLogin }) {
     setContainerLogin(true);
   };
 
-  useEffect(() => {
-    if (usersLocal) {
-      setUsers(usersLocal.types)
-    }
+  console.log(usersLocal.types);
 
+  useEffect(() => {
     if (usersGoogle) {
       setUsers(usersGoogle.types)
     }
-  }, [usersGoogle, usersLocal])
+
+    if (usersLocal.types === 'client') {
+      setUsers('client')
+    }
+
+    if (usersLocal.types === 'professional') {
+      setUsers('professional')
+    }
+
+    if (usersLocal.types === 'admin') {
+      setUsers('admin')
+    }
+    
+  }, [usersLocal, usersGoogle])
+
 
   useEffect(() => {
     if (user && user.nickname) {
@@ -97,6 +108,8 @@ function ResponsiveAppBar({ setContainerLogin }) {
   }, [user]);
 
 console.log(users);
+console.log(usersGoogle);
+console.log(usersLocal);
 
 
   return (
