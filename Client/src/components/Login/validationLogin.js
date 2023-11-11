@@ -4,7 +4,8 @@ const validationLogin = (form) => {
   if (form.email === "") {
     errors.email = "El mail esta vacio";
   }
-  if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{3})+$/.test(form.email)) {
+  // Nuevo Regex
+  if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(form.email)) {
     errors.email = "El mail es invalido";
   }
 
