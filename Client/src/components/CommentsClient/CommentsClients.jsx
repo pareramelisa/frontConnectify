@@ -1,20 +1,23 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useAuth0 } from "@auth0/auth0-react";
-import { Card, CardContent, Typography } from "@mui/material";
-import { getComments } from "../../redux/Slices/commentSlice";
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useAuth0 } from '@auth0/auth0-react';
+import { Card, CardContent, Typography } from '@mui/material';
+import { getComments } from '../../redux/Slices/commentSlice';
 
-function CommentsClient() {
+function CommentsClient({ id }) {
   const { isAuthenticated, user } = useAuth0();
   const dispatch = useDispatch();
   const users = useSelector((state) => state.usersLogin.user);
   const comments = useSelector((state) => state.comment.comments);
   const detail = useSelector((state) => state.detail);
-  const professionalId = detail.detail.creator[0]._id;
   const [commentsForProfessional, setCommentsForProfessional] = useState([]);
-  const [newComment, setNewComment] = useState("");
-  const [userDataOk, setUserDataOk] = useState("");
+  const [newComment, setNewComment] = useState('');
+  const [userDataOk, setUserDataOk] = useState('');
+
+  const professionalId = id;
+  console.log(detail);
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -30,7 +33,9 @@ function CommentsClient() {
     );
     setCommentsForProfessional(filteredComments);
   }, [comments, professionalId]);
-  console.log(comments, "comentarios");
+  console.log(comments, 'comentarios');
+  console.log(professionalId, 'prof');
+
   return (
     <div>
       {commentsForProfessional.length > 0 ? (
@@ -38,11 +43,11 @@ function CommentsClient() {
           <Card
             key={comment._id}
             sx={{
-              width: "75%",
-              backgroundColor: "#D9D9D9",
-              padding: "10px",
-              margin: "10px 0",
-              marginRight: "750px",
+              width: '75%',
+              backgroundColor: '#D9D9D9',
+              padding: '10px',
+              margin: '10px 0',
+              marginRight: '750px',
             }}
             align="left"
           >
@@ -54,7 +59,7 @@ function CommentsClient() {
                       <span key={index}>⭐</span>
                     ))}
                   </Typography>
-                  <Typography variant="body2" sx={{ fontSize: "15px" }}>
+                  <Typography variant="body2" sx={{ fontSize: '15px' }}>
                     {comment.comment}
                   </Typography>
                 </div>
@@ -65,11 +70,11 @@ function CommentsClient() {
       ) : (
         <Card
           sx={{
-            width: "75%",
-            backgroundColor: "#D9D9D9",
-            padding: "10px",
-            margin: "10px 0",
-            marginRight: "750px",
+            width: '75%',
+            backgroundColor: '#D9D9D9',
+            padding: '10px',
+            margin: '10px 0',
+            marginRight: '750px',
           }}
           align="left"
         >
@@ -78,7 +83,7 @@ function CommentsClient() {
               <div className="profile-text">
                 <Typography
                   variant="body2"
-                  sx={{ fontSize: "15px", fontWeight: "bold" }}
+                  sx={{ fontSize: '15px', fontWeight: 'bold' }}
                 >
                   El profesional aún no tiene comentarios.
                 </Typography>

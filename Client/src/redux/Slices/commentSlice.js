@@ -9,7 +9,7 @@ export const postComment = createAsyncThunk(
   "comments/postComment",
   async (commentData) => {
     try {
-      const endpoint = VITE_API_BASE + `/comments/postComments`;
+      const endpoint = VITE_API_BASE + `/comments`;
       // "https://connectifyback-dp-production.up.railway.app/comments/postComments";
 
       // const endpoint = VITE_API_BASE + `/comments`
@@ -26,7 +26,7 @@ export const postComment = createAsyncThunk(
 // Define una función asincrónica para obtener los comentarios
 export const getComments = createAsyncThunk("comment/getComment", async () => {
   try {
-    const endpoint = VITE_API_BASE + `/comments/postComments`;
+    const endpoint = VITE_API_BASE + `/comments`;
     // "https://connectifyback-dp-production.up.railway.app/comments/getComments";
 
     const response = await axios(endpoint);
