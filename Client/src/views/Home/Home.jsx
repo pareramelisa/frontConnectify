@@ -105,6 +105,10 @@ const Home = () => {
 
   }, [])
 
+  useEffect(() => {
+    paginate(1)
+  }, [adsFiltered])
+
   //* Filtros Combinados
   const handleLocation = (e) => {
     e.preventDefault();
@@ -151,6 +155,7 @@ const Home = () => {
         sortPrice,
       })
     );
+    
   };
 
   //* Función para limpiar los filtros da error, por ahora comentada
@@ -168,6 +173,8 @@ const Home = () => {
     localStorage.setItem('priceRange', JSON.stringify([1000, 10000]));
     localStorage.setItem('workLocation', '')
     localStorage.setItem('sortPrice', '')
+
+    setCurrentPage(1)
   };
 
   //* Función para abrir el chat
@@ -198,6 +205,8 @@ const Home = () => {
   const handlerCloseLoginPopUp = () => {
     setPopUpLogin(false);
   };
+
+  console.log(currentPage);
 
   return (
     <div>
@@ -359,9 +368,26 @@ const Home = () => {
           <div>
             <Loading />
           </div>
-        ) : adsFiltered.length !== 0 ? (
+        ) : currentAds.length !== 0 ? (
           <div className={styles.card}>
             {currentAds.map((ad) => (
+              <Professional
+                key={ad._id}
+                id={ad._id}
+                name={ad.creator[0].name}
+                lastName={ad.creator[0].lastName}
+                location={ad.location}
+                description={ad.description}
+                price={ad.price}
+                profession={ad.profession}
+                image={ad.creator[0].image}
+                setContainerLogin={setContainerLogin}
+              />
+            ))}
+          </div>
+        ) : adsFiltered.length !== 0 ? (
+          <div className={styles.card}>
+            {adsFiltered.map((ad) => (
               <Professional
                 key={ad._id}
                 id={ad._id}
@@ -412,7 +438,7 @@ const Home = () => {
         </button>
       ) : null}
       {chatOpen && <Chat nickname={nickname} />}
-      {currentAds.length !== 0 && adsFiltered.length !== 0 ? (
+      {currentAds.length !== 0 || adsFiltered.length !== 0 ? (
         <Pagination
           currentPage={currentPage}
           adsPerPage={adsPerPage}
