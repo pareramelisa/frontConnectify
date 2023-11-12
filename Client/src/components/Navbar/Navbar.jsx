@@ -3,14 +3,12 @@ import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
 import logo from "../../assets/logoTituloC001.png";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -18,11 +16,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/Slices/loginSlice";
 import style from './Navbar.module.css';
 import carpetaEstrella from '../../assets/carpetaEstrella002.svg'
+import { logoutGoogle } from "../../redux/Slices/loginGoogleSlice";
 
 
 function ResponsiveAppBar({ setContainerLogin }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [nickName, setNickName] = useState(null);
   const [users, setUsers] = useState('')
 
   const usersLocal = useSelector((state) => state.usersLogin.user);
@@ -60,15 +58,23 @@ function ResponsiveAppBar({ setContainerLogin }) {
     }
 
     if (text === "Historial Pagos" && location.pathname !== "/payments") {
-      navigate(`/payments/${nickName}`);
+      const userNameGoogle = usersGoogle && usersGoogle.userName 
+      const userNameLocal = usersLocal && usersLocal.userName;
+      if (userNameGoogle) {
+        navigate(`/payments/${userNameGoogle}`);
+      } 
+      if (userNameLocal) {
+        navigate(`/payments/${userNameLocal}`);
+      }
     }
 
     if (text === "Logout" && usersLocal) {
-      dispatch(logoutUser());
+      await dispatch(logoutUser());
       navigate('/home')
     }
 
     if (text === "Logout" && isAuthenticated) {
+      await dispatch(logoutGoogle())
       logout();
     }
   };
@@ -77,8 +83,8 @@ function ResponsiveAppBar({ setContainerLogin }) {
     setContainerLogin(true);
   };
 
-  console.log(usersLocal.types);
 
+  // 
   useEffect(() => {
     if (usersGoogle) {
       setUsers(usersGoogle.types)
@@ -97,15 +103,6 @@ function ResponsiveAppBar({ setContainerLogin }) {
     }
     
   }, [usersLocal, usersGoogle])
-
-
-  useEffect(() => {
-    if (usersGoogle) {
-      setNickName(usersGoogle.userName);
-    }else{
-      setNickName(usersLocal.userName)
-    }
-  }, [usersGoogle, usersLocal]);
 
   return (
     <AppBar position="static" style={{ marginBottom: "1.5rem" }}>
