@@ -6,6 +6,7 @@ import { updateClientOnServer } from '../../redux/Slices/clientSlice';
 import Navbar from '../../components/Navbar/Navbar';
 import ReviewItem from '../../components/ReusableComponents/ReviewShow';
 import { getComments } from './CommentsOrganized'; 
+// import { Link } from 'react-router-dom';
 
 const DashboardClient = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const DashboardClient = () => {
   });
 
   const [comments, setComments] = useState([]);
+  const userComments = comments.filter(comment => comment.client_id === users._id);
 
   const handleEdit = () => {
     setEditMode(!editMode);
@@ -96,20 +98,27 @@ const DashboardClient = () => {
           </Grid>
           <Grid item xs={12} md={4}>
   <h3>Reseñas realizadas a profesionales luego de los servicios prestados:</h3>
-  {comments.filter(comment => comment.client_id === users._id).map((comment, index) => (
-    <ReviewItem
-      key={index}
-      review={{
-        rating: comment.rating,
-        text: comment.comment,
-        clientProfileImage: comment.professionalPhoto,
-        clientName: comment.professionalName,
-        date: comment.date,
-        professionalName: comment.professionalName,
-        professionalProfileImage: comment.professionalPhoto,
-      }}
-    />
-  ))}
+  
+  {userComments.length > 0 ? (
+    userComments.map((comment, index) => (
+      // <Link to={`/detail/${comment.client_id}`} key={index}>
+      <ReviewItem
+        key={index}
+        review={{
+          rating: comment.rating,
+          text: comment.comment,
+          clientProfileImage: comment.professionalPhoto,
+          clientName: comment.professionalName,
+          date: comment.date,
+          professionalName: comment.professionalName,
+          professionalProfileImage: comment.professionalPhoto,
+        }}
+      />
+      // </Link>
+    ))
+  ) : (
+    <p>No tienes reseñas aún</p>
+  )}
 </Grid>
         </Grid>
       </div>
