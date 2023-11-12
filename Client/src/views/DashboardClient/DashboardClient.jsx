@@ -5,6 +5,7 @@ import UserInfoCard from './UserInfoCardClient';
 import { updateClientOnServer } from '../../redux/Slices/clientSlice';
 import Navbar from '../../components/Navbar/Navbar';
 import ReviewItem from '../../components/ReusableComponents/ReviewShow';
+import { getComments } from './CommentsOrganized'; 
 
 const DashboardClient = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,8 @@ const DashboardClient = () => {
     location: userLocation,
     image: userImage,
   });
+
+  const [comments, setComments] = useState([]);
 
   const handleEdit = () => {
     setEditMode(!editMode);
@@ -61,7 +64,19 @@ const DashboardClient = () => {
 
   useEffect(() => {
     console.log('Users after update:', users);
-  }, [users]);
+  // Llamada a la función getComments para obtener los comentarios
+    const fetchComments = async () => {
+      try {
+        const commentsData = await getComments();
+        setComments(commentsData);
+      } catch (error) {
+        console.error('Error al obtener comentarios:', error);
+      }
+    };
+
+    fetchComments(); // Llama a la función de solicitud al montar el componente
+  }, [users._id]); // Se ejecutará cada vez que cambie el ID del usuario
+
 
   return (
     <div>
@@ -79,16 +94,21 @@ const DashboardClient = () => {
             />
           </Grid>
           <Grid item xs={12} md={4}>
-            <h3>Reseñas realizadas</h3>
-            <ReviewItem
-              review={{
-                rating: 4.5,
-                text: 'Excelente servicio. Muy contento con el trabajo realizado.',
-                clientProfileImage: 'URL_de_la_foto',
-                clientName: 'Nombre_del_profesional que brindó el servicio',
-                date: '2023-11-01',
-              }}
-            />
+            <h3>Reseñas realizadas a profesionales luego de los servicios prestados: </h3>
+            {comments.filter(comment => comment.client_id === users._id).map(comment => (
+    <ReviewItem
+      key={comment.id}
+      review={{
+        rating: comment.rating,
+        text: comment.comment,
+        clientProfileImage: comment.professionalPhoto,
+        clientName: comment.professionalName,
+        date: comment.date,
+        professionalName: comment.professionalName,
+        professionalProfileImage: comment.professionalPhoto,
+      }}
+    />
+  ))}
           </Grid>
         </Grid>
       </div>
