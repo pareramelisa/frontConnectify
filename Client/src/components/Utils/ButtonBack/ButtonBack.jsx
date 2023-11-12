@@ -24,7 +24,7 @@ const ButtonContainer = styled.button`
       margin: 0;
       width: 3rem;
       height: 3rem;
-      background: #282936;
+      background: #3b7ba4;
       border-radius: 1.625rem;
 
       .icon {
@@ -50,7 +50,7 @@ const ButtonContainer = styled.button`
             left: 0;
             width: 0.625rem;
             height: 0.625rem;
-            border-top: 0.125rem solid #fff;
+            border-top: 0.125rem solid ;
             border-right: 0.125rem solid #fff;
             transform: rotate(-135deg); /* Cambiar la rotación a -135deg */
           }
