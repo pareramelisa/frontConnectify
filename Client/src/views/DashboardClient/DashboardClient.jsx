@@ -94,10 +94,10 @@ const DashboardClient = () => {
             />
           </Grid>
           <Grid item xs={12} md={4}>
-            <h3>Reseñas realizadas a profesionales luego de los servicios prestados: </h3>
-            {comments.filter(comment => comment.client_id === users._id).map(comment => (
+  <h3>Reseñas realizadas a profesionales luego de los servicios prestados:</h3>
+  {comments.map((comment, index) => (
     <ReviewItem
-      key={comment.id}
+      key={index}
       review={{
         rating: comment.rating,
         text: comment.comment,
@@ -109,7 +109,7 @@ const DashboardClient = () => {
       }}
     />
   ))}
-          </Grid>
+</Grid>
         </Grid>
       </div>
     </div>
