@@ -79,7 +79,8 @@ const DashboardClient = () => {
 
 
   return (
-    <div>
+  
+    <div style={{ backgroundColor: '#D9D9D9' }}>
       <Navbar/>
       <div style={{ margin: '0em 3em' }}>
         <Grid container spacing={3}>
