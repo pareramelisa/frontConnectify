@@ -28,6 +28,7 @@ const ProfsForAdmin = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showButton, setShowButton] = useState(false);
   const [dataPerPage] = useState(8);
+  const [loading, setLoading] = useState(false);
 
   const indexOfLastAd = currentPage * dataPerPage;
   const indexOfFirstAd = indexOfLastAd - dataPerPage;
@@ -52,6 +53,7 @@ const ProfsForAdmin = () => {
   }, []);
 
   const handleDelete = async (e, prof) => {
+    showLoading();
     let newState = [];
     if (!prof.profession) {
       try {
@@ -116,6 +118,7 @@ const ProfsForAdmin = () => {
     : [];
 
   const handleBanProf = async () => {
+    showLongLoading();
     try {
       const update = [];
       await Promise.all(
@@ -134,6 +137,7 @@ const ProfsForAdmin = () => {
     } catch (error) {}
   };
   const handleUnbanProf = async () => {
+    showLongLoading();
     try {
       const update = [];
       await Promise.all(
@@ -166,6 +170,19 @@ const ProfsForAdmin = () => {
     setSelectedProfessional(null);
     setIsModalVisible(false);
   };
+
+  function showLoading() {
+    setLoading(true);
+    setTimeout(function () {
+      setLoading(false);
+    }, 950);
+  }
+  function showLongLoading() {
+    setLoading(true);
+    setTimeout(function () {
+      setLoading(false);
+    }, 1250);
+  }
 
   return (
     <div
@@ -369,6 +386,12 @@ const ProfsForAdmin = () => {
             currentAds={currentData}
           />
         ) : null}
+      </div>
+      <div
+        className={style.loadingMessage}
+        style={{ display: loading ? "flex" : "none" }}
+      >
+        <div className={style.loadingText}>Loading...</div>
       </div>
     </div>
   );
