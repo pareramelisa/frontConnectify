@@ -11,6 +11,7 @@ export const clientSlice = createSlice({
     clients: [],
     detail: {},
     deleted: {},
+    updater: {},
   },
   reducers: {
     getAllClients: (state, action) => {
@@ -22,10 +23,13 @@ export const clientSlice = createSlice({
     deleteClient: (state, action) => {
       state.deleted = action.payload;
     },
+    updateClient: (state, action) => {
+      state.updater = action.payload;
+    }, 
   },
 });
 
-export const { getAllClients, getClientByID, deleteClient } =
+export const { getAllClients, getClientByID, deleteClient, updateClient } =
   clientSlice.actions;
 
 export default clientSlice.reducer;
@@ -55,6 +59,21 @@ export const deleteClientByIdAdmin = (id) => {
     } catch (error) {
       console.log(error);
       return "No se pudo bannear dicho cliente";
+    }
+  };
+};
+
+// Nueva acción para actualizar un cliente en el servidor
+export const updateClientOnServer = (updatedUser) => {
+  return async (dispatch) => {
+    const endpoint = VITE_API_BASE + `/client/${updatedUser._id}`;
+    try {
+      const updatedClient = await axios.patch(endpoint, updatedUser);
+      dispatch(updateClient(updatedClient.data));
+      return updatedClient.data;
+    } catch (error) {
+      console.log(error);
+      return "No se pudo actualizar el cliente en el servidor";
     }
   };
 };
