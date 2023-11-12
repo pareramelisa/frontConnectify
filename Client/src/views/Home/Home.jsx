@@ -199,6 +199,7 @@ const Home = () => {
     setPopUpLogin(false);
   };
 
+  
   return (
     <div>
       <Cover />

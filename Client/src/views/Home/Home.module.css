@@ -283,6 +283,7 @@ Cover {
   animation: sh02 0.5s 0s linear;
 }
 
+
 .applyFilter::before {
   content: '';
   display: block;
