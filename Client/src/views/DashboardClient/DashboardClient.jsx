@@ -6,7 +6,9 @@ import { updateClientOnServer } from '../../redux/Slices/clientSlice';
 import Navbar from '../../components/Navbar/Navbar';
 import ReviewItem from '../../components/ReusableComponents/ReviewShow';
 import { getComments } from './CommentsOrganized'; 
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import RenderReservs from './RenderReservs';
+import { Button, Card } from '@mui/material';
 
 const DashboardClient = () => {
   const dispatch = useDispatch();
@@ -18,7 +20,7 @@ const DashboardClient = () => {
   const userLocation = users.location || "Ubicación por defecto";
   const userEmail = users.email || "maria@example.com";
   const userImage = users.image || "https://vivolabs.es/wp-content/uploads/2022/03/perfil-mujer-vivo.png";
-  
+  const userUserName = users.userName || "Nombre de usuario por defecto";
   const userProvince = users.province || "Provincia por defecto";
 
   const [user, setUser] = useState({
@@ -79,12 +81,21 @@ const DashboardClient = () => {
     fetchComments(); // Llama a la función de solicitud al montar el componente
   }, [users._id]); // Se ejecutará cada vez que cambie el ID del usuario
 
+  const confirmAction = (actionType) => {
+    const confirmationMessage = `¿Está seguro de que desea hacer un pedido para ${actionType}?`;
+
+    if (window.confirm(confirmationMessage)) {
+      alert(`Va a ser redirigido para realizar su pedido de ${actionType}.`);
+      // Aquí puedes redirigir al usuario al formulario correspondiente
+      // usando react-router-dom u otro enfoque de enrutamiento
+    }
+  };
 
   return (
   
-    <div style={{ backgroundColor: '#D9D9D9', height: '100vh', width: '100%' }}>
+    <div style={{ backgroundColor: '#D9D9D9',  minHeight: '100vh', width: '100%' }}>
       <Navbar/>
-      <div style={{ margin: '0em 3em' }}>
+      <div style={{ margin: '0em 2em' }}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
             <UserInfoCard
@@ -95,9 +106,35 @@ const DashboardClient = () => {
               handleSave={handleSave}
               setUser={setUser}
             />
+             <Card style={{ margin: '1em', borderRadius: '16px' }}>
+            <div style={{ margin: '1.5em ' }}>
+              <h3>Mis reservas realizadas</h3>
+             <RenderReservs userName={users.userName} />
+             <div style={{ margin: ' 1.5em' }}></div>
+             <Link to={`/payments/${users.userName}`}>
+              <Button variant="outlined">Ver pagos realizados</Button>   </Link>
+             </div>
+             </Card>
+             <Card  style={{ margin: '1em', borderRadius: '16px', backgroundColor: '#868484'}}>
+             <div style={{ margin: '1.5em  ' }}> 
+              <h3> Administración de cuenta ⚠️</h3>
+              <div style={{ margin: ' 1em 0em' }}>
+              
+              <Button variant="contained" color="secondary" style={{ marginRight: '2em' }}
+              onClick={() => confirmAction('cambio de contraseña')}>
+                Pedido de cambio de contraseña</Button>
+                           
+              <Button variant="contained" color="error" style={{ marginRight: '2em' }}
+              onClick={() => confirmAction('eliminación de cuenta')}>
+                Pedido de eliminación de cuenta</Button>
+              </div>
+              </div>
+             </Card>
           </Grid>
+           
           <Grid item xs={12} md={4}>
   <h3>Reseñas realizadas a profesionales luego de los servicios prestados:</h3>
+  
   
   {userComments.length > 0 ? (
     userComments.map((comment, index) => (
