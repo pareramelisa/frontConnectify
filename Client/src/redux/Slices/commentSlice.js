@@ -66,6 +66,7 @@ export const getCommentById = createAsyncThunk(
 );
 export const fetchCommentsForAdmin = () => {
   return async (dispatch) => {
+    // const endpoint = "http://localhost:3001" + `/comments`;
     const endpoint = VITE_API_BASE + `/comments`;
     try {
       const response = await axios.get(endpoint);
@@ -94,8 +95,8 @@ export const deleteCommentByIdAdmin = (id) => {
 };
 export const checkCommentByIdAdmin = (id) => {
   return async (dispatch) => {
-    // const endpoint = VITE_API_BASE + `/comments/${id}/check`;
-    const endpoint = "http://localhost:3001" + `/comments/${id}/check`;
+    const endpoint = VITE_API_BASE + `/comments/${id}/check`;
+    // const endpoint = "http://localhost:3001" + `/comments/${id}/check`;
     try {
       const checked = await axios.patch(endpoint, id);
       dispatch(checkComment(checked));

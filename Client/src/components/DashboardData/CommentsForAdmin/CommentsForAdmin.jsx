@@ -8,12 +8,13 @@ import {
 import style from "./CommentsForAdmin.module.css";
 
 const CommentsForAdmin = () => {
+  console.log(654654);
   // const comments = useSelector((state) => state.comments.comments);
   const comments = useSelector((state) =>
-    state.comments.comments.filter((comment) => !comment.isChecked)
+    state.comment.comments.filter((comment) => !comment.isChecked)
   );
 
-  const deleted = useSelector((state) => state.comments.deleted);
+  const deleted = useSelector((state) => state.comment.deleted);
   const dispatch = useDispatch();
   const [allComments, setAllComments] = useState(comments);
 
@@ -60,6 +61,7 @@ const CommentsForAdmin = () => {
   };
 
   const handleCheck = async (_id) => {
+    showLoading();
     await dispatch(checkCommentByIdAdmin(_id));
     const response = await dispatch(fetchCommentsForAdmin());
     const newState = response.filter((comment) => !comment.isChecked);
