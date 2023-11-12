@@ -10,6 +10,7 @@ const Header = () => {
   const handleClick = () => {
     navigate("/home");
   };
+
   return (
     <div>
       <button onClick={handleClick}>Home</button>
