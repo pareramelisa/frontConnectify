@@ -12,10 +12,13 @@ export const loginWithGoogleSlice = createSlice({
     loginWithGoogle: (state, action) => {
       state.user = action.payload;
     },
+    logoutGoogle: (state) => {
+      state.user = {};
+    },
   },
 });
 
-export const { loginWithGoogle } = loginWithGoogleSlice.actions;
+export const { loginWithGoogle, logoutGoogle } = loginWithGoogleSlice.actions;
 
 export default loginWithGoogleSlice.reducer;
 
