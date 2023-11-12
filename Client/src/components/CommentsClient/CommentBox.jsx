@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
-import { getComments, postComment } from "../../redux/Slices/commentSlice";
-import { Card, CardContent, Typography, Box } from "@mui/material";
+import {  postComment } from "../../redux/Slices/commentSlice";
+import {  Typography, Box } from "@mui/material";
 import Rating from "react-rating-stars-component";
 import style from "./Comments.module.css";
+
 
 const CommentBox = ({ onClose, professionalId }) => {
   const { user, isAuthenticated } = useAuth0();
@@ -34,11 +35,14 @@ const CommentBox = ({ onClose, professionalId }) => {
         rating: rating,
       };
       dispatch(postComment(commentData));
+      console.log("comentario", commentData);
       setNewComment("");
       setRating(0);
+      setIsCommentBoxOpen(false);
     }
   };
 
+console.log("client", users.userName);
   return (
     <div>
       <Box
@@ -98,4 +102,6 @@ const CommentBox = ({ onClose, professionalId }) => {
   );
 };
 
+
 export default CommentBox;
+

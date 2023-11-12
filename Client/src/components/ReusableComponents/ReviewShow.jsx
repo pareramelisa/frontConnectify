@@ -7,7 +7,7 @@ const ReviewItem = ({ review }) => {
   return (
     <Box
       sx={{
-        backgroundColor: '#D9D9D9',
+        backgroundColor: '#ffff',
         border: '1px solid #ccc', 
         borderRadius: 5,         
         padding: 2,             

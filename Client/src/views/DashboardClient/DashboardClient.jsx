@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Grid } from '@mui/material';
 import UserInfoCard from './UserInfoCardClient';
-
-import Navbar from '../../components/Navbar/Navbar'
+import { updateClientOnServer } from '../../redux/Slices/clientSlice';
+import Navbar from '../../components/Navbar/Navbar';
 import ReviewItem from '../../components/ReusableComponents/ReviewShow';
-//import { useHistory } from 'react-router-dom';
+import { getComments } from './CommentsOrganized'; 
 
 const DashboardClient = () => {
-
+  const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
   const users = useSelector(state => state.usersLogin.user);
 
@@ -24,69 +24,97 @@ const DashboardClient = () => {
     name: userName,
     LastName: userLastName, 
     email: userEmail,
-   
     province:  userProvince,
     location: userLocation,
     image: userImage,
-    
   });
 
- 
+  const [comments, setComments] = useState([]);
 
   const handleEdit = () => {
     setEditMode(!editMode);
   };
 
-  const handleSave = () => {
-    // Aquí puedes agregar lógica para guardar los cambios en la información del usuario
-    // Puedes enviar una solicitud de actualización al servidor, por ejemplo.
-    setEditMode(false);
+  const handleSave = async () => {
+    const updatedUser = {
+      _id: users._id,
+       name: user.name,
+      lastName: user.LastName,
+      userName: users.userName,
+      location: user.location,
+      province: user.province,
+
+    };
+    console.log("updatedUser:", updatedUser);
+    try {
+      // Envía la solicitud PATCH al servidor para actualizar el cliente
+      const response = await dispatch(updateClientOnServer(updatedUser));
+      if (response) {
+        setEditMode(false);
+        alert("Su cambio se ha guardado con éxito");
+      } else {
+        // Manejar el caso en que la actualización no sea exitosa
+        console.error('Error al actualizar el cliente:', response);
+      }
+    } catch (error) {
+      // Maneja el error, por ejemplo, mostrando un mensaje al usuario
+      console.error('Error al actualizar el cliente:', error);
+    }
   };
 
- 
+  useEffect(() => {
+    console.log('Users after update:', users);
+  // Llamada a la función getComments para obtener los comentarios
+    const fetchComments = async () => {
+      try {
+        const commentsData = await getComments();
+        setComments(commentsData);
+      } catch (error) {
+        console.error('Error al obtener comentarios:', error);
+      }
+    };
+
+    fetchComments(); // Llama a la función de solicitud al montar el componente
+  }, [users._id]); // Se ejecutará cada vez que cambie el ID del usuario
+
 
   return (
-    <div>
+  
+    <div style={{ backgroundColor: '#D9D9D9', height: '100vh', width: '100%' }}>
       <Navbar/>
       <div style={{ margin: '0em 3em' }}>
-    
-    <Grid container spacing={3}>
-    
-      <Grid item xs={12} md={8}>
-
-      <UserInfoCard
-    user={user}
-    userImage={userImage}
-    editMode={editMode}
-    handleEdit={handleEdit}
-    handleSave={handleSave}
-    setUser={setUser}
-  />
-      
-
-        
-        
-        
-      </Grid>
-
-      <Grid item xs={12} md={4}>
-        <h3>Reseñas realizadas</h3>
-      <ReviewItem
-          review={{
-            rating: 4.5,
-            text: 'Excelente servicio. Muy contento con el trabajo realizado.',
-            clientProfileImage: 'URL_de_la_foto',
-            clientName: 'Nombre_del_profesional que brindo el servicio',
-            date: '2023-11-01',
-          }}
-        />
+        <Grid container spacing={3}>
+          <Grid item xs={12} md={8}>
+            <UserInfoCard
+              user={user}
+              userImage={userImage}
+              editMode={editMode}
+              handleEdit={handleEdit}
+              handleSave={handleSave}
+              setUser={setUser}
+            />
+          </Grid>
+          <Grid item xs={12} md={4}>
+  <h3>Reseñas realizadas a profesionales luego de los servicios prestados:</h3>
+  {comments.map((comment, index) => (
+    <ReviewItem
+      key={index}
+      review={{
+        rating: comment.rating,
+        text: comment.comment,
+        clientProfileImage: comment.professionalPhoto,
+        clientName: comment.professionalName,
+        date: comment.date,
+        professionalName: comment.professionalName,
+        professionalProfileImage: comment.professionalPhoto,
+      }}
+    />
+  ))}
 </Grid>
-
-  
-    </Grid>
-    </div>
+        </Grid>
+      </div>
     </div>
   );
 };
- 
-export default DashboardClient
+
+export default DashboardClient;

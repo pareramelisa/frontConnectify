@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable react/prop-types */
+import  { useEffect, useState } from "react";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import IconButton from "@mui/material/IconButton";
-import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import Container from "@mui/material/Container";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Badge from "@mui/material/Badge";
-import MenuItem from "@mui/material/MenuItem";
 import logo from "../../assets/logoTituloC001.png";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -100,16 +99,13 @@ function ResponsiveAppBar({ setContainerLogin }) {
 
 
   useEffect(() => {
-    if (user && user.nickname) {
-      setNickName(user.nickname);
-    }else{
-      setNickName(users.userName)
+    if (usersGoogle) {
+      setNickName(usersGoogle.userName);
     }
-  }, [user]);
-
-console.log(users);
-console.log(usersGoogle);
-console.log(usersLocal);
+    if(usersLocal){
+      setNickName(usersLocal.userName)
+    }
+  }, [usersGoogle, usersLocal]);
 
 
   return (
