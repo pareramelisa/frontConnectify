@@ -14,14 +14,13 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/Slices/loginSlice";
-import style from './Navbar.module.css';
-import carpetaEstrella from '../../assets/carpetaEstrella002.svg'
+import style from "./Navbar.module.css";
+import carpetaEstrella from "../../assets/carpetaEstrella002.svg";
 import { logoutGoogle } from "../../redux/Slices/loginGoogleSlice";
-
 
 function ResponsiveAppBar({ setContainerLogin }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [users, setUsers] = useState('')
+  const [users, setUsers] = useState("");
 
   const usersLocal = useSelector((state) => state.usersLogin.user);
   const usersGoogle = useSelector((state) => state.googleLogin.user);
@@ -58,11 +57,11 @@ function ResponsiveAppBar({ setContainerLogin }) {
     }
 
     if (text === "Historial Pagos" && location.pathname !== "/payments") {
-      const userNameGoogle = usersGoogle && usersGoogle.userName 
+      const userNameGoogle = usersGoogle && usersGoogle.userName;
       const userNameLocal = usersLocal && usersLocal.userName;
       if (userNameGoogle) {
         navigate(`/payments/${userNameGoogle}`);
-      } 
+      }
       if (userNameLocal) {
         navigate(`/payments/${userNameLocal}`);
       }
@@ -70,11 +69,11 @@ function ResponsiveAppBar({ setContainerLogin }) {
 
     if (text === "Logout" && usersLocal) {
       await dispatch(logoutUser());
-      navigate('/home')
+      navigate("/home");
     }
 
     if (text === "Logout" && isAuthenticated) {
-      await dispatch(logoutGoogle())
+      await dispatch(logoutGoogle());
       logout();
     }
   };
@@ -83,26 +82,24 @@ function ResponsiveAppBar({ setContainerLogin }) {
     setContainerLogin(true);
   };
 
-
-  // 
+  //
   useEffect(() => {
     if (usersGoogle) {
-      setUsers(usersGoogle.types)
+      setUsers(usersGoogle.types);
     }
 
-    if (usersLocal.types === 'client') {
-      setUsers('client')
+    if (usersLocal.types === "client") {
+      setUsers("client");
     }
 
-    if (usersLocal.types === 'professional') {
-      setUsers('professional')
+    if (usersLocal.types === "professional") {
+      setUsers("professional");
     }
 
-    if (usersLocal.types === 'admin') {
-      setUsers('admin')
+    if (usersLocal.types === "admin") {
+      setUsers("admin");
     }
-    
-  }, [usersLocal, usersGoogle])
+  }, [usersLocal, usersGoogle]);
 
   return (
     <AppBar position="static" style={{ marginBottom: "1.5rem" }}>
@@ -112,79 +109,99 @@ function ResponsiveAppBar({ setContainerLogin }) {
             <Link to="/home">
               <img src={logo} alt="" className={style.logoNav} />
             </Link>
-            
+
             <Box sx={{ flexGrow: 0 }}>
               {isAuthenticated || usersLocal.userName ? (
                 <div>
                   {location.pathname !== "/home" && (
-                    <button className={style.buttonHome} onClick={() => navigate("/home")}>Home</button>
+                    <button
+                      className={style.buttonHome}
+                      onClick={() => navigate("/home")}
+                    >
+                      Home
+                    </button>
                   )}
-                  {users !== "admin" &&
-                    users !== "professional" && (
-                      <Badge
-                        badgeContent={favoriteCount}
-                        color="secondary"
-                        style={{ marginRight: "1rem" }}
+                  {users !== "admin" && users !== "professional" && (
+                    <Badge
+                      badgeContent={favoriteCount}
+                      color="secondary"
+                      style={{ marginRight: "1rem" }}
+                    >
+                      <button
+                        className={style.buttonCarpeta}
+                        onClick={() => navigate("/client/favorites")}
                       >
-                        <button className={style.buttonCarpeta} onClick={() => navigate("/client/favorites")}>
-                          <img className={style.imgCarpetaEstrella} src={carpetaEstrella} alt="" />
-                        </button>
-                      
-                      </Badge>
-                    )}
+                        <img
+                          className={style.imgCarpetaEstrella}
+                          src={carpetaEstrella}
+                          alt=""
+                        />
+                      </button>
+                    </Badge>
+                  )}
 
                   <Tooltip title="Open settings">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar
                         alt="Remy Sharp"
-                        src={user ? user.picture : usersLocal ? usersLocal.image : null}
+                        src={
+                          user
+                            ? user.picture
+                            : usersLocal
+                            ? usersLocal.image
+                            : null
+                        }
                       />
                     </IconButton>
                   </Tooltip>
                 </div>
-              ) : 
-                location.pathname !== "/client/registration" && location.pathname !== "/professional/registration" ?
-                (<Button
+              ) : location.pathname !== "/client/registration" &&
+                location.pathname !== "/professional/registration" ? (
+                <Button
                   variant="contained"
                   color="primary"
                   onClick={handlerButtonLogin}
                   className={style.button}
                 >
                   Login
-                </Button>) :
-                null
-              }
-
-              <Menu
-                sx={{ mt: "45px" }}
-                id="menu-appbar"
-                anchorEl={anchorElUser}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "right",
-                }}
-                open={Boolean(anchorElUser)}
-                onClose={handleCloseUserMenu}
-              >
-                {
-                  users === "admin" || users === "professional" ?
-                  <ul className={style.menuAvatar} onClick={handleCloseUserMenu}>
-                    <li onClick={handleAvatarButton}>Dashboard</li>
-                    <li onClick={handleAvatarButton}>Logout</li>
-                  </ul> :
-                  users === "client" &&
-                  <ul className={style.menuAvatar}>
-                    <li onClick={handleAvatarButton}>Dashboard</li>
-                    <li onClick={handleAvatarButton}>Historial Pagos</li>
-                    <li onClick={handleAvatarButton}>Logout</li>
-                  </ul>
-                }
-              </Menu>
+                </Button>
+              ) : null}
+              {users !== undefined && (
+                <Menu
+                  sx={{ mt: "45px" }}
+                  id="menu-appbar"
+                  anchorEl={anchorElUser}
+                  anchorOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  keepMounted
+                  transformOrigin={{
+                    vertical: "top",
+                    horizontal: "right",
+                  }}
+                  open={Boolean(anchorElUser)}
+                  onClose={handleCloseUserMenu}
+                >
+                  {users === "admin" || users === "professional" ? (
+                    <ul
+                      className={style.menuAvatar}
+                      onClick={handleCloseUserMenu}
+                    >
+                      <li onClick={handleAvatarButton}>Dashboard</li>
+                      <li onClick={handleAvatarButton}>Logout</li>
+                    </ul>
+                  ) : (
+                    users === "client" && (
+                      <ul className={style.menuAvatar}>
+                        <li onClick={handleAvatarButton}>Dashboard</li>
+                        <li onClick={handleAvatarButton}>Historial Pagos</li>
+                        <li onClick={handleAvatarButton}>Logout</li>
+                      </ul>
+                    )
+                  )}
+                </Menu>
+              )}
             </Box>
           </div>
         </Toolbar>
