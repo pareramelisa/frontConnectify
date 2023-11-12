@@ -78,47 +78,51 @@ const CommentsForAdmin = () => {
   return (
     <div>
       <h1>Comentarios Recientes:</h1>
-      {allComments.map((comment) => (
-        <div key={comment._id}>
-          <div>
-            <h4>
-              {console.log(comment.isDeleted)}
-              <button onClick={() => handleCensura(comment._id)}>
-                {comment.isDeleted ? "Descensurar" : "Censurar"}
-              </button>{" "}
-              <button onClick={() => handleCheck(comment._id)}>
-                Marcar como leído
-              </button>{" "}
-              De{" "}
-              <button
-                onClick={() => handleClickReviewer(comment.Client)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "blue",
-                  cursor: "pointer",
-                }}
-              >
-                {comment.Client.userName}
-              </button>{" "}
-              hacia{" "}
-              <button
-                onClick={() => handleClickReviewee(comment.Professional)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "blue",
-                  cursor: "pointer",
-                }}
-              >
-                {comment.Professional.userName}
-              </button>
-              Fecha: {comment.date.substring(0, 10)}
-            </h4>
-            <p>Comentario: {comment.comment}</p>
+      {allComments.length !== 0 ? (
+        allComments.map((comment) => (
+          <div key={comment._id}>
+            <div>
+              <h4>
+                {console.log(comment.isDeleted)}
+                <button onClick={() => handleCensura(comment._id)}>
+                  {comment.isDeleted ? "Descensurar" : "Censurar"}
+                </button>{" "}
+                <button onClick={() => handleCheck(comment._id)}>
+                  Marcar como leído
+                </button>{" "}
+                De{" "}
+                <button
+                  onClick={() => handleClickReviewer(comment.Client)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "blue",
+                    cursor: "pointer",
+                  }}
+                >
+                  {comment.Client.userName}
+                </button>{" "}
+                hacia{" "}
+                <button
+                  onClick={() => handleClickReviewee(comment.Professional)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "blue",
+                    cursor: "pointer",
+                  }}
+                >
+                  {comment.Professional.userName}
+                </button>
+                Fecha: {comment.date.substring(0, 10)}
+              </h4>
+              <p>Comentario: {comment.comment}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <h3>No Hay Comentarios por Revisar</h3>
+      )}
       <div
         className={style.loadingMessage}
         style={{ display: loading ? "flex" : "none" }}
