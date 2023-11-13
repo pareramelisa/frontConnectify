@@ -136,12 +136,12 @@ function ViewsPayments() {
       <Navbar />
       <div className={style.contentAll}>
         <div className={style.contTitle}>
-          <h3>Mis pagos...</h3>
+          <h2>Historial de pagos</h2>
 
           <h4>
             {paymentData && paymentData[0] && paymentData[0].userName
               ? `User: ${paymentData[0].userName}`
-              : "Cargando..."}
+              : "Hasta la fecha no se registran pagos realizados."}
           </h4>
           {paymentData &&
           paymentData.map((data) => (

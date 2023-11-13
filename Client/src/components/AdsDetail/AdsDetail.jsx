@@ -145,7 +145,6 @@ const DetailAd = () => {
                           height: "40px",
                           marginLeft: "58em",
                           marginTop: "-2em",
-
                         }}
                         variant="contained"
                         onClick={handleSaveOrRemoveProfile}
@@ -157,7 +156,6 @@ const DetailAd = () => {
                 )}
 
                 <Grid item xs={12} md={10} sx={{ margin: "16px" }}>
-
                   <h1 className={style.profession}>
                     {detail.detail.profession}
                   </h1>
@@ -168,7 +166,6 @@ const DetailAd = () => {
                   <p className={style.description}>
                     {detail.detail.description}
                   </p>
-
                 </Grid>
                 <Grid item xs={8}></Grid>
               </Grid>
@@ -202,7 +199,7 @@ const DetailAd = () => {
                         </Grid>
                       </Grid>
 
-                      {buttonVisible && (
+                      {buttonVisible && users.types !== "admin" && (
                         <button
                           className={style.buttonContratar}
                           onClick={handleContract}
