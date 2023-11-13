@@ -1,5 +1,4 @@
 
-  
 .contenedorLanding {
   /* background-color: yellow; */
   position: relative; 
@@ -7,12 +6,7 @@
   grid-template-columns: 50% 50%;
   /* flex-direction: row; */
   z-index: 1; /* Establece una posición z para que el div esté por encima del SVG */
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  margin-top: 0rem;
-
+ overflow: hidden;
 }
 .contMujer {
   /* background-color: red; */
@@ -125,4 +119,14 @@
 }
 .home img {
   width: 80%;
+}
+
+button:hover {
+  box-shadow: 0px 0.1em 0.2em rgb(45 35 66 / 40%), 0px 0.4em 0.7em -0.1em rgb(45 35 66 / 30%), inset 0px -0.1em 0px #3c4fe0;
+  transform: translateY(-0.1em);
+}
+
+button:active {
+  box-shadow: inset 0px 0.1em 0.6em #3c4fe0;
+  transform: translateY(0em);
 }

@@ -2,6 +2,15 @@
   clip-path: url(#cache);
 } */
 
+.Cover {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  z-index: -1; /* Coloca el fondo detrás de los demás elementos */
+}
 .homeAnim {
   position: absolute; /* Asegura que el SVG tenga una posición absoluta */
   top: 0;

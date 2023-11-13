@@ -1,6 +1,12 @@
 import style from "./SupportPopUp.module.css";
+import { useNavigate } from "react-router-dom";
 
 const SupportPopUp = ({ isVisible, professional, onClose }) => {
+  const navigate = useNavigate();
+  const handlerToDetail = (_id) => {
+    console.log(_id);
+    navigate(`/detail/${_id}`);
+  };
   return (
     <div className={style.modal}>
       <button onClick={onClose}>Cerrar</button>
@@ -12,7 +18,9 @@ const SupportPopUp = ({ isVisible, professional, onClose }) => {
         </div>
         <div className={style.buttons}>
           {!professional.creator && <button>Editar Perfil</button>}
-          <button>Ver Detalle</button>
+          <button onClick={() => handlerToDetail(professional._id)}>
+            Ver Detalle
+          </button>
           {professional.profession && <button>Editar Aviso</button>}
           <button>Enviar Mensaje</button>
         </div>
