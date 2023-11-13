@@ -166,7 +166,7 @@ const ProfsForAdmin = () => {
     setSelectedProfessional(prof);
     console.log(prof);
     !isModalVisible ? setIsModalVisible(true) : setIsModalVisible(false);
-    console.log("PopUp de " + prof.name);
+    console.log("PopUp de " + prof.userName);
   };
 
   const handleClosePopUp = () => {
