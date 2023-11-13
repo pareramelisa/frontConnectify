@@ -13,7 +13,8 @@ const CommentBox = ({ onClose, professionalId }) => {
   const { user, isAuthenticated } = useAuth0();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
-  const users = useSelector((state) => state.usersLogin.user);
+  const usersLocal = useSelector((state) => state.usersLogin.user);
+  const usersGoogle = useSelector((state) => state.googleLogin.user);
   const comments = useSelector((state) => state.comment.comments);
   const [newComment, setNewComment] = useState("");
   const [userDataOk, setUserDataOk] = useState("");
@@ -29,7 +30,7 @@ const CommentBox = ({ onClose, professionalId }) => {
     if (newComment.trim() !== "") {
       const commentData = {
         comment: newComment,
-        client: users.userName,
+        client: usersGoogle ? usersGoogle.userName : usersLocal.userName,
         professionalId: detail.detail.creator[0]._id,
         rating: rating,
       };
