@@ -1,3 +1,4 @@
+
 /* eslint-disable react-hooks/exhaustive-deps */
 import { IoMdRefresh } from 'react-icons/io';
 import { MdPersonSearch } from 'react-icons/md';
@@ -23,7 +24,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { fetchUserLoginWithGoogle } from '../../redux/Slices/loginGoogleSlice';
 import Cover from '../../components/Cover/Cover';
 import { IconButton } from '@mui/material';
-
 
 const Home = () => {
   //* Declaraciones de variables
@@ -100,6 +100,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+
     paginate(1)
   }, [adsFiltered])
 
@@ -194,11 +195,10 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+<div >
       <Cover />
       <Navbar setContainerLogin={setContainerLogin} />
       <div className={styles.container111}>
-
         {containerLogin ? (
           <Login
             setContainerLogin={setContainerLogin}
@@ -215,9 +215,7 @@ const Home = () => {
                   onChange={handleProfession}
                 >
                   {profession === "" && (
-                    <option value="DEFAULT">
-                      Elige una profesión
-                    </option>
+                    <option value="DEFAULT">Elige una profesión</option>
                   )}
 
                   {uniqueProfessions.map((profession, id) => (
@@ -233,9 +231,7 @@ const Home = () => {
                   value={locationProf}
                   onChange={handleLocation}
                 >
-                  <option value="DEFAULT">
-                    Elige una ciudad
-                  </option>
+                  <option value="DEFAULT">Elige una ciudad</option>
                   {uniqueLocations.map((locations, id) => (
                     <option key={id} value={locations}>
                       {locations}
@@ -281,9 +277,7 @@ const Home = () => {
               value={sortPrice}
               onChange={handlesortPrice}
             >
-              <option value="DEFAULT">
-                Precio
-              </option>
+              <option value="DEFAULT">Precio</option>
               <option value="asc">Ascendente</option>
               <option value="desc">Descendente</option>
             </select>
@@ -304,9 +298,7 @@ const Home = () => {
               value={workLocation}
               onChange={handleRemoteWork}
             >
-              <option value="DEFAULT">
-                Modalidad
-              </option>
+              <option value="DEFAULT">Modalidad</option>
               <option value="Remoto">Remoto</option>
               <option value="Presencial">Presencial</option>
             </select>
@@ -347,7 +339,6 @@ const Home = () => {
                   }}
                 />
               </button>
-            
             </div>
           </div>
         </div>
@@ -392,11 +383,7 @@ const Home = () => {
             </div>
           ) : (
             <div>
-              <img
-                src={Obrero}
-                alt="Obrero"
-                style={{ width: "400px" }}
-              />
+              <img src={Obrero} alt="Obrero" style={{ width: "400px" }} />
               <h2
                 style={{
                   paddingLeft: "1.5em",
@@ -408,9 +395,7 @@ const Home = () => {
             </div>
           )}
         </div>
-        <div className={styles.buttonContainer}>
-          <ButtonTop />
-        </div>
+
         {isAuthenticated ? (
           <button
             className="open-chat-button"
@@ -427,7 +412,7 @@ const Home = () => {
         ) : null}
         {chatOpen && <Chat nickname={nickname} />}
         {currentAds.length !== 0 || adsFiltered.length !== 0 ? (
-          <Pagination
+          <Pagination className={styles.paginado}
             currentPage={currentPage}
             adsPerPage={adsPerPage}
             totalAds={adsFiltered.length}
@@ -435,6 +420,12 @@ const Home = () => {
             currentAds={currentAds}
           />
         ) : null}
+        <div className={styles.buttonContainer}>
+          <ButtonTop />
+        </div>
+      </div>
+      <div className={styles.footer}>
+        {" "}
         <Footer />
       </div>
     </div>
