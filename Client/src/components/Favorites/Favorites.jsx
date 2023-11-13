@@ -1,23 +1,18 @@
-import React, { useEffect, useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect } from "react";
 import {
-  Card,
-  CardContent,
-  Typography,
-  Button,
-  Grid,
-  CardMedia,
-  Box,
-  IconButton,
+    IconButton,
 } from "@mui/material";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Navbar from "../Navbar/Navbar";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchGetAllFavorites,
-  fetchAddFavorites,
   fetchRemoveFavorites,
 } from "../../redux/Slices/favoritesSlice";
+import Cover from '../Cover/Cover'
+import style from './Favorites.module.css'
 
 const Favorites = () => {
   const users = useSelector((state) => state.usersLogin.user);
@@ -51,71 +46,69 @@ const Favorites = () => {
   };
 
   return (
-    <div>
+    <div >
+      
       <Navbar />
-      <div style={{ justifyContent: "center", padding: "5em" }}>
-        <Typography variant="h4" component="h1">
+      <Cover />
+      <h4 className={style.perfil}>
           Perfiles Guardados
-        </Typography>
-        {favorites?.length > 0 ? (
-          favorites?.map((fav, index) => (
-            <div key={fav?.professional?._id}>
+        </h4>
+      <div >
+        
+        {favorites.length > 0 ? (
+          favorites.map((fav, index) => (
+            <div key={fav.professional._id}>
               {fav.professional && (
-                <div>
-                  <Card key={index} sx={{ marginBottom: "16px", width: "90%" }}>
-                    <CardContent>
-                      <Grid container spacing={2}>
-                        <Grid item xs={12} sm={6} md={2}>
-                          <Box display="flex" justifyContent="space-between">
-                            <IconButton
+                
+                    <div >
+                      
+                          
+                      <IconButton
                               onClick={handleRemoveFavorite}
                               id={fav.professional._id}
                               value={fav.client}
+                              style={{ marginLeft: '51em', position: 'relative', top:'1.3em'  }}
                             >
                               <DeleteIcon color="error" />
                             </IconButton>
-                          </Box>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={2}>
-                          <CardMedia
-                            component="img"
-                            height="200"
-                            image={fav.professional.image}
+                          
+                        
+                        <div className={style.backgroundContainer}>
+                          
+                          <img className={style.profilePic}
+                            src={fav.professional.image}
                             alt={`Imagen de ${fav.professional.name}`}
                           />
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={4}>
-                          <Typography variant="h5" component="div">
+                       
+                        
+                          <h4 className={style.h4}>
                             {fav.professional.name} {fav.professional.lastName}
-                          </Typography>
-                          <Typography variant="body2" color="text.secondary">
+                          </h4>
+                          <p className={style.description}>
                             {fav.professional.description}
-                          </Typography>
-                        </Grid>
-                        <Grid item xs={12} sm={6} md={2}></Grid>
-                        <Grid item xs={12} sm={6} md={2}>
-                          {/* <Link to={`/detail/${fav.professional._id}`}> */}
-                          <Button
-                            variant="contained"
-                            color="primary"
+                          </p>
+                      
+                        
+                          <button
+                            className={style.buttonContratar}
                             onClick={() =>
                               handleAdsDetails(fav.professional._id)
                             }
                           >
                             Ver Detalle
-                          </Button>
-                          {/* </Link> */}
-                        </Grid>
-                      </Grid>
-                    </CardContent>
-                  </Card>
-                </div>
+                          </button>
+                        
+                          </div>
+                    </div>
+                 
               )}
             </div>
+            
           ))
         ) : (
           <p>No tienes perfiles guardados.</p>
         )}
+        
       </div>
     </div>
   );
