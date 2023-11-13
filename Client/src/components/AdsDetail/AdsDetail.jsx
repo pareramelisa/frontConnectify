@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Button,
   Card,
@@ -11,7 +11,6 @@ import {
   List,
   ListItem,
   Typography,
-
 } from "@mui/material";
 import MercadoPago from "../Payments/MercadoPago";
 // import "./DetailAd.css";
@@ -36,9 +35,7 @@ import {
 import Comments from "../CommentsClient/CommentsClients";
 import ButtonBack from "../Utils/ButtonBack/ButtonBack";
 import Loading from "../Utils/Loading/Loading";
-import Cover from '../Cover/Cover';
-
-
+import Cover from "../Cover/Cover";
 
 const DetailAd = () => {
   const { user } = useAuth0();
@@ -46,7 +43,9 @@ const DetailAd = () => {
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
   const location = useLocation();
-  const favorites = useSelector((state) => state.favorites.favoriteProfessionals);
+  const favorites = useSelector(
+    (state) => state.favorites.favoriteProfessionals
+  );
 
   const users = useSelector((state) => state.usersLogin.user);
   const userGoogle = useSelector((state) => state.googleLogin.user);
@@ -58,9 +57,7 @@ const DetailAd = () => {
   const [buttonVisible, setButtonVisible] = useState(true);
 
   const newFav = favorites.some(
-    (favorite) =>
-      favorite.professional._id === detail.detail.creator[0]._id
-
+    (favorite) => favorite.professional._id === detail.detail.creator[0]._id
   );
 
   useEffect(() => {
@@ -98,18 +95,17 @@ const DetailAd = () => {
     }
   };
 
-const handleContract = ()=>{
-  setVisible(true);
-  setPay(true);
-  setButtonVisible(false);
-}
+  const handleContract = () => {
+    setVisible(true);
+    setPay(true);
+    setButtonVisible(false);
+  };
 
-const handleOverlay = ()=>{
-  setVisible(false);
-  setPay(false);
-  setButtonVisible(true);
-}
-
+  const handleOverlay = () => {
+    setVisible(false);
+    setPay(false);
+    setButtonVisible(true);
+  };
 
   return (
     <div>
@@ -118,88 +114,64 @@ const handleOverlay = ()=>{
 
       <div className={style.principal}>
         <div className={style.shadow}>
-        
-        
-        
-        {
-          visible && <div className={style.overlay} onClick={handleOverlay}></div>
-        }
-        
-        
-            {loading ? (
-              <Loading />
-            ) : detail.detail.creator && detail.detail.creator.length > 0 ? (
-              <Grid container spacing={2}>
-                <Grid item xs={8} align="left">
-                  <div style={{ paddingBottom: "1em" }}>
-                    <Link to={"/home"}>
-                      <ButtonBack />
-                    </Link>
-                  </div>
-                  {users.types !== "admin" && users.types !== "professional" && (
-                    <Grid item xs={8} align="left">
-                      <Box
-                        display="flex"
-                        justifyContent="space-between"
-                        width="100%"
+          {visible && (
+            <div className={style.overlay} onClick={handleOverlay}></div>
+          )}
+
+          {loading ? (
+            <Loading />
+          ) : detail.detail.creator && detail.detail.creator.length > 0 ? (
+            <Grid container spacing={2}>
+              <Grid item xs={8} align="left">
+                <div style={{ paddingBottom: "1em" }}>
+                  <Link to={"/home"}>
+                    <ButtonBack />
+                  </Link>
+                </div>
+                {users.types !== "admin" && users.types !== "professional" && (
+                  <Grid item xs={8} align="left">
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      width="100%"
+                    >
+                      <Button
+                        sx={{
+                          backgroundColor: !newFav ? "#D9D9D9" : "#3B7BA4",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          width: "40px",
+                          height: "40px",
+                          marginLeft: "58em",
+                          marginTop: "-2em",
+                        }}
+                        variant="contained"
+                        onClick={handleSaveOrRemoveProfile}
                       >
-                        <Button
-                          sx={{
-                            backgroundColor: !newFav ? "#D9D9D9" : "#3B7BA4",
-                            alignItems: "center",
-                            justifyContent: "center",
-                          }}
-                          variant="contained"
-                          onClick={handleSaveOrRemoveProfile}
-                        >
-                          {!newFav ? <StarBorderIcon /> : <StarIcon />}
-                        </Button>
-                      </Box>
-                    </Grid>
-                  )}
-
-
-                  <Grid item xs={12} md={10} sx={{ margin: "16px" }}>
-                    <Typography
-                      fontWeight="900"
-                      variant="h3"
-                      sx={{ margin: "10px" }}
-                    >
-                      {detail.detail.profession}
-                    </Typography>
-                    <Typography
-                      fontWeight="900"
-                      variant="h5"
-                      sx={{ margin: "10px" }}
-                    >
-                      Ubicación: {detail.detail.location}
-                    </Typography>
-                    <Typography
-                      fontWeight="900"
-                      variant="h4"
-                      sx={{ margin: "10px" }}
-                    >
-                      Descripción:
-                    </Typography>
-                    <Typography
-                      fontWeight="700"
-                      variant="body1"
-                      sx={{ margin: "10px" }}
-                    >
-                      {detail.detail.description}
-                    </Typography>
+                        {!newFav ? <StarBorderIcon /> : <StarIcon />}
+                      </Button>
+                    </Box>
                   </Grid>
-                  <Grid item xs={8}></Grid>
+                )}
+
+                <Grid item xs={12} md={10} sx={{ margin: "16px" }}>
+                  <h1 className={style.profession}>
+                    {detail.detail.profession}
+                  </h1>
+                  <h2 className={style.ubicacion}>
+                    Ubicación: {detail.detail.location}
+                  </h2>
+                  <h3 className={style.descripcion}>Descripción:</h3>
+                  <p className={style.description}>
+                    {detail.detail.description}
+                  </p>
                 </Grid>
-                <Grid item xs={12} sm={6} md={4}>
-                  
-                  
-    <div className={style.content}>
-                  
-                  
+                <Grid item xs={8}></Grid>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <div className={style.content}>
                   <Card sx={{ maxWidth: 345, borderRadius: 5 }}>
                     <CardMedia
-
                       sx={{ height: 200 }}
                       image={detail.detail.creator[0].image}
                       title="tec"
@@ -226,36 +198,29 @@ const handleOverlay = ()=>{
                         </Grid>
                       </Grid>
 
+                      {buttonVisible && (
+                        <button
+                          className={style.buttonContratar}
+                          onClick={handleContract}
+                        >
+                          Contratar
+                        </button>
+                      )}
 
-                    {
-                      buttonVisible && (
-                          <button className={style.buttonContratar} onClick={handleContract}>
-                            Contratar
-                          </button>
-                      )
-                    }
-                    
-                    <div className={style.mercadoP}>
-                      <MercadoPago pay={pay}  />
-                    </div>
-
-
-
+                      <div className={style.mercadoP}>
+                        <MercadoPago pay={pay} />
+                      </div>
                     </CardContent>
                   </Card>
-
-    </div>
-
-
-                </Grid>
+                </div>
               </Grid>
-            ) : (
-              <div>No hay creadores disponibles.</div>
-            )}
-          
-          <Comments id={detail.detail.creator?.[0]?._id || ''} />
+            </Grid>
+          ) : (
+            <div>No hay creadores disponibles.</div>
+          )}
 
-        </div>    
+          <Comments id={detail.detail.creator?.[0]?._id || ""} />
+        </div>
       </div>
     </div>
   );

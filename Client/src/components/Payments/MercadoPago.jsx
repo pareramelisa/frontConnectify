@@ -8,7 +8,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 
 import style from './MercadoPago.module.css'
 
-
 // config();
 // const PUBLIC_KEY = process.env.PUBLIC_KEY;
 
@@ -110,6 +109,7 @@ const [paymentId, setPaymentId] = useState("")
 
   return (
     <>
+    
     
         {/* {
           !preferenceId && <button className={style.buttonContratar} onClick={handleButton}>Contratar</button>

@@ -1,30 +1,37 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 
-import IconButton from "@mui/material/IconButton";
-import CancelRoundedIcon from "@mui/icons-material/CancelRounded";
+// import InputLabel from '@mui/material/InputLabel';
+// import MenuItem from '@mui/material/MenuItem';
+// import FormControl from '@mui/material/FormControl';
+// import Select from '@mui/material/Select';
+// import IconButton from '@mui/material/IconButton';
+// import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
+// import Fab from '@mui/material/Fab';
+import { IoMdRefresh } from 'react-icons/io';
+import { MdPersonSearch } from 'react-icons/md';
+import Obrero from '../../assets/Obrero.gif'
+import { useState, useEffect } from 'react';
+import Navbar from '../../components/Navbar/Navbar';
+import Login from '../../components/Login/Login';
+import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { locationUser } from '../../redux/Slices/persistSlice';
+import Professional from '../../components/Card/Professional';
+import { fetchAds } from '../../redux/Slices/adsSlice';
+import styles from './Home.module.css';
+import Pagination from '../../components/Pagination/Pagination';
+import { fetchFilter } from '../../redux/Slices/FiltersCombinedSlice';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+import Footer from '../../components/Footer/Footer';
+import Chat from '../../components/Chat/Chat';
+import ButtonTop from '../../components/Utils/ButtonTop/ButtonTop';
+import Loading from '../../components/Utils/Loading/Loading';
+import { useAuth0 } from '@auth0/auth0-react';
+import { fetchUserLoginWithGoogle } from '../../redux/Slices/loginGoogleSlice';
+import Cover from '../../components/Cover/Cover';
+import { IconButton } from '@mui/material';
 
-import { IoMdRefresh } from "react-icons/io";
-import { MdPersonSearch } from "react-icons/md";
-import { useState, useEffect } from "react";
-import Navbar from "../../components/Navbar/Navbar";
-import Login from "../../components/Login/Login";
-import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { locationUser } from "../../redux/Slices/persistSlice";
-import Professional from "../../components/Card/Professional";
-import { fetchAds } from "../../redux/Slices/adsSlice";
-import styles from "./Home.module.css";
-import Pagination from "../../components/Pagination/Pagination";
-import { fetchFilter } from "../../redux/Slices/FiltersCombinedSlice";
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
-import Footer from "../../components/Footer/Footer";
-import Chat from "../../components/Chat/Chat";
-import ButtonTop from "../../components/Utils/ButtonTop/ButtonTop";
-import Loading from "../../components/Utils/Loading/Loading";
-import { useAuth0 } from "@auth0/auth0-react";
-import { fetchUserLoginWithGoogle } from "../../redux/Slices/loginGoogleSlice";
-import Cover from "../../components/Cover/Cover";
 
 const Home = () => {
   //* Declaraciones de variables
@@ -199,12 +206,12 @@ const Home = () => {
     setPopUpLogin(false);
   };
 
-  
   return (
     <div>
       <Cover />
       <Navbar setContainerLogin={setContainerLogin} />
       <div className={styles.container111}>
+
         {containerLogin ? (
           <Login
             setContainerLogin={setContainerLogin}
@@ -212,6 +219,7 @@ const Home = () => {
           />
         ) : null}
         {popUpLogin && (
+
           <div
             style={{
               position: "absolute",
@@ -239,7 +247,7 @@ const Home = () => {
               }}
               onClick={handlerCloseLoginPopUp}
             >
-              <CancelRoundedIcon />
+             
             </IconButton>
             <div
               style={{
@@ -302,7 +310,7 @@ const Home = () => {
             </div>
             <Slider
               trackStyle={{ backgroundColor: "orange", height: 4 }}
-              railStyle={{ backgroundColor: "white", height: 4 }}
+              railStyle={{ backgroundColor: "#3b7ba4", height: 4 }}
               handleStyle={{
                 borderColor: "#1a659a",
                 height: 10,
@@ -331,7 +339,7 @@ const Home = () => {
               onChange={handlesortPrice}
             >
               <option value="DEFAULT">
-                Ordenar:
+                Precio
               </option>
               <option value="asc">Ascendente</option>
               <option value="desc">Descendente</option>
@@ -354,7 +362,7 @@ const Home = () => {
               onChange={handleRemoteWork}
             >
               <option value="DEFAULT">
-                Tipo
+                Modalidad
               </option>
               <option value="Remoto">Remoto</option>
               <option value="Presencial">Presencial</option>
@@ -396,16 +404,7 @@ const Home = () => {
                   }}
                 />
               </button>
-              {/* <Fab
-                color="primary"
-                className={styles.spinButton}
-                onClick={clearFilters}
-                style={{
-                  zIndex: '1',
-                }}
-              >
-                <IoMdRefresh style={{ fontSize: '2em' }} />
-              </Fab> */}
+            
             </div>
           </div>
         </div>
@@ -451,7 +450,7 @@ const Home = () => {
           ) : (
             <div>
               <img
-                src="https://i.pinimg.com/originals/44/30/c9/4430c9ff73da58c23c823f0ea6b6f64c.gif"
+                src={Obrero}
                 alt="Obrero"
                 style={{ width: "400px" }}
               />

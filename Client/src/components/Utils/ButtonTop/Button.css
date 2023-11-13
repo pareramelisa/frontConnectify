@@ -5,7 +5,7 @@
   height: 50px;
 }
 
-.my-button {
+.mybutton {
   width: 180px;
   height: 56px;
   overflow: hidden;
@@ -15,10 +15,11 @@
   position: relative;
   padding-bottom: 2em;
   align-items: center;
-  background-color: black;
+  background-color: #3b7ba4;
+  border-radius: 1em;
 }
 
-.my-button > div,
+
 .my-button > svg {
   position: absolute;
   width: 100%;

@@ -115,7 +115,6 @@
   transition: all 0.2s ease-in;
 }
 
-
 .buttonContratar:hover {
   background: rgb(61, 106, 255);
   box-shadow: 0 0 30px 5px rgba(0, 142, 236, 0.815);
@@ -164,6 +163,7 @@
   }
 }
 
+
 .buttonContratar:active {
   box-shadow: 0 0 0 0 transparent;
   -webkit-transition: box-shadow 0.2s ease-in;
@@ -172,4 +172,30 @@
 }
 
 
-
+.profession{
+  text-align: center;
+  color: #03315c;
+  
+  font-size: 3em;
+  margin-top: 0.2em;
+}
+.ubicacion{
+  text-align: center;
+  color: #56013d;
+  
+  font-size: 2em;
+  margin-top: 1em;
+}
+.descripcion{
+  text-align: center;
+  color: #03315c;
+ 
+  font-size: 2em;
+  margin-top: 0.2em;
+}
+.description{
+  text-align: center;
+  font-size: 1.1em;
+  margin-top: -1em;
+font-weight: bold;
+}
