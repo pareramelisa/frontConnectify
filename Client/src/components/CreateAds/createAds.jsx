@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { Button, Divider, Grid, InputLabel, Paper } from "@mui/material";
-import NavBar from "../../components/Navbar/Navbar";
+import NavBar from "../../components/Navbar/Navbar"
 import Footer from "../Footer/Footer";
 
 function CreateAdForm() {
@@ -37,7 +37,7 @@ function CreateAdForm() {
   }, [formData]);
 
   const handleInputChange = (fieldName, value) => {
-    if (fieldName !== 'price' && !/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]*$/.test(value)) {
+    if (fieldName !== 'price' && !/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s,.\-]*$/.test(value)) {
       return;
     }
   
