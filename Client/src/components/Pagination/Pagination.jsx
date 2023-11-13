@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
-import { Container } from './styledPagination';
-import Fab from '@mui/material/Fab';
-import { useState, useEffect } from 'react';
-import { TextField, Button } from '@mui/material';
+import { Container } from "./styledPagination";
+import Fab from "@mui/material/Fab";
+import { useState, useEffect } from "react";
+import { TextField, Button } from "@mui/material";
 
 function Pagination({
   currentPage,
@@ -22,20 +22,20 @@ function Pagination({
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
-      setInputPage(currentPage + 1)
+      setInputPage(currentPage + 1);
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
-      setInputPage(currentPage - 1)
+      setInputPage(currentPage - 1);
     }
   };
   const handleInputChange = (event) => {
     setInputPage(event.target.value);
 
-    if (event.target.value.trim() === '') {
+    if (event.target.value.trim() === "") {
       setShowGoToPageButton(false);
     } else {
       setShowGoToPageButton(true);
@@ -67,12 +67,12 @@ function Pagination({
       </Fab>
       <div
         style={{
-          marginTop: '2.7em',
-          marginLeft: '1em',
-          marginRight: '1em',
-          alignItems: 'center',
-          display: 'flex',
-          flexDirection: 'column',
+          marginTop: "2.7em",
+          marginLeft: "1em",
+          marginRight: "1em",
+          alignItems: "center",
+          display: "flex",
+          flexDirection: "column",
         }}
       >
         {showGoToPageButton && (
@@ -81,7 +81,7 @@ function Pagination({
             color="primary"
             onClick={handleGoToPage}
             disabled={!showGoToPageButton}
-            style={{ marginBottom: '1em' }}
+            style={{ marginBottom: "1em" }}
           >
             Ir
           </Button>
@@ -92,9 +92,9 @@ function Pagination({
           type="text"
           value={inputPage}
           onChange={handleInputChange}
-          style={{ width: '80px', zIndex: '300' }}
+          style={{ width: "80px", zIndex: "300" }}
         />
-        <h4 style={{ margin: '1em 0em 0em 0em', textAlign: 'center' }}>
+        <h4 style={{ margin: "1em 0em 0em 0em", textAlign: "center" }}>
           {currentPage} de {totalPages}
         </h4>
       </div>
@@ -104,7 +104,7 @@ function Pagination({
         onClick={handleNextPage}
         disabled={currentPage === totalPages}
         style={{
-          zIndex: '1',
+          zIndex: "1",
         }}
       >
         Next
@@ -114,4 +114,3 @@ function Pagination({
 }
 
 export default Pagination;
-

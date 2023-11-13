@@ -7,26 +7,25 @@ Cover {
   z-index: 1;
   position: relative;
   background-color: #fff;
- padding-top: 0.3em;
+  padding-top: 0.3em;
   margin-left: 8em;
-  margin-right: 8em;  
+  margin-right: 8em;
   border-radius: 0.51em;
   box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
   height: 130em;
- }
+}
 
- .footer{
+.footer {
   margin-top: 10em;
   z-index: 2;
   position: relative;
- }
+}
 .card {
-  
-    display: grid;
-    grid-template-columns: repeat(3, 7fr);
-    gap: 5em;
-    padding: 4em;
-    grid-row-gap:2em;
+  display: grid;
+  grid-template-columns: repeat(3, 7fr);
+  gap: 5em;
+  padding: 4em;
+  grid-row-gap: 2em;
 }
 
 /* Establece un ancho máximo para la cuadrícula para evitar que los elementos se estiren demasiado en pantallas grandes */
@@ -36,7 +35,7 @@ Cover {
     grid-template-columns: repeat(3, 7fr);
     gap: 5em;
     padding: 4em;
-    grid-row-gap:7em;
+    grid-row-gap: 7em;
     /* Cambia a 4 columnas en pantallas más grandes */
   }
 }
@@ -107,7 +106,6 @@ Cover {
     transform: rotate(360deg);
   }
 }
-
 
 /* .contSelectProf {
   background-color: red;
@@ -337,8 +335,8 @@ Cover {
 }
 
 .buttonContainer {
-position: relative;
-bottom: 17em;
+  position: relative;
+  bottom: 17em;
 }
 /* ///////////////////////////////////////////// */
 .contClear {
@@ -355,6 +353,6 @@ bottom: 17em;
   margin-top: 0.2rem;
 }
 
-.paginado{
+.paginado {
   z-index: 300;
 }

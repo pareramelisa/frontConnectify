@@ -1,4 +1,3 @@
-
 import { IoMdRefresh } from "react-icons/io";
 import { MdPersonSearch } from "react-icons/md";
 import Obrero from "../../assets/Obrero.gif";
@@ -198,7 +197,7 @@ const Home = () => {
   };
 
   return (
-    <div >
+    <div>
       <Cover />
       <Navbar setContainerLogin={setContainerLogin} />
       <div className={styles.container111}>
@@ -456,7 +455,8 @@ const Home = () => {
         ) : null}
         {chatOpen && <Chat nickname={nickname} />}
         {currentAds.length !== 0 || adsFiltered.length !== 0 ? (
-          <Pagination className={styles.paginado}
+          <Pagination
+            className={styles.paginado}
             currentPage={currentPage}
             adsPerPage={adsPerPage}
             totalAds={adsFiltered.length}
