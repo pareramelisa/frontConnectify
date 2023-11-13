@@ -85,8 +85,11 @@ const ProfsForAdmin = () => {
   const handleUserType = (e) => {
     setCurrentPage(1);
     if (e === "professionals") setSelectedData(professionals);
+    setShowButton(false);
     if (e === "clients") setSelectedData(clients);
+    setShowButton(false);
     if (e === "ads") setSelectedData(ads);
+    setShowButton(false);
   };
   const [selectedData, setSelectedData] = useState(professionals);
 
