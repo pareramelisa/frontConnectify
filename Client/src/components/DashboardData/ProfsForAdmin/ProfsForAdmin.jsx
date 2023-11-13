@@ -28,6 +28,7 @@ const ProfsForAdmin = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [showButton, setShowButton] = useState(false);
   const [dataPerPage] = useState(8);
+  const [loading, setLoading] = useState(false);
 
   const indexOfLastAd = currentPage * dataPerPage;
   const indexOfFirstAd = indexOfLastAd - dataPerPage;
@@ -52,6 +53,7 @@ const ProfsForAdmin = () => {
   }, []);
 
   const handleDelete = async (e, prof) => {
+    showLoading();
     let newState = [];
     if (!prof.profession) {
       try {
@@ -83,8 +85,11 @@ const ProfsForAdmin = () => {
   const handleUserType = (e) => {
     setCurrentPage(1);
     if (e === "professionals") setSelectedData(professionals);
+    setShowButton(false);
     if (e === "clients") setSelectedData(clients);
+    setShowButton(false);
     if (e === "ads") setSelectedData(ads);
+    setShowButton(false);
   };
   const [selectedData, setSelectedData] = useState(professionals);
 
@@ -116,6 +121,7 @@ const ProfsForAdmin = () => {
     : [];
 
   const handleBanProf = async () => {
+    showLongLoading();
     try {
       const update = [];
       await Promise.all(
@@ -134,6 +140,7 @@ const ProfsForAdmin = () => {
     } catch (error) {}
   };
   const handleUnbanProf = async () => {
+    showLongLoading();
     try {
       const update = [];
       await Promise.all(
@@ -159,13 +166,26 @@ const ProfsForAdmin = () => {
     setSelectedProfessional(prof);
     console.log(prof);
     !isModalVisible ? setIsModalVisible(true) : setIsModalVisible(false);
-    console.log("PopUp de " + prof.name);
+    console.log("PopUp de " + prof.userName);
   };
 
   const handleClosePopUp = () => {
     setSelectedProfessional(null);
     setIsModalVisible(false);
   };
+
+  function showLoading() {
+    setLoading(true);
+    setTimeout(function () {
+      setLoading(false);
+    }, 950);
+  }
+  function showLongLoading() {
+    setLoading(true);
+    setTimeout(function () {
+      setLoading(false);
+    }, 1250);
+  }
 
   return (
     <div
@@ -305,7 +325,6 @@ const ProfsForAdmin = () => {
                   style={{
                     backgroundColor: prof.isDeleted ? "#9bdb92" : "#edd55e",
                   }}
-                  // className="btn btn-outline-danger"
                   onClick={(e) => handleDelete(e, prof)}
                 >
                   <svg
@@ -370,6 +389,12 @@ const ProfsForAdmin = () => {
             currentAds={currentData}
           />
         ) : null}
+      </div>
+      <div
+        className={style.loadingMessage}
+        style={{ display: loading ? "flex" : "none" }}
+      >
+        <div className={style.loadingText}>Loading...</div>
       </div>
     </div>
   );

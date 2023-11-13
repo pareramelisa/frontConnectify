@@ -1,17 +1,19 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
-import { useState } from 'react';
-import { Box } from '@mui/material';
-import { fetchUserLogin } from '../../redux/Slices/loginSlice';
-import { useDispatch } from 'react-redux';
-import { useAuth0 } from '@auth0/auth0-react';
-import { useLocation, Link } from 'react-router-dom';
-import { locationUser } from '../../redux/Slices/persistSlice';
-import validationLogin from './validationLogin';
-import style from './Login.module.css';
-import { AiFillCloseCircle } from 'react-icons/ai';
-import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
-import Logo from '../../assets/LogoCLogin.png';
-import LogoGoogle from '../../assets/Logo-Google.png';
+import { useState } from "react";
+import {Box} from '@mui/material'
+import CircularProgress from '@mui/material/CircularProgress';
+import { fetchUserLogin } from "../../redux/Slices/loginSlice";
+import { useDispatch } from "react-redux";
+import { useAuth0 } from "@auth0/auth0-react";
+import { useLocation, Link } from "react-router-dom";
+import { locationUser } from "../../redux/Slices/persistSlice";
+import validationLogin from "./validationLogin";
+import style from "./Login.module.css";
+import { AiFillCloseCircle } from "react-icons/ai";
+import { BsFillArrowLeftCircleFill } from "react-icons/bs";
+import Logo from "../../assets/LogoCLogin.png";
+import LogoGoogle from '../../assets/Logo-Google.png'
 import RequestPassword from '../ResetPassword/RequestPassword/RequestPassword';
 import { setUserType } from '../../redux/Slices/userTypeSlice';
 
@@ -55,7 +57,7 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
       setShowLoginClient(false);
       setContainerLogin(false);
     } else {
-      setPopUpLogin(true); // Mostrar el mensaje emergente para el inicio de sesión incorrecto
+      setPopUpLogin(true);
     }
   };
 
@@ -256,33 +258,9 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
           </div>
         </div>
       )}
-
-      {popUpGoogle && (
-        <div
-          style={{
-            position: 'absolute',
-            width: '25rem',
-            height: '10rem',
-            top: '38%',
-            left: '36%',
-            border: '2px solid black',
-            borderRadius: '20px',
-            display: 'flex',
-            justifyContent: 'space-around',
-            alignItems: 'center',
-            flexDirection: 'column',
-            backgroundColor: 'rgba(255,255,255,0.9)',
-            zIndex: '1000',
-          }}
-        >
-          <div
-            style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              flexDirection: 'column',
-            }}
-          >
+{popUpGoogle && (
+        <div className={style.containerPopUpGoogle}>
+          <div className={style.boxPopUp}>
             <h4>Redirigiendo a Login de Google</h4>
             <Box>
               <CircularProgress />

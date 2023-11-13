@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useState } from 'react';
+import { useState } from "react";
 import {
   Button,
   Card,
@@ -11,30 +11,31 @@ import {
   List,
   ListItem,
   Typography,
-} from '@mui/material';
-import MercadoPago from '../Payments/MercadoPago';
-import './DetailAd.css';
-import { useDispatch, useSelector } from 'react-redux';
-import { useEffect } from 'react';
-import { useLocation, useParams } from 'react-router-dom';
-import { fetchDetail } from '../../redux/Slices/detailSlice';
-import Navbar from '../Navbar/Navbar';
-import { locationUser } from '../../redux/Slices/persistSlice';
+} from "@mui/material";
+import MercadoPago from "../Payments/MercadoPago";
+// import "./DetailAd.css";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { fetchDetail } from "../../redux/Slices/detailSlice";
+import Navbar from "../Navbar/Navbar";
+import { locationUser } from "../../redux/Slices/persistSlice";
 
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
-import StarIcon from '@mui/icons-material/Star';
-import { useAuth0 } from '@auth0/auth0-react';
-import './DetailAd.css';
-import { Link } from 'react-router-dom';
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import StarBorderIcon from "@mui/icons-material/StarBorder";
+import StarIcon from "@mui/icons-material/Star";
+import { useAuth0 } from "@auth0/auth0-react";
+import style from "./DetailAd.module.css";
+import { Link } from "react-router-dom";
 import {
   fetchAddFavorites,
   fetchRemoveFavorites,
-} from '../../redux/Slices/favoritesSlice';
-import Comments from '../CommentsClient/CommentsClients';
-import ButtonBack from '../Utils/ButtonBack/ButtonBack';
-import Loading from '../Utils/Loading/Loading';
+} from "../../redux/Slices/favoritesSlice";
+import Comments from "../CommentsClient/CommentsClients";
+import ButtonBack from "../Utils/ButtonBack/ButtonBack";
+import Loading from "../Utils/Loading/Loading";
+import Cover from "../Cover/Cover";
 
 const DetailAd = () => {
   const { user } = useAuth0();
@@ -45,10 +46,15 @@ const DetailAd = () => {
   const favorites = useSelector(
     (state) => state.favorites.favoriteProfessionals
   );
+
   const users = useSelector((state) => state.usersLogin.user);
   const userGoogle = useSelector((state) => state.googleLogin.user);
+
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState(null);
+  const [visible, setVisible] = useState(false);
+  const [pay, setPay] = useState(false);
+  const [buttonVisible, setButtonVisible] = useState(true);
 
   const newFav = favorites.some(
     (favorite) => favorite.professional._id === detail.detail.creator[0]._id
@@ -89,112 +95,133 @@ const DetailAd = () => {
     }
   };
 
+  const handleContract = () => {
+    setVisible(true);
+    setPay(true);
+    setButtonVisible(false);
+  };
+
+  const handleOverlay = () => {
+    setVisible(false);
+    setPay(false);
+    setButtonVisible(true);
+  };
+
   return (
     <div>
+      <Cover />
       <Navbar />
-      <div className="principal">
-        {loading ? (
-          <Loading />
-        ) : detail.detail.creator && detail.detail.creator.length > 0 ? (
-          <Grid container spacing={2}>
-            <Grid item xs={8} align="left">
-              <div style={{ paddingBottom: '1em' }}>
-                <Link to={'/home'}>
-                  <ButtonBack />
-                </Link>
-              </div>
-              {users.types !== 'admin' && users.types !== 'professional' && (
-                <Grid item xs={8} align="left">
-                  <Box
-                    display="flex"
-                    justifyContent="space-between"
-                    width="100%"
-                  >
-                    <Button
-                      sx={{
-                        backgroundColor: !newFav ? '#D9D9D9' : '#3B7BA4',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                      variant="contained"
-                      onClick={handleSaveOrRemoveProfile}
+
+      <div className={style.principal}>
+        <div className={style.shadow}>
+          {visible && (
+            <div className={style.overlay} onClick={handleOverlay}></div>
+          )}
+
+          {loading ? (
+            <Loading />
+          ) : detail.detail.creator && detail.detail.creator.length > 0 ? (
+            <Grid container spacing={2}>
+              <Grid item xs={8} align="left">
+                <div style={{ paddingBottom: "1em" }}>
+                  <Link to={"/home"}>
+                    <ButtonBack />
+                  </Link>
+                </div>
+                {users.types !== "admin" && users.types !== "professional" && (
+                  <Grid item xs={8} align="left">
+                    <Box
+                      display="flex"
+                      justifyContent="space-between"
+                      width="100%"
                     >
-                      {!newFav ? <StarBorderIcon /> : <StarIcon />}
-                    </Button>
-                  </Box>
-                </Grid>
-              )}
+                      <Button
+                        sx={{
+                          backgroundColor: !newFav ? "#D9D9D9" : "#3B7BA4",
+                          alignItems: "center",
+                          justifyContent: "center",
 
-              <Grid item xs={12} md={10} sx={{ margin: '16px' }}>
-                <Typography
-                  fontWeight="900"
-                  variant="h3"
-                  sx={{ margin: '10px' }}
-                >
-                  {detail.detail.profession}
-                </Typography>
-                <Typography
-                  fontWeight="900"
-                  variant="h5"
-                  sx={{ margin: '10px' }}
-                >
-                  Ubicación: {detail.detail.location}
-                </Typography>
-                <Typography
-                  fontWeight="900"
-                  variant="h4"
-                  sx={{ margin: '10px' }}
-                >
-                  Descripción:
-                </Typography>
-                <Typography
-                  fontWeight="700"
-                  variant="body1"
-                  sx={{ margin: '10px' }}
-                >
-                  {detail.detail.description}
-                </Typography>
-              </Grid>
-              <Grid item xs={8}></Grid>
-            </Grid>
-            <Grid item xs={12} sm={6} md={4}>
-              <Card sx={{ maxWidth: 345, borderRadius: 5 }}>
-                <CardMedia
-                  sx={{ height: 200 }}
-                  image={detail.detail.creator[0].image}
-                  title="tec"
-                />
-                <CardContent>
-                  <Typography fontWeight="900" variant="h5" component="div">
-                    {detail.detail.creator[0].name}{' '}
-                    {detail.detail.creator[0].lastName}
-                  </Typography>
-                  <Grid container spacing={2}>
-                    <Grid item xs={12} md={8}>
-                      <div>
-                        <List>
-                          <ListItem>
-                            <Typography align="left">Tarifa: </Typography>
-                            {detail.detail.price}$
-                          </ListItem>
-                          <ListItem>
-                            <Typography>Modalidad: </Typography>
-                            {detail.detail.workLocation}
-                          </ListItem>
-                        </List>
-                      </div>
-                    </Grid>
+                          width: "40px",
+                          height: "40px",
+                          marginLeft: "58em",
+                          marginTop: "-2em",
+                        }}
+                        variant="contained"
+                        onClick={handleSaveOrRemoveProfile}
+                      >
+                        {!newFav ? <StarBorderIcon /> : <StarIcon />}
+                      </Button>
+                    </Box>
                   </Grid>
+                )}
 
-                  <MercadoPago />
-                </CardContent>
-              </Card>
+                <Grid item xs={12} md={10} sx={{ margin: "16px" }}>
+                  <h1 className={style.profession}>
+                    {detail.detail.profession}
+                  </h1>
+                  <h2 className={style.ubicacion}>
+                    Ubicación: {detail.detail.location}
+                  </h2>
+                  <h3 className={style.descripcion}>Descripción:</h3>
+                  <p className={style.description}>
+                    {detail.detail.description}
+                  </p>
+                </Grid>
+                <Grid item xs={8}></Grid>
+              </Grid>
+              <Grid item xs={12} sm={6} md={4}>
+                <div className={style.content}>
+                  <Card sx={{ maxWidth: 345, borderRadius: 5 }}>
+                    <CardMedia
+                      sx={{ height: 200 }}
+                      image={detail.detail.creator[0].image}
+                      title="tec"
+                    />
+                    <CardContent>
+                      <Typography fontWeight="900" variant="h5" component="div">
+                        {detail.detail.creator[0].name}{" "}
+                        {detail.detail.creator[0].lastName}
+                      </Typography>
+                      <Grid container spacing={2}>
+                        <Grid item xs={12} md={8}>
+                          <div>
+                            <List>
+                              <ListItem>
+                                <Typography align="left">Tarifa: </Typography>
+                                {detail.detail.price}$
+                              </ListItem>
+                              <ListItem>
+                                <Typography>Modalidad: </Typography>
+                                {detail.detail.workLocation}
+                              </ListItem>
+                            </List>
+                          </div>
+                        </Grid>
+                      </Grid>
+
+                      {buttonVisible && users.types !== "admin" && (
+                        <button
+                          className={style.buttonContratar}
+                          onClick={handleContract}
+                        >
+                          Contratar
+                        </button>
+                      )}
+
+                      <div className={style.mercadoP}>
+                        <MercadoPago pay={pay} />
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+              </Grid>
             </Grid>
-          </Grid>
-        ) : (
-          <div>No hay creadores disponibles.</div>
-        )}
-        <Comments id={detail.detail.creator?.[0]?._id || ''} />
+          ) : (
+            <div>No hay creadores disponibles.</div>
+          )}
+
+          <Comments id={detail.detail.creator?.[0]?._id || ""} />
+        </div>
       </div>
     </div>
   );

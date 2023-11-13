@@ -3,16 +3,18 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   fetchCommentsForAdmin,
   deleteCommentByIdAdmin,
+  checkCommentByIdAdmin,
 } from "../../../redux/Slices/commentSlice";
 import style from "./CommentsForAdmin.module.css";
 
 const CommentsForAdmin = () => {
-  const comments = useSelector((state) => state.comments.comments);
-  // const comments = useSelector((state) =>
-  //   state.comments.comments.filter((comment) => !comment.isChecked)
-  // );
+  console.log(654654);
+  // const comments = useSelector((state) => state.comments.comments);
+  const comments = useSelector((state) =>
+    state.comment.comments.filter((comment) => !comment.isChecked)
+  );
 
-  const deleted = useSelector((state) => state.comments.deleted);
+  const deleted = useSelector((state) => state.comment.deleted);
   const dispatch = useDispatch();
   const [allComments, setAllComments] = useState(comments);
 
@@ -20,9 +22,8 @@ const CommentsForAdmin = () => {
     const fetchData = async () => {
       try {
         const response = await dispatch(fetchCommentsForAdmin());
-        // const newState = response.filter((comment) => !comment.isChecked)
-        // setAllComments(newState);
-        setAllComments(response);
+        const newState = response.filter((comment) => !comment.isChecked);
+        setAllComments(newState);
       } catch (error) {
         console.error("Falló el fetcheo", error);
       }
@@ -33,6 +34,8 @@ const CommentsForAdmin = () => {
   const [showReviewerDetails, setShowReviewerDetails] = useState(false);
   const [showRevieweeDetails, setShowRevieweeDetails] = useState(false);
   const [whoToShow, setWhoToShow] = useState();
+  const [loading, setLoading] = useState(false);
+
   const handleClickReviewer = (Client) => {
     console.log(Client);
     setShowReviewerDetails(true);
@@ -49,53 +52,82 @@ const CommentsForAdmin = () => {
   };
 
   const handleCensura = async (_id) => {
+    showLoading();
     await dispatch(deleteCommentByIdAdmin(_id));
     const response = await dispatch(fetchCommentsForAdmin());
-    // fetchData();
-    setAllComments(response);
+    const newState = response.filter((comment) => !comment.isChecked);
+
+    setAllComments(newState);
   };
+
+  const handleCheck = async (_id) => {
+    showLoading();
+    await dispatch(checkCommentByIdAdmin(_id));
+    const response = await dispatch(fetchCommentsForAdmin());
+    const newState = response.filter((comment) => !comment.isChecked);
+    setAllComments(newState);
+  };
+
+  function showLoading() {
+    setLoading(true);
+    setTimeout(function () {
+      setLoading(false);
+    }, 750);
+  }
 
   return (
     <div>
       <h1>Comentarios Recientes:</h1>
-      {allComments.map((comment) => (
-        <div key={comment._id}>
-          <div>
-            <h4>
-              {console.log(comment.isDeleted)}
-              <button onClick={() => handleCensura(comment._id)}>
-                {comment.isDeleted ? "Descensurar" : "Censurar"}
-              </button>{" "}
-              De{" "}
-              <button
-                onClick={() => handleClickReviewer(comment.Client)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "blue",
-                  cursor: "pointer",
-                }}
-              >
-                {comment.Client.userName}
-              </button>{" "}
-              hacia{" "}
-              <button
-                onClick={() => handleClickReviewee(comment.Professional)}
-                style={{
-                  background: "none",
-                  border: "none",
-                  color: "blue",
-                  cursor: "pointer",
-                }}
-              >
-                {comment.Professional.userName}
-              </button>
-              Fecha: {comment.date.substring(0, 10)}
-            </h4>
-            <p>Comentario: {comment.comment}</p>
+      {allComments.length !== 0 ? (
+        allComments.map((comment) => (
+          <div key={comment._id}>
+            <div>
+              <h4>
+                <button onClick={() => handleCensura(comment._id)}>
+                  {comment.isDeleted ? "Descensurar" : "Censurar"}
+                </button>{" "}
+                <button onClick={() => handleCheck(comment._id)}>
+                  Marcar como leído
+                </button>{" "}
+                De{" "}
+                <button
+                  onClick={() => handleClickReviewer(comment.Client)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "blue",
+                    cursor: "pointer",
+                  }}
+                >
+                  {comment.Client.userName}
+                </button>{" "}
+                hacia{" "}
+                <button
+                  onClick={() => handleClickReviewee(comment.Professional)}
+                  style={{
+                    background: "none",
+                    border: "none",
+                    color: "blue",
+                    cursor: "pointer",
+                  }}
+                >
+                  {comment.Professional.userName}
+                </button>
+                Fecha: {comment.date.substring(0, 10)}
+              </h4>
+              <p>Comentario: {comment.comment}</p>
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      ) : (
+        <h3>No Hay Comentarios por Revisar</h3>
+      )}
+      <div
+        className={style.loadingMessage}
+        style={{ display: loading ? "flex" : "none" }}
+      >
+        <div className={style.loadingText}>Loading...</div>
+      </div>
       {showReviewerDetails && (
         <div className={style.vemos}>
           <div className={style.details}>
@@ -139,8 +171,3 @@ const CommentsForAdmin = () => {
   );
 };
 export default CommentsForAdmin;
-{
-  /* <a href={URL + `/detail/${comment.Professional._id}`}>
-  {comment.Professional.userName}
-</a>; */
-}

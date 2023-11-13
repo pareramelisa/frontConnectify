@@ -8,53 +8,41 @@ import PaymentsCard from "../PaymentsCard/PaymentsCard";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useAuth0 } from "@auth0/auth0-react";
-
 import Navbar from "../Navbar/Navbar";
 import CommentBox from "../CommentsClient/CommentBox";
+import ReviewButton from "../CommentsClient/ReviewButton";
 
 function ViewsPayments() {
-
 
   const { user, isAuthenticated } = useAuth0();
   const [isCommentBoxOpen, setIsCommentBoxOpen] = useState(false);
   const { pathname, search } = useLocation(); // ( pathname: url - search: Querys )
-
-  console.log("PATH...", pathname);
-  console.log("SEARCH...", search);
   const path = pathname.split("/")[2];
-
   const detail = useSelector((state) => state.detail);
   const users = useSelector((state) => state.usersLogin.user);
-  const comments = useSelector((state) => state.comment.comments || []);
+  const comments = useSelector((state) => state.comment.comments);
   const [paymentData, setPaymentData] = useState(null);
   const [userName, setUserName] = useState("");
-  
+
   const [openCommentBoxId, setOpenCommentBoxId] = useState(null);
 
-console.log(comments);
+  // Nueva lógica para mapear los comentarios y verificar si el usuario ha dejado un comentario para cada profesional
+  const professionalCommentsMap = comments.reduce((acc, comment) => {
+    if (comment.Professional._id) {
+      acc[comment.Professional._id] = true;
+    }
+    return acc;
+  }, {});
+
+  console.log(professionalCommentsMap, "coment?");
+
   const handleCommentBoxToggle = (professionalId) => {
-    setOpenCommentBoxId((prevId) => (prevId === professionalId ? null : professionalId));
-  };
+      setOpenCommentBoxId((prevId) => (prevId === professionalId ? null : professionalId));
+    };
 
   const handleClose = () => {
-    setOpenCommentBoxId(null);
-  };
-
-  const hasCommented = (professionalId) => {
-    console.log("Checking comments for professionalId:", professionalId);
-    console.log("User ID:", users._id);
-    // console.log("UserID:", comments.Client._id);
-    const userComment = comments.find(
-      (comment) =>
-      comment.Professional._id === professionalId &&
-      comment.Client.userName === users.userName &&
-      !comment.isDeleted
-    );
-  
-    console.log("User comment:", userComment);
-    console.log("Sample Comment Structure:", comments[0]); 
-    return !!userComment;
-  };
+      setOpenCommentBoxId(null);
+    }
  
   
 
@@ -95,8 +83,6 @@ console.log(comments);
         paymentType: payment_type, //dataMP[6].split("=")[1],
       };
 
-      console.log("ZZZZZ : ", valuesMP);
-
       const fetchData = async () => {
         try {
           //Veo si ya existe el ID de pago para evitar copias
@@ -116,11 +102,13 @@ console.log(comments);
                 userName: userName,
                 isCompleted: valuesMP.status,
               }
+
             );
             searchData();
           }
         } catch (error) {
           console.log("Error ViewPayments,", error);
+
         }
       };
 
@@ -148,30 +136,26 @@ console.log(comments);
       <Navbar />
       <div className={style.contentAll}>
         <div className={style.contTitle}>
-          <h3>Mis pagos...</h3>
+          <h2>Historial de pagos</h2>
 
           <h4>
             {paymentData && paymentData[0] && paymentData[0].userName
               ? `User: ${paymentData[0].userName}`
-              : "Cargando..."}
+              : "Hasta la fecha no se registran pagos realizados."}
           </h4>
           {paymentData &&
-  paymentData.map((data) => (
-    <div key={data.paymentID}>
-      <PaymentsCard data={data} />
-      {!hasCommented(data.professionalId) ? (
-        <>
-          <button onClick={() => handleCommentBoxToggle(data.professionalId)}>
-            Dejar reseña
-          </button>
-          {openCommentBoxId === data.professionalId && (
-            <CommentBox onClose={handleClose} professionalId={data.professionalId} />
-          )}
-        </>
-      ) : (
-        <p>Ya has dejado un comentario para este profesional.</p>
-      )}
-    </div>
+          paymentData.map((data) => (
+            <div key={data.paymentID}>
+              <PaymentsCard data={data} />
+              <ReviewButton
+                  comments={comments}
+                  handleCommentBoxToggle={handleCommentBoxToggle}
+                  openCommentBoxId={openCommentBoxId}
+                  professionalId={data.professionalId}
+                  hasCommented={professionalCommentsMap[data.professionalId] || false}
+                  handleClose={handleClose}
+                />
+            </div>
   ))}
         </div>
       </div>
