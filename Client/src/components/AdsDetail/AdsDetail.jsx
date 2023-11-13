@@ -140,6 +140,7 @@ const DetailAd = () => {
                           backgroundColor: !newFav ? "#D9D9D9" : "#3B7BA4",
                           alignItems: "center",
                           justifyContent: "center",
+
                           width: "40px",
                           height: "40px",
                           marginLeft: "58em",
@@ -198,7 +199,7 @@ const DetailAd = () => {
                         </Grid>
                       </Grid>
 
-                      {buttonVisible && (
+                      {buttonVisible && users.types !== "admin" && (
                         <button
                           className={style.buttonContratar}
                           onClick={handleContract}

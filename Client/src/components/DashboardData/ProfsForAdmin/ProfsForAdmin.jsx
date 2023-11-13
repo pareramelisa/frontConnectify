@@ -85,8 +85,11 @@ const ProfsForAdmin = () => {
   const handleUserType = (e) => {
     setCurrentPage(1);
     if (e === "professionals") setSelectedData(professionals);
+    setShowButton(false);
     if (e === "clients") setSelectedData(clients);
+    setShowButton(false);
     if (e === "ads") setSelectedData(ads);
+    setShowButton(false);
   };
   const [selectedData, setSelectedData] = useState(professionals);
 
@@ -163,7 +166,7 @@ const ProfsForAdmin = () => {
     setSelectedProfessional(prof);
     console.log(prof);
     !isModalVisible ? setIsModalVisible(true) : setIsModalVisible(false);
-    console.log("PopUp de " + prof.name);
+    console.log("PopUp de " + prof.userName);
   };
 
   const handleClosePopUp = () => {

@@ -13,7 +13,7 @@
   height: 100%;
 }
 .contConnectify {
-  /* background-color: blue; */
+  background-color: blue;
   height: auto;
   display: grid;
   /* flex-direction: column; */
@@ -21,16 +21,33 @@
   justify-content: center;
   align-items: center;
 }
-
+.contCuadroBlanco {
+  /* background-color: blue; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.cuadroBlanco {
+  box-shadow: 0px 0px 10px rgba(66, 66, 66, 0.295);
+  background-color: rgb(255, 255, 255);
+width: 70%;
+height: 78%;
+  display: grid;
+  border-radius: 2rem;
+  /* flex-direction: column; */
+  grid-template-rows: 55% 10% 5% 30%;
+  justify-content: center;
+  align-items: center;
+}
 
 .contLogo {
   /* background-color: pink; */
-  width: auto;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   margin-left: 0rem;
-  margin-top: 5rem;
+  margin-top: 6rem;
 }
 
 .contTitulo {
@@ -50,8 +67,8 @@
 }
 .imgLogo {
   /* background-color: white; */
-  /* margin-top: 0rem; */
-  width: 70%;
+  margin-top: -5rem;
+  width: 90%;
 }
 .imgTitulo {
   margin-left: 0rem;
@@ -77,7 +94,7 @@
   height: 2rem;
 }
 .home{
-  margin-top: 1rem;
+  margin-top: 3rem;
   background-color: rgb(34, 123, 175);
   /* background-color: rgb(70, 70, 224); */
   border-radius: 6px;
@@ -94,8 +111,9 @@
   align-items: center;
 
 }
-.subTitulo h2 {
+.subTitulo h3 {
   margin: 0rem;
+  font: "";
 }
 
 /* ------------------------------------------------ */

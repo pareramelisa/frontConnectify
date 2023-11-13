@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-
+import {useNavigate} from 'react-router-dom'
 const ButtonContainer = styled.button`
   position: relative;
   display: inline-block;
@@ -90,8 +90,13 @@ const ButtonContainer = styled.button`
 `;
 
 const ButtonBack = () => {
+  const navigate = useNavigate()
+
+  const handleGoBack = () => {
+    navigate(-1)
+  }
   return (
-    <ButtonContainer className="learn-more">
+    <ButtonContainer className="learn-more" onClick={handleGoBack}>
       <div className="circle">
         <div className="icon arrow"></div>
       </div>
