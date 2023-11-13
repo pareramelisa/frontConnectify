@@ -17,7 +17,9 @@ function LandingPage() {
         <div className={style.contMujer}>
           <img className={style.imgMujer} src={Mujer} alt="" />
         </div>
-        <div className={style.contConnectify}>
+        <div className={style.contCuadroBlanco}>
+
+    <div className={style.cuadroBlanco}>
           <div className={style.contLogo}>
             <img className={style.imgLogo} src={Logo1} alt="" />
           </div>
@@ -25,7 +27,7 @@ function LandingPage() {
             <img className={style.imgTitulo} src={Titulo} alt="" />
           </div>
           <div className={style.subTitulo}>
-            <h2>Encontrá profesionales de una manera segura.</h2>
+            <h3>Encontrá profesionales de una manera segura.</h3>
           </div>
           <div className={style.contButtons}>
             <button className={style.home} onClick={() => navigate("/home")}>
@@ -34,6 +36,8 @@ function LandingPage() {
             </button>
             {/* <button className={style.Login}>LOGIN</button> */}
           </div>
+    
+    </div>  
         </div>
       </div>
     </>
