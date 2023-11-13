@@ -1,28 +1,29 @@
 
-import { IoMdRefresh } from "react-icons/io";
-import { MdPersonSearch } from "react-icons/md";
-import Obrero from "../../assets/Obrero.gif";
-import { useState, useEffect } from "react";
-import Navbar from "../../components/Navbar/Navbar";
-import Login from "../../components/Login/Login";
-import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { locationUser } from "../../redux/Slices/persistSlice";
-import Professional from "../../components/Card/Professional";
-import { fetchAds } from "../../redux/Slices/adsSlice";
-import styles from "./Home.module.css";
-import Pagination from "../../components/Pagination/Pagination";
-import { fetchFilter } from "../../redux/Slices/FiltersCombinedSlice";
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
-import Footer from "../../components/Footer/Footer";
-import Chat from "../../components/Chat/Chat";
-import ButtonTop from "../../components/Utils/ButtonTop/ButtonTop";
-import Loading from "../../components/Utils/Loading/Loading";
-import { useAuth0 } from "@auth0/auth0-react";
-import { fetchUserLoginWithGoogle } from "../../redux/Slices/loginGoogleSlice";
-import Cover from "../../components/Cover/Cover";
-import { IconButton } from "@mui/material";
+/* eslint-disable react-hooks/exhaustive-deps */
+import { IoMdRefresh } from 'react-icons/io';
+import { MdPersonSearch } from 'react-icons/md';
+import Obrero from '../../assets/Obrero.gif'
+import { useState, useEffect } from 'react';
+import Navbar from '../../components/Navbar/Navbar';
+import Login from '../../components/Login/Login';
+import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { locationUser } from '../../redux/Slices/persistSlice';
+import Professional from '../../components/Card/Professional';
+import { fetchAds } from '../../redux/Slices/adsSlice';
+import styles from './Home.module.css';
+import Pagination from '../../components/Pagination/Pagination';
+import { fetchFilter } from '../../redux/Slices/FiltersCombinedSlice';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+import Footer from '../../components/Footer/Footer';
+import Chat from '../../components/Chat/Chat';
+import ButtonTop from '../../components/Utils/ButtonTop/ButtonTop';
+import Loading from '../../components/Utils/Loading/Loading';
+import { useAuth0 } from '@auth0/auth0-react';
+import { fetchUserLoginWithGoogle } from '../../redux/Slices/loginGoogleSlice';
+import Cover from '../../components/Cover/Cover';
+import { IconButton } from '@mui/material';
 
 const Home = () => {
   //* Declaraciones de variables
@@ -34,7 +35,6 @@ const Home = () => {
   const [priceRange, setPriceRange] = useState([1000, 10000]);
   const [profession, setProfession] = useState("");
   const [locationProf, setLocationProf] = useState("");
-  const [popUpLogin, setPopUpLogin] = useState(false);
   const [sortPrice, setSortPrice] = useState("");
   const [workLocation, setWorkLocation] = useState("");
   const [chatOpen, setChatOpen] = useState(false);
@@ -100,8 +100,9 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    paginate(1);
-  }, [adsFiltered]);
+
+    paginate(1)
+  }, [adsFiltered])
 
   //* Filtros Combinados
   const handleLocation = (e) => {
@@ -193,61 +194,16 @@ const Home = () => {
     setIsLoading(false);
   }, []);
 
-  const handlerCloseLoginPopUp = () => {
-    setPopUpLogin(false);
-  };
-
   return (
-    <div >
+<div >
       <Cover />
       <Navbar setContainerLogin={setContainerLogin} />
       <div className={styles.container111}>
         {containerLogin ? (
           <Login
             setContainerLogin={setContainerLogin}
-            setPopUpLogin={setPopUpLogin}
           />
         ) : null}
-        {popUpLogin && (
-          <div
-            style={{
-              position: "absolute",
-              width: "25rem",
-              height: "10rem",
-              top: "38%",
-              left: "36%",
-              border: "2px solid black",
-              borderRadius: "20px",
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
-              backgroundColor: "rgba(255,255,255,0.9)",
-              zIndex: "1000",
-            }}
-          >
-            <IconButton
-              disableElevation
-              style={{
-                position: "absolute",
-                top: "5px",
-                right: "5px",
-                color: "#000000",
-                fontWeight: "bold",
-              }}
-              onClick={handlerCloseLoginPopUp}
-            ></IconButton>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <h3>Email y/o Password incorrectos</h3>
-            </div>
-          </div>
-        )}
         <div className={styles.filterStyle}>
           <div className={styles.contProfesionales}>
             <div className={styles.contenedorSelect}>

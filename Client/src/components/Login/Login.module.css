@@ -1,0 +1,273 @@
+
+.containerLogin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 999;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  
+  .login {
+    position: relative;
+    width: 20rem;
+    height: 30rem;
+    border: 3px solid #e2af2f;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    background-color: rgb(255, 255, 255);
+  }
+  
+  .containerLogo {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    top: -3rem;
+    left: 110px;
+    background-color: #ffffff;
+    padding: 0.5rem;
+  }
+  
+  .logo {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+  }
+  
+  .borderTop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-top: 3px solid #e2af2f;
+    border-radius: 50%;
+  }
+  
+  .btnCerrar {
+    position: absolute;
+    font-size: 1.5rem;
+    top: 15px;
+    right: 15px;
+    border-radius: 50%;   
+      transition: all .2s ease;
+      color: #000000;
+  }
+  
+  .btnBack{
+      position: absolute;
+    font-size: 1.3rem;
+    top: 15px;
+    left: 15px;
+    border-radius: 50%;   
+      transition: all .2s ease;
+      color: #000000;
+  }
+  
+  .btnCerrar:hover{
+      color: #e22f2f;
+  }
+  
+  .btnBack:hover{
+      color: #1976d2;
+  }
+  
+  .containerLoginStart{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 3rem;
+  }
+  
+  .loginTitle{
+      font-size: 2rem;
+      /* margin-bottom: 2rem; */
+  }
+  
+  .containerBtns{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      margin-bottom: 5rem;
+  }
+  
+  .btnClient{
+      padding: .8rem 2rem;
+      background-color: #1976d2;
+      color: #ffffff;
+      font-size: 1.3rem;
+      font-weight: bold;
+      outline: none;
+      border: none;
+      border-radius: 20px;
+  }
+  
+  .btnProfessional{
+      padding: .8rem 2rem;
+      background-color: #1976d2;
+      color: #ffffff;
+      font-size: 1.3rem;
+      font-weight: bold;
+      outline: none;
+      border: none;
+      border-radius: 20px;
+  }
+  
+  .containerLoginClient{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+  }
+  
+  .clientTitle{
+      font-size: 1.5rem;
+  }
+  
+  .loginForm{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1.2rem;
+  }
+  
+  .loginForm input{
+      width: 70%;
+      padding: 10px;
+      border-radius: 20px;
+      outline: none;
+      border: 1px solid #000000;
+  }
+  
+  .btnGetIn{
+      padding: .8rem 2rem;
+      background-color: #1976d2;
+      color: #ffffff;
+      font-size: 1.1rem;
+      font-weight: bold;
+      outline: none;
+      border: none;
+      border-radius: 20px;
+  }
+  
+  .imageGoogle{
+      width: 2rem;
+      background-color: #ffffff;
+      padding: 2px;
+      border-radius: 50%;
+  }
+  
+  .btnGoogle{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 5px;
+      background-color: #1976d2;
+      outline: none;
+      border: none;
+      border-radius: 20px;
+  }
+  
+  .btnGoogle span{
+      color: #ffffff;
+      font-weight: bold;
+  }
+  
+  .notAccount{
+      font-size: 0.8rem;
+  }
+  
+  .notAccount span{
+      margin-left: 0.5rem;
+      letter-spacing: 2px;
+      font-size: 1rem;
+      color: #e2af2f;
+  }
+  
+  .line {
+      width: 80%;
+      height: 1px;
+      background-color: #c5c2c2;
+      margin: 20px 0;
+  }
+  
+  .spanFormEmail{
+      position: absolute;
+      font-size: 0.8rem;
+      top: 143px;
+      color: #e22f2f;
+      font-weight: bold;
+  }
+  
+  .spanFormPass{
+      position: absolute;
+      font-size: 0.8rem;
+      top: 200px;
+      color: #e22f2f;
+      font-weight: bold;
+  }
+  
+  .containerLoginProfessional{
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+  }
+  
+  .spanFormEmailProf{
+      position: absolute;
+      font-size: 0.8rem;
+      top: 168px;
+      color: #e22f2f;
+      font-weight: bold;
+  }
+  
+  .spanFormPassProf{
+      position: absolute;
+      font-size: 0.8rem;
+      top: 225px;
+      color: #e22f2f;
+      font-weight: bold;
+  }
+
+.containerPopUpGoogle{
+    position: absolute;
+    width: 25rem;
+    height: 10rem;
+    top: 38%;
+    left: 36%;
+    border: 3px solid #e2af2f;
+    border-radius: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-direction: column;
+    background-color: #ffffff;
+    z-index: 1000;
+}
+
+.boxPopUp{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+

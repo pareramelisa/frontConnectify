@@ -13,8 +13,14 @@ import ClientProfile from './views/DashboardClient/DashboardClient';
 import Chat from './components/Chat/Chat';
 import DashboardClient from './views/DashboardClient/DashboardClient';
 import Team from './components/Footer/Team/Team';
+import RequestPassword from './components/ResetPassword/RequestPassword/RequestPassword';
+import ResetPassword from './components/ResetPassword/ResetPassword/ResetPassword';
+import { useAuth0 } from "@auth0/auth0-react";
+import { useSelector } from "react-redux";
 
 function App() {
+  const users = useSelector((state) => state.usersLogin.user);
+
   return (
     <>
       <div className="App">
@@ -34,11 +40,18 @@ function App() {
           <Route path="/professional/registration" element={<Registration />} />
           <Route path="/client/registration" element={<Registration />} />
           <Route path="/client/favorites" element={<Favortites />} />
-          <Route path="/admin/dashboard" element={<DashboardAdmin />} />
           <Route path="/chat" element={<Chat />} />
           <Route path="/client/profile" element={<ClientProfile />} />
           <Route path="/client/dashboard" element={<DashboardClient />} />
           <Route path="/ourTeam" element={<Team />} />
+          <Route path="/password" element={<RequestPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          {users.types === "admin" ? (
+            <Route path="/admin/dashboard" element={<DashboardAdmin />} />
+          ) : (
+            <Route path="/admin/dashboard" element={<Landing />} />
+          )}
+          {/* <Route path="/admin/dashboard" element={<DashboardAdmin />} /> */}
         </Routes>
       </div>
     </>

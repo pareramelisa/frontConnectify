@@ -9,26 +9,36 @@ const UserInfoCard = ({ user, userImage, editMode, handleEdit, handleSave, setUs
         border: 'none',
         borderRadius: 5,
         padding: 1,
-        margin: '20px',
+        margin: '1em',
       }}
     >
      
-       <h3 style={{ border: 'none', borderRadius: 5, padding: 1, margin: '20px' }}>Mi perfil</h3> 
+       <h3 style={{ border: 'none', borderRadius: 5, padding: 1, margin: '1em' }}>Mi perfil</h3> 
     
       <CardHeader
-        avatar={<Avatar src={userImage} />}
+        avatar={<Avatar src={userImage} sx={{ width: 100, height: 100 }} />}
         title={editMode ? (
-          <TextField
-            label="Nombre"
-            value={user.name}
-            fullWidth
-            required
-            onChange={(e) => setUser({ ...user, name: e.target.value })}
-          />
+          <p>Edita tu perfil acutalizando tu domicilio para recibir listados de profesionales en tu zona  en tu casillla de email:</p>
+          // <TextField
+          //   label="Nombre"
+          //   value={user.name}
+          //   fullWidth
+          //   required
+          //   onChange={(e) => setUser({ ...user, name: e.target.value })}
+          // />
         ) : (
-          user.name
+          <Typography variant="h5" gutterBottom>
+            {user.name} {user.LastName}
+          </Typography>
         )}
-        subheader={user.email}
+        subheader={
+          <div>
+            <Typography variant="h6" >
+            {user.email}
+
+            </Typography>
+          </div>
+        }
         action={
           <IconButton onClick={handleEdit}>
             <Edit />
@@ -38,7 +48,7 @@ const UserInfoCard = ({ user, userImage, editMode, handleEdit, handleSave, setUs
       <CardContent>
         {editMode ? (
           <div>
-            <div style={{ marginBottom: '10px' }}>
+            {/* <div style={{ marginBottom: '10px' }}>
               <TextField
                 label="Apellido"
                 value={user.LastName}
@@ -46,7 +56,7 @@ const UserInfoCard = ({ user, userImage, editMode, handleEdit, handleSave, setUs
                 required
                 onChange={(e) => setUser({ ...user, LastName: e.target.value })}
               />
-            </div>
+            </div> */}
             {/* <div style={{ marginBottom: '10px' }}>
               <TextField
                 label="Email"
@@ -58,7 +68,7 @@ const UserInfoCard = ({ user, userImage, editMode, handleEdit, handleSave, setUs
             </div> */}
             <div style={{ marginBottom: '10px' }}>
               <TextField
-                label="Provincia falta connectar con el selector de ciudades"
+                label="Provincia"
                 value={user.province}
                 fullWidth
                 required
@@ -67,7 +77,7 @@ const UserInfoCard = ({ user, userImage, editMode, handleEdit, handleSave, setUs
             </div>
             <div style={{ marginBottom: '10px' }}>
               <TextField
-                label="Ciudad falta connectar con el selector de ciudades"
+                label="Ciudad"
                 value={user.location}
                 fullWidth
                 required
