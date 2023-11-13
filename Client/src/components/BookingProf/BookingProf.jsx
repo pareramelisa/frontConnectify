@@ -65,7 +65,7 @@ function BookingProf() {
         ))
       ) : (
         <Typography variant="body2" color="black" sx={{ fontSize: "15px" }}>
-          No hay comentarios disponibles.
+          No hay comentarios disponibles
         </Typography>
       )}
     </List>
