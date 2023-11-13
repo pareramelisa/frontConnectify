@@ -1,18 +1,20 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
-import { persistStore, persistReducer } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
-import adsSlice from './Slices/adsSlice';
-import professionalSlice from './Slices/professionalSlice';
-import userLoginSlice from './Slices/loginSlice';
-import userRegisterSlice from './Slices/loginSlice';
-import createAdsSlice from './Slices/createAdsSlice';
-import detailSlice from './Slices/detailSlice';
-import persistUserSlice from './Slices/persistSlice';
-import clientSlice from './Slices/clientSlice';
-import loginWithGoogleSlice from './Slices/loginGoogleSlice';
-import favoritesSlice from './Slices/favoritesSlice';
-import commentSlice from './Slices/commentSlice';
-import adsDeleteSlice from './Slices/adsDeleteSlice';
+
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
+import { persistStore, persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+import adsSlice from "./Slices/adsSlice";
+import professionalSlice from "./Slices/professionalSlice";
+import userLoginSlice from "./Slices/loginSlice";
+import userRegisterSlice from "./Slices/loginSlice";
+import createAdsSlice from "./Slices/createAdsSlice";
+import detailSlice from "./Slices/detailSlice";
+import persistUserSlice from "./Slices/persistSlice";
+import clientSlice from "./Slices/clientSlice";
+import loginWithGoogleSlice from "./Slices/loginGoogleSlice";
+import favoritesSlice from "./Slices/favoritesSlice";
+import commentSlice from "./Slices/commentSlice";
+import adsDeleteSlice from "./Slices/adsDeleteSlice";
+import modifyProfSlice from "./Slices/modifyProfSlice";
 import RequestPasswordSlice from './Slices/RequestPasswordSlice';
 import userTypesReducer from './Slices/userTypeSlice';
 
@@ -35,8 +37,10 @@ const rootReducer = combineReducers({
   googleLogin: loginWithGoogleSlice,
   favorites: favoritesSlice,
   comment: commentSlice,
+  modifyProf: modifyProfSlice,
   request: RequestPasswordSlice,
   userTypes: userTypesReducer,
+
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

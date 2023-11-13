@@ -13,20 +13,23 @@ import HelpIcon from '@mui/icons-material/Help';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link } from 'react-router-dom';
 
-export function CardProfileProf() {
+export function CardProfileProf({setPopUpModify}) {
 
-  const users = useSelector(state => state.usersLogin.user)
-  console.log(users)
+  const profById = useSelector((state) => state.modifyProf.detailProf);
   
-  const userName = users.name
-  const userLastName = users.lastName
-  const userLocation = users.location
-  const userEmail = users.email
-  const userImage = users.image
-  const userDescription = users.description
-  const userNameUser = users.userName
-  const userProfession = users.profession
-  const userProvince = users.province 
+  const userName = profById.name
+  const userLastName = profById.lastName
+  const userLocation = profById.location
+  const userEmail = profById.email
+  const userImage = profById.image
+  const userDescription = profById.description
+  const userNameUser = profById.userName
+  const userProfession = profById.profession
+  const userProvince = profById.province 
+
+  const handlerPopUpModify = () => {
+    setPopUpModify(true)
+  }
 
   return (
     <Card sx={{ maxWidth: 300, margin: '25px', boxShadow: 20 }}>
@@ -74,7 +77,7 @@ export function CardProfileProf() {
         <Button variant="contained" size="small" startIcon={<HelpIcon />}>Ayuda</Button>
         </Link>
         <Link>
-        <Button variant="contained" size="small" color="primary" startIcon= {<EditIcon/>}>Modificar</Button>
+        <Button variant="contained" size="small" color="primary" startIcon= {<EditIcon/>} onClick={handlerPopUpModify}>Modificar</Button>
         </Link>
       </CardActions>
     </Card>
