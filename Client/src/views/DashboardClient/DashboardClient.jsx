@@ -85,9 +85,12 @@ const DashboardClient = () => {
     const confirmationMessage = `¿Está seguro de que desea hacer un pedido para ${actionType}?`;
 
     if (window.confirm(confirmationMessage)) {
-      alert(`Va a ser redirigido para realizar su pedido de ${actionType}.`);
-      // Aquí puedes redirigir al usuario al formulario correspondiente
-      // usando react-router-dom u otro enfoque de enrutamiento
+      if (actionType === "cambio de contraseña") {
+        window.location.href = "/password";
+      } else {
+        alert(`Va a ser redirigido para realizar su pedido de ${actionType}.`);
+        // Redirige al usuario al formulario correspondiente usando react-router-dom u otro enfoque de enrutamiento
+      }
     }
   };
 
