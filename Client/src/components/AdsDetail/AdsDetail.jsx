@@ -140,6 +140,12 @@ const DetailAd = () => {
                           backgroundColor: !newFav ? "#D9D9D9" : "#3B7BA4",
                           alignItems: "center",
                           justifyContent: "center",
+
+                          width: "40px",
+                          height: "40px",
+                          marginLeft: "58em",
+                          marginTop: "-2em",
+
                         }}
                         variant="contained"
                         onClick={handleSaveOrRemoveProfile}
@@ -151,34 +157,18 @@ const DetailAd = () => {
                 )}
 
                 <Grid item xs={12} md={10} sx={{ margin: "16px" }}>
-                  <Typography
-                    fontWeight="900"
-                    variant="h3"
-                    sx={{ margin: "10px" }}
-                  >
+
+                  <h1 className={style.profession}>
                     {detail.detail.profession}
-                  </Typography>
-                  <Typography
-                    fontWeight="900"
-                    variant="h5"
-                    sx={{ margin: "10px" }}
-                  >
+                  </h1>
+                  <h2 className={style.ubicacion}>
                     Ubicación: {detail.detail.location}
-                  </Typography>
-                  <Typography
-                    fontWeight="900"
-                    variant="h4"
-                    sx={{ margin: "10px" }}
-                  >
-                    Descripción:
-                  </Typography>
-                  <Typography
-                    fontWeight="700"
-                    variant="body1"
-                    sx={{ margin: "10px" }}
-                  >
+                  </h2>
+                  <h3 className={style.descripcion}>Descripción:</h3>
+                  <p className={style.description}>
                     {detail.detail.description}
-                  </Typography>
+                  </p>
+
                 </Grid>
                 <Grid item xs={8}></Grid>
               </Grid>
