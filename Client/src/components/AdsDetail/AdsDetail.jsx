@@ -140,10 +140,12 @@ const DetailAd = () => {
                           backgroundColor: !newFav ? "#D9D9D9" : "#3B7BA4",
                           alignItems: "center",
                           justifyContent: "center",
+
                           width: "40px",
                           height: "40px",
                           marginLeft: "58em",
                           marginTop: "-2em",
+
                         }}
                         variant="contained"
                         onClick={handleSaveOrRemoveProfile}
@@ -155,6 +157,7 @@ const DetailAd = () => {
                 )}
 
                 <Grid item xs={12} md={10} sx={{ margin: "16px" }}>
+
                   <h1 className={style.profession}>
                     {detail.detail.profession}
                   </h1>
@@ -165,6 +168,7 @@ const DetailAd = () => {
                   <p className={style.description}>
                     {detail.detail.description}
                   </p>
+
                 </Grid>
                 <Grid item xs={8}></Grid>
               </Grid>
