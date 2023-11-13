@@ -92,7 +92,7 @@ function Pagination({
           type="text"
           value={inputPage}
           onChange={handleInputChange}
-          style={{ width: '80px' }}
+          style={{ width: '80px', zIndex: '300' }}
         />
         <h4 style={{ margin: '1em 0em 0em 0em', textAlign: 'center' }}>
           {currentPage} de {totalPages}

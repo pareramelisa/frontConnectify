@@ -67,7 +67,7 @@ const Favorites = () => {
                               onClick={handleRemoveFavorite}
                               id={fav.professional._id}
                               value={fav.client}
-                              style={{ marginLeft: '51em', position: 'relative', top:'1.3em'  }}
+                              style={{ marginLeft: '51em', position: 'relative', top:'2em'  }}
                             >
                               <DeleteIcon color="error" />
                             </IconButton>
