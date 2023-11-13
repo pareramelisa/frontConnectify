@@ -1,16 +1,19 @@
-import { useState } from "react";
-import {Box} from '@mui/material'
-import { fetchUserLogin } from "../../redux/Slices/loginSlice";
-import { useDispatch } from "react-redux";
-import { useAuth0 } from "@auth0/auth0-react";
-import { useLocation, Link } from "react-router-dom";
-import { locationUser } from "../../redux/Slices/persistSlice";
-import validationLogin from "./validationLogin";
-import style from "./Login.module.css";
-import { AiFillCloseCircle } from "react-icons/ai";
-import { BsFillArrowLeftCircleFill } from "react-icons/bs";
-import Logo from "../../assets/LogoCLogin.png";
-import LogoGoogle from '../../assets/Logo-Google.png'
+/* eslint-disable react/prop-types */
+import { useState } from 'react';
+import { Box } from '@mui/material';
+import { fetchUserLogin } from '../../redux/Slices/loginSlice';
+import { useDispatch } from 'react-redux';
+import { useAuth0 } from '@auth0/auth0-react';
+import { useLocation, Link } from 'react-router-dom';
+import { locationUser } from '../../redux/Slices/persistSlice';
+import validationLogin from './validationLogin';
+import style from './Login.module.css';
+import { AiFillCloseCircle } from 'react-icons/ai';
+import { BsFillArrowLeftCircleFill } from 'react-icons/bs';
+import Logo from '../../assets/LogoCLogin.png';
+import LogoGoogle from '../../assets/Logo-Google.png';
+import RequestPassword from '../ResetPassword/RequestPassword/RequestPassword';
+import { setUserType } from '../../redux/Slices/userTypeSlice';
 
 const Login = ({ setContainerLogin, setPopUpLogin }) => {
   const dispatch = useDispatch();
@@ -24,14 +27,14 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
 
   const [form, setForm] = useState({
-    email: "",
-    password: "",
-    types: "",
+    email: '',
+    password: '',
+    types: '',
   });
 
   const [error, setError] = useState({
-    email: "",
-    password: "",
+    email: '',
+    password: '',
   });
 
   const handleChange = (e) => {
@@ -56,7 +59,6 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
     }
   };
 
-
   const handlerLoginGoogle = () => {
     setPopUpGoogle(true);
     const loginGoogle = () => {
@@ -68,8 +70,10 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
   };
 
   const handleShowClient = (e) => {
-    const propiedad = "types";
+    const propiedad = 'types';
     const valor = e.target.id;
+    const userType = e.target.id;
+    dispatch(setUserType(userType));
     setForm({ ...form, [propiedad]: valor });
 
     dispatch(locationUser(location.pathname));
@@ -79,8 +83,10 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
   };
 
   const handleShowProfessional = (e) => {
-    const propiedad = "types";
+    const propiedad = 'types';
     const valor = e.target.id;
+    const userType = e.target.id;
+    dispatch(setUserType(userType));
     setForm({ ...form, [propiedad]: valor });
 
     dispatch(locationUser(location.pathname));
@@ -98,14 +104,14 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
 
   const handlerBackLogin = () => {
     setForm({
-      email: "",
-      password: "",
-      types: "",
-    })
+      email: '',
+      password: '',
+      types: '',
+    });
     setError({
-      email: "",
-      password: "",
-    })
+      email: '',
+      password: '',
+    });
     if (showLoginClient) {
       setShowLoginClient(false);
       setShowLogin(false);
@@ -132,7 +138,11 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
           <div className={style.containerLoginStart}>
             <h3 className={style.loginTitle}>Modo de Inicio</h3>
             <div className={style.containerBtns}>
-              <button className={style.btnClient} onClick={handleShowClient} id="client">
+              <button
+                className={style.btnClient}
+                onClick={handleShowClient}
+                id="client"
+              >
                 CLIENTE
               </button>
               <button
@@ -184,17 +194,16 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
             </form>
             <p className={style.notAccount}>
               No tenes cuenta?
-              <Link to={"/client/registration"}>
-              <span className={style.spanNotAccount}>REGISTRATE</span>
+              <Link to={'/client/registration'}>
+                <span className={style.spanNotAccount}>REGISTRATE</span>
               </Link>
+            </p>
+            <p>
+              <Link to={'/password'}>Recuperar contraseña</Link>
             </p>
             <div className={style.line}></div>
             <button className={style.btnGoogle} onClick={handlerLoginGoogle}>
-              <img
-                src={LogoGoogle}
-                alt=""
-                className={style.imageGoogle}
-              />
+              <img src={LogoGoogle} alt="" className={style.imageGoogle} />
               <span>Logueate con GOOGLE</span>
             </button>
           </div>
@@ -202,76 +211,81 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
       )}
       {showLoginProfessional && (
         <div className={style.login}>
-        <div className={style.containerLogo}>
-          <img src={Logo} alt="Logo Connectify" className={style.logo} />
-          <div className={style.borderTop}></div>
+          <div className={style.containerLogo}>
+            <img src={Logo} alt="Logo Connectify" className={style.logo} />
+            <div className={style.borderTop}></div>
+          </div>
+          <BsFillArrowLeftCircleFill
+            className={style.btnBack}
+            onClick={handlerBackLogin}
+          />
+          <AiFillCloseCircle
+            className={style.btnCerrar}
+            onClick={handlerCloseLogin}
+          />
+          <div className={style.containerLoginProfessional}>
+            <h3 className={style.clientTitle}>Profesional:</h3>
+            <form className={style.loginForm} onSubmit={onSubmit}>
+              <input
+                id="email"
+                type="email"
+                onChange={handleChange}
+                value={form.email}
+              />
+              <span className={style.spanFormEmailProf}>{error.email}</span>
+              <input
+                id="password"
+                type="password"
+                onChange={handleChange}
+                value={form.password}
+              />
+              <span className={style.spanFormPassProf}>{error.password}</span>
+              <button type="submit" className={style.btnGetIn}>
+                ENTRAR
+              </button>
+            </form>
+            <p>
+              <Link to={'/password'}>Recuperar contraseña</Link>
+            </p>
+            <p className={style.notAccount}>
+              No tenes cuenta?
+              <Link to={'/professional/registration'}>
+                <span className={style.spanNotAccount}>REGISTRATE</span>
+              </Link>
+            </p>
+          </div>
         </div>
-        <BsFillArrowLeftCircleFill
-          className={style.btnBack}
-          onClick={handlerBackLogin}
-        />
-        <AiFillCloseCircle
-          className={style.btnCerrar}
-          onClick={handlerCloseLogin}
-        />
-        <div className={style.containerLoginProfessional}>
-          <h3 className={style.clientTitle}>Profesional:</h3>
-          <form className={style.loginForm} onSubmit={onSubmit}>
-            <input
-              id="email"
-              type="email"
-              onChange={handleChange}
-              value={form.email}
-            />
-            <span className={style.spanFormEmailProf}>{error.email}</span>
-            <input
-              id="password"
-              type="password"
-              onChange={handleChange}
-              value={form.password}
-            />
-            <span className={style.spanFormPassProf}>{error.password}</span>
-            <button type="submit" className={style.btnGetIn}>
-              ENTRAR
-            </button>
-          </form>
-          <p className={style.notAccount}>
-            No tenes cuenta?
-            <Link to={"/professional/registration"}>
-            <span className={style.spanNotAccount}>REGISTRATE</span>
-            </Link>
-          </p>
-        </div>
-      </div>
       )}
 
       {popUpGoogle && (
         <div
           style={{
-            position: "absolute",
-            width: "25rem",
-            height: "10rem",
-            top: "38%",
-            left: "36%",
-            border: "2px solid black",
-            borderRadius: "20px",
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center",
-            flexDirection: "column",
-            backgroundColor: "rgba(255,255,255,0.9)",
-            zIndex: "1000",
+            position: 'absolute',
+            width: '25rem',
+            height: '10rem',
+            top: '38%',
+            left: '36%',
+            border: '2px solid black',
+            borderRadius: '20px',
+            display: 'flex',
+            justifyContent: 'space-around',
+            alignItems: 'center',
+            flexDirection: 'column',
+            backgroundColor: 'rgba(255,255,255,0.9)',
+            zIndex: '1000',
           }}
         >
-          <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            flexDirection: 'column'
-          }}>
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'column',
+            }}
+          >
             <h4>Redirigiendo a Login de Google</h4>
             <Box>
-              <CircularProgress/>
+              <CircularProgress />
             </Box>
           </div>
         </div>
@@ -281,4 +295,3 @@ const Login = ({ setContainerLogin, setPopUpLogin }) => {
 };
 
 export default Login;
-
