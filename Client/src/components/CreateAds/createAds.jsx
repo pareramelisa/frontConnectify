@@ -37,7 +37,7 @@ function CreateAdForm() {
   }, [formData]);
 
   const handleInputChange = (fieldName, value) => {
-    if (fieldName !== 'price' && !/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s]*$/.test(value)) {
+    if (fieldName !== 'price' && !/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s,.\-]*$/.test(value)) {
       return;
     }
   
