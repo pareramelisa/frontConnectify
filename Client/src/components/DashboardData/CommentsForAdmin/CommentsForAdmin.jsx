@@ -83,7 +83,6 @@ const CommentsForAdmin = () => {
           <div key={comment._id}>
             <div>
               <h4>
-                {console.log(comment.isDeleted)}
                 <button onClick={() => handleCensura(comment._id)}>
                   {comment.isDeleted ? "Descensurar" : "Censurar"}
                 </button>{" "}
