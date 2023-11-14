@@ -15,22 +15,21 @@ function CreateAdForm() {
   const user = useSelector((state) => state.usersLogin.user);
   const { adId } = useParams();
   const ads = useSelector((state) => state.createAds.createAds);
-  const adsFilter = ads.filter((ad) => ad._id === adId);
-  console.log(adsFilter);
+  const adsFilter = ads.filter((ad) => ad.id === adId);
   const [formData, setFormData] = useState(() => {
     const savedFormData = localStorage.getItem("formData");
     return savedFormData
       ? JSON.parse(savedFormData)
       : {
-          title: "",
-          description: "",
-          location: "",
-          price: "",
-          categories: "",
-          contractType: "",
-          workLocation: "",
-          profession: "",
-        };
+        title: "",
+        description: "",
+        location: "",
+        price: "",
+        categories: "",
+        contractType: "",
+        workLocation: "",
+        profession: "",
+      };
   });
 
   const [isSuccess, setIsSuccess] = useState(false);
@@ -42,26 +41,18 @@ function CreateAdForm() {
   }, [formData]);
 
   useEffect(() => {
-    const {
-      title,
-      description,
-      location,
-      price,
-      categories,
-      contractType,
-      workLocation,
-      profession,
-    } = adsFilter[0];
+
     if (adId) {
+      const {
+        title,
+        price,
+        contractType,
+      } = adsFilter[0];
+
       setFormData({
         title,
-        description,
-        location,
         price,
-        categories,
         contractType,
-        workLocation,
-        profession,
       });
     }
   }, [adId]);
