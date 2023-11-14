@@ -293,7 +293,7 @@ const Home = () => {
               value={sortPrice}
               onChange={handlesortPrice}
             >
-              <option value="DEFAULT">Precio</option>
+              <option value="">Precio</option>
               <option value="asc">Ascendente</option>
               <option value="desc">Descendente</option>
             </select>
@@ -314,7 +314,7 @@ const Home = () => {
               value={workLocation}
               onChange={handleRemoteWork}
             >
-              <option value="DEFAULT">Modalidad</option>
+              <option value="">Modalidad</option>
               <option value="Remoto">Remoto</option>
               <option value="Presencial">Presencial</option>
             </select>
