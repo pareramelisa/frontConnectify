@@ -1,48 +1,63 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 
-import React, {  useState } from "react";
+import React, {  useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useAuth0 } from "@auth0/auth0-react";
 import {  postComment } from "../../redux/Slices/commentSlice";
 import {  Typography, Box } from "@mui/material";
 import Rating from "react-rating-stars-component";
 import style from "./Comments.module.css";
+import { AiFillCloseCircle } from "react-icons/ai";
 
 
 const CommentBox = ({ onClose, professionalId }) => {
   const { user, isAuthenticated } = useAuth0();
   const dispatch = useDispatch();
   const detail = useSelector((state) => state.detail);
-  const users = useSelector((state) => state.usersLogin.user);
+  const usersLocal = useSelector((state) => state.usersLogin.user);
+  const usersGoogle = useSelector((state) => state.googleLogin.user);
   const comments = useSelector((state) => state.comment.comments);
   const [newComment, setNewComment] = useState("");
   const [userDataOk, setUserDataOk] = useState("");
   const [rating, setRating] = useState(0);
   const [isCommentBoxOpen, setIsCommentBoxOpen] = useState(false);
+  const [popUpComment, setPopUpComment] = useState(false)
 
   const handleChange = (newRating) => {
     setRating(newRating);
   };
 
-
   const handleComment = () => {
     if (newComment.trim() !== "") {
       const commentData = {
         comment: newComment,
-        client: users.userName,
+        client: usersGoogle?.userName || usersLocal.userName,
         professionalId: detail.detail.creator[0]._id,
         rating: rating,
       };
-      dispatch(postComment(commentData));
-      console.log("comentario", commentData);
-      setNewComment("");
-      setRating(0);
-      setIsCommentBoxOpen(false);
+      dispatch(postComment(commentData))
+        .then((data) => {
+          if (data.meta.requestStatus === 'fulfilled') {
+            console.log("Comentario enviado con éxito:", commentData);
+            setNewComment("");
+            setRating(0);
+            setIsCommentBoxOpen(false);
+          }else {
+            setPopUpComment(true)
+          }
+        })
+        .catch((error) => {
+          console.error("Error al enviar comentario:", error);
+          // Manejar el error según sea necesario
+        });
     }
   };
 
-console.log("client", users.userName);
+  const handlerClosePopUpComments = () => {
+    setPopUpComment(false)
+  }
+
   return (
     <div>
       <Box
@@ -98,6 +113,18 @@ console.log("client", users.userName);
           </Box>
         </div>
       </Box>
+      {
+        popUpComment &&
+        <div className={style.containerPopUpComments}>
+          <div className={style.popUpComments}>
+          <AiFillCloseCircle
+            className={style.btnCerrarComments}
+            onClick={handlerClosePopUpComments}
+          />
+          <h3>Ya dejaste el comentarios</h3>
+          </div>
+        </div>
+      }
     </div>
   );
 };
