@@ -30,8 +30,8 @@ export const fetchFilter = ({
 }) => {
   return async (dispatch) => {
     try {
-      // let url = `http://localhost:3001/ads/filters?`;
-      let url = VITE_API_BASE + `/ads/filters?`;
+      let url = `http://localhost:3001/ads/filters?`;
+      // let url = VITE_API_BASE + `/ads/filters?`;
       // 'https://connectifyback-dp-production.up.railway.app/ads/filters?';
 
       // Valida y construye la URL de la solicitud en función de los parámetros proporcionados
