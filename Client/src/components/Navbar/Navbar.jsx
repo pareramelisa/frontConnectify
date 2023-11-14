@@ -69,7 +69,6 @@ function ResponsiveAppBar({ setContainerLogin }) {
         navigate(`/payments/${nickNameLocal}`);
       }
     }
-
     if (text === "Salir" && usersLocal) {
       await dispatch(logoutUser());
         navigate('/home');
