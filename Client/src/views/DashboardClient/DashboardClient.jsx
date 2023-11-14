@@ -1,39 +1,52 @@
-import React, { useState, useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Grid } from '@mui/material';
-import UserInfoCard from './UserInfoCardClient';
-import { updateClientOnServer } from '../../redux/Slices/clientSlice';
-import Navbar from '../../components/Navbar/Navbar';
-import ReviewItem from '../../components/ReusableComponents/ReviewShow';
-import { getComments } from './CommentsOrganized'; 
-import { Link } from 'react-router-dom';
-import RenderReservs from './RenderReservs';
-import { Button, Card } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { Grid } from "@mui/material";
+import UserInfoCard from "./UserInfoCardClient";
+import { updateClientOnServer } from "../../redux/Slices/clientSlice";
+import Navbar from "../../components/Navbar/Navbar";
+import ReviewItem from "../../components/ReusableComponents/ReviewShow";
+import { getComments } from "./CommentsOrganized";
+import { Link } from "react-router-dom";
+import RenderReservs from "./RenderReservs";
+import { Button, Card } from "@mui/material";
 
-const DashboardClient = () => {
+const DashboardClient = ({ userId }) => {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
-  const users = useSelector(state => state.usersLogin.user);
-
+  console.log(userId);
+  const [users, setUsers] = useState({});
+  useEffect(() => {
+    if (!userId) {
+      const adminUser = useSelector((state) => state.usersLogin.user);
+      setUsers(adminUser);
+    } else {
+      setUsers(userId[0]);
+    }
+  }, []);
+  console.log(users.lastName);
   const userName = users.name || "Nombre de usuario por defecto";
   const userLastName = users.lastName || "Apellido por defecto";
   const userLocation = users.location || "Ubicación por defecto";
   const userEmail = users.email || "maria@example.com";
-  const userImage = users.image || "https://vivolabs.es/wp-content/uploads/2022/03/perfil-mujer-vivo.png";
+  const userImage =
+    users.image ||
+    "https://vivolabs.es/wp-content/uploads/2022/03/perfil-mujer-vivo.png";
   const userUserName = users.userName || "Nombre de usuario por defecto";
   const userProvince = users.province || "Provincia por defecto";
 
   const [user, setUser] = useState({
     name: userName,
-    LastName: userLastName, 
+    LastName: userLastName,
     email: userEmail,
-    province:  userProvince,
+    province: userProvince,
     location: userLocation,
     image: userImage,
   });
 
   const [comments, setComments] = useState([]);
-  const userComments = comments.filter(comment => comment.client_id === users._id);
+  const userComments = comments.filter(
+    (comment) => comment.client_id === users._id
+  );
 
   const handleEdit = () => {
     setEditMode(!editMode);
@@ -42,12 +55,11 @@ const DashboardClient = () => {
   const handleSave = async () => {
     const updatedUser = {
       _id: users._id,
-       name: user.name,
+      name: user.name,
       lastName: user.LastName,
       userName: users.userName,
       location: user.location,
       province: user.province,
-
     };
     console.log("updatedUser:", updatedUser);
     try {
@@ -58,23 +70,23 @@ const DashboardClient = () => {
         alert("Su cambio se ha guardado con éxito");
       } else {
         // Manejar el caso en que la actualización no sea exitosa
-        console.error('Error al actualizar el cliente:', response);
+        console.error("Error al actualizar el cliente:", response);
       }
     } catch (error) {
       // Maneja el error, por ejemplo, mostrando un mensaje al usuario
-      console.error('Error al actualizar el cliente:', error);
+      console.error("Error al actualizar el cliente:", error);
     }
   };
 
   useEffect(() => {
-    console.log('Users after update:', users);
-  // Llamada a la función getComments para obtener los comentarios
+    console.log("Users after update:", users);
+    // Llamada a la función getComments para obtener los comentarios
     const fetchComments = async () => {
       try {
         const commentsData = await getComments();
         setComments(commentsData);
       } catch (error) {
-        console.error('Error al obtener comentarios:', error);
+        console.error("Error al obtener comentarios:", error);
       }
     };
 
@@ -95,10 +107,11 @@ const DashboardClient = () => {
   };
 
   return (
-  
-    <div style={{ backgroundColor: '#D9D9D9',  minHeight: '100vh', width: '100%' }}>
-      <Navbar/>
-      <div style={{ margin: '0em 2em' }}>
+    <div
+      style={{ backgroundColor: "#D9D9D9", minHeight: "100vh", width: "100%" }}
+    >
+      <Navbar />
+      <div style={{ margin: "0em 2em" }}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
             <UserInfoCard
@@ -109,57 +122,75 @@ const DashboardClient = () => {
               handleSave={handleSave}
               setUser={setUser}
             />
-             <Card style={{ margin: '1em', borderRadius: '16px' }}>
-            <div style={{ margin: '1.5em ' }}>
-              <h3>Mis reservas realizadas</h3>
-             <RenderReservs userName={users.userName} />
-             <div style={{ margin: ' 1.5em' }}></div>
-             <Link to={`/payments/${users.userName}`}>
-              <Button variant="outlined">Ver pagos realizados</Button>   </Link>
-             </div>
-             </Card>
-             <Card  style={{ margin: '1em', borderRadius: '16px', backgroundColor: '#868484'}}>
-             <div style={{ margin: '1.5em  ' }}> 
-              <h3> Administración de cuenta ⚠️</h3>
-              <div style={{ margin: ' 1em 0em' }}>
-              
-              <Button variant="contained" color="secondary" style={{ marginRight: '2em' }}
-              onClick={() => confirmAction('cambio de contraseña')}>
-                Pedido de cambio de contraseña</Button>
-                           
-              <Button variant="contained" color="error" style={{ marginRight: '2em' }}
-              onClick={() => confirmAction('eliminación de cuenta')}>
-                Pedido de eliminación de cuenta</Button>
+            <Card style={{ margin: "1em", borderRadius: "16px" }}>
+              <div style={{ margin: "1.5em " }}>
+                <h3>Mis reservas realizadas</h3>
+                <RenderReservs userName={users.userName} />
+                <div style={{ margin: " 1.5em" }}></div>
+                <Link to={`/payments/${users.userName}`}>
+                  <Button variant="outlined">Ver pagos realizados</Button>{" "}
+                </Link>
               </div>
+            </Card>
+            <Card
+              style={{
+                margin: "1em",
+                borderRadius: "16px",
+                backgroundColor: "#868484",
+              }}
+            >
+              <div style={{ margin: "1.5em  " }}>
+                <h3> Administración de cuenta ⚠️</h3>
+                <div style={{ margin: " 1em 0em" }}>
+                  <Button
+                    variant="contained"
+                    color="secondary"
+                    style={{ marginRight: "2em" }}
+                    onClick={() => confirmAction("cambio de contraseña")}
+                  >
+                    Pedido de cambio de contraseña
+                  </Button>
+
+                  <Button
+                    variant="contained"
+                    color="error"
+                    style={{ marginRight: "2em" }}
+                    onClick={() => confirmAction("eliminación de cuenta")}
+                  >
+                    Pedido de eliminación de cuenta
+                  </Button>
+                </div>
               </div>
-             </Card>
+            </Card>
           </Grid>
-           
+
           <Grid item xs={12} md={4}>
-  <h3>Reseñas realizadas a profesionales luego de los servicios prestados:</h3>
-  
-  
-  {userComments.length > 0 ? (
-    userComments.map((comment, index) => (
-      // <Link to={`/detail/${comment.client_id}`} key={index}>
-      <ReviewItem
-        key={index}
-        review={{
-          rating: comment.rating,
-          text: comment.comment,
-          clientProfileImage: comment.professionalPhoto,
-          clientName: comment.professionalName,
-          date: comment.date,
-          professionalName: comment.professionalName,
-          professionalProfileImage: comment.professionalPhoto,
-        }}
-      />
-      // </Link>
-    ))
-  ) : (
-    <p>No tienes reseñas aún</p>
-  )}
-</Grid>
+            <h3>
+              Reseñas realizadas a profesionales luego de los servicios
+              prestados:
+            </h3>
+
+            {userComments.length > 0 ? (
+              userComments.map((comment, index) => (
+                // <Link to={`/detail/${comment.client_id}`} key={index}>
+                <ReviewItem
+                  key={index}
+                  review={{
+                    rating: comment.rating,
+                    text: comment.comment,
+                    clientProfileImage: comment.professionalPhoto,
+                    clientName: comment.professionalName,
+                    date: comment.date,
+                    professionalName: comment.professionalName,
+                    professionalProfileImage: comment.professionalPhoto,
+                  }}
+                />
+                // </Link>
+              ))
+            ) : (
+              <p>No tienes reseñas aún</p>
+            )}
+          </Grid>
         </Grid>
       </div>
     </div>

@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux/es/hooks/useSelector";
-import TransactionChart from "./TransactionChart";
-import FinancialSummary from "./FinancialSummary";
-import UserStatistics from "./UserStatistics";
-import TransactionList from "./TransactionList";
+// import TransactionChart from "./TransactionChart";
+// import FinancialSummary from "./FinancialSummary";
+// import UserStatistics from "./UserStatistics";
+// import TransactionList from "./TransactionList";
 import CommentsForAdmin from "./CommentsForAdmin/CommentsForAdmin";
 
 const AdminDashboard = () => {
