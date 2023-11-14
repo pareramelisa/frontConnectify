@@ -9,19 +9,21 @@ import { getComments } from './CommentsOrganized';
 import { Link } from 'react-router-dom';
 import RenderReservs from './RenderReservs';
 import { Button, Card } from '@mui/material';
+import { setUserType } from "../../redux/Slices/userTypeSlice";
 
 const DashboardClient = () => {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
-  const users = useSelector(state => state.usersLogin.user);
+  const users = useSelector(state => state.clients.updater);
+  const usersBase = useSelector(state => state.usersLogin.user);
 
-  const userName = users.name || "Nombre de usuario por defecto";
-  const userLastName = users.lastName || "Apellido por defecto";
-  const userLocation = users.location || "Ubicación por defecto";
-  const userEmail = users.email || "maria@example.com";
-  const userImage = users.image || "https://vivolabs.es/wp-content/uploads/2022/03/perfil-mujer-vivo.png";
-  const userUserName = users.userName || "Nombre de usuario por defecto";
-  const userProvince = users.province || "Provincia por defecto";
+  const userName = users.name || usersBase.name;
+  const userLastName = users.lastName || usersBase.lastName;
+  const userLocation = users.location || usersBase.location;
+  const userEmail = users.email || usersBase.email;
+  const userImage = users.image || usersBase.image;
+  
+  const userProvince = users.province || usersBase.province;
 
   const [user, setUser] = useState({
     name: userName,
@@ -86,7 +88,10 @@ const DashboardClient = () => {
 
     if (window.confirm(confirmationMessage)) {
       if (actionType === "cambio de contraseña") {
-        window.location.href = "/password";
+       
+        const userType = 'professional';
+    dispatch(setUserType(userType));
+    window.location.href = "/password";
       } else {
         alert(`Va a ser redirigido para realizar su pedido de ${actionType}.`);
         // Redirige al usuario al formulario correspondiente usando react-router-dom u otro enfoque de enrutamiento
