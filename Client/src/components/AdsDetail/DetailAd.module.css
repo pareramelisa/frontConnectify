@@ -1,0 +1,198 @@
+.principal {
+  width: 100%;
+  height: 100vh;
+  padding: 5em;
+  margin-top: 1rem;
+}
+
+.profile-container {
+  display: flex;
+  align-items: center;
+  margin: "10px";
+}
+
+.profile-circle {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin-right: 10px;
+}
+
+.profile-circle img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.profile-text {
+  flex: 1; /* Para ocupar todo el espacio disponible */
+}
+
+.principal {
+  width: 100%;
+  height: 100vh;
+  padding: 2em;
+  margin-top: 1rem;
+}
+
+/* Estilos para pantallas pequeñas */
+@media screen and (max-width: 768px) {
+  .principal {
+    padding: 2em; /* Cambiar el relleno en pantallas más pequeñas */
+  }
+
+  .profile-container {
+    flex-direction: column; /* Cambiar la dirección de la fila a columna en pantallas pequeñas */
+  }
+
+  .profile-circle {
+    width: 80px; /* Cambiar el tamaño del círculo en pantallas más pequeñas */
+    height: 80px;
+    margin-bottom: 10px; /* Agregar margen inferior en pantallas más pequeñas */
+  }
+}
+
+/* Estilos para pantallas extra pequeñas (móviles) */
+@media screen and (max-width: 480px) {
+  .principal {
+    padding: 1em; /* Cambiar el relleno en pantallas muy pequeñas (móviles) */
+  }
+
+  .profile-circle {
+    width: 60px; /* Cambiar el tamaño del círculo en pantallas muy pequeñas (móviles) */
+    height: 60px;
+  }
+}
+/* ::::::::::::::::::::::::::::::::: */
+/* ::::::::::::::::::::::::::::::::: */
+/* ::::::::::::::::::::::::::::::::: */
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1;
+}
+
+/* .shadow {
+  position: relative;
+  z-index: 2; 
+} */
+
+.content {
+  position: relative;
+  z-index: 3; /* Asegura que el contenido (Card) esté por encima de todo */
+}
+
+/* Estilos adicionales según sea necesario */
+
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+/* >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>> */
+
+.buttonContratar {
+  margin-top: 1rem;
+  position: relative;
+  padding: 10px 20px;
+  border-radius: 7px;
+  border: 1px solid rgb(61, 106, 255);
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 2px;
+  background: rgb(90, 148, 199);
+  color: #fff;
+  overflow: hidden;
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: all 0.2s ease-in;
+  -moz-transition: all 0.2s ease-in;
+  transition: all 0.2s ease-in;
+}
+
+.buttonContratar:hover {
+  background: rgb(61, 106, 255);
+  box-shadow: 0 0 30px 5px rgba(0, 142, 236, 0.815);
+  -webkit-transition: all 0.2s ease-out;
+  -moz-transition: all 0.2s ease-out;
+  transition: all 0.2s ease-out;
+}
+
+.buttonContratar:hover::before {
+  -webkit-animation: sh02 0.5s 0s linear;
+  -moz-animation: sh02 0.5s 0s linear;
+  animation: sh02 0.5s 0s linear;
+}
+
+.buttonContratar::before {
+  content: "";
+  display: block;
+  width: 0px;
+  height: 86%;
+  position: absolute;
+  top: 7%;
+  left: 0%;
+  opacity: 0;
+  background: #fff;
+  box-shadow: 0 0 50px 30px #fff;
+  -webkit-transform: skewX(-20deg);
+  -moz-transform: skewX(-20deg);
+  -ms-transform: skewX(-20deg);
+  -o-transform: skewX(-20deg);
+  transform: skewX(-20deg);
+}
+
+@keyframes sh02 {
+  from {
+    opacity: 0;
+    left: 0%;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
+    left: 100%;
+  }
+}
+
+.buttonContratar:active {
+  box-shadow: 0 0 0 0 transparent;
+  -webkit-transition: box-shadow 0.2s ease-in;
+  -moz-transition: box-shadow 0.2s ease-in;
+  transition: box-shadow 0.2s ease-in;
+}
+
+.profession {
+  text-align: center;
+  color: #03315c;
+
+  font-size: 3em;
+  margin-top: 0.2em;
+}
+.ubicacion {
+  text-align: center;
+  color: #56013d;
+
+  font-size: 2em;
+  margin-top: 1em;
+}
+.descripcion {
+  text-align: center;
+  color: #03315c;
+
+  font-size: 2em;
+  margin-top: 0.2em;
+}
+.description {
+  text-align: center;
+  font-size: 1.1em;
+  margin-top: -1em;
+  font-weight: bold;
+}

@@ -4,6 +4,7 @@ import TransactionChart from "./TransactionChart";
 import FinancialSummary from "./FinancialSummary";
 import UserStatistics from "./UserStatistics";
 import TransactionList from "./TransactionList";
+import CommentsForAdmin from "./CommentsForAdmin/CommentsForAdmin";
 
 const AdminDashboard = () => {
   return (
@@ -16,11 +17,13 @@ const AdminDashboard = () => {
             // margin: "0 20px",
           }}
         >
-          <FinancialSummary />
-          <UserStatistics />
+          <CommentsForAdmin />
+          {/* <p>hdhdhdhdhdh</p> */}
+          {/* <FinancialSummary />
+          <UserStatistics /> */}
           {/* <TransactionList /> */}
         </div>
-        <TransactionChart />
+        {/* <TransactionChart /> */}
       </header>
     </div>
   );

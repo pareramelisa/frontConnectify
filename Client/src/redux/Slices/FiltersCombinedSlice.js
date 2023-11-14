@@ -1,11 +1,11 @@
 /* eslint-disable no-useless-catch */
-import { createSlice } from '@reduxjs/toolkit';
-import { applyFilters } from './adsSlice';
+import { createSlice } from "@reduxjs/toolkit";
+import { applyFilters } from "./adsSlice";
 const VITE_API_BASE = import.meta.env.VITE_API_BASE;
-import axios from 'axios';
+import axios from "axios";
 
 const FilterSlice = createSlice({
-  name: 'filter',
+  name: "filter",
   initialState: {
     filterApplied: [],
   },

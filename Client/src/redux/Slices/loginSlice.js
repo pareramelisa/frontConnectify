@@ -33,6 +33,8 @@ export const fetchUserLogin = (form) => {
       endpoint = VITE_API_BASE + `/professional/login/`;
     }
 
+    console.log(endpoint);
+
     try {
       const { data } = await axios.post(endpoint, form);
       console.log(data);

@@ -26,7 +26,9 @@ const ProfsForAdmin = () => {
   const ads = useSelector((state) => state.ads.ads);
 
   const [currentPage, setCurrentPage] = useState(1);
+  const [showButton, setShowButton] = useState(false);
   const [dataPerPage] = useState(8);
+  const [loading, setLoading] = useState(false);
 
   const indexOfLastAd = currentPage * dataPerPage;
   const indexOfFirstAd = indexOfLastAd - dataPerPage;
@@ -36,6 +38,7 @@ const ProfsForAdmin = () => {
   };
 
   useEffect(() => {
+    console.log(765765);
     const fetchData = async () => {
       try {
         await dispatch(fetchClientsForAdmin());
@@ -50,6 +53,7 @@ const ProfsForAdmin = () => {
   }, []);
 
   const handleDelete = async (e, prof) => {
+    showLoading();
     let newState = [];
     if (!prof.profession) {
       try {
@@ -81,8 +85,11 @@ const ProfsForAdmin = () => {
   const handleUserType = (e) => {
     setCurrentPage(1);
     if (e === "professionals") setSelectedData(professionals);
+    setShowButton(false);
     if (e === "clients") setSelectedData(clients);
+    setShowButton(false);
     if (e === "ads") setSelectedData(ads);
+    setShowButton(false);
   };
   const [selectedData, setSelectedData] = useState(professionals);
 
@@ -97,6 +104,7 @@ const ProfsForAdmin = () => {
   const handleSelentProfession = (e) => {
     if (e.target.value === "Todas las Profesiones") {
       setSelectedData(professionals);
+      setShowButton(false);
     } else {
       setCurrentPage(1);
       const profClass = e.target.value;
@@ -105,6 +113,7 @@ const ProfsForAdmin = () => {
       );
 
       setSelectedData(toScrub);
+      setShowButton(true);
     }
   };
   const currentData = selectedData
@@ -112,6 +121,7 @@ const ProfsForAdmin = () => {
     : [];
 
   const handleBanProf = async () => {
+    showLongLoading();
     try {
       const update = [];
       await Promise.all(
@@ -130,6 +140,7 @@ const ProfsForAdmin = () => {
     } catch (error) {}
   };
   const handleUnbanProf = async () => {
+    showLongLoading();
     try {
       const update = [];
       await Promise.all(
@@ -155,13 +166,26 @@ const ProfsForAdmin = () => {
     setSelectedProfessional(prof);
     console.log(prof);
     !isModalVisible ? setIsModalVisible(true) : setIsModalVisible(false);
-    console.log("PopUp de " + prof.name);
+    console.log("PopUp de " + prof.userName);
   };
 
   const handleClosePopUp = () => {
     setSelectedProfessional(null);
     setIsModalVisible(false);
   };
+
+  function showLoading() {
+    setLoading(true);
+    setTimeout(function () {
+      setLoading(false);
+    }, 950);
+  }
+  function showLongLoading() {
+    setLoading(true);
+    setTimeout(function () {
+      setLoading(false);
+    }, 1250);
+  }
 
   return (
     <div
@@ -198,23 +222,22 @@ const ProfsForAdmin = () => {
               ))}
             </select>
           )}
-          {selectedData.length !== professionals.length &&
-            selectedData[0].locationJob && (
-              <div>
-                <button
-                  style={{ backgroundColor: "#3b7ba4" }}
-                  onClick={(e) => handleBanProf(e)}
-                >
-                  Suspender Profesión
-                </button>
-                <button
-                  style={{ backgroundColor: "#3b7ba4" }}
-                  onClick={(e) => handleUnbanProf(e)}
-                >
-                  Dessuspender Profesión
-                </button>
-              </div>
-            )}
+          {showButton && (
+            <div>
+              <button
+                style={{ backgroundColor: "#3b7ba4" }}
+                onClick={(e) => handleBanProf(e)}
+              >
+                Suspender Profesión
+              </button>
+              <button
+                style={{ backgroundColor: "#3b7ba4" }}
+                onClick={(e) => handleUnbanProf(e)}
+              >
+                Dessuspender Profesión
+              </button>
+            </div>
+          )}
         </div>
         {selectedData.length > 0 ? (
           currentData?.map((prof, index) => (
@@ -302,7 +325,6 @@ const ProfsForAdmin = () => {
                   style={{
                     backgroundColor: prof.isDeleted ? "#9bdb92" : "#edd55e",
                   }}
-                  // className="btn btn-outline-danger"
                   onClick={(e) => handleDelete(e, prof)}
                 >
                   <svg
@@ -367,6 +389,12 @@ const ProfsForAdmin = () => {
             currentAds={currentData}
           />
         ) : null}
+      </div>
+      <div
+        className={style.loadingMessage}
+        style={{ display: loading ? "flex" : "none" }}
+      >
+        <div className={style.loadingText}>Loading...</div>
       </div>
     </div>
   );

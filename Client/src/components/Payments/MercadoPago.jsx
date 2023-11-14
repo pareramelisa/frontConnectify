@@ -6,13 +6,14 @@ import axios from "axios";
 import { useSelector } from 'react-redux';
 import { useAuth0 } from '@auth0/auth0-react';
 
+import style from './MercadoPago.module.css'
 
 // config();
 // const PUBLIC_KEY = process.env.PUBLIC_KEY;
 
 
 
-function mercadoPago() {
+function mercadoPago(pay) {
     // USER es el Usuario registrado
     const {user, isAuthenticated} = useAuth0();
     const users = useSelector(state => state.usersLogin.user)
@@ -101,18 +102,23 @@ const [paymentId, setPaymentId] = useState("")
         }
     };
 
-    
+    useEffect(()=>{
+      // console.log("PAYYYY: ", pay);
+      if (pay.pay && !walletVisible) handleButton();
+    },[pay])
 
   return (
     <>
-        
-        <button className='donate-link' onClick={handleButton}>Contratar</button>
-        <p>{cargandoSiNo}</p>
-
+    
+    
+        {/* {
+          !preferenceId && <button className={style.buttonContratar} onClick={handleButton}>Contratar</button>
+        } */}
+        {
+          <h4>{cargandoSiNo}</h4>
+        }
         {   
-            
-            walletVisible && preferenceId && <Wallet initialization={{ preferenceId }}/>
-            
+          (walletVisible && preferenceId && pay.pay) && <Wallet initialization={{ preferenceId }}/>
         }
 
 

@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Container } from './styledPagination';
 import Fab from '@mui/material/Fab';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { TextField, Button } from '@mui/material';
 
 function Pagination({
@@ -22,12 +22,14 @@ function Pagination({
   const handleNextPage = () => {
     if (currentPage < totalPages) {
       onPageChange(currentPage + 1);
+      setInputPage(currentPage + 1)
     }
   };
 
   const handlePrevPage = () => {
     if (currentPage > 1) {
       onPageChange(currentPage - 1);
+      setInputPage(currentPage - 1)
     }
   };
   const handleInputChange = (event) => {
@@ -48,6 +50,10 @@ function Pagination({
       setShowGoToPageButton(false); // Oculta el botón después de usarlo
     }
   };
+
+  useEffect(() => {
+    setInputPage(currentPage);
+  }, [currentPage]);
 
   return (
     <Container>
@@ -86,7 +92,7 @@ function Pagination({
           type="text"
           value={inputPage}
           onChange={handleInputChange}
-          style={{ width: '80px' }}
+          style={{ width: '80px', zIndex: '300' }}
         />
         <h4 style={{ margin: '1em 0em 0em 0em', textAlign: 'center' }}>
           {currentPage} de {totalPages}
@@ -108,3 +114,4 @@ function Pagination({
 }
 
 export default Pagination;
+
