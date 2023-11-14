@@ -121,7 +121,7 @@ const CommentBox = ({ onClose, professionalId }) => {
             className={style.btnCerrarComments}
             onClick={handlerClosePopUpComments}
           />
-          <h3>Ya dejaste el comentarios</h3>
+          <h3>Ya dejaste un comentario</h3>
           </div>
         </div>
       }
