@@ -24,3 +24,40 @@ position: relative;
   flex-direction: column;
   background-color: rgb(255, 255, 255);
 }
+
+.containerPopUpDataProf{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 999;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.popUpDataProf{
+  position: relative;
+  width: 25rem;
+  height: 10rem;
+  border: 3px solid #e2af2f;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background-color: rgb(255, 255, 255);
+}
+
+.btnCloseDataProf{
+  position: absolute;
+font-size: 1.2rem;
+top: 15px;
+right: 15px;
+border-radius: 50%;   
+  transition: all .2s ease;
+  color: #000000;
+}
