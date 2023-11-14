@@ -19,18 +19,32 @@ function Pagination({
     pageNumbers.push(i);
   }
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const handleNextPage = () => {
-    if (currentPage < totalPages) {
-      onPageChange(currentPage + 1);
-      setInputPage(currentPage + 1)
+    scrollToTop()
+    const nextPage = () => {
+      if (currentPage < totalPages) {
+        onPageChange(currentPage + 1);
+        setInputPage(currentPage + 1)
+        
+      }
     }
+    
+    setTimeout(nextPage, 1000)
   };
 
   const handlePrevPage = () => {
-    if (currentPage > 1) {
-      onPageChange(currentPage - 1);
-      setInputPage(currentPage - 1)
+    scrollToTop()
+    const backPage = () => {
+      if (currentPage > 1) {
+        onPageChange(currentPage - 1);
+        setInputPage(currentPage - 1)
+      }
     }
+    setTimeout(backPage, 1000)
   };
   const handleInputChange = (event) => {
     setInputPage(event.target.value);
@@ -41,6 +55,9 @@ function Pagination({
       setShowGoToPageButton(true);
     }
   };
+
+
+
 
   const handleGoToPage = () => {
     const newPage = parseInt(inputPage, 10);
