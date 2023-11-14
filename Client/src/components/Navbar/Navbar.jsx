@@ -192,7 +192,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
                     <li onClick={handleAvatarButton}>Salir</li>
                   </ul> :
                   users === "client" &&
-                  <ul className={style.menuAvatar}>
+                  <ul className={style.menuAvatar} onClick={handleCloseUserMenu}>
                     <li onClick={handleAvatarButton}>Mi Panel</li>
                     <li onClick={handleAvatarButton}>Historial de Pagos</li>
                     <li onClick={handleAvatarButton}>Salir</li>
