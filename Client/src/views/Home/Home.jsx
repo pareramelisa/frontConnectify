@@ -188,7 +188,7 @@ const Home = () => {
   };
 
   //* Función para abrir el chat
-  // Función para alternar la visibilidad del chat
+  // Función para alternar la visibilidad del  chat
   const toggleChat = () => {
     setChatOpen(!chatOpen);
   };
