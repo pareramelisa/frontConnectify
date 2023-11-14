@@ -88,7 +88,7 @@
 }
 
 .containerFormUpdateProf{
-  margin-top: 2rem;
+  margin-top: 1rem;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
@@ -121,7 +121,7 @@
 }
 
 .btnUpdateProf{
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   border-radius: 20px;
   padding: .6rem 2rem;
   background-color: #3b7ba4;
@@ -162,3 +162,40 @@
   border: 2px solid #000000;
   padding: .5rem;
 }
+
+.spanUpdateProfEmail{
+  position: absolute;
+      font-size: 0.8rem;
+      top: 238px;
+      left: 250px;
+      color: #e22f2f;
+      font-weight: bold;
+}
+
+.spanUpdateProfProfession{
+  position: absolute;
+      font-size: 0.8rem;
+      top: 238px;
+      left: 560px;
+      color: #e22f2f;
+      font-weight: bold;
+}
+
+.spanTextareaUpdateProf{
+  position: absolute;
+  font-size: 0.8rem;
+  top: 400px;
+  left: 345px;
+  color: #e22f2f;
+  font-weight: bold;
+}
+
+.spanUpdateProfLocation{
+  position: absolute;
+  font-size: 0.8rem;
+  top: 290px;
+  left: 530px;
+  color: #e22f2f;
+  font-weight: bold;
+}
+

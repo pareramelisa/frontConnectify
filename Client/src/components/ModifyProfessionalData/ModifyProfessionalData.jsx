@@ -17,7 +17,7 @@ const ModifyProfessionalData = ({ setPopUpModify }) => {
     email: profById.email,
     image: profById.image,
     profession: profById.profession,
-    location: profById.location,
+    location: "",
     province: profById.province,
     description: profById.description,
   });
@@ -169,6 +169,7 @@ const ModifyProfessionalData = ({ setPopUpModify }) => {
             id="email"
             className={style.inputUpdateProfemail}
           />
+          <span className={style.spanUpdateProfEmail}>{error.email}</span>
           <input
             type="text"
             placeholder="Profesion"
@@ -177,6 +178,7 @@ const ModifyProfessionalData = ({ setPopUpModify }) => {
             id="profession"
             className={style.inputUpdateProf}
           />
+          <span className={style.spanUpdateProfProfession}>{error.profession}</span>
           </div>
           <div>
             <select
@@ -204,15 +206,13 @@ const ModifyProfessionalData = ({ setPopUpModify }) => {
             required
             className={style.selectUpdateProf}
           >
-            <option value="">
-              {form.location}
-            </option>
             {citiesInSelectedProvince.map((location, index) => (
-              <option key={index} value={location.nombre}>
+              <option key={index} value={location.nombre} defaultValue={location.nombre}>
                 {location.nombre}
               </option>
             ))}
           </select>
+          <span className={style.spanUpdateProfLocation}>{error.location}</span>
           </div>
           <textarea
             placeholder="Descripcion"
@@ -223,6 +223,7 @@ const ModifyProfessionalData = ({ setPopUpModify }) => {
             cols={50}
             className={style.textareaUpdateProf}
           />
+          <span className={style.spanTextareaUpdateProf}>{error.description}</span>
           <button type="submit" className={style.btnUpdateProf}>Modificar</button>
         </form>
         {popUpDataProf && (
