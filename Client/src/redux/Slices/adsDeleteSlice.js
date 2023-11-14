@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import axios from 'axios';
+import { createSlice } from '@reduxjs/toolkit';
+import axiosInstance from '../Utils/AxiosInstance';
 
 const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
 
@@ -9,16 +9,18 @@ export const deleteAd = (id) => {
     try {
       dispatch({ type: 'DISABLE_AD_START' });
 
-      const response = await axios.patch(`${VITE_API_BASE}/ads/${id}/delete`);
+      const response = await axiosInstance.patch(
+        `${VITE_API_BASE}/ads/${id}/delete`
+      );
 
       dispatch({
         type: 'DISABLE_AD_SUCCESS',
-        payload: response.data
+        payload: response.data,
       });
     } catch (error) {
       dispatch({
         type: 'DISABLE_AD_FAILURE',
-        payload: error.message
+        payload: error.message,
       });
     }
   };
@@ -41,11 +43,11 @@ const adsDeleteSlice = createSlice({
     },
     disableAdSuccess: (state, action) => {
       state.loading = false;
-      const updatedAds = state.adsDelete.map(ad => {
+      const updatedAds = state.adsDelete.map((ad) => {
         if (ad._id === action.payload._id) {
           return {
             ...ad,
-            isDeleted: true
+            isDeleted: true,
           };
         }
         return ad;
@@ -59,5 +61,6 @@ const adsDeleteSlice = createSlice({
   },
 });
 
-export const { disableAdStart, disableAdSuccess, disableAdFailure } = adsDeleteSlice.actions;
+export const { disableAdStart, disableAdSuccess, disableAdFailure } =
+  adsDeleteSlice.actions;
 export default adsDeleteSlice.reducer;

@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import { createSlice } from '@reduxjs/toolkit';
+import axiosInstance from '../Utils/AxiosInstance';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
 console.log(VITE_API_BASE);
 
@@ -8,7 +8,7 @@ const URL = VITE_API_BASE;
 console.log(URL);
 
 export const professionalSlice = createSlice({
-  name: "professionalSlice",
+  name: 'professionalSlice',
   initialState: {
     professionals: [],
     detail: {},
@@ -36,14 +36,14 @@ export const fetchProfsForAdmin = () => {
   return async (dispatch) => {
     const endpoint = URL + `/professional/`;
     try {
-      const response = await axios.get(endpoint);
+      const response = await axiosInstance.get(endpoint);
       console.log(response.data);
       const professionals = response.data;
       dispatch(getAllProfessionals(professionals));
       return professionals;
     } catch (error) {
       console.log(error);
-      return "No hay profesionales disponibles";
+      return 'No hay profesionales disponibles';
     }
   };
 };
@@ -51,13 +51,13 @@ export const deleteProfByIdAdmin = (id) => {
   return async (dispatch) => {
     const endpoint = URL + `/professional/${id}/delete`;
     try {
-      const deleted = await axios.patch(endpoint, id);
+      const deleted = await axiosInstance.patch(endpoint, id);
 
       dispatch(deleteProfessional(deleted));
       return deleted;
     } catch (error) {
       console.log(error);
-      return "No se pudo bannear dicho profesionale";
+      return 'No se pudo eliminar dicho profesional';
     }
   };
 };
