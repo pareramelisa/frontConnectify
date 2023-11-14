@@ -16,6 +16,10 @@ const validationModify = (form) => {
     errors.description = "la descripcion esta vacio";
   }
 
+  if (form.description.length > 101) {
+    errors.description = "La descripcion tiene caracteres de mas";
+  }
+
   return errors;
 };
 
