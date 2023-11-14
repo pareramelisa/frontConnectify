@@ -11,8 +11,9 @@ import {
   fetchGetAllFavorites,
   fetchRemoveFavorites,
 } from "../../redux/Slices/favoritesSlice";
-import Cover from '../Cover/Cover'
-import style from './Favorites.module.css'
+import Cover from '../Cover/Cover';
+import style from './Favorites.module.css';
+import ButtonBack from '../Utils/ButtonBack/ButtonBack';
 
 const Favorites = () => {
   const users = useSelector((state) => state.usersLogin.user);
@@ -50,6 +51,7 @@ const Favorites = () => {
       
       <Navbar />
       <Cover />
+      <ButtonBack />
       <h4 className={style.perfil}>
           Perfiles Guardados
         </h4>
