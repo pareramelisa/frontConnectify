@@ -19,10 +19,12 @@ function ViewsPayments() {
   const { pathname, search } = useLocation(); // ( pathname: url - search: Querys )
   const path = pathname.split("/")[2];
   const detail = useSelector((state) => state.detail);
-  const users = useSelector((state) => state.usersLogin.user);
+  const usersLocal = useSelector((state) => state.usersLogin.user);
+  const usersGoogle = useSelector((state) => state.googleLogin.user);
   const comments = useSelector((state) => state.comment.comments);
   const [paymentData, setPaymentData] = useState(null);
   const [userName, setUserName] = useState("");
+  
 
   const [openCommentBoxId, setOpenCommentBoxId] = useState(null);
 
@@ -43,11 +45,22 @@ function ViewsPayments() {
   const handleClose = () => {
       setOpenCommentBoxId(null);
     }
- 
-  
 
-  useEffect(() => {
-    setUserName(path);
+    useEffect(() => {
+      const userNameGoogle = usersGoogle && usersGoogle.userName
+      const userNameLocal = usersLocal && usersLocal.userName
+      if (userNameGoogle) {
+        setUserName(userNameGoogle)
+      }
+      if (userNameLocal) {
+        setUserName(userNameLocal)
+      }
+    }, [])
+
+    
+    useEffect(() => {
+      // setUserName(path)
+      
 
     if (search) {
       //! Si hay search => tiene query (VENGO DE PAGAR)
@@ -125,6 +138,7 @@ function ViewsPayments() {
         VITE_API_BASE + `/payments/search/${userName}`
         // `http://localhost:3001/payments/search/${userName}`
       );
+      console.log(resp);
       setPaymentData(resp.data);
     } catch (error) {
       console.log("Error AxiosGet in ViewPayments,", error);
