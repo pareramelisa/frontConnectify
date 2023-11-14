@@ -1,12 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 
-// import InputLabel from '@mui/material/InputLabel';
-// import MenuItem from '@mui/material/MenuItem';
-// import FormControl from '@mui/material/FormControl';
-// import Select from '@mui/material/Select';
-// import IconButton from '@mui/material/IconButton';
-// import CancelRoundedIcon from '@mui/icons-material/CancelRounded';
-// import Fab from '@mui/material/Fab';
+/* eslint-disable react-hooks/exhaustive-deps */
 import { IoMdRefresh } from 'react-icons/io';
 import { MdPersonSearch } from 'react-icons/md';
 import Obrero from '../../assets/Obrero.gif'
@@ -32,7 +25,6 @@ import { fetchUserLoginWithGoogle } from '../../redux/Slices/loginGoogleSlice';
 import Cover from '../../components/Cover/Cover';
 import { IconButton } from '@mui/material';
 
-
 const Home = () => {
   //* Declaraciones de variables
   const location = useLocation();
@@ -43,7 +35,6 @@ const Home = () => {
   const [priceRange, setPriceRange] = useState([1000, 10000]);
   const [profession, setProfession] = useState("");
   const [locationProf, setLocationProf] = useState("");
-  const [popUpLogin, setPopUpLogin] = useState(false);
   const [sortPrice, setSortPrice] = useState("");
   const [workLocation, setWorkLocation] = useState("");
   const [chatOpen, setChatOpen] = useState(false);
@@ -109,6 +100,7 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
+
     paginate(1)
   }, [adsFiltered])
 
@@ -202,65 +194,16 @@ const Home = () => {
     setIsLoading(false);
   }, []);
 
-  const handlerCloseLoginPopUp = () => {
-    setPopUpLogin(false);
-  };
-
   return (
-    <div>
+<div >
       <Cover />
       <Navbar setContainerLogin={setContainerLogin} />
       <div className={styles.container111}>
-
         {containerLogin ? (
           <Login
             setContainerLogin={setContainerLogin}
-            setPopUpLogin={setPopUpLogin}
           />
         ) : null}
-        {popUpLogin && (
-
-          <div
-            style={{
-              position: "absolute",
-              width: "25rem",
-              height: "10rem",
-              top: "38%",
-              left: "36%",
-              border: "2px solid black",
-              borderRadius: "20px",
-              display: "flex",
-              justifyContent: "space-around",
-              alignItems: "center",
-              backgroundColor: "rgba(255,255,255,0.9)",
-              zIndex: "1000",
-            }}
-          >
-            <IconButton
-              disableElevation
-              style={{
-                position: "absolute",
-                top: "5px",
-                right: "5px",
-                color: "#000000",
-                fontWeight: "bold",
-              }}
-              onClick={handlerCloseLoginPopUp}
-            >
-             
-            </IconButton>
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <h3>Email y/o Password incorrectos</h3>
-            </div>
-          </div>
-        )}
         <div className={styles.filterStyle}>
           <div className={styles.contProfesionales}>
             <div className={styles.contenedorSelect}>
@@ -272,9 +215,7 @@ const Home = () => {
                   onChange={handleProfession}
                 >
                   {profession === "" && (
-                    <option value="DEFAULT">
-                      Elige una profesión
-                    </option>
+                    <option value="DEFAULT">Elige una profesión</option>
                   )}
 
                   {uniqueProfessions.map((profession, id) => (
@@ -290,9 +231,7 @@ const Home = () => {
                   value={locationProf}
                   onChange={handleLocation}
                 >
-                  <option value="DEFAULT">
-                    Elige una ciudad
-                  </option>
+                  <option value="DEFAULT">Elige una ciudad</option>
                   {uniqueLocations.map((locations, id) => (
                     <option key={id} value={locations}>
                       {locations}
@@ -338,9 +277,7 @@ const Home = () => {
               value={sortPrice}
               onChange={handlesortPrice}
             >
-              <option value="DEFAULT">
-                Precio
-              </option>
+              <option value="DEFAULT">Precio</option>
               <option value="asc">Ascendente</option>
               <option value="desc">Descendente</option>
             </select>
@@ -361,9 +298,7 @@ const Home = () => {
               value={workLocation}
               onChange={handleRemoteWork}
             >
-              <option value="DEFAULT">
-                Modalidad
-              </option>
+              <option value="DEFAULT">Modalidad</option>
               <option value="Remoto">Remoto</option>
               <option value="Presencial">Presencial</option>
             </select>
@@ -404,7 +339,6 @@ const Home = () => {
                   }}
                 />
               </button>
-            
             </div>
           </div>
         </div>
@@ -449,11 +383,7 @@ const Home = () => {
             </div>
           ) : (
             <div>
-              <img
-                src={Obrero}
-                alt="Obrero"
-                style={{ width: "400px" }}
-              />
+              <img src={Obrero} alt="Obrero" style={{ width: "400px" }} />
               <h2
                 style={{
                   paddingLeft: "1.5em",
@@ -465,9 +395,7 @@ const Home = () => {
             </div>
           )}
         </div>
-        <div className={styles.buttonContainer}>
-          <ButtonTop />
-        </div>
+
         {isAuthenticated ? (
           <button
             className="open-chat-button"
@@ -484,7 +412,7 @@ const Home = () => {
         ) : null}
         {chatOpen && <Chat nickname={nickname} />}
         {currentAds.length !== 0 || adsFiltered.length !== 0 ? (
-          <Pagination
+          <Pagination className={styles.paginado}
             currentPage={currentPage}
             adsPerPage={adsPerPage}
             totalAds={adsFiltered.length}
@@ -492,6 +420,12 @@ const Home = () => {
             currentAds={currentAds}
           />
         ) : null}
+        <div className={styles.buttonContainer}>
+          <ButtonTop />
+        </div>
+      </div>
+      <div className={styles.footer}>
+        {" "}
         <Footer />
       </div>
     </div>
