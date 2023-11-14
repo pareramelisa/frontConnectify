@@ -199,6 +199,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
                     <li onClick={handleAvatarButton}>Salir</li>
                   </ul>
                 }
+                
               </Menu>
             </Box>
           </div>
