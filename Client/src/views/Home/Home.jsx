@@ -196,11 +196,26 @@ const Home = () => {
     setChatOpen(!chatOpen);
   };
 
+  //* Función de comparación para ordenar por la primera letra
+  function sortByFirstLetter(a, b) {
+    const firstLetterA = a.charAt(0).toUpperCase();
+    const firstLetterB = b.charAt(0).toUpperCase();
+
+    if (firstLetterA < firstLetterB) {
+      return -1;
+    }
+    if (firstLetterA > firstLetterB) {
+      return 1;
+    }
+    return 0; // Las letras son iguales
+  }
+
   //* constantes para el filtro por profesion y ubicación
   const uniqueProfessions = [...new Set(ads.map((ad) => ad.profession))];
   const uniqueLocations = [...new Set(ads.map((ad) => ad.location))];
-  uniqueProfessions.sort();
-  uniqueLocations.sort();
+  //* Ordenar alfabéticamente por la primera letra
+  uniqueProfessions.sort(sortByFirstLetter);
+  uniqueLocations.sort(sortByFirstLetter);
 
   //* useEffect para actualizar el estado de los anuncios
   useEffect(() => {
