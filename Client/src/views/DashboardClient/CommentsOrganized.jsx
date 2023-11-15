@@ -3,7 +3,7 @@ export async function getComments() {
     const comments = await response.json();
 
     // Imprime en consola la data de comments
-    console.log("comments:", comments);
+    // console.log("comments:", comments);
 
     const filteredComments = comments.filter(comment => !comment.isDeleted);
     const mappedComments = filteredComments.map(comment => ({
@@ -20,7 +20,7 @@ export async function getComments() {
     }));
 
     // Imprime en consola la data de mappedComments
-    console.log("mappedComments:", mappedComments);
+    // console.log("mappedComments:", mappedComments);
 
     return mappedComments;
 }
