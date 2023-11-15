@@ -37,7 +37,7 @@ function ViewsPayments() {
     return acc;
   }, {});
 
-  console.log(professionalCommentsMap, "coment?");
+  
 
   const handleCommentBoxToggle = (professionalId) => {
       setOpenCommentBoxId((prevId) => (prevId === professionalId ? null : professionalId));
@@ -60,7 +60,7 @@ function ViewsPayments() {
 
     
     useEffect(() => {
-      // setUserName(path)
+      
       
 
     if (search) {
@@ -149,7 +149,10 @@ function ViewsPayments() {
   return (
     <div className={style.contentAll}>
       <Navbar />
-      <ButtonBack />
+      <div className={style.contButtonBack}>
+          <ButtonBack />
+      </div>
+
       <div className={style.contentAll}>
         <div className={style.contTitle}>
           <h2>Historial de pagos</h2>
