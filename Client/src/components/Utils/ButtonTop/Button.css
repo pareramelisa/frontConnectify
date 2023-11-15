@@ -1,99 +1,37 @@
-.button-container {
-  /* Estilos para el contenedor del botón, si es necesario */
-  padding-left: 1em;
+/* <reset-style> ============================ */
+a {
+  text-decoration: none;
+}
+/* <main-style> ============================ */
+.scroll-up {
+  /* position: fixed; */
+  right: 3rem;
+  bottom: -50%;
+  z-index: 10;
   width: 50px;
   height: 50px;
-}
-
-.my-button {
-  width: 180px;
-  height: 56px;
-  overflow: hidden;
-  font-weight: bold;
-  border: none;
-  color: #fff;
-  position: relative;
-  padding-bottom: 2em;
-  align-items: center;
-  background-color: #3b7ba4;
-  border-radius: 1em;
-}
-
-
-.my-button > svg {
-  position: absolute;
-  width: 100%;
-  height: 100%;
+  border-radius: 4px;
+  background-color: #ffba49;
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
   display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition: bottom 0.4s, transform 0.4s;
 }
 
-.my-button::before {
-  content: '';
-  position: absolute;
-  height: 2px;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  transform: scaleX(0);
-  transform-origin: bottom right;
-  background: currentColor;
-  transition: transform 0.25s ease-out;
+.scroll-up:hover {
+  transform: translateY(-1.2rem);
 }
 
-.my-button:hover::before {
-  transform: scaleX(1);
-  transform-origin: bottom left;
+/* Show scroll-up */
+._show-scroll {
+  bottom: 3rem;
 }
 
-.my-button .clone > *,
-.my-button .text > * {
-  opacity: 1;
-  font-size: 1.3rem;
-  transition: 0.2s;
-  margin-left: 4px;
-}
-
-.my-button .clone > * {
-  transform: translateY(60px);
-}
-
-.my-button:hover .clone > * {
-  opacity: 1;
-  transform: translateY(0);
-  transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
-}
-
-.my-button:hover .text > * {
-  opacity: 1;
-  transform: translateY(-60px);
-  transition: all 0.2s cubic-bezier(0.215, 0.61, 0.355, 1) 0s;
-}
-
-.my-button:hover .clone > :nth-child(1) {
-  transition-delay: 0.15s;
-}
-
-.my-button:hover .clone > :nth-child(2) {
-  transition-delay: 0.2s;
-}
-
-.my-button:hover .clone > :nth-child(3) {
-  transition-delay: 0.25s;
-}
-
-.my-button:hover .clone > :nth-child(4) {
-  transition-delay: 0.3s;
-}
-
-/* Estilo del ícono y al pasar el mouse */
-.my-button svg {
-  width: 30px;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%) rotate(-50deg);
-  transition: 0.2s ease-out;
-}
-
-.my-button:hover svg {
-  transform: translateY(-50%) rotate(-90deg);
+@media (max-width: 1199.98px) {
+  .scroll-up {
+    right: 1rem;
+  }
 }
