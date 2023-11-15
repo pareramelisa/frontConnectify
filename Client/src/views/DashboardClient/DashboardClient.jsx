@@ -35,25 +35,12 @@ const DashboardClient = ({ userId }) => {
   console.log(users);
   // console.log(upDater);
   console.log(usersBase);
-  const userName =
-    usersBase && usersBase.name !== undefined ? usersBase.name : users.name;
-  const userLastName =
-    usersBase && usersBase.lastName !== undefined
-      ? usersBase.lastName
-      : users.lastName;
-  const userLocation =
-    usersBase && usersBase.location !== undefined
-      ? usersBase.location
-      : users.location;
-  const userEmail =
-    usersBase && usersBase.email !== undefined ? usersBase.email : users.email;
-  const userImage =
-    usersBase && usersBase.image !== undefined ? usersBase.image : users.image;
-  const userProvince =
-    usersBase && usersBase.province !== undefined
-      ? usersBase.province
-      : users.province;
-
+  const userName = usersBase?.name || users.name;
+  const userLastName = usersBase?.lastName || users.lastName;
+  const userLocation = usersBase?.location || users.location;
+  const userEmail = usersBase?.email || users.email;
+  const userImage = usersBase?.image || users.image;
+  const userProvince = usersBase?.province || users.province;
   const [user, setUser] = useState({
     name: userName,
     LastName: userLastName,
@@ -62,6 +49,7 @@ const DashboardClient = ({ userId }) => {
     location: userLocation,
     image: userImage,
   });
+  console.log(user);
 
   const [comments, setComments] = useState([]);
   const userComments = comments.filter(
