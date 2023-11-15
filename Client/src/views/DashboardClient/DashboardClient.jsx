@@ -10,19 +10,23 @@ import { Link } from 'react-router-dom';
 import RenderReservs from './RenderReservs';
 import { Button, Card } from '@mui/material';
 import { setUserType } from "../../redux/Slices/userTypeSlice";
+import {fetchClientsForAdmin} from "../../redux/Slices/clientSlice"
 
 const DashboardClient = () => {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
-  const usersBase = useSelector(state => state.clients.updater);//Los datos que se cambian en el formulario
-  const users = useSelector(state => state.usersLogin.user); ////Los datos el usuario logueado
-
-  const userName = usersBase && usersBase.name !== undefined ? usersBase.name : users.name;
-  const userLastName = usersBase && usersBase.lastName !== undefined ? usersBase.lastName : users.lastName;
-  const userLocation = usersBase && usersBase.location !== undefined ? usersBase.location : users.location;
-  const userEmail = usersBase && usersBase.email !== undefined ? usersBase.email : users.email;
-  const userImage = usersBase && usersBase.image !== undefined ? usersBase.image : users.image;
-  const userProvince = usersBase && usersBase.province !== undefined ? usersBase.province : users.province;
+  
+  useEffect(() => {dispatch(fetchClientsForAdmin())}, []);
+  
+  const usersLog = useSelector(state => state.usersLogin.user); ////Los datos el usuario logueado
+const users = useSelector(state => state.clients.clients.filter(client => client._id === usersLog._id)[0]); 
+  console.log("users:", users);
+  const userName =  users.name;
+  const userLastName =  users.lastName;
+  const userLocation =   users.location;
+  const userEmail =   users.email;
+  const userImage =   users.image;
+  const userProvince =   users.province;
   
   
 
@@ -43,6 +47,8 @@ const DashboardClient = () => {
   };
 
   const handleSave = async () => {
+
+
     const updatedUser = {
       _id: users._id,
        name: user.name,
@@ -68,6 +74,9 @@ const DashboardClient = () => {
       console.error('Error al actualizar el cliente:', error);
     }
   };
+
+
+
 
   useEffect(() => {
     // console.log('Users after update:', users);
