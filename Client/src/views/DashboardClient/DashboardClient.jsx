@@ -9,19 +9,22 @@ import { getComments } from './CommentsOrganized';
 import { Link } from 'react-router-dom';
 import RenderReservs from './RenderReservs';
 import { Button, Card } from '@mui/material';
+import { setUserType } from "../../redux/Slices/userTypeSlice";
 
 const DashboardClient = () => {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
-  const users = useSelector(state => state.usersLogin.user);
+  const usersBase = useSelector(state => state.clients.updater);//Los datos que se cambian en el formulario
+  const users = useSelector(state => state.usersLogin.user); ////Los datos el usuario logueado
 
-  const userName = users.name || "Nombre de usuario por defecto";
-  const userLastName = users.lastName || "Apellido por defecto";
-  const userLocation = users.location || "Ubicación por defecto";
-  const userEmail = users.email || "maria@example.com";
-  const userImage = users.image || "https://vivolabs.es/wp-content/uploads/2022/03/perfil-mujer-vivo.png";
-  const userUserName = users.userName || "Nombre de usuario por defecto";
-  const userProvince = users.province || "Provincia por defecto";
+  const userName = usersBase && usersBase.name !== undefined ? usersBase.name : users.name;
+  const userLastName = usersBase && usersBase.lastName !== undefined ? usersBase.lastName : users.lastName;
+  const userLocation = usersBase && usersBase.location !== undefined ? usersBase.location : users.location;
+  const userEmail = usersBase && usersBase.email !== undefined ? usersBase.email : users.email;
+  const userImage = usersBase && usersBase.image !== undefined ? usersBase.image : users.image;
+  const userProvince = usersBase && usersBase.province !== undefined ? usersBase.province : users.province;
+  
+  
 
   const [user, setUser] = useState({
     name: userName,
@@ -49,7 +52,7 @@ const DashboardClient = () => {
       province: user.province,
 
     };
-    console.log("updatedUser:", updatedUser);
+    // console.log("updatedUser:", updatedUser);
     try {
       // Envía la solicitud PATCH al servidor para actualizar el cliente
       const response = await dispatch(updateClientOnServer(updatedUser));
@@ -67,7 +70,7 @@ const DashboardClient = () => {
   };
 
   useEffect(() => {
-    console.log('Users after update:', users);
+    // console.log('Users after update:', users);
   // Llamada a la función getComments para obtener los comentarios
     const fetchComments = async () => {
       try {
@@ -86,7 +89,10 @@ const DashboardClient = () => {
 
     if (window.confirm(confirmationMessage)) {
       if (actionType === "cambio de contraseña") {
-        window.location.href = "/password";
+       
+        const userType = 'professional';
+    dispatch(setUserType(userType));
+    window.location.href = "/password";
       } else {
         alert(`Va a ser redirigido para realizar su pedido de ${actionType}.`);
         // Redirige al usuario al formulario correspondiente usando react-router-dom u otro enfoque de enrutamiento
