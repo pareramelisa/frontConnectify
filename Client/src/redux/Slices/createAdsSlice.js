@@ -13,8 +13,9 @@ const initialState = {
 // Función de utilidad para actualizar los anuncios después de deshabilitar uno
 const updateAdsAfterDisable = (state, action) => {
   state.loading = false;
-  const updatedAds = state.createAds.map((ad) =>
-    ad._id === action.payload._id ? { ...ad, ...action.payload } : ad
+
+  const updatedAds = state.createAds.filter(
+    (ad) => ad._id !== action.payload._id
   );
 
   state.createAds = updatedAds;
@@ -72,7 +73,7 @@ const createAdsSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(deleteAd.pending, (state) => {
-        state.status = "loading";
+        state.loading = true;
       })
       .addCase(deleteAd.fulfilled, (state, action) => {
         state.status = "succeeded";

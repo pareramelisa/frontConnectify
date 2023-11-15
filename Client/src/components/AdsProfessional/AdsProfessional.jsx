@@ -11,6 +11,7 @@ import {
   Button,
   CircularProgress,
   ListSubheader,
+  Stack,
   Typography,
 } from "@mui/material";
 import { useSelector, useDispatch } from "react-redux";
@@ -23,12 +24,15 @@ import {
 } from "../../redux/Slices/createAdsSlice";
 import { useState } from "react";
 import { useEffect } from "react";
+import { Delete } from "@mui/icons-material";
 
 function AdsProfesional() {
   const dispatch = useDispatch();
   const [selectedAd, setSelectedAd] = useState("");
   const users = useSelector((state) => state.usersLogin.user);
   const loading = useSelector((state) => state.createAds.loading);
+  const status = useSelector((state) => state.createAds.status);
+
   const ads = useSelector((state) => state.createAds.createAds);
 
   const userId = users._id;
@@ -71,44 +75,57 @@ function AdsProfesional() {
           </Link>
         </span>
       </ListSubheader>
-      {ads.map((ad) => (
-        <ListItem
-          key={ad._id}
-          sx={{ padding: "15px" }}
-          disableGutters
-          secondaryAction={
-            ad.isDeleted ? (
-              <Button onClick={() => handleDisable(ad._id)} variant="outlined">
-                {loading && selectedAd === ad._id ? (
-                  <CircularProgress size={25} />
-                ) : (
-                  "Habilitar"
-                )}
-              </Button>
-            ) : (
-              <>
-                <IconButton
-                  aria-label="comment"
+      {status === "loading" ? (
+        <Stack
+          direction={"row"}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <CircularProgress />
+        </Stack>
+      ) : (
+        ads.map((ad) => (
+          <ListItem
+            key={ad._id}
+            sx={{ padding: "15px" }}
+            disableGutters
+            secondaryAction={
+              ad.isDeleted ? (
+                <Button
                   onClick={() => handleDisable(ad._id)}
+                  variant="outlined"
                 >
                   {loading && selectedAd === ad._id ? (
                     <CircularProgress size={25} />
                   ) : (
-                    <HideSourceIcon />
+                    "Habilitar"
                   )}
-                </IconButton>
-                <IconButton aria-label="edit">
-                  <EditIcon />
-                </IconButton>
-              </>
-            )
-          }
-        >
-          <Typography variant="body2" color="black" sx={{ fontSize: "15px" }}>
-            {`${ad.title}`}
-          </Typography>
-        </ListItem>
-      ))}
+                </Button>
+              ) : (
+                <>
+                  <IconButton
+                    aria-label="comment"
+                    onClick={() => handleDisable(ad._id)}
+                  >
+                    {loading && selectedAd === ad._id ? (
+                      <CircularProgress size={25} />
+                    ) : (
+                      <Delete />
+                    )}
+                  </IconButton>
+                  <IconButton aria-label="edit">
+                    <EditIcon />
+                  </IconButton>
+                </>
+              )
+            }
+          >
+            <Typography variant="body2" color="black" sx={{ fontSize: "15px" }}>
+              {`${ad.title}`}
+            </Typography>
+          </ListItem>
+        ))
+      )}
     </List>
   );
 }
