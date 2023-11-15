@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axiosInstance from '../Utils/AxiosInstance';
 
 const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
 
@@ -9,7 +9,9 @@ export const deleteAd = (id) => {
     try {
       dispatch({ type: 'DISABLE_AD_START' });
 
-      const response = await axios.patch(`${VITE_API_BASE}/ads/${id}/delete`);
+      const response = await axiosInstance.patch(
+        `${VITE_API_BASE}/ads/${id}/delete`
+      );
 
       dispatch({
         type: 'DISABLE_AD_SUCCESS',
