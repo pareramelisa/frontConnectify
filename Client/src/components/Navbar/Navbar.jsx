@@ -70,6 +70,7 @@ function ResponsiveAppBar({ setContainerLogin }) {
       }
     }
     if (text === "Salir" && usersLocal) {
+      await dispatch(fetchAds())
       await dispatch(logoutUser());
         navigate('/home');
     }
