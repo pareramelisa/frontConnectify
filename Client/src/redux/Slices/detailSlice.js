@@ -2,7 +2,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axiosInstance from '../Utils/AxiosInstance';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
-console.log(VITE_API_BASE);
 
 export const detailAd = createSlice({
   name: 'detailId',
