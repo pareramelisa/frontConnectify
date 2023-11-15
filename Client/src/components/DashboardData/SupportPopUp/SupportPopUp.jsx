@@ -1,17 +1,22 @@
+import { useState } from "react";
 import style from "./SupportPopUp.module.css";
 import { useNavigate } from "react-router-dom";
+// import ClientDashboarsRenderer from "../Renderizers/clientDashboarsRenderer";
+// import { DashboardClient } from "../../../views/DashboardClient/DashboardClient";
 
 const SupportPopUp = ({ isVisible, professional, onClose }) => {
   const navigate = useNavigate();
-  console.log(professional);
+
   const handlerToDetail = (_id) => {
     navigate(`/detail/${_id}`);
   };
   const handlerToPayments = (userName) => {
-    console.log(userName);
     navigate(`/payments/${userName}`);
   };
-
+  const handlerSeeClientsProfile = (userId) => {
+    console.log(userId);
+    navigate(`/admin/client/dashboard/${userId}`);
+  };
   return (
     <div className={style.modal}>
       <button onClick={onClose}>Cerrar</button>
@@ -22,7 +27,12 @@ const SupportPopUp = ({ isVisible, professional, onClose }) => {
           </h2>
         </div>
         <div className={style.buttons}>
-          {!professional.creator && <button>Editar Perfil</button>}
+          {!professional.creator && (
+            <button onClick={() => handlerSeeClientsProfile(professional._id)}>
+              Editar Perfil
+            </button>
+          )}
+
           {professional.title && (
             <button onClick={() => handlerToDetail(professional._id)}>
               Ver Detalle

@@ -10,6 +10,7 @@ import {
 import {
   fetchClientsForAdmin,
   deleteClientByIdAdmin,
+  fetchClientById,
 } from "../../../redux/Slices/clientSlice";
 import {
   fetchAdsForAdmin,
@@ -48,7 +49,6 @@ const ProfsForAdmin = () => {
         console.error("falló el fetcheo", error);
       }
     };
-
     fetchData();
   }, []);
 
