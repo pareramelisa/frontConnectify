@@ -59,7 +59,7 @@ function BookingProf() {
         userComments.map((comment, index) => (
           <ListItem key={index} sx={{ padding: "15px" }} disableGutters>
             <Typography variant="body2" color="black" sx={{ fontSize: "15px" }}>
-              {`Nombre del cliente: ${comment.clientName} | Comentario: ${comment.comment} | Rating: ${comment.rating} `}
+              {`Nombre del cliente: ${comment.clientName} | Comentario: ${comment.comment} | Rating: ${comment.rating}⭐ `}
             </Typography>
           </ListItem>
         ))

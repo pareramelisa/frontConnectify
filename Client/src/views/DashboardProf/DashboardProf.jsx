@@ -25,7 +25,6 @@ const DashboardProf = () => {
       const resp = await axios.get(
         VITE_API_BASE + `/payments/search/professionals/${users._id}`
       );
-
       if (resp.status === 200) {
         setPayments(resp.data);
       }
