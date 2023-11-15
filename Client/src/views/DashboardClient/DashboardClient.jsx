@@ -15,19 +15,26 @@ const DashboardClient = ({ userId }) => {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
 
-  console.log(userId);
   const [users, setUsers] = useState({});
+  const [usersBase, setUsersBase] = useState({});
+  const ifClient = useSelector((state) => state.usersLogin.user);
+  const upDater = useSelector((state) => state.clients.updater);
+
   useEffect(() => {
     if (!userId) {
-      const adminUser = useSelector((state) => state.usersLogin.user);
-      setUsers(adminUser);
+      setUsersBase(upDater);
+      setUsers(ifClient);
     } else {
+      setUsersBase(upDater);
       setUsers(userId[0]);
     }
   }, []);
 
-  const usersBase = useSelector((state) => state.clients.updater);
-
+  // console.log(userId[0]);
+  console.log(ifClient);
+  console.log(users);
+  console.log(upDater);
+  console.log(usersBase);
   const userName =
     usersBase && usersBase.name !== undefined ? usersBase.name : users.name;
   const userLastName =
