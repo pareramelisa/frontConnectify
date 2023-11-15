@@ -8,7 +8,7 @@ const RenderReservs = ({ userName }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log('Props userName:', userName);
+        // console.log('Props userName:', userName);
 
         const response = await fetch(`https://connectifyback-dp-production.up.railway.app/payments/search/${userName}`);
         if (!response.ok) {
@@ -16,10 +16,10 @@ const RenderReservs = ({ userName }) => {
         }
         const data = await response.json();
 
-        console.log('Data from endpoint:', data);
+        // console.log('Data from endpoint:', data);
 
         const filteredReservs = data.filter(reserv => reserv.userName === userName && reserv.isCompleted === "approved");
-        console.log('Filtered Reservs:', filteredReservs);
+        // console.log('Filtered Reservs:', filteredReservs);
 
         setReservs(filteredReservs);
       } catch (error) {

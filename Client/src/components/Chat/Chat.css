@@ -6,6 +6,11 @@
   right: 20px;
   z-index: 9999;
 }
+.user-avatar {
+  width: 30px;
+  border-radius: 10px;
+  margin: 10px;
+}
 
 .card {
   width: 400px;
@@ -87,7 +92,6 @@
 
 .chat-message {
   display: flex;
-  justify-content: space-between;
   margin-bottom: 10px;
 }
 
@@ -97,11 +101,35 @@
   border-radius: 4px;
 }
 
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.user-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.user-nickname {
+  font-weight: bold;
+}
+
+.user-message,
+.other-message {
+  display: flex;
+  flex-direction: column;
+  padding: 10px; /* Añadir espacio interno a las burbujas */
+  border-radius: 8px; /* Bordes redondeados para las burbujas */
+  margin-right: auto; /* Empujar la burbuja al extremo derecho */
+}
+
 .user-message {
   background-color: #4caf50;
   color: #fff;
   align-self: flex-end;
-  text-align: right;
 }
 
 .other-message {
@@ -109,8 +137,25 @@
   color: #333;
 }
 
-/* Stored Messages */
-.text-muted {
-  text-align: center;
-  margin: 20px 0;
+/* Chat Form */
+.form-chat {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
+
+.form-chat input {
+  padding: 10px;
+  border: 1px solid #dcdcdc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+
+.form-chat button {
+  background-color: #4caf50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px;
+  cursor: pointer;
 }

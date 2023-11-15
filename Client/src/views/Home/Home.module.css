@@ -4,30 +4,30 @@ Cover {
   z-index: 1;
 }
 .container111 {
-  z-index: 1;
-  position: relative;
-  background-color: #fff;
- padding-top: 0.3em;
-  margin-left: 8em;
-  margin-right: 8em;  
-  border-radius: 0.51em;
-  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
-  height: 130em;
- }
+  position: absolute;    
+background-color: #fff;
+padding-top: 0.3em;
+margin-left: 8em;
+margin-right: 8em;  
+border-radius: 0.51em;
+box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
 
- .footer{
-  margin-top: 10em;
-  z-index: 2;
-  position: relative;
- }
-.card {
-  
-    display: grid;
-    grid-template-columns: repeat(3, 7fr);
-    gap: 5em;
-    padding: 4em;
-    grid-row-gap:2em;
 }
+
+.footer{
+margin-top: 140em;
+z-index: 2;
+position: relative;
+}
+.card {
+
+  display: grid;
+  grid-template-columns: repeat(3, 7fr);
+  gap: 5em;
+  padding: 4em;
+  grid-row-gap:2em;
+}
+
 
 /* Establece un ancho máximo para la cuadrícula para evitar que los elementos se estiren demasiado en pantallas grandes */
 @media (min-width: 1200px) {

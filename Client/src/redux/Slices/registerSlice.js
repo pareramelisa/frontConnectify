@@ -1,11 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-const VITE_API_BASE = import.meta.env.VITE_API_BASE || "localhost";
+import { createSlice } from '@reduxjs/toolkit';
+import axiosInstance from '../Utils/AxiosInstance';
+const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
 
 export const userRegisterSlice = createSlice({
-  name: "usersRegister",
+  name: 'usersRegister',
   initialState: {
-    user: "",
+    user: '',
   },
   reducers: {
     registerUser: (state, action) => {
@@ -23,34 +23,34 @@ export default userRegisterSlice.reducer;
 
 export const fetchUserRegister = (userData, type) => {
   return async (dispatch) => {
-    if (type === "client") {
+    if (type === 'client') {
       const endpoint = `${VITE_API_BASE}/client/register`;
       try {
-        const { data } = await axios.post(endpoint, userData);
+        const { data } = await axiosInstance.post(endpoint, userData);
         dispatch(registerUser(data));
         console.log(data.message);
         return data.message;
       } catch (error) {
         console.log(error);
         if (error.response.status === 400) {
-          return "Este mail ya estaba registrado en nuestra base de datos. Recupere su contraseña o intente con otro mail.";
+          return 'Este mail ya estaba registrado en nuestra base de datos. Recupere su contraseña o intente con otro mail.';
         } else {
-          return "Error del servidor";
+          return 'Error del servidor';
         }
       }
-    } else if (type === "professional") {
+    } else if (type === 'professional') {
       const endpoint = `${VITE_API_BASE}/professional/register`;
 
       try {
-        const { data } = await axios.post(endpoint, userData);
+        const { data } = await axiosInstance.post(endpoint, userData);
         dispatch(registerUser(data));
         return data.message;
       } catch (error) {
         console.log(error);
         if (error.response.status === 400) {
-          return "Este mail ya estaba registrado en nuestra base de datos. Recupere su contraseña o intente con otro mail.";
+          return 'Este mail ya estaba registrado en nuestra base de datos. Recupere su contraseña o intente con otro mail.';
         } else {
-          return "Error del servidor";
+          return 'Error del servidor';
         }
       }
     }
@@ -59,18 +59,18 @@ export const fetchUserRegister = (userData, type) => {
 
 export const fetchUserDelete = (id, userData, type) => {
   return async (dispatch) => {
-    if (type === "client") {
+    if (type === 'client') {
       const endpoint = `${VITE_API_BASE}/client/${id}/delete`;
       try {
-        const { data } = await axios.post(endpoint, userData);
+        const { data } = await axiosInstance.post(endpoint, userData);
         dispatch(registerUser(data));
       } catch (error) {
         console.log(error);
       }
-    } else if (type === "professional") {
+    } else if (type === 'professional') {
       const endpoint = `${VITE_API_BASE}/professional/${id}/delete`;
       try {
-        const { data } = await axios.post(endpoint, userData);
+        const { data } = await axiosInstance.post(endpoint, userData);
         dispatch(registerUser(data));
       } catch (error) {
         console.log(error);

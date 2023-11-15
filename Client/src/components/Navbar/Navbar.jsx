@@ -10,6 +10,7 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Tooltip from "@mui/material/Tooltip";
 import Badge from "@mui/material/Badge";
+// import logo from "../../assets/LogoLetrasFondoBlanco.png";
 import logo from "../../assets/logoTituloC001.png";
 import { useAuth0 } from "@auth0/auth0-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -17,11 +18,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "../../redux/Slices/loginSlice";
 import style from './Navbar.module.css';
 import carpetaEstrella from '../../assets/carpetaEstrella002.svg'
+import { logoutGoogle } from "../../redux/Slices/loginGoogleSlice";
 
 
 function ResponsiveAppBar({ setContainerLogin }) {
   const [anchorElUser, setAnchorElUser] = useState(null);
-  const [nickName, setNickName] = useState(null);
   const [users, setUsers] = useState('')
 
   const usersLocal = useSelector((state) => state.usersLogin.user);
@@ -46,28 +47,35 @@ function ResponsiveAppBar({ setContainerLogin }) {
   const handleAvatarButton = async (e) => {
     const text = e.target.textContent;
 
-    if (text === "Dashboard" && users === "client") {
+    if (text === "Mi Panel" && users === "client") {
       navigate(`/client/dashboard`);
     }
 
-    if (text === "Dashboard" && users === "professional") {
+    if (text === "Mi Panel" && users === "professional") {
       navigate(`/professional/dashboardProf`);
     }
 
-    if (text === "Dashboard" && users === "admin") {
+    if (text === "Mi Panel" && users === "admin") {
       navigate(`/admin/dashboard`);
     }
 
-    if (text === "Historial Pagos" && location.pathname !== "/payments") {
-      navigate(`/payments/${nickName}`);
+    if (text === "Historial de Pagos" && location.pathname !== "/payments") {
+      const nickNameGoogle = usersGoogle && usersGoogle.userName
+      const nickNameLocal = usersLocal && usersLocal.userName
+      if (nickNameGoogle) {
+        navigate(`/payments/${nickNameGoogle}`);
+      }
+      if (nickNameLocal) {
+        navigate(`/payments/${nickNameLocal}`);
+      }
+    }
+    if (text === "Salir" && usersLocal) {
+      await dispatch(logoutUser());
+        navigate('/home');
     }
 
-    if (text === "Logout" && usersLocal) {
-      dispatch(logoutUser());
-      navigate('/home')
-    }
-
-    if (text === "Logout" && isAuthenticated) {
+    if (text === "Salir" && isAuthenticated) {
+      await dispatch(logoutGoogle())
       logout();
     }
   };
@@ -75,8 +83,6 @@ function ResponsiveAppBar({ setContainerLogin }) {
   const handlerButtonLogin = () => {
     setContainerLogin(true);
   };
-
-  console.log(usersLocal.types);
 
   useEffect(() => {
     if (usersGoogle) {
@@ -96,16 +102,6 @@ function ResponsiveAppBar({ setContainerLogin }) {
     }
     
   }, [usersLocal, usersGoogle])
-
-
-  useEffect(() => {
-    if (usersGoogle) {
-      setNickName(usersGoogle.userName);
-    }
-    if(usersLocal){
-      setNickName(usersLocal.userName)
-    }
-  }, [usersGoogle, usersLocal]);
 
 
   return (
@@ -136,8 +132,9 @@ function ResponsiveAppBar({ setContainerLogin }) {
                       
                       </Badge>
                     )}
-
-                  <Tooltip title="Open settings">
+                  
+                  {users === "client" && (
+                  <Tooltip title="CLIENTE">
                     <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                       <Avatar
                         alt="Remy Sharp"
@@ -145,6 +142,19 @@ function ResponsiveAppBar({ setContainerLogin }) {
                       />
                     </IconButton>
                   </Tooltip>
+                  )}
+                  
+                  {users === "professional" && (
+                  <Tooltip title="PROFESIONAL">
+                    <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                      <Avatar
+                        alt="Remy Sharp"
+                        src={user ? user.picture : usersLocal ? usersLocal.image : null}
+                      />
+                    </IconButton>
+                  </Tooltip>
+                  )}
+                
                 </div>
               ) : 
                 location.pathname !== "/client/registration" && location.pathname !== "/professional/registration" ?
@@ -178,16 +188,17 @@ function ResponsiveAppBar({ setContainerLogin }) {
                 {
                   users === "admin" || users === "professional" ?
                   <ul className={style.menuAvatar} onClick={handleCloseUserMenu}>
-                    <li onClick={handleAvatarButton}>Dashboard</li>
-                    <li onClick={handleAvatarButton}>Logout</li>
+                    <li onClick={handleAvatarButton}>Mi Panel</li>
+                    <li onClick={handleAvatarButton}>Salir</li>
                   </ul> :
                   users === "client" &&
-                  <ul className={style.menuAvatar}>
-                    <li onClick={handleAvatarButton}>Dashboard</li>
-                    <li onClick={handleAvatarButton}>Historial Pagos</li>
-                    <li onClick={handleAvatarButton}>Logout</li>
+                  <ul className={style.menuAvatar} onClick={handleCloseUserMenu}>
+                    <li onClick={handleAvatarButton}>Mi Panel</li>
+                    <li onClick={handleAvatarButton}>Historial de Pagos</li>
+                    <li onClick={handleAvatarButton}>Salir</li>
                   </ul>
                 }
+                
               </Menu>
             </Box>
           </div>

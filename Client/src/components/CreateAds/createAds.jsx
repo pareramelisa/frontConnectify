@@ -1,88 +1,131 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { createAd } from "../../redux/Slices/createAdsSlice";
-import TextField from "@mui/material/TextField";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import { Button, Divider, Grid, InputLabel, Paper } from "@mui/material";
-import NavBar from "../../components/Navbar/Navbar"
-import Footer from "../Footer/Footer";
+import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { createAd } from '../../redux/Slices/createAdsSlice';
+import TextField from '@mui/material/TextField';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import { Button, Divider, Grid, InputLabel, Paper } from '@mui/material';
+import NavBar from '../../components/Navbar/Navbar';
+import Footer from '../Footer/Footer';
+import { fetchAds } from '../../redux/Slices/adsSlice';
+import Notification from './Notification/Notification';
+import ButtonBack from '../Utils/ButtonBack/ButtonBack';
+import {
+  isValidTitle,
+  isValidPrice,
+  isValidDescription,
+} from './AdsValidations';
 
 function CreateAdForm() {
   const dispatch = useDispatch();
+  const [showNotification, setShowNotification] = useState(false);
+  const [idAnuncio, setIdAnuncio] = useState('');
+  const [validationErrors, setValidationErrors] = useState({
+    title: '',
+    price: '',
+    description: '',
+  });
   const user = useSelector((state) => state.usersLogin.user);
 
   const [formData, setFormData] = useState(() => {
-    const savedFormData = localStorage.getItem("formData");
+    const savedFormData = localStorage.getItem('formData');
     return savedFormData
       ? JSON.parse(savedFormData)
       : {
-          title: "",
-          description: "",
-          location: "",
-          price: "",
-          categories: "",
-          contractType: "",
-          workLocation: "",
-          profession: "",
+          title: '',
+          description: '',
+          price: '',
+          contractType: '',
+          workLocation: '',
         };
   });
 
-  const [isSuccess, setIsSuccess] = useState(false);
-
-  const isFormFilled = Object.values(formData).every(value => value !== '');
+  const isFormFilled = Object.values(formData).every((value) => value !== '');
 
   useEffect(() => {
-    localStorage.setItem("formData", JSON.stringify(formData));
+    localStorage.setItem('formData', JSON.stringify(formData));
   }, [formData]);
 
   const handleInputChange = (fieldName, value) => {
-    if (fieldName !== 'price' && !/^[A-Za-zÁÉÍÓÚáéíóúñÑ\s,.\-]*$/.test(value)) {
+    let validation;
+
+    switch (fieldName) {
+      case 'title':
+        validation = isValidTitle(value);
+        break;
+      case 'price':
+        validation = isValidPrice(value);
+        break;
+      case 'description':
+        validation = isValidDescription(value);
+        break;
+      default:
+        validation = { isValid: true, errorMessage: '' };
+    }
+
+    if (!validation.isValid) {
+      setValidationErrors((prevErrors) => ({
+        ...prevErrors,
+        [fieldName]: validation.errorMessage,
+      }));
       return;
     }
-  
-    if (fieldName === 'price' && (value === '' || parseInt(value) < 1)) {
-      return;
-    }
-  
+
+    setValidationErrors((prevErrors) => ({
+      ...prevErrors,
+      [fieldName]: '',
+    }));
+
     setFormData({ ...formData, [fieldName]: value });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userinput = {
+    const userInput = {
       ...formData,
       creator: user._id,
       price: Number(formData.price),
-    }
+      profession: user.profession[0],
+      location: user.province[0],
+    };
 
     try {
-      await dispatch(createAd(userinput));
-      setIsSuccess(true);
-      setTimeout(() => {
-        setIsSuccess(false);
-      }, 3000); // Ocultar el mensaje después de 3 segundos
+      const response = await dispatch(createAd(userInput));
+      setIdAnuncio(response.payload._id);
+      setShowNotification(true);
+      dispatch(fetchAds());
     } catch (error) {
-      console.error("Error al crear el anuncio:", error);
+      console.error('Error al crear el anuncio:', error);
     }
-  } 
+  };
 
   return (
     <div>
       <div>
         <NavBar />
       </div>
-      <h1
+      <div style={{ marginLeft: '50px' }}>
+        <ButtonBack />
+      </div>
+      <div
         style={{
-          marginLeft: "115px",
-          fontSize: "30px",
-          marginBottom: "20px",
-          fontFamily: "Roboto, sans-serif",
-          fontWeight: 300,
+          display: 'flex',
+          alignItems: 'center',
+          width: '100%',
+          justifyContent: 'center',
         }}
       >
-        Crea tu anuncio
-      </h1>
+        <h1
+          style={{
+            fontSize: '30px',
+            marginBottom: '20px',
+            fontFamily: 'Roboto, sans-serif',
+            fontWeight: 300,
+          }}
+        >
+          Crea tu anuncio
+        </h1>
+      </div>
       <Divider />
       <Grid
         container
@@ -91,9 +134,9 @@ function CreateAdForm() {
       >
         <Grid item xs={10}>
           <Paper elevation={3} sx={{ padding: 10, boxShadow: 10 }}>
-            <form style={{ textAlign: "center" }} onSubmit={handleSubmit}>
+            <form style={{ textAlign: 'center' }} onSubmit={handleSubmit}>
               <Grid container spacing={5}>
-                <Grid item xs={6} style={{ textAlign: "left" }}>
+                <Grid item xs={6} style={{ textAlign: 'left' }}>
                   <TextField
                     label="Título"
                     variant="standard"
@@ -106,18 +149,9 @@ function CreateAdForm() {
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   />
-                  <TextField
-                    label="Locación"
-                    variant="standard"
-                    type="text"
-                    id="location"
-                    name="location"
-                    value={formData.location}
-                    onChange={(e) => handleInputChange('location', e.target.value)}
-                    required
-                    fullWidth
-                    sx={{ marginBottom: 2 }}
-                  />
+                  {validationErrors.title && (
+                    <p style={{ color: 'red' }}>{validationErrors.title}</p>
+                  )}
                   <TextField
                     label="Precio"
                     variant="standard"
@@ -130,18 +164,9 @@ function CreateAdForm() {
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   />
-                  <TextField
-                    label="Categorías"
-                    variant="standard"
-                    type="text"
-                    id="categories"
-                    name="categories"
-                    value={formData.categories}
-                    onChange={(e) => handleInputChange('categories', e.target.value)}
-                    required
-                    fullWidth
-                    sx={{ marginBottom: 2 }}
-                  />
+                  {validationErrors.province && (
+                    <p style={{ color: 'red' }}>{validationErrors.price}</p>
+                  )}
                   <InputLabel id="contractType">
                     Tipo de contratación
                   </InputLabel>
@@ -150,7 +175,9 @@ function CreateAdForm() {
                     variant="standard"
                     name="contractType"
                     value={formData.contractType}
-                    onChange={(e) => handleInputChange('contractType', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange('contractType', e.target.value)
+                    }
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   >
@@ -160,7 +187,7 @@ function CreateAdForm() {
                     <MenuItem value="Other">Otro</MenuItem>
                   </Select>
                 </Grid>
-                <Grid item xs={6} style={{ textAlign: "left" }}>
+                <Grid item xs={6} style={{ textAlign: 'left' }}>
                   <TextField
                     label="Descripción"
                     variant="standard"
@@ -169,11 +196,18 @@ function CreateAdForm() {
                     id="description"
                     name="description"
                     value={formData.description}
-                    onChange={(e) => handleInputChange('description', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange('description', e.target.value)
+                    }
                     required
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   />
+                  {validationErrors.description && (
+                    <p style={{ color: 'red' }}>
+                      {validationErrors.description}
+                    </p>
+                  )}
                   <InputLabel id="workLocation">
                     Modalidad de trabajo:
                   </InputLabel>
@@ -182,28 +216,18 @@ function CreateAdForm() {
                     variant="standard"
                     name="workLocation"
                     value={formData.workLocation}
-                    onChange={(e) => handleInputChange('workLocation', e.target.value)}
+                    onChange={(e) =>
+                      handleInputChange('workLocation', e.target.value)
+                    }
                     fullWidth
                     sx={{ marginBottom: 2 }}
                   >
                     <MenuItem value="Presencial">Presencial</MenuItem>
                     <MenuItem value="Remoto">Remoto</MenuItem>
                   </Select>
-                  <TextField
-                    label="Profesion"
-                    variant="standard"
-                    type="text"
-                    id="profession"
-                    name="profession"
-                    value={formData.profession}
-                    onChange={(e) => handleInputChange('profession', e.target.value)}
-                    required
-                    fullWidth
-                    sx={{ marginBottom: 2 }}
-                  />
                 </Grid>
               </Grid>
-              <div style={{ paddingTop: "40px" }}>
+              <div style={{ paddingTop: '40px' }}>
                 <Button
                   variant="contained"
                   color="primary"
@@ -212,11 +236,7 @@ function CreateAdForm() {
                 >
                   Crear anuncio
                 </Button>
-                {isSuccess && (
-                  <p style={{ color: "green", marginTop: "10px" }}>
-                    El anuncio se ha creado con éxito.
-                  </p>
-                )}
+                {showNotification && <Notification anuncio={idAnuncio} />}
               </div>
             </form>
           </Paper>

@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-catch */
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axiosInstance from '../Utils/AxiosInstance';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE;
 // const VITE_API_BASE = 'http://localhost:3001';
 
@@ -25,14 +25,14 @@ export const fetchRequest = (email, userType) => {
     try {
       let response;
       if (userType === 'client') {
-        response = await axios.post(
+        response = await axiosInstance.post(
           `${VITE_API_BASE}/recovery/client/request-recovery-password`,
           { email }
         );
         dispatch(setRequest(response));
       }
       if (userType === 'professional') {
-        response = await axios.post(
+        response = await axiosInstance.post(
           `${VITE_API_BASE}/recovery/professional/request-recovery-password`,
           { email }
         );
@@ -53,14 +53,14 @@ export const resetRequest = ({ tokenRecovery, NewPassword, userType }) => {
     try {
       let response;
       if (userType === 'professional') {
-        response = await axios.post(
+        response = await axiosInstance.post(
           `${VITE_API_BASE}/recovery/professional/reset-password`,
           { tokenRecovery, NewPassword }
         );
         dispatch(setRequest(response));
       }
       if (userType === 'client') {
-        response = await axios.post(
+        response = await axiosInstance.post(
           `${VITE_API_BASE}/recovery/client/reset-password`,
           { tokenRecovery, NewPassword }
         );
