@@ -1,5 +1,5 @@
 import { useParams } from "react-router-dom";
-import DashboardClient from "../../../views/DashboardClient/DashboardClient";
+import DashboardClientForAdmin from "./DashboardClientForAdmin";
 import { useSelector } from "react-redux";
 
 const ClientDashboarsRenderer = () => {
@@ -7,7 +7,7 @@ const ClientDashboarsRenderer = () => {
 
   const client = useSelector((state) => state.clients.clients);
   const gato = client.filter((client) => client._id === userId);
-  return <DashboardClient userId={gato} />;
+  return <DashboardClientForAdmin userId={gato} />;
 };
 
 export default ClientDashboarsRenderer;
