@@ -23,8 +23,9 @@ const DashboardProf = () => {
     setLoading(true);
     try {
       const resp = await axios.get(
-        VITE_API_BASE + `/payments/search/professionals/${users._id}`
+        VITE_API_BASE + `/payments/search/professionals/${_id}`
       );
+      console.log(resp)
 
       if (resp.status === 200) {
         setPayments(resp.data);
