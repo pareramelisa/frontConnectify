@@ -57,10 +57,10 @@ const Home = () => {
   const indexOfLastAd = currentPage * adsPerPage;
   const indexOfFirstAd = indexOfLastAd - adsPerPage;
   // Guardamos los anuncios que se van a mostrar de indice en indice
-  // const currentAds = adsFiltered.slice(indexOfFirstAd, indexOfLastAd);
-  const currentAds = adsFiltered
-    ? adsFiltered.slice(indexOfFirstAd, indexOfLastAd)
-    : [];
+  // const currentAds = adsFiltered
+  //   ? adsFiltered.slice(indexOfFirstAd, indexOfLastAd)
+  //   : [];
+  const currentAds = adsFiltered.slice(indexOfFirstAd, indexOfLastAd);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -99,16 +99,16 @@ const Home = () => {
     if (savedSortPrice && adsFiltered.length > 0) {
       setSortPrice(savedSortPrice);
     }
-    dispatch(
-      fetchFilter({
-        profession: '',
-        locationProf: '',
-        workLocation: '',
-        minPrice: 1000,
-        maxPrice: 10000,
-        sortPrice: '',
-      })
-    );
+    // dispatch(
+    //   fetchFilter({
+    //     profession: '',
+    //     locationProf: '',
+    //     workLocation: '',
+    //     minPrice: 1000,
+    //     maxPrice: 10000,
+    //     sortPrice: '',
+    //   })
+    // );
   }, []);
 
   useEffect(() => {
@@ -171,17 +171,17 @@ const Home = () => {
     setSortPrice('');
     setPriceRange([1000, 10000]);
     setWorkLocation('');
-    // dispatch(fetchAds());
-    dispatch(
-      fetchFilter({
-        profession: '',
-        locationProf: '',
-        workLocation: '',
-        minPrice: 1000,
-        maxPrice: 10000,
-        sortPrice: '',
-      })
-    );
+    dispatch(fetchAds());
+    // dispatch(
+    //   fetchFilter({
+    //     profession: '',
+    //     locationProf: '',
+    //     workLocation: '',
+    //     minPrice: 1000,
+    //     maxPrice: 10000,
+    //     sortPrice: '',
+    //   })
+    // );
 
     localStorage.setItem('locationProf', '');
     localStorage.setItem('profession', '');
