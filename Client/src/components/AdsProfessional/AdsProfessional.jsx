@@ -4,7 +4,6 @@ import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 import IconButton from "@mui/material/IconButton";
-import HideSourceIcon from "@mui/icons-material/HideSource";
 import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import {
@@ -17,10 +16,9 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import LocalLibraryOutlinedIcon from "@mui/icons-material/LocalLibraryOutlined";
 import {
-  dataAds,
   deleteAd,
   disableAdStart,
-  fetchAds,
+  fetchAdss,
 } from "../../redux/Slices/createAdsSlice";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -44,7 +42,7 @@ function AdsProfesional() {
   };
 
   useEffect(() => {
-    dispatch(fetchAds(userId));
+    dispatch(fetchAdss(userId));
   }, [dispatch]);
 
   return (
