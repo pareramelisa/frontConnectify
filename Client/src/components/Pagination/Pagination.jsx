@@ -3,6 +3,8 @@ import { Container } from './styledPagination';
 import Fab from '@mui/material/Fab';
 import { useState, useEffect } from 'react';
 import { TextField, Button } from '@mui/material';
+import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 
 function Pagination({
   currentPage,
@@ -80,7 +82,7 @@ function Pagination({
         onClick={handlePrevPage}
         disabled={currentPage === 1} // Deshabilitar el botón en la página 1
       >
-        Back
+        <FaArrowLeft />
       </Fab>
       <div
         style={{
@@ -124,7 +126,7 @@ function Pagination({
           zIndex: '1',
         }}
       >
-        Next
+        <FaArrowRight />
       </Fab>
     </Container>
   );
