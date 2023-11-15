@@ -14,16 +14,17 @@ import { setUserType } from "../../redux/Slices/userTypeSlice";
 const DashboardClient = () => {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
-  const users = useSelector(state => state.clients.updater);
-  const usersBase = useSelector(state => state.usersLogin.user);
+  const usersBase = useSelector(state => state.clients.updater);//Los datos que se cambian en el formulario
+  const users = useSelector(state => state.usersLogin.user); ////Los datos el usuario logueado
 
-  const userName = users.name || usersBase.name;
-  const userLastName = users.lastName || usersBase.lastName;
-  const userLocation = users.location || usersBase.location;
-  const userEmail = users.email || usersBase.email;
-  const userImage = users.image || usersBase.image;
+  const userName = usersBase && usersBase.name !== undefined ? usersBase.name : users.name;
+  const userLastName = usersBase && usersBase.lastName !== undefined ? usersBase.lastName : users.lastName;
+  const userLocation = usersBase && usersBase.location !== undefined ? usersBase.location : users.location;
+  const userEmail = usersBase && usersBase.email !== undefined ? usersBase.email : users.email;
+  const userImage = usersBase && usersBase.image !== undefined ? usersBase.image : users.image;
+  const userProvince = usersBase && usersBase.province !== undefined ? usersBase.province : users.province;
   
-  const userProvince = users.province || usersBase.province;
+  
 
   const [user, setUser] = useState({
     name: userName,
@@ -51,7 +52,7 @@ const DashboardClient = () => {
       province: user.province,
 
     };
-    console.log("updatedUser:", updatedUser);
+    // console.log("updatedUser:", updatedUser);
     try {
       // Envía la solicitud PATCH al servidor para actualizar el cliente
       const response = await dispatch(updateClientOnServer(updatedUser));
@@ -69,7 +70,7 @@ const DashboardClient = () => {
   };
 
   useEffect(() => {
-    console.log('Users after update:', users);
+    // console.log('Users after update:', users);
   // Llamada a la función getComments para obtener los comentarios
     const fetchComments = async () => {
       try {

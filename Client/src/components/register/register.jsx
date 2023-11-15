@@ -183,8 +183,8 @@ const navigate = useNavigate();
       });
     }
     
-    console.log("clientRegister:", clientRegister);
-    console.log("remoteWork:", remoteWork);
+    // console.log("clientRegister:", clientRegister);
+    // console.log("remoteWork:", remoteWork);
 
     if (Object.values(errors).some((error) => error !== null)) {
       return;
@@ -571,7 +571,7 @@ const navigate = useNavigate();
                 fullWidth
                 required                
               />
-              <div style={{ padding: "5px" }}>
+              {/* <div style={{ padding: "5px" }}>
               <label htmlFor="remoteWork">Trabajo Remoto</label>
             <input
               type="checkbox"
@@ -580,7 +580,7 @@ const navigate = useNavigate();
               value={remoteWork}
               onChange={handleChange}
             />
-          </div>
+          </div> */}
                             
             </div>
           )}
