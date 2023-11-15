@@ -20,6 +20,7 @@ function CreateAdForm() {
   const dispatch = useDispatch();
   const [showNotification, setShowNotification] = useState(false);
   const [idAnuncio, setIdAnuncio] = useState('');
+  const [hasReachedLimit, setHasReachedLimit] = useState(false);
   const [validationErrors, setValidationErrors] = useState({
     title: '',
     price: '',
@@ -91,9 +92,19 @@ function CreateAdForm() {
 
     try {
       const response = await dispatch(createAd(userInput));
-      setIdAnuncio(response.payload._id);
-      setShowNotification(true);
-      dispatch(fetchAds());
+      if (response.payload && response.payload._id) {
+        // Éxito al crear el anuncio
+        setIdAnuncio(response.payload._id);
+        setShowNotification(true);
+        dispatch(fetchAds());
+      } else {
+        // Manejar el caso en el que response.payload es undefined o no tiene _id
+        console.error(
+          'Error al crear el anuncio:',
+          'No puede crear mas de 2 anuncios'
+        );
+        setHasReachedLimit(true);
+      }
     } catch (error) {
       console.error('Error al crear el anuncio:', error);
     }
@@ -232,10 +243,15 @@ function CreateAdForm() {
                   variant="contained"
                   color="primary"
                   type="submit"
-                  disabled={!isFormFilled}
+                  disabled={!isFormFilled || hasReachedLimit}
                 >
                   Crear anuncio
                 </Button>
+                {hasReachedLimit && (
+                  <p style={{ color: 'red', marginTop: '10px' }}>
+                    Has alcanzado el límite de anuncios (máximo 2).
+                  </p>
+                )}
                 {showNotification && <Notification anuncio={idAnuncio} />}
               </div>
             </form>
