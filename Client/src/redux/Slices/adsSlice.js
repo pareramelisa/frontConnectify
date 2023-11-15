@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axiosInstance from '../Utils/AxiosInstance';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
 
 // Define una función asincrónica para cargar los anuncios
 export const fetchAds = createAsyncThunk('ads/fetchAds', async () => {
   const endpoint = `${VITE_API_BASE}/ads`;
-  const response = await axios.get(endpoint);
+  const response = await axiosInstance.get(endpoint);
   return response.data;
   //eliminado el tryCatch debido a que el createAsyncThunk ya maneja los errores.
 });
@@ -56,7 +56,7 @@ export const fetchAdsForAdmin = () => {
   return async (dispatch) => {
     const endpoint = `${VITE_API_BASE}/ads`;
     try {
-      const response = await axios.get(endpoint);
+      const response = await axiosInstance.get(endpoint);
       console.log(response.data);
       const ads = response.data;
       dispatch(getAllAds(ads));
@@ -71,7 +71,7 @@ export const deleteAdByIdAdmin = (id) => {
   return async (dispatch) => {
     const endpoint = `${VITE_API_BASE}/ads/${id}/delete`;
     try {
-      const deleted = await axios.patch(endpoint, id);
+      const deleted = await axiosInstance.patch(endpoint, id);
 
       dispatch(deleteAd(deleted));
     } catch (error) {

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axiosInstance from '../Utils/AxiosInstance';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE;
 
 // Setea el estado de usuario cuando hacen login o logout
@@ -36,7 +36,7 @@ export const fetchUserLogin = (form) => {
     console.log(endpoint);
 
     try {
-      const { data } = await axios.post(endpoint, form);
+      const { data } = await axiosInstance.post(endpoint, form);
       console.log(data);
       if (data.userName) {
         dispatch(loginUser(data));

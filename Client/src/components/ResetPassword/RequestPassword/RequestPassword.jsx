@@ -22,8 +22,8 @@ export default function RequestPassword() {
         window.alert('Email invalido o no existe');
         return;
       }
-      const message = response.data.message;
-      setNotificationMessage(message);
+      // La solicitud fue exitosa
+      setNotificationMessage(response.data.message);
       setShowNotification(true);
     } catch (error) {
       console.error('Error en la solicitud:', error);

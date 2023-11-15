@@ -1,10 +1,11 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
-const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axios from "axios";
+const VITE_API_BASE = import.meta.env.VITE_API_BASE || "localhost";
+import axiosInstance from "../Utils/AxiosInstance";
 
 const initialState = {
   createAds: [],
-  status: 'idle',
+  status: "idle",
   loading: false,
   error: null,
 };
@@ -20,20 +21,22 @@ const updateAdsAfterDisable = (state, action) => {
 };
 
 // Acciones asíncronas
-export const createAd = createAsyncThunk('ads/createAd', async (adData) => {
+export const createAd = createAsyncThunk("ads/createAd", async (adData) => {
   const endpoint = `${VITE_API_BASE}/ads`;
   const response = await axios.post(endpoint, adData);
   return response.data;
 });
 
-export const deleteAd = createAsyncThunk('ads/deleteAd', async (id) => {
-  const response = await axios.patch(`${VITE_API_BASE}/ads/${id}/delete`);
+export const deleteAd = createAsyncThunk("ads/deleteAd", async (id) => {
+  const response = await axiosInstance.patch(
+    `${VITE_API_BASE}/ads/${id}/delete`
+  );
   return response.data;
 });
 
-export const fetchAds = createAsyncThunk('ads/fetchAds', async (userId) => {
+export const fetchAds = createAsyncThunk("ads/fetchAds", async (userId) => {
   const endpoint = `${VITE_API_BASE}/ads`;
-  const response = await axios.get(endpoint);
+  const response = await axiosInstance.get(endpoint);
   const adsFilter = response.data.filter((ad) => ad.creator[0]._id === userId);
 
   return adsFilter;
@@ -42,7 +45,7 @@ export const fetchAds = createAsyncThunk('ads/fetchAds', async (userId) => {
 
 // Slice
 const createAdsSlice = createSlice({
-  name: 'createAds',
+  name: "createAds",
   initialState,
   reducers: {
     disableAdStart: (state) => {
@@ -58,36 +61,36 @@ const createAdsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(createAd.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(createAd.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.createAds.push(action.payload);
       })
       .addCase(createAd.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
       })
       .addCase(deleteAd.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(deleteAd.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         updateAdsAfterDisable(state, action);
       })
       .addCase(deleteAd.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
       })
       .addCase(fetchAds.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchAds.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.createAds = action.payload; // Actualiza el estado con los anuncios obtenidos
       })
       .addCase(fetchAds.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
       });
   },

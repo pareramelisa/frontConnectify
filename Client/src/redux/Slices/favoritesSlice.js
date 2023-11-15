@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axiosInstance from '../Utils/AxiosInstance';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE;
 
 const favoritesSlice = createSlice({
@@ -40,7 +40,9 @@ export default favoritesSlice.reducer;
 export const fetchGetAllFavorites = (clientId) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.get(VITE_API_BASE + `/fav/${clientId}/`);
+      const { data } = await axiosInstance.get(
+        VITE_API_BASE + `/fav/${clientId}/`
+      );
 
       dispatch(getAllFavorites(data));
     } catch (error) {
@@ -52,7 +54,10 @@ export const fetchGetAllFavorites = (clientId) => {
 export const fetchAddFavorites = (form) => {
   return async (dispatch) => {
     try {
-      const { data } = await axios.post(VITE_API_BASE + `/fav/save/`, form);
+      const { data } = await axiosInstance.post(
+        VITE_API_BASE + `/fav/save/`,
+        form
+      );
 
       dispatch(addFavorite(data));
     } catch (error) {
@@ -65,7 +70,10 @@ export const fetchRemoveFavorites = (form) => {
   return async (dispatch) => {
     console.log(form);
     try {
-      const { data } = await axios.post(VITE_API_BASE + `/fav/delete/`, form);
+      const { data } = await axiosInstance.post(
+        VITE_API_BASE + `/fav/delete/`,
+        form
+      );
       console.log(data);
       dispatch(removeFavorite(data));
     } catch (error) {
