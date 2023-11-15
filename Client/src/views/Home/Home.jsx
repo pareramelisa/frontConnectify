@@ -199,6 +199,8 @@ const Home = () => {
   //* constantes para el filtro por profesion y ubicación
   const uniqueProfessions = [...new Set(ads.map((ad) => ad.profession))];
   const uniqueLocations = [...new Set(ads.map((ad) => ad.location))];
+  uniqueProfessions.sort();
+  uniqueLocations.sort();
 
   //* useEffect para actualizar el estado de los anuncios
   useEffect(() => {
