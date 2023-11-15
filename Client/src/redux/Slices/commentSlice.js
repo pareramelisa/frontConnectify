@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-catch */
 
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axiosInstance from '../Utils/AxiosInstance';
+import axios from 'axios';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
 
 // Define una función asincrónica para crear un comentario
@@ -15,7 +15,7 @@ export const postComment = createAsyncThunk(
       // const endpoint = VITE_API_BASE + `/comments`
       //const endpoint = "http://localhost:3001/comments";
 
-      const response = await axiosInstance.post(endpoint, commentData);
+      const response = await axios.post(endpoint, commentData);
       return response.data;
     } catch (error) {
       throw error;
@@ -29,7 +29,7 @@ export const getComments = createAsyncThunk('comment/getComment', async () => {
     const endpoint = VITE_API_BASE + `/comments`;
     // "https://connectifyback-dp-production.up.railway.app/comments/getComments";
 
-    const response = await axiosInstance(endpoint);
+    const response = await axios(endpoint);
     return response.data;
   } catch (error) {
     throw error;
@@ -43,7 +43,7 @@ export const deleteComments = createAsyncThunk(
     try {
       const endpoint = VITE_API_BASE + `/comments/${commentId}/delete`;
       // `https://connectifyback-dp-production.up.railway.app/comments/${commentId}/delete`;
-      const response = await axiosInstance.delete(endpoint);
+      const response = await axios.delete(endpoint);
       return response.data;
     } catch (error) {
       throw error;
@@ -57,7 +57,7 @@ export const getCommentById = createAsyncThunk(
     try {
       const endpoint = VITE_API_BASE + `/comments/${commentId}`;
       // `https://connectifyback-dp-production.up.railway.app/comments/${commentId}`;
-      const response = await axiosInstance(endpoint);
+      const response = await axios(endpoint);
       return response.data;
     } catch (error) {
       throw error;
@@ -69,7 +69,7 @@ export const fetchCommentsForAdmin = () => {
     // const endpoint = "http://localhost:3001" + `/comments`;
     const endpoint = VITE_API_BASE + `/comments`;
     try {
-      const response = await axiosInstance.get(endpoint);
+      const response = await axios.get(endpoint);
       const comments = response.data;
       dispatch(getAllComments(comments));
       return response.data;
@@ -84,7 +84,7 @@ export const deleteCommentByIdAdmin = (id) => {
     const endpoint = VITE_API_BASE + `/comments/${id}/delete`;
     // const endpoint = "http://localhost:3001" + `/comments/${id}/delete`;
     try {
-      const deleted = await axiosInstance.patch(endpoint, id);
+      const deleted = await axios.patch(endpoint, id);
       dispatch(deleteComment(deleted));
       return deleted;
     } catch (error) {
@@ -98,7 +98,7 @@ export const checkCommentByIdAdmin = (id) => {
     const endpoint = VITE_API_BASE + `/comments/${id}/check`;
     // const endpoint = "http://localhost:3001" + `/comments/${id}/check`;
     try {
-      const checked = await axiosInstance.patch(endpoint, id);
+      const checked = await axios.patch(endpoint, id);
       dispatch(checkComment(checked));
 
       return checked;

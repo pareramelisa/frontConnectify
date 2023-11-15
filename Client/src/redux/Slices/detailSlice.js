@@ -1,6 +1,6 @@
 /* eslint-disable no-useless-catch */
 import { createSlice } from '@reduxjs/toolkit';
-import axiosInstance from '../Utils/AxiosInstance';
+import axios from 'axios';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
 console.log(VITE_API_BASE);
 
@@ -23,7 +23,7 @@ export default detailAd.reducer;
 export const fetchDetail = (id) => {
   return async (dispatch) => {
     try {
-      const { data } = await axiosInstance.get(`${VITE_API_BASE}/ads/${id}`);
+      const { data } = await axios.get(`${VITE_API_BASE}/ads/${id}`);
       dispatch(setDetail(data));
     } catch (error) {
       throw error;
