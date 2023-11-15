@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axiosInstance from '../Utils/AxiosInstance';
+import axios from 'axios';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
 console.log(VITE_API_BASE);
 
@@ -36,7 +36,7 @@ export const fetchProfsForAdmin = () => {
   return async (dispatch) => {
     const endpoint = URL + `/professional/`;
     try {
-      const response = await axiosInstance.get(endpoint);
+      const response = await axios.get(endpoint);
       console.log(response.data);
       const professionals = response.data;
       dispatch(getAllProfessionals(professionals));
@@ -51,7 +51,7 @@ export const deleteProfByIdAdmin = (id) => {
   return async (dispatch) => {
     const endpoint = URL + `/professional/${id}/delete`;
     try {
-      const deleted = await axiosInstance.patch(endpoint, id);
+      const deleted = await axios.patch(endpoint, id);
 
       dispatch(deleteProfessional(deleted));
       return deleted;

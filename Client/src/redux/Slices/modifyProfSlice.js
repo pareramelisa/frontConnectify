@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axiosInstance from '../Utils/AxiosInstance';
+import axios from 'axios';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE;
 
 // Setea el estado de usuario cuando hacen login o logout
@@ -29,7 +29,7 @@ export const fetchModifyDataProf = (form, id) => {
     let endpoint = VITE_API_BASE + `/professional/${id}`;
 
     try {
-      const { data } = await axiosInstance.patch(endpoint, form);
+      const { data } = await axios.patch(endpoint, form);
       console.log(data);
       dispatch(modifyData(data));
     } catch (error) {
@@ -42,7 +42,7 @@ export const fetchGetProfById = (id) => {
   return async (dispatch) => {
     const endpoint = VITE_API_BASE + `/professional/${id}`;
     try {
-      const { data } = await axiosInstance.get(endpoint);
+      const { data } = await axios.get(endpoint);
       console.log(data);
       dispatch(getProfByID(data));
     } catch (error) {

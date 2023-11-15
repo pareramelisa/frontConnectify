@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import axiosInstance from '../Utils/AxiosInstance';
+import axios from 'axios';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
 
 export const userRegisterSlice = createSlice({
@@ -26,7 +26,7 @@ export const fetchUserRegister = (userData, type) => {
     if (type === 'client') {
       const endpoint = `${VITE_API_BASE}/client/register`;
       try {
-        const { data } = await axiosInstance.post(endpoint, userData);
+        const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
         console.log(data.message);
         return data.message;
@@ -42,7 +42,7 @@ export const fetchUserRegister = (userData, type) => {
       const endpoint = `${VITE_API_BASE}/professional/register`;
 
       try {
-        const { data } = await axiosInstance.post(endpoint, userData);
+        const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
         return data.message;
       } catch (error) {
@@ -62,7 +62,7 @@ export const fetchUserDelete = (id, userData, type) => {
     if (type === 'client') {
       const endpoint = `${VITE_API_BASE}/client/${id}/delete`;
       try {
-        const { data } = await axiosInstance.post(endpoint, userData);
+        const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
       } catch (error) {
         console.log(error);
@@ -70,7 +70,7 @@ export const fetchUserDelete = (id, userData, type) => {
     } else if (type === 'professional') {
       const endpoint = `${VITE_API_BASE}/professional/${id}/delete`;
       try {
-        const { data } = await axiosInstance.post(endpoint, userData);
+        const { data } = await axios.post(endpoint, userData);
         dispatch(registerUser(data));
       } catch (error) {
         console.log(error);

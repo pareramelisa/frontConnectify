@@ -9,10 +9,12 @@ import { getComments } from "./CommentsOrganized";
 import { Link } from "react-router-dom";
 import RenderReservs from "./RenderReservs";
 import { Button, Card } from "@mui/material";
+import { setUserType } from "../../redux/Slices/userTypeSlice";
 
 const DashboardClient = ({ userId }) => {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
+
   console.log(userId);
   const [users, setUsers] = useState({});
   useEffect(() => {
@@ -23,16 +25,27 @@ const DashboardClient = ({ userId }) => {
       setUsers(userId[0]);
     }
   }, []);
-  console.log(users.lastName);
-  const userName = users.name || "Nombre de usuario por defecto";
-  const userLastName = users.lastName || "Apellido por defecto";
-  const userLocation = users.location || "Ubicación por defecto";
-  const userEmail = users.email || "maria@example.com";
+
+  const usersBase = useSelector((state) => state.clients.updater);
+
+  const userName =
+    usersBase && usersBase.name !== undefined ? usersBase.name : users.name;
+  const userLastName =
+    usersBase && usersBase.lastName !== undefined
+      ? usersBase.lastName
+      : users.lastName;
+  const userLocation =
+    usersBase && usersBase.location !== undefined
+      ? usersBase.location
+      : users.location;
+  const userEmail =
+    usersBase && usersBase.email !== undefined ? usersBase.email : users.email;
   const userImage =
-    users.image ||
-    "https://vivolabs.es/wp-content/uploads/2022/03/perfil-mujer-vivo.png";
-  const userUserName = users.userName || "Nombre de usuario por defecto";
-  const userProvince = users.province || "Provincia por defecto";
+    usersBase && usersBase.image !== undefined ? usersBase.image : users.image;
+  const userProvince =
+    usersBase && usersBase.province !== undefined
+      ? usersBase.province
+      : users.province;
 
   const [user, setUser] = useState({
     name: userName,
@@ -61,7 +74,7 @@ const DashboardClient = ({ userId }) => {
       location: user.location,
       province: user.province,
     };
-    console.log("updatedUser:", updatedUser);
+    // console.log("updatedUser:", updatedUser);
     try {
       // Envía la solicitud PATCH al servidor para actualizar el cliente
       const response = await dispatch(updateClientOnServer(updatedUser));
@@ -79,8 +92,9 @@ const DashboardClient = ({ userId }) => {
   };
 
   useEffect(() => {
-    console.log("Users after update:", users);
+    // console.log('Users after update:', users);
     // Llamada a la función getComments para obtener los comentarios
+
     const fetchComments = async () => {
       try {
         const commentsData = await getComments();
@@ -98,6 +112,8 @@ const DashboardClient = ({ userId }) => {
 
     if (window.confirm(confirmationMessage)) {
       if (actionType === "cambio de contraseña") {
+        const userType = "professional";
+        dispatch(setUserType(userType));
         window.location.href = "/password";
       } else {
         alert(`Va a ser redirigido para realizar su pedido de ${actionType}.`);

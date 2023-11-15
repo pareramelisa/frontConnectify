@@ -2,7 +2,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { applyFilters } from './adsSlice';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE;
-import axiosInstance from '../Utils/AxiosInstance';
+import axios from 'axios';
 
 const FilterSlice = createSlice({
   name: 'filter',
@@ -53,7 +53,7 @@ export const fetchFilter = ({
       if (workLocation) {
         url += `workLocation=${workLocation}&`;
       }
-      const { data } = await axiosInstance.get(url);
+      const { data } = await axios.get(url);
       dispatch(applyFilters(data));
     } catch (error) {
       throw error;
