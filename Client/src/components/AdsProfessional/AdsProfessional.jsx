@@ -18,7 +18,7 @@ import LocalLibraryOutlinedIcon from "@mui/icons-material/LocalLibraryOutlined";
 import {
   deleteAd,
   disableAdStart,
-  fetchAdss,
+  fetchAdsToProfDashboard,
 } from "../../redux/Slices/createAdsSlice";
 import { useState } from "react";
 import { useEffect } from "react";
@@ -42,7 +42,7 @@ function AdsProfesional() {
   };
 
   useEffect(() => {
-    dispatch(fetchAdss(userId));
+    dispatch(fetchAdsToProfDashboard(userId));
   }, [dispatch]);
 
   return (
