@@ -1,11 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import axiosInstance from '../Utils/AxiosInstance';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
-console.log(VITE_API_BASE);
 
-// const URL = `http://localhost:3001`;
 const URL = VITE_API_BASE;
-console.log(URL);
 
 export const professionalSlice = createSlice({
   name: 'professionalSlice',
@@ -37,7 +34,6 @@ export const fetchProfsForAdmin = () => {
     const endpoint = URL + `/professional/`;
     try {
       const response = await axiosInstance.get(endpoint);
-      console.log(response.data);
       const professionals = response.data;
       dispatch(getAllProfessionals(professionals));
       return professionals;

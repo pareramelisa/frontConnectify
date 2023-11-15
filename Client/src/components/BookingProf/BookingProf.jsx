@@ -26,13 +26,8 @@ function BookingProf() {
     fetchComments();
   }, [user._id]);
 
-  console.log("todos los comentarios", comments);
   const userComments = comments.filter(
     (comment) => comment.professional_id === userId
-  );
-  console.log(
-    "coments filtrados solo los que coinciden con el id del que esta registrado",
-    userComments
   );
 
   return (
