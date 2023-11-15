@@ -10,37 +10,33 @@ import { Link } from "react-router-dom";
 import RenderReservs from "./RenderReservs";
 import { Button, Card } from "@mui/material";
 import { setUserType } from "../../redux/Slices/userTypeSlice";
+import { fetchClientsForAdmin } from "../../redux/Slices/clientSlice";
 
 const DashboardClient = ({ userId }) => {
   const dispatch = useDispatch();
   const [editMode, setEditMode] = useState(false);
+  const usersBase = useSelector((state) => state.clients.updater); //Los datos que se cambian en el formulario
+  const users = useSelector((state) => state.usersLogin.user); ////Los datos el usuario logueado
 
-  const [users, setUsers] = useState({});
-  // const [usersBase, setUsersBase] = useState({});
-  const ifClient = useSelector((state) => state.usersLogin.user);
-  const usersBase = useSelector((state) => state.clients.updater);
+  const userName =
+    usersBase && usersBase.name !== undefined ? usersBase.name : users.name;
+  const userLastName =
+    usersBase && usersBase.lastName !== undefined
+      ? usersBase.lastName
+      : users.lastName;
+  const userLocation =
+    usersBase && usersBase.location !== undefined
+      ? usersBase.location
+      : users.location;
+  const userEmail =
+    usersBase && usersBase.email !== undefined ? usersBase.email : users.email;
+  const userImage =
+    usersBase && usersBase.image !== undefined ? usersBase.image : users.image;
+  const userProvince =
+    usersBase && usersBase.province !== undefined
+      ? usersBase.province
+      : users.province;
 
-  useEffect(() => {
-    if (!userId) {
-      // setUsersBase(upDater);
-      setUsers(ifClient);
-    } else {
-      // setUsersBase(upDater);
-      setUsers(userId[0]);
-    }
-  }, []);
-
-  // console.log(userId[0]);
-  console.log(ifClient);
-  console.log(users);
-  // console.log(upDater);
-  console.log(usersBase);
-  const userName = users.name;
-  const userLastName = users.lastName;
-  const userLocation = users.location;
-  const userEmail = users.email;
-  const userImage = users.image;
-  const userProvince = users.province;
   const [user, setUser] = useState({
     name: userName,
     LastName: userLastName,
@@ -76,6 +72,7 @@ const DashboardClient = ({ userId }) => {
       if (response) {
         setEditMode(false);
         alert("Su cambio se ha guardado con éxito");
+        dispatch(fetchClientsForAdmin());
       } else {
         // Manejar el caso en que la actualización no sea exitosa
         console.error("Error al actualizar el cliente:", response);
@@ -89,7 +86,6 @@ const DashboardClient = ({ userId }) => {
   useEffect(() => {
     // console.log('Users after update:', users);
     // Llamada a la función getComments para obtener los comentarios
-
     const fetchComments = async () => {
       try {
         const commentsData = await getComments();
