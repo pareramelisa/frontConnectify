@@ -35,12 +35,12 @@ const DashboardClient = ({ userId }) => {
   console.log(users);
   // console.log(upDater);
   console.log(usersBase);
-  const userName = usersBase?.name || users.name;
-  const userLastName = usersBase?.lastName || users.lastName;
-  const userLocation = usersBase?.location || users.location;
-  const userEmail = usersBase?.email || users.email;
-  const userImage = usersBase?.image || users.image;
-  const userProvince = usersBase?.province || users.province;
+  const userName = users.name;
+  const userLastName = users.lastName;
+  const userLocation = users.location;
+  const userEmail = users.email;
+  const userImage = users.image;
+  const userProvince = users.province;
   const [user, setUser] = useState({
     name: userName,
     LastName: userLastName,
@@ -49,7 +49,7 @@ const DashboardClient = ({ userId }) => {
     location: userLocation,
     image: userImage,
   });
-  console.log(user);
+  console.log(users);
 
   const [comments, setComments] = useState([]);
   const userComments = comments.filter(
