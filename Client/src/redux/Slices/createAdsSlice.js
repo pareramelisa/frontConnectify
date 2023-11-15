@@ -10,17 +10,16 @@ const initialState = {
   error: null,
 };
 
-// Función de utilidad para actualizar los anuncios después de deshabilitar uno
 const updateAdsAfterDisable = (state, action) => {
   state.loading = false;
-  const updatedAds = state.createAds.map((ad) =>
-    ad._id === action.payload._id ? { ...ad, ...action.payload } : ad
+
+  const updatedAds = state.createAds.filter(
+    (ad) => ad._id !== action.payload._id
   );
 
   state.createAds = updatedAds;
 };
 
-// Acciones asíncronas
 export const createAd = createAsyncThunk("ads/createAd", async (adData) => {
   const endpoint = `${VITE_API_BASE}/ads`;
   const response = await axios.post(endpoint, adData);
@@ -34,16 +33,19 @@ export const deleteAd = createAsyncThunk("ads/deleteAd", async (id) => {
   return response.data;
 });
 
-export const fetchAds = createAsyncThunk("ads/fetchAds", async (userId) => {
-  const endpoint = `${VITE_API_BASE}/ads`;
-  const response = await axiosInstance.get(endpoint);
-  const adsFilter = response.data.filter((ad) => ad.creator[0]._id === userId);
+export const fetchAdsToProfDashboard = createAsyncThunk(
+  "adsCreate/fetchAdsToProfDashboard",
+  async (userId) => {
+    const endpoint = `${VITE_API_BASE}/ads`;
+    const response = await axiosInstance.get(endpoint);
+    const adsFilter = response.data.filter(
+      (ad) => ad.creator[0]._id === userId
+    );
 
-  return adsFilter;
-  //eliminado el tryCatch debido a que el createAsyncThunk ya maneja los errores.
-});
+    return adsFilter;
+  }
+);
 
-// Slice
 const createAdsSlice = createSlice({
   name: "createAds",
   initialState,
@@ -72,7 +74,7 @@ const createAdsSlice = createSlice({
         state.error = action.error.message;
       })
       .addCase(deleteAd.pending, (state) => {
-        state.status = "loading";
+        state.loading = true;
       })
       .addCase(deleteAd.fulfilled, (state, action) => {
         state.status = "succeeded";
@@ -82,21 +84,20 @@ const createAdsSlice = createSlice({
         state.status = "failed";
         state.error = action.error.message;
       })
-      .addCase(fetchAds.pending, (state) => {
+      .addCase(fetchAdsToProfDashboard.pending, (state) => {
         state.status = "loading";
       })
-      .addCase(fetchAds.fulfilled, (state, action) => {
+      .addCase(fetchAdsToProfDashboard.fulfilled, (state, action) => {
         state.status = "succeeded";
         state.createAds = action.payload; // Actualiza el estado con los anuncios obtenidos
       })
-      .addCase(fetchAds.rejected, (state, action) => {
+      .addCase(fetchAdsToProfDashboard.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.error.message;
       });
   },
 });
 
-// Exportar acciones y selector
 export const { disableAdStart, disableAdSuccess, disableAdFailure } =
   createAdsSlice.actions;
 export const dataAds = (state) => state.createAds.createAds;
