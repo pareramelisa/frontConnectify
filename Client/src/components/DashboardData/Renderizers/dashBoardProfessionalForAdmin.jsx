@@ -57,7 +57,7 @@ const DashBoardProfessionalForAdmin = ({ userId }) => {
       </div>
       <button onClick={() => handlerBTP()}>Volver al Panel De Control</button>
       <h1 style={{ marginLeft: "65px", fontSize: "30px", fontWeight: 300 }}>
-        Perfil de {users.userName}
+        Perfil de {users.name}
       </h1>
       <Divider />
       <Grid container justifyContent={"space-evenly"} sx={{ pb: 25 }}>

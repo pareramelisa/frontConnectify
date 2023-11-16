@@ -31,7 +31,7 @@ const SupportPopUp = ({ isVisible, professional, onClose }) => {
           </h2>
         </div>
         <div className={style.buttons}>
-          {!professional.creator && (
+          {!professional.creator && !professional.profession && (
             <button onClick={() => handlerSeeClientsProfile(professional._id)}>
               Editar Perfil del Cliente
             </button>
