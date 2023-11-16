@@ -21,7 +21,7 @@ const Header = () => {
           alignItems: "center",
         }}
       >
-        <h1>Dashboard de Administrador</h1>
+        <h1>Panel de Control</h1>
         <h2>Bienvenido, {users.userName}</h2>
       </div>
     </div>

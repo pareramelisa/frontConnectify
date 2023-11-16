@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
+import axiosInstance from "../Utils/AxiosInstance";
 const VITE_API_BASE = import.meta.env.VITE_API_BASE || "localhost";
 
 // const URL = `http://localhost:3001`;
@@ -74,22 +74,6 @@ export const updateClientOnServer = (updatedUser) => {
     } catch (error) {
       console.log(error);
       return "No se pudo actualizar el cliente en el servidor";
-    }
-  };
-};
-export const fetchClientById = (_id) => {
-  return async (dispatch) => {
-    const endpoint = "http://localhost:3001" + `/clients/${_id}`;
-    // const endpoint = VITE_API_BASE + `/clients/${_id}`;
-    try {
-      const response = await axios.get(endpoint);
-      console.log(response);
-      const client = response.data;
-      dispatch(getClientByID(client));
-      return client;
-    } catch (error) {
-      console.log(error);
-      return "No está el cliente";
     }
   };
 };

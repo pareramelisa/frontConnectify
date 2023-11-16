@@ -74,10 +74,10 @@ const CommentsForAdmin = () => {
       setLoading(false);
     }, 750);
   }
-
+  const amount = allComments.length;
   return (
     <div>
-      <h1>Comentarios Recientes:</h1>
+      <h1>Comentarios Recientes: ({amount})</h1>
       {allComments.length !== 0 ? (
         allComments.map((comment) => (
           <div key={comment._id}>
@@ -117,6 +117,7 @@ const CommentsForAdmin = () => {
               </h4>
               <p>Comentario: {comment.comment}</p>
             </div>
+            <hr></hr>
           </div>
         ))
       ) : (
