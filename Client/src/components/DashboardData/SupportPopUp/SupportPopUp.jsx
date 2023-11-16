@@ -17,6 +17,10 @@ const SupportPopUp = ({ isVisible, professional, onClose }) => {
     console.log(userId);
     navigate(`/admin/client/dashboard/${userId}`);
   };
+  const handlerSeeProfessionalsProfile = (userId) => {
+    console.log(userId);
+    navigate(`/admin/professional/dashboard/${userId}`);
+  };
   return (
     <div className={style.modal}>
       <button onClick={onClose}>Cerrar</button>
@@ -29,7 +33,14 @@ const SupportPopUp = ({ isVisible, professional, onClose }) => {
         <div className={style.buttons}>
           {!professional.creator && (
             <button onClick={() => handlerSeeClientsProfile(professional._id)}>
-              Editar Perfil
+              Editar Perfil del Cliente
+            </button>
+          )}
+          {!professional.creator && professional.profession && (
+            <button
+              onClick={() => handlerSeeProfessionalsProfile(professional._id)}
+            >
+              Editar Perfil del Profesional
             </button>
           )}
 

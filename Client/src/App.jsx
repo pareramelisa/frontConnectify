@@ -15,9 +15,9 @@ import DashboardClient from "./views/DashboardClient/DashboardClient";
 import Team from "./components/Footer/Team/Team";
 import RequestPassword from "./components/ResetPassword/RequestPassword/RequestPassword";
 import ResetPassword from "./components/ResetPassword/ResetPassword/ResetPassword";
-import { useAuth0 } from "@auth0/auth0-react";
 import { useSelector } from "react-redux";
 import ClientDashboarsRenderer from "./components/DashboardData/Renderizers/clientDashboarsRenderer";
+import ProfessionalDashboarsRenderer from "./components/DashboardData/Renderizers/professionalDashboarsRenderer";
 
 function App() {
   const users = useSelector((state) => state.usersLogin.user);
@@ -60,6 +60,17 @@ function App() {
           ) : (
             <Route
               path="/admin/client/dashboard/:userId"
+              element={<Landing />}
+            />
+          )}
+          {users.types === "admin" ? (
+            <Route
+              path="/admin/professional/dashboard/:userId"
+              element={<ProfessionalDashboarsRenderer />}
+            />
+          ) : (
+            <Route
+              path="/admin/professional/dashboard/:userId"
               element={<Landing />}
             />
           )}

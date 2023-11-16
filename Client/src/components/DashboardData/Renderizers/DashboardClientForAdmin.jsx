@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
 import UserInfoCard from "../../../views/DashboardClient/UserInfoCardClient";
 import { updateClientOnServer } from "../../../redux/Slices/clientSlice";
@@ -14,6 +15,7 @@ import { fetchClientsForAdmin } from "../../../redux/Slices/clientSlice";
 
 const DashboardClientForAdmin = ({ userId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
   const users = userId[0];
   useEffect(() => {
@@ -107,6 +109,9 @@ const DashboardClientForAdmin = ({ userId }) => {
       }
     }
   };
+  const handlerBTP = () => {
+    navigate("/admin/dashboard");
+  };
 
   return (
     <div
@@ -116,6 +121,9 @@ const DashboardClientForAdmin = ({ userId }) => {
       <div style={{ margin: "0em 2em" }}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
+            <button onClick={() => handlerBTP()}>
+              Volver al Panel de Control
+            </button>
             <UserInfoCard
               user={user}
               userImage={userImage}
