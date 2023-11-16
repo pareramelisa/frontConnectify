@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 const SupportPopUp = ({ isVisible, professional, onClose }) => {
   const navigate = useNavigate();
   console.log(professional);
-  console.log(professional.payments[0]);
+  console.log(professional.payments);
 
   const handlerToDetail = (_id) => {
     console.log(_id);
