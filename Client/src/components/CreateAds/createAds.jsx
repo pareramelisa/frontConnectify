@@ -94,6 +94,7 @@ function CreateAdForm() {
       setIdAnuncio(response.payload._id);
       setShowNotification(true);
       dispatch(fetchAds());
+      localStorage.removeItem("formData")
     } catch (error) {
       console.error('Error al crear el anuncio:', error);
     }

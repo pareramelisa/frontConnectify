@@ -19,6 +19,7 @@ import { logoutUser } from "../../redux/Slices/loginSlice";
 import style from './Navbar.module.css';
 import carpetaEstrella from '../../assets/carpetaEstrella002.svg'
 import { logoutGoogle } from "../../redux/Slices/loginGoogleSlice";
+import { fetchAds } from "../../redux/Slices/adsSlice";
 
 
 function ResponsiveAppBar({ setContainerLogin }) {
