@@ -3,18 +3,16 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { fetchUserRegister } from "../../redux/Slices/registerSlice";
-
 import TextField from "@mui/material/TextField";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { InputLabel , Box, Select,  MenuItem, FormControl} from "@mui/material";
+import { InputLabel , Box, Select,  MenuItem, FormControl,  Autocomplete, Button } from "@mui/material";
 import * as validations from "./ValidationsRegister";
 import Navbar from '../Navbar/Navbar'
 
-import Button from "@mui/material/Button";
-
 const Registration = () => {
 const navigate = useNavigate();
+const professions = ["Abogado", "Arquitecto", "Contador","Plomero Gasista", "Electricista", "Diseñador","Desarrollador web","Profesor", "Fotógrafo", "Asistente Virtual", "Instalación y Service", "Pintor","Esteticista" /* ... otras profesiones */];
 ///localStorage.clear();
   const [errorMessages, setErrorMessages] = useState({});
   const [clientRegister, setClientRegister] = useState(() => {
@@ -41,30 +39,28 @@ const navigate = useNavigate();
   const updateUserName = () => {
     if (clientRegister.email) {
       const userName = clientRegister.email.split("@")[0];
-      const currentDate = new Date();
-      const dateString = currentDate.toISOString().substring(0, 10); // Obtén la fecha en formato "YYYY-MM-DD"
-      const uniqueUserName = `${userName}${dateString}`.replace(/[^a-zA-Z0-9]/g, ''); // Elimina los caracteres especiales del string
+      const randomValue = Math.floor(100000 + Math.random() * 900000); // Número aleatorio entre 100000 y 999999
+      const uniqueUserName = `${userName}${randomValue}`;
+  
       setClientRegister((prevState) => ({
         ...prevState,
         userName: uniqueUserName,
       }));
     }
   };
-
+  
 
   useEffect(() => {
     updateUserName();
   }, [clientRegister.email]);
 
   useEffect(() => {
-    localStorage.setItem("clientRegisterData", JSON.stringify(clientRegister));
-    
+    localStorage.setItem("clientRegisterData", JSON.stringify(clientRegister)); 
   }, [clientRegister]);
 
   useEffect(() => {
     updateUserName();
     setClientRegister(prevState => ({ ...prevState, image: "" }));
-
   }, []);
 
   const routeLocation = useLocation();
@@ -80,19 +76,16 @@ const navigate = useNavigate();
     message:""
   })
 
- 
-
   function getProvinces(data) {
-    const provinces = data.localidades.map((provincia) => { return provincia.provincia.nombre; });
-    return [...new Set(provinces)];
+    const provinces = data.localidades.map((provincia) => provincia.provincia.nombre);
+    const sortedProvinces = [...new Set(provinces)].sort((a, b) => a.localeCompare(b));
+    return sortedProvinces;
   }
-
-  const provincesList = getProvinces(miApi);
   
+  const provincesList = getProvinces(miApi);
 
   const selectedProvParticular = clientRegister.province;
-  //console.log('Provincia seleccionada:', selectedProvParticular);
-
+  
   function selectCitiesByProvince(data, selectedProvince) {
     const cities = data.localidades.filter((ciudad) => {
       return ciudad.provincia.nombre === selectedProvince;
@@ -102,8 +95,6 @@ const navigate = useNavigate();
   }
 
   const citiesInSelectedProvince = selectCitiesByProvince(miApi, selectedProvParticular);
-  //console.log('Ciudades en la provincia seleccionada:', citiesInSelectedProvince);
-
 
 
   const renderPasswordToggle = () => (
@@ -142,10 +133,8 @@ const navigate = useNavigate();
   
    
     setError({ error: false, message: "", });
-  
     // Actualizar el estado del campo "email"
     setEmail(email);
-  
     return true;
   }
   
@@ -153,7 +142,7 @@ const navigate = useNavigate();
   const dispatch = useDispatch();
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    console.log("Datos actuales en clientRegister:", clientRegister);
     const errors = {};
 
     // Validación de formato de imagen
@@ -182,9 +171,7 @@ const navigate = useNavigate();
         message: "",
       });
     }
-    
-    // console.log("clientRegister:", clientRegister);
-    // console.log("remoteWork:", remoteWork);
+  
 
     if (Object.values(errors).some((error) => error !== null)) {
       return;
@@ -238,15 +225,12 @@ const navigate = useNavigate();
   };
 
 
-
   useEffect(() => {
     if (clientRegister.province) {
       
-
       // Obtén las ciudades de la provincia desde el API
       const citiesInSelectedProvince = selectCitiesByProvince(miApi, clientRegister.province);
       
-  
       const defaultLocation = citiesInSelectedProvince.length > 0
         ? { nombre: "Elija una ciudad de la provincia seleccionada", value: "" }
         : { nombre: "Elija una ciudad de la provincia seleccionada", value: "" };
@@ -297,7 +281,6 @@ const navigate = useNavigate();
     
     if (type === "checkbox") setRemoteWork(e.target.checked);
     
-
     const nameArray = name.split(".");
 
     if (nameArray.length === 2) {
@@ -313,11 +296,9 @@ const navigate = useNavigate();
       setClientRegister({ ...clientRegister, [name]: value });
     }
 
-
     if (name === 'location') {
       setClientRegister((prevState) => ({
-        ...prevState,
-        
+        ...prevState,   
         ...prevState,
        
   locationJob: value,
@@ -325,20 +306,21 @@ const navigate = useNavigate();
       }));
     }
 
-    // Validación específica para "name" y "Apellido"
-  if ((name === 'name') || (name === 'lastName' )) {
-    // Transformar la primera letra a mayúscula
-    const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1);
-    // Validar que solo haya una palabra
-    const isOneWord = /^[^\s]+$/.test(capitalizedValue);
+// Validación específica para "name" y "lastName"
+if (name === 'name' || name === 'lastName') {
+  // Transformar la primera letra a mayúscula y las siguientes a minúscula
+  const capitalizedValue = value.charAt(0).toUpperCase() + value.slice(1).toLowerCase();
+  // Validar que solo haya una palabra
+  const isOneWord = /^[^\s]+$/.test(capitalizedValue);
 
-    if (isOneWord) {
-      setClientRegister((prevState) => ({
-        ...prevState,
-        [name]: capitalizedValue,
-      }));
-    } 
+  if (isOneWord) {
+    setClientRegister((prevState) => ({
+      ...prevState,
+      [name]: capitalizedValue,
+    }));
   }
+}
+
   };
 
   const handleImageUpload = (e) => {
@@ -374,7 +356,6 @@ const navigate = useNavigate();
       locationJob,
       profession,
       description,
-      //remoteWork,
       image,
     } = clientRegister;
 
@@ -516,7 +497,7 @@ const navigate = useNavigate();
         </Select>
         </FormControl>
  
-  <h4>Ciudad*</h4>
+  <h4>Ciudad/Barrio*</h4>
   <FormControl fullWidth required>
     
     <Select
@@ -540,6 +521,7 @@ const navigate = useNavigate();
      
     </Select>
   </FormControl>
+<div style={{ padding: "15px" }}></div>
           </div>
           {ifProfRoute && (
             <div style={{ backgroundColor: "transparent" }}>
@@ -549,16 +531,24 @@ const navigate = useNavigate();
               </div>
              
               
-              <TextField
-              label="Profesión u oficio."
-                type="text"
-                name="profession"
-                value={clientRegister.profession}
-                onChange={handleChange}
-                placeholder="profesión u oficio."
-                fullWidth
-                required
-              />
+              <FormControl fullWidth>
+      <InputLabel>Profesión u oficio.</InputLabel>
+      <Select
+        label="Profesión u oficio."
+        name="profession"
+        value={clientRegister.profession || ''}
+        onChange={handleChange}
+      >
+        <MenuItem value="" disabled>
+          Seleccione una profesión
+        </MenuItem>
+        {professions.map((profession) => (
+          <MenuItem key={profession} value={profession}>
+            {profession}
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
               <div style={{ padding: "5px" }}></div>
               
               <TextField
@@ -569,19 +559,10 @@ const navigate = useNavigate();
                 onChange={handleChange}
                 placeholder="Comparte tus habilidades con la comunidad de Connectify"
                 fullWidth
-                required                
+                required
+                inputProps={{ maxLength: 100 }}                
               />
-              {/* <div style={{ padding: "5px" }}>
-              <label htmlFor="remoteWork">Trabajo Remoto</label>
-            <input
-              type="checkbox"
-              // id="myCheckbox"
-              name="remoteWork"
-              value={remoteWork}
-              onChange={handleChange}
-            />
-          </div> */}
-                            
+                          
             </div>
           )}
           <div style={{ padding: "5px" }}></div>
@@ -647,4 +628,3 @@ const navigate = useNavigate();
           };
 
 export default Registration;
-
