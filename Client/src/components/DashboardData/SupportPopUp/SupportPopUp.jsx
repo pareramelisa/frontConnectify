@@ -6,19 +6,20 @@ import { useNavigate } from "react-router-dom";
 
 const SupportPopUp = ({ isVisible, professional, onClose }) => {
   const navigate = useNavigate();
+  console.log(professional);
+  console.log(professional.payments[0]);
 
   const handlerToDetail = (_id) => {
+    console.log(_id);
     navigate(`/detail/${_id}`);
   };
   const handlerToPayments = (userName) => {
     navigate(`/payments/${userName}`);
   };
   const handlerSeeClientsProfile = (userId) => {
-    console.log(userId);
     navigate(`/admin/client/dashboard/${userId}`);
   };
   const handlerSeeProfessionalsProfile = (userId) => {
-    console.log(userId);
     navigate(`/admin/professional/dashboard/${userId}`);
   };
   return (
