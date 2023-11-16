@@ -73,6 +73,9 @@ function AdsProfesional() {
           </Link>
         </span>
       </ListSubheader>
+      <Typography variant="body2" color="grey" sx={{ fontSize: "10px" }}>
+            *Al deshabilitar un anuncio deberá contactarse con el administrador para habilitarlo nuevamente.
+          </Typography>
       {status === "loading" ? (
         <Stack
           direction={"row"}
@@ -110,9 +113,6 @@ function AdsProfesional() {
                     ) : (
                       <Delete />
                     )}
-                  </IconButton>
-                  <IconButton aria-label="edit">
-                    <EditIcon />
                   </IconButton>
                 </>
               )
