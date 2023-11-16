@@ -8,7 +8,6 @@ import {
 import style from "./CommentsForAdmin.module.css";
 
 const CommentsForAdmin = () => {
-  console.log(654654);
   // const comments = useSelector((state) => state.comments.comments);
   const comments = useSelector((state) =>
     state.comment.comments.filter((comment) => !comment.isChecked)
