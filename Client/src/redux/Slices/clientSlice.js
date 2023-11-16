@@ -1,12 +1,12 @@
-import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-const VITE_API_BASE = import.meta.env.VITE_API_BASE || "localhost";
+import { createSlice } from '@reduxjs/toolkit';
+import axios from 'axios';
+const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
 
 // const URL = `http://localhost:3001`;
 // const URL = `https://connectifyback-dp-production.up.railway.app`;
 
 export const clientSlice = createSlice({
-  name: "clientSlice",
+  name: 'clientSlice',
   initialState: {
     clients: [],
     detail: {},
@@ -38,14 +38,14 @@ export const fetchClientsForAdmin = () => {
   return async (dispatch) => {
     const endpoint = VITE_API_BASE + `/client/`;
     try {
-      const response = await axiosInstance.get(endpoint);
+      const response = await axios.get(endpoint);
       console.log(response.data);
       const clients = response.data;
       dispatch(getAllClients(clients));
       return clients;
     } catch (error) {
       console.log(error);
-      return "No hay clientes disponibles";
+      return 'No hay clientes disponibles';
     }
   };
 };
@@ -53,12 +53,12 @@ export const deleteClientByIdAdmin = (id) => {
   return async (dispatch) => {
     const endpoint = VITE_API_BASE + `/client/${id}/delete`;
     try {
-      const deleted = await axiosInstance.patch(endpoint, id);
+      const deleted = await axios.patch(endpoint, id);
 
       dispatch(deleteClient(deleted));
     } catch (error) {
       console.log(error);
-      return "No se pudo bannear dicho cliente";
+      return 'No se pudo bannear dicho cliente';
     }
   };
 };
@@ -68,18 +68,18 @@ export const updateClientOnServer = (updatedUser) => {
   return async (dispatch) => {
     const endpoint = VITE_API_BASE + `/client/${updatedUser._id}`;
     try {
-      const updatedClient = await axiosInstance.patch(endpoint, updatedUser);
+      const updatedClient = await axios.patch(endpoint, updatedUser);
       dispatch(updateClient(updatedClient.data));
       return updatedClient.data;
     } catch (error) {
       console.log(error);
-      return "No se pudo actualizar el cliente en el servidor";
+      return 'No se pudo actualizar el cliente en el servidor';
     }
   };
 };
 export const fetchClientById = (_id) => {
   return async (dispatch) => {
-    const endpoint = "http://localhost:3001" + `/clients/${_id}`;
+    const endpoint = 'http://localhost:3001' + `/clients/${_id}`;
     // const endpoint = VITE_API_BASE + `/clients/${_id}`;
     try {
       const response = await axios.get(endpoint);
@@ -89,7 +89,7 @@ export const fetchClientById = (_id) => {
       return client;
     } catch (error) {
       console.log(error);
-      return "No está el cliente";
+      return 'No está el cliente';
     }
   };
 };
