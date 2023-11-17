@@ -6,6 +6,7 @@ import {
   checkCommentByIdAdmin,
 } from "../../../redux/Slices/commentSlice";
 import style from "./CommentsForAdmin.module.css";
+import Cover from "../../Cover/Cover";
 
 const CommentsForAdmin = () => {
   // const comments = useSelector((state) => state.comments.comments);
@@ -75,46 +76,64 @@ const CommentsForAdmin = () => {
   }
   const amount = allComments.length;
   return (
-    <div>
-      <h1>Comentarios Recientes: ({amount})</h1>
+    <div className={style.containerCommentsAdmin}>
+      <div className={style.titleCommentsAdmin}>
+        <h2>Comentarios Recientes: ({amount})</h2>
+      </div>
       {allComments.length !== 0 ? (
         allComments.map((comment) => (
-          <div key={comment._id}>
-            <div>
-              <h4>
-                <button onClick={() => handleCensura(comment._id)}>
-                  {comment.isDeleted ? "Descensurar" : "Censurar"}
-                </button>{" "}
-                <button onClick={() => handleCheck(comment._id)}>
-                  Marcar como leído
-                </button>{" "}
-                De{" "}
+          <div key={comment._id} className={style.containesCommentAdmin}>
+            <h4>
+              De{" "}
+              <button
+                onClick={() => handleClickReviewer(comment.Client)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "blue",
+                  cursor: "pointer",
+                }}
+              >
+                {comment.Client.userName}
+              </button>{" "}
+              hacia{" "}
+              <button
+                onClick={() => handleClickReviewee(comment.Professional)}
+                style={{
+                  background: "none",
+                  border: "none",
+                  color: "blue",
+                  cursor: "pointer",
+                }}
+              >
+                {comment.Professional.userName}
+              </button>
+              Fecha: {comment.date.substring(0, 10)}
+            </h4>
+            <div className={style.containerTextButtonCommentAdmin}>
+              <div className={style.containerTextCommentAdmin}>
+                <p className={style.commentAdmin}>
+                  Comentario: {comment.comment}
+                </p>
+              </div>
+              <div className={style.containerButtonCommentAdmin}>
                 <button
-                  onClick={() => handleClickReviewer(comment.Client)}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    color: "blue",
-                    cursor: "pointer",
-                  }}
+                  onClick={() => handleCensura(comment._id)}
+                  className={
+                    comment.isDeleted
+                      ? style.buttonCommentAdminHabilitado
+                      : style.buttonCommentAdminCensurado
+                  }
                 >
-                  {comment.Client.userName}
+                  {comment.isDeleted ? "Habilitar" : "Censurar"}
                 </button>{" "}
-                hacia{" "}
                 <button
-                  onClick={() => handleClickReviewee(comment.Professional)}
-                  style={{
-                    background: "none",
-                    border: "none",
-                    color: "blue",
-                    cursor: "pointer",
-                  }}
+                  onClick={() => handleCheck(comment._id)}
+                  className={style.buttonCommentAdminLeido}
                 >
-                  {comment.Professional.userName}
-                </button>
-                Fecha: {comment.date.substring(0, 10)}
-              </h4>
-              <p>Comentario: {comment.comment}</p>
+                  Leído
+                </button>{" "}
+              </div>
             </div>
             <hr></hr>
           </div>
@@ -126,7 +145,16 @@ const CommentsForAdmin = () => {
         className={style.loadingMessage}
         style={{ display: loading ? "flex" : "none" }}
       >
-        <div className={style.loadingText}>Loading...</div>
+        <div className={style.spinner}>
+          <span className={style.ball1}></span>
+          <span className={style.ball2}></span>
+          <span className={style.ball3}></span>
+          <span className={style.ball4}></span>
+          <span className={style.ball5}></span>
+          <span className={style.ball6}></span>
+          <span className={style.ball7}></span>
+          <span className={style.ball8}></span>
+        </div>
       </div>
       {showReviewerDetails && (
         <div className={style.vemos}>
@@ -137,10 +165,12 @@ const CommentsForAdmin = () => {
                 "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCMq4cGfAmaJAYVpXFPLY57EzVip1FTMK-ETQH1aU24VD-bYx5wJ4srHFP99zAgqXBvfQ&usqp=CAU"
               }
             />
-            <button onClick={handleClose}>X</button>
+            <button onClick={handleClose} className={style.closeButton}>
+              X
+            </button>
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <h3>Nombre: {whoToShow.name}</h3>
-              <h3>Apellido: {whoToShow.lastName}</h3>
+              {whoToShow.name ? <h3>Nombre: {whoToShow.name}</h3> : null}
+              {whoToShow.name ? <h3>Apellido: {whoToShow.lastName}</h3> : null}
               <h3>Nombre de Usarió: {whoToShow.userName}</h3>
               <h3>Email: {whoToShow.email}</h3>
             </div>
@@ -151,7 +181,9 @@ const CommentsForAdmin = () => {
         <div className={style.vemos}>
           <div className={style.details}>
             <img src={whoToShow.image} />
-            <button onClick={handleClose}>X</button>
+            <button onClick={handleClose} className={style.closeButton}>
+              X
+            </button>
             <div
               style={{
                 display: "flex",
