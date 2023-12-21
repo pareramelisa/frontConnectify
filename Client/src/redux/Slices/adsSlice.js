@@ -1,9 +1,9 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axiosInstance from '../Utils/AxiosInstance';
-const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import axiosInstance from "../Utils/AxiosInstance";
+const VITE_API_BASE = import.meta.env.VITE_API_BASE || "localhost";
 
 // Define una función asincrónica para cargar los anuncios
-export const fetchAds = createAsyncThunk('ads/fetchAds', async () => {
+export const fetchAds = createAsyncThunk("ads/fetchAds", async () => {
   const endpoint = `${VITE_API_BASE}/ads`;
   const response = await axiosInstance.get(endpoint);
   return response.data;
@@ -11,12 +11,12 @@ export const fetchAds = createAsyncThunk('ads/fetchAds', async () => {
 });
 
 const adsSlice = createSlice({
-  name: 'ads',
+  name: "ads",
   initialState: {
     ads: [],
     deleted: {},
     adsFiltered: [],
-    status: 'idle',
+    status: "idle",
     error: null,
   },
   reducers: {
@@ -34,15 +34,15 @@ const adsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchAds.pending, (state) => {
-        state.status = 'loading';
+        state.status = "loading";
       })
       .addCase(fetchAds.fulfilled, (state, action) => {
-        state.status = 'succeeded';
+        state.status = "succeeded";
         state.ads = action.payload;
         state.adsFiltered = action.payload;
       })
       .addCase(fetchAds.rejected, (state, action) => {
-        state.status = 'failed';
+        state.status = "failed";
         state.error = action.error.message;
       });
   },
@@ -54,7 +54,7 @@ export default adsSlice.reducer;
 
 export const fetchAdsForAdmin = () => {
   return async (dispatch) => {
-    const endpoint = `${VITE_API_BASE}/ads`;
+    const endpoint = `${VITE_API_BASE}/ads/anunciosAdmin`;
     try {
       const response = await axiosInstance.get(endpoint);
       console.log(response.data);
@@ -63,7 +63,7 @@ export const fetchAdsForAdmin = () => {
       return ads;
     } catch (error) {
       console.log(error);
-      return 'No hay avisos disponibles';
+      return "No hay avisos disponibles";
     }
   };
 };
@@ -76,7 +76,7 @@ export const deleteAdByIdAdmin = (id) => {
       dispatch(deleteAd(deleted));
     } catch (error) {
       console.log(error);
-      return 'No se pudo eliminar dicho anuncio';
+      return "No se pudo eliminar dicho anuncio";
     }
   };
 };

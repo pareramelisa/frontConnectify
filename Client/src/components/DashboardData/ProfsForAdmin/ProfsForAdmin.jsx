@@ -10,7 +10,6 @@ import {
 import {
   fetchClientsForAdmin,
   deleteClientByIdAdmin,
-  fetchClientById,
 } from "../../../redux/Slices/clientSlice";
 import {
   fetchAdsForAdmin,
@@ -39,7 +38,6 @@ const ProfsForAdmin = () => {
   };
 
   useEffect(() => {
-    console.log(765765);
     const fetchData = async () => {
       try {
         await dispatch(fetchClientsForAdmin());
@@ -49,6 +47,7 @@ const ProfsForAdmin = () => {
         console.error("falló el fetcheo", error);
       }
     };
+
     fetchData();
   }, []);
 

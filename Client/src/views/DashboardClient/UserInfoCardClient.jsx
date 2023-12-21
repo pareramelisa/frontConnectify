@@ -31,7 +31,7 @@ const UserInfoCard = ({
       <h3
         style={{ border: "none", borderRadius: 5, padding: 1, margin: "1em" }}
       >
-        Mi perfil
+        Perfil de {user.name || "Usuario"}
       </h3>
 
       <CardHeader

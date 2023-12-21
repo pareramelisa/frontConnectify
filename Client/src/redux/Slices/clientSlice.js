@@ -77,19 +77,3 @@ export const updateClientOnServer = (updatedUser) => {
     }
   };
 };
-export const fetchClientById = (_id) => {
-  return async (dispatch) => {
-    const endpoint = "http://localhost:3001" + `/clients/${_id}`;
-    // const endpoint = VITE_API_BASE + `/clients/${_id}`;
-    try {
-      const response = await axios.get(endpoint);
-      console.log(response);
-      const client = response.data;
-      dispatch(getClientByID(client));
-      return client;
-    } catch (error) {
-      console.log(error);
-      return "No está el cliente";
-    }
-  };
-};
