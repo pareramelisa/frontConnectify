@@ -26,13 +26,8 @@ function BookingProf() {
     fetchComments();
   }, [user._id]);
 
-  console.log("todos los comentarios", comments);
   const userComments = comments.filter(
     (comment) => comment.professional_id === userId
-  );
-  console.log(
-    "coments filtrados solo los que coinciden con el id del que esta registrado",
-    userComments
   );
 
   return (
@@ -59,7 +54,7 @@ function BookingProf() {
         userComments.map((comment, index) => (
           <ListItem key={index} sx={{ padding: "15px" }} disableGutters>
             <Typography variant="body2" color="black" sx={{ fontSize: "15px" }}>
-              {`Nombre del cliente: ${comment.clientName} | Comentario: ${comment.comment} | Rating: ${comment.rating} `}
+              {`Nombre del cliente: ${comment.clientName} | Comentario: ${comment.comment} | Rating: ${comment.rating}⭐ `}
             </Typography>
           </ListItem>
         ))

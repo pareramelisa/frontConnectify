@@ -1,20 +1,122 @@
+.containerCommentsAdmin {
+  width: 100%;
+  min-height: 45rem;
+  max-height: 45rem;
+  margin-top: 1.55rem;
+  padding: 1rem;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 20px;
+  border: 2px solid #2196f3;
+  gap: 1rem;
+  overflow: auto;
+}
+
+.titleCommentsAdmin {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.containesCommentAdmin {
+  width: 100%;
+  height: auto;
+  display: flex;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid #3b7ba4;
+  border-radius: 20px;
+}
+
+.commentAdmin {
+  text-align: center;
+  font-size: 1rem;
+}
+
+.containerTextButtonCommentAdmin {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.containerButtonCommentAdmin {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.containerTextCommentAdmin {
+  width: 70%;
+}
+
+.buttonCommentAdminCensurado {
+  width: 10rem;
+  padding: 0.3rem;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  background-color: rgb(122, 44, 44);
+  color: #ffffff;
+}
+
+.buttonCommentAdminHabilitado {
+  width: 10rem;
+  padding: 0.3rem;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  background-color: #4caf50;
+  color: #000000;
+}
+
+.buttonCommentAdminLeido {
+  width: 10rem;
+  padding: 0.3rem;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  background-color: #2196f3;
+  color: #ffffff;
+}
+
 .vemos {
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
   position: fixed;
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100vh;
   z-index: 999;
   background-color: rgba(0, 0, 0, 0.5);
 }
+
 .details {
   background-color: white;
-  height: 400px;
+  height: 450px;
   width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  border-radius: 5%;
+  border: 2px solid rgb(38, 38, 104);
+}
+
+.closeButton {
+  position: absolute;
+  top: 10px;
+  right: 10px;
 }
 .modal {
   display: flex;
@@ -73,9 +175,89 @@
   align-items: center;
   z-index: 1000;
 }
-.loadingText {
+
+/* .loadingText {
   font-size: 200px;
   color: #333;
   text-align: center;
   margin: auto;
+} */
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1;
+  height: 40px;
+  width: 40px;
+  transform: translate(-50%, -50%);
+}
+
+.spinner span {
+  position: absolute;
+  display: block;
+  left: 30px;
+  width: 12px;
+  height: 12px;
+  border-radius: 6px;
+  transition: all 0.5s;
+  animation: circleRotate 4s both infinite;
+  transform-origin: 0 250% 0;
+}
+
+@keyframes circleRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(1440deg);
+  }
+}
+
+.spinner span:nth-child(1) {
+  z-index: -1;
+  background-color: #2196f3;
+  animation-timing-function: cubic-bezier(0.5, 0.3, 0.9, 0.9);
+}
+
+.spinner span:nth-child(2) {
+  z-index: -2;
+  background-color: #03a9f4;
+  animation-timing-function: cubic-bezier(0.5, 0.6, 0.9, 0.9);
+}
+
+.spinner span:nth-child(3) {
+  z-index: -3;
+  background-color: #00bcd4;
+  animation-timing-function: cubic-bezier(0.5, 0.9, 0.9, 0.9);
+}
+
+.spinner span:nth-child(4) {
+  z-index: -4;
+  background-color: #009688;
+  animation-timing-function: cubic-bezier(0.5, 1.2, 0.9, 0.9);
+}
+
+.spinner span:nth-child(5) {
+  z-index: -5;
+  background-color: #4caf50;
+  animation-timing-function: cubic-bezier(0.5, 1.5, 0.9, 0.9);
+}
+
+.spinner span:nth-child(6) {
+  z-index: -6;
+  background-color: #8bc34a;
+  animation-timing-function: cubic-bezier(0.5, 1.8, 0.9, 0.9);
+}
+
+.spinner span:nth-child(7) {
+  z-index: -7;
+  background-color: #cddc39;
+  animation-timing-function: cubic-bezier(0.5, 2.1, 0.9, 0.9);
+}
+
+.spinner span:nth-child(8) {
+  z-index: -8;
+  background-color: #ffeb3b;
+  animation-timing-function: cubic-bezier(0.5, 2.4, 0.9, 0.9);
 }

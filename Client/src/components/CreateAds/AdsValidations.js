@@ -27,7 +27,6 @@ export const isValidPrice = (price) => {
       errorMessage: 'El precio no puede ser mayor a 10000.',
     };
   }
-
   return {
     isValid: true,
     errorMessage: '',

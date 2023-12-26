@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
-import axiosInstance from '../Utils/AxiosInstance';
-const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
+import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
+const VITE_API_BASE = import.meta.env.VITE_API_BASE || "localhost";
 
 // const URL = `http://localhost:3001`;
 // const URL = `https://connectifyback-dp-production.up.railway.app`;
 
 export const clientSlice = createSlice({
-  name: 'clientSlice',
+  name: "clientSlice",
   initialState: {
     clients: [],
     detail: {},
@@ -45,7 +45,7 @@ export const fetchClientsForAdmin = () => {
       return clients;
     } catch (error) {
       console.log(error);
-      return 'No hay clientes disponibles';
+      return "No hay clientes disponibles";
     }
   };
 };
@@ -58,7 +58,7 @@ export const deleteClientByIdAdmin = (id) => {
       dispatch(deleteClient(deleted));
     } catch (error) {
       console.log(error);
-      return 'No se pudo bannear dicho cliente';
+      return "No se pudo bannear dicho cliente";
     }
   };
 };
@@ -73,7 +73,7 @@ export const updateClientOnServer = (updatedUser) => {
       return updatedClient.data;
     } catch (error) {
       console.log(error);
-      return 'No se pudo actualizar el cliente en el servidor';
+      return "No se pudo actualizar el cliente en el servidor";
     }
   };
 };

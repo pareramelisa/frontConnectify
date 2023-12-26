@@ -27,13 +27,13 @@ export default function PaymentsProf({ payments }) {
                         <Typography color="textSecondary" style={{ margin: '5px', padding: '6px' }}>
                             {new Date(pay.date).toLocaleDateString()}
                         </Typography>
-                        <Avatar src={pay.professionalId.image} />
+                        <Avatar src={pay.clientData.image} />
                         <CardContent>
                             <Typography variant="body2">
-                                {pay.professionalId.name} {pay.professionalId.lastName} ({pay.professionalId.profession[0]})
+                                {pay.clientData.name} {pay.clientData.lastName}
                             </Typography>
                             <Typography variant="body2">
-                                <a href={`mailto:${pay.professionalId.email}`}>{pay.professionalId.email}</a>
+                                <a href={`mailto:${pay.clientData.email}`}>{pay.clientData.email}</a>
                             </Typography>
                         </CardContent>
                     </Grid>

@@ -1,28 +1,31 @@
 
 /* eslint-disable react-hooks/exhaustive-deps */
-import { IoMdRefresh } from "react-icons/io";
-import { MdPersonSearch } from "react-icons/md";
-import Obrero from "../../assets/Obrero.gif";
-import { useState, useEffect } from "react";
-import Navbar from "../../components/Navbar/Navbar";
-import Login from "../../components/Login/Login";
-import { useLocation } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { locationUser } from "../../redux/Slices/persistSlice";
-import Professional from "../../components/Card/Professional";
-import { fetchAds } from "../../redux/Slices/adsSlice";
-import styles from "./Home.module.css";
-import Pagination from "../../components/Pagination/Pagination";
-import { fetchFilter } from "../../redux/Slices/FiltersCombinedSlice";
-import Slider from "rc-slider";
-import "rc-slider/assets/index.css";
-import Footer from "../../components/Footer/Footer";
-import Chat from "../../components/Chat/Chat";
-import ButtonTop from "../../components/Utils/ButtonTop/ButtonTop";
-import Loading from "../../components/Utils/Loading/Loading";
-import { useAuth0 } from "@auth0/auth0-react";
-import { fetchUserLoginWithGoogle } from "../../redux/Slices/loginGoogleSlice";
-import Cover from "../../components/Cover/Cover";
+
+import { IoMdRefresh } from 'react-icons/io';
+import { MdPersonSearch } from 'react-icons/md';
+import Obrero from '../../assets/Obrero.gif';
+import { useState, useEffect } from 'react';
+import Navbar from '../../components/Navbar/Navbar';
+import Login from '../../components/Login/Login';
+import { useLocation } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { locationUser } from '../../redux/Slices/persistSlice';
+import Professional from '../../components/Card/Professional';
+import { fetchAds } from '../../redux/Slices/adsSlice';
+import styles from './Home.module.css';
+import Pagination from '../../components/Pagination/Pagination';
+import { fetchFilter } from '../../redux/Slices/FiltersCombinedSlice';
+import Slider from 'rc-slider';
+import 'rc-slider/assets/index.css';
+import Footer from '../../components/Footer/Footer';
+import Chat from '../../components/Chat/Chat';
+import ButtonTop from '../../components/Utils/ButtonTop/ButtonTop';
+import Loading from '../../components/Utils/Loading/Loading';
+import { useAuth0 } from '@auth0/auth0-react';
+import { fetchUserLoginWithGoogle } from '../../redux/Slices/loginGoogleSlice';
+import Cover from '../../components/Cover/Cover';
+import { IconButton } from '@mui/material';
+
 
 const Home = () => {
   //* Declaraciones de variables
@@ -32,10 +35,10 @@ const Home = () => {
   //* Estados locales
   const [containerLogin, setContainerLogin] = useState(false);
   const [priceRange, setPriceRange] = useState([1000, 10000]);
-  const [profession, setProfession] = useState("");
-  const [locationProf, setLocationProf] = useState("");
-  const [sortPrice, setSortPrice] = useState("");
-  const [workLocation, setWorkLocation] = useState("");
+  const [profession, setProfession] = useState('');
+  const [locationProf, setLocationProf] = useState('');
+  const [sortPrice, setSortPrice] = useState('');
+  const [workLocation, setWorkLocation] = useState('');
   const [chatOpen, setChatOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -57,10 +60,10 @@ const Home = () => {
   const indexOfLastAd = currentPage * adsPerPage;
   const indexOfFirstAd = indexOfLastAd - adsPerPage;
   // Guardamos los anuncios que se van a mostrar de indice en indice
-  // const currentAds = adsFiltered.slice(indexOfFirstAd, indexOfLastAd);
-  const currentAds = adsFiltered
-    ? adsFiltered.slice(indexOfFirstAd, indexOfLastAd)
-    : [];
+  // const currentAds = adsFiltered
+  //   ? adsFiltered.slice(indexOfFirstAd, indexOfLastAd)
+  //   : [];
+  const currentAds = adsFiltered.slice(indexOfFirstAd, indexOfLastAd);
 
   const paginate = (pageNumber) => {
     setCurrentPage(pageNumber);
@@ -97,18 +100,7 @@ const Home = () => {
 
     const savedSortPrice = localStorage.getItem('sortPrice');
     if (savedSortPrice && adsFiltered.length > 0) {
-      setSortPrice(savedSortPrice);
-    }
-    dispatch(
-      fetchFilter({
-        profession: '',
-        locationProf: '',
-        workLocation: '',
-        minPrice: 1000,
-        maxPrice: 10000,
-        sortPrice: '',
-      })
-    );
+      setSortPrice(savedSortPrice)
   }, []);
 
   useEffect(() => {
@@ -171,16 +163,8 @@ const Home = () => {
     setSortPrice('');
     setPriceRange([1000, 10000]);
     setWorkLocation('');
-    dispatch(
-      fetchFilter({
-        profession: '',
-        locationProf: '',
-        workLocation: '',
-        minPrice: 1000,
-        maxPrice: 10000,
-        sortPrice: '',
-      })
-    );
+    dispatch(fetchAds());
+
 
     localStorage.setItem('locationProf', '');
     localStorage.setItem('profession', '');
@@ -195,9 +179,26 @@ const Home = () => {
     setChatOpen(!chatOpen);
   };
 
+  //* Función de comparación para ordenar por la primera letra
+  function sortByFirstLetter(a, b) {
+    const firstLetterA = a.charAt(0).toUpperCase();
+    const firstLetterB = b.charAt(0).toUpperCase();
+
+    if (firstLetterA < firstLetterB) {
+      return -1;
+    }
+    if (firstLetterA > firstLetterB) {
+      return 1;
+    }
+    return 0; // Las letras son iguales
+  }
+
   //* constantes para el filtro por profesion y ubicación
   const uniqueProfessions = [...new Set(ads.map((ad) => ad.profession))];
   const uniqueLocations = [...new Set(ads.map((ad) => ad.location))];
+  //* Ordenar alfabéticamente por la primera letra
+  uniqueProfessions.sort(sortByFirstLetter);
+  uniqueLocations.sort(sortByFirstLetter);
 
   //* useEffect para actualizar el estado de los anuncios
   useEffect(() => {
@@ -234,7 +235,7 @@ const Home = () => {
                   value={profession}
                   onChange={handleProfession}
                 >
-                  {profession === "" && (
+                  {profession === '' && (
                     <option value="DEFAULT">Elige una profesión</option>
                   )}
 
@@ -398,21 +399,6 @@ const Home = () => {
             </div>
           )}
         </div>
-        {isAuthenticated ? (
-          <button
-            className="open-chat-button"
-            onClick={toggleChat}
-            style={{
-              position: "fixed",
-              bottom: "20px",
-              right: "20px",
-              zIndex: 9999, // Asegura que el botón del chat aparezca por encima de otros contenidos
-            }}
-          >
-            Abrir Chat
-          </button>
-        ) : null}
-        {chatOpen && <Chat nickname={nickname} />}
         {currentAds.length !== 0 || adsFiltered.length !== 0 ? (
           <Pagination className={styles.paginado}
             currentPage={currentPage}
@@ -427,7 +413,7 @@ const Home = () => {
         </div>
       </div>
       <div className={styles.footer}>
-        {" "}
+        {' '}
         <Footer />
         <button
           className="open-chat-button"

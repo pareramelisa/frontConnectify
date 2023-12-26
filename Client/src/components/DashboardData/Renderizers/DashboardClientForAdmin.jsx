@@ -1,30 +1,32 @@
 import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { Grid } from "@mui/material";
-import UserInfoCard from "./UserInfoCardClient";
-import { updateClientOnServer } from "../../redux/Slices/clientSlice";
-import Navbar from "../../components/Navbar/Navbar";
-import ReviewItem from "../../components/ReusableComponents/ReviewShow";
-import { getComments } from "./CommentsOrganized";
+import UserInfoCard from "../../../views/DashboardClient/UserInfoCardClient";
+import { updateClientOnServer } from "../../../redux/Slices/clientSlice";
+import Navbar from "../../Navbar/Navbar";
+import ReviewItem from "../../ReusableComponents/ReviewShow";
+import { getComments } from "../../../views/DashboardClient/CommentsOrganized";
 import { Link } from "react-router-dom";
-import RenderReservs from "./RenderReservs";
+import RenderReservs from "../../../views/DashboardClient/RenderReservs";
 import { Button, Card } from "@mui/material";
-import { setUserType } from "../../redux/Slices/userTypeSlice";
-import { fetchClientsForAdmin } from "../../redux/Slices/clientSlice";
+import { setUserType } from "../../../redux/Slices/userTypeSlice";
+import { fetchClientsForAdmin } from "../../../redux/Slices/clientSlice";
 
-const DashboardClient = () => {
+const DashboardClientForAdmin = ({ userId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
-
+  const users = userId[0];
   useEffect(() => {
     dispatch(fetchClientsForAdmin());
   }, []);
 
   const usersLog = useSelector((state) => state.usersLogin.user); ////Los datos el usuario logueado
-  const users = useSelector(
-    (state) =>
-      state.clients.clients.filter((client) => client._id === usersLog._id)[0]
-  );
+  // const users = useSelector(
+  //   (state) =>
+  //     state.clients.clients.filter((client) => client._id === usersLog._id)[0]
+  // );
   console.log("users:", users);
   const userName = users.name;
   const userLastName = users.lastName;
@@ -107,6 +109,9 @@ const DashboardClient = () => {
       }
     }
   };
+  const handlerBTP = () => {
+    navigate("/admin/dashboard");
+  };
 
   return (
     <div
@@ -116,6 +121,9 @@ const DashboardClient = () => {
       <div style={{ margin: "0em 2em" }}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={8}>
+            <button onClick={() => handlerBTP()}>
+              Volver al Panel de Control
+            </button>
             <UserInfoCard
               user={user}
               userImage={userImage}
@@ -199,4 +207,4 @@ const DashboardClient = () => {
   );
 };
 
-export default DashboardClient;
+export default DashboardClientForAdmin;

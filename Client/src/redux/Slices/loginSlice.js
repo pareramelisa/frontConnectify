@@ -32,7 +32,7 @@ export const fetchUserLogin = (form) => {
     } else if (form.types === 'professional') {
       endpoint = VITE_API_BASE + `/professional/login/`;
     }
-
+    console.log(form);
     console.log(endpoint);
 
     try {

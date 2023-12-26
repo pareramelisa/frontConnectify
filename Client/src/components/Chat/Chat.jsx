@@ -4,77 +4,108 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 const VITE_API_BASE = import.meta.env.VITE_API_BASE || 'localhost';
 import './Chat.css';
-//Conexión para escuchar y enviar eventos
+// Conexión para escuchar y enviar eventos
 const socket = io(VITE_API_BASE);
 
-function Chat({ nickname }) {
+function Chat({ nickname, imageUser }) {
   const [message, setMessage] = useState('');
   const [messages, setMessages] = useState([]);
-  const [storedMessages, setStoredMessages] = useState([]);
-  const [firstTime, setFirstTime] = useState(false);
+  const [userColor] = useState(getRandomColor());
   const userEmail = nickname;
 
   const url = VITE_API_BASE + `/chat`;
-  // 'https://connectifyback-dp-production.up.railway.app/chat/';
 
   useEffect(() => {
-    if (!firstTime) {
-      fetchStoredMessages();
-      setFirstTime(true);
-    }
-    const receivedMessage = (message) => {
-      //console.log(message)
-      setMessages([message, ...messages]);
+    setMessages([]);
+    fetchStoredMessages();
+
+    // Listen for new messages
+    const receivedMessage = (newMessage) => {
+      // Add new messages to the end of the array
+      setMessages((prevMessages) => [...prevMessages, newMessage]);
     };
     socket.on('message', receivedMessage);
 
-    //Desuscribimos el estado del componente cuando ya no es necesario utilizarlo
+    // Unsubscribe when the component is unmounted
     return () => {
       socket.off('message', receivedMessage);
     };
-  }, [messages]);
+  }, []);
 
-  const handlerSubmit = (e) => {
+  const handlerSubmit = async (e) => {
     e.preventDefault();
-    if (message.trim() !== '') {
-      socket.emit('message', message, nickname);
-      //Nuestro mensaje
-      const newMessage = {
-        body: message,
-        from: 'Yo',
-      };
-      //Añadimos el mensaje y el resto de mensajes enviados
-      setMessages([newMessage, ...messages]);
-      //Limpiamos el mensaje
-      setMessage('');
 
-      //Petición http por POST para guardar el artículo:
-      axios.post(url + `/save`, {
-        message: message,
-        from: userEmail,
-      });
+    if (message.trim() !== '') {
+      try {
+        // Emitir el mensaje al socket
+        socket.emit('message', message, nickname, imageUser);
+
+        // Our message
+        const newMessage = {
+          body: message,
+          from: 'Yo',
+          image: imageUser, // Utilizar la imagen del usuario actual
+        };
+
+        // Agregar nuevos mensajes al final del array
+        setMessages((prevMessages) => [...prevMessages, newMessage]);
+
+        // Clear the message input
+        setMessage('');
+
+        // HTTP request para guardar el mensaje y la imagen
+        await axios.post(url + `/save`, {
+          message: message,
+          from: userEmail,
+          image: imageUser, // Incluir la imagen en el cuerpo de la solicitud
+        });
+      } catch (error) {
+        console.error('Error sending message:', error);
+      }
     } else {
       window.alert('No puede enviar mensajes vacíos');
     }
   };
 
   const fetchStoredMessages = async () => {
-    const { data } = await axios.get(url + `/messages`);
-    setStoredMessages(data);
-    console.log(storedMessages);
+    try {
+      const { data } = await axios.get(url + `/messages`);
+
+      // Ordenar mensajes por tiempo (timestamp)
+      const sortedMessages = data.sort((a, b) => a.timestamp - b.timestamp);
+
+      // Limpiar y actualizar el estado con mensajes ordenados
+      setMessages([...sortedMessages]);
+    } catch (error) {
+      console.error('Error fetching stored messages:', error);
+    }
   };
+
+  function getRandomColor() {
+    const letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
 
   return (
     <div className="chat-container">
       <div
         className="card"
-        style={{ maxWidth: '600px', maxHeight: '600px', overflow: 'auto' }}
+        style={{ maxWidth: '800px', maxHeight: '800px', overflow: 'auto' }}
       >
         <h5 className="text-center mb-3">CHAT</h5>
         <div
           id="content-chat"
           className="card-body"
           style={{ maxHeight: '400px', overflowY: 'auto' }}
+          ref={(el) => {
+            if (el) {
+              el.scrollTop = el.scrollHeight;
+            }
+          }}
         >
           {messages.map((message, index) => (
             <div
@@ -82,38 +113,25 @@ function Chat({ nickname }) {
               className={`chat-message ${
                 message.from === 'Yo' ? 'user-message' : 'other-message'
               }`}
+              style={{
+                backgroundColor: message.from === 'Yo' ? userColor : '',
+              }}
             >
               <div className="chat-bubble">
-                <small>
-                  {message.from}: {message.body}
+                <div className="user-info">
+                  <img
+                    src={message.image}
+                    alt="User Avatar"
+                    className="user-avatar"
+                  />
+                  <span className="user-nickname">{message.from}</span>
+                </div>
+                <small className="text-muted">
+                  {message.body || message.message}
                 </small>
               </div>
             </div>
           ))}
-          <div className="card-body"></div>
-          <small className="text-muted">Anteriores mensajes...</small>
-          {storedMessages ? (
-            storedMessages.length === 0 ? (
-              <p>Cargando mensajes...</p>
-            ) : (
-              storedMessages.map((message, index) => (
-                <div
-                  key={index}
-                  className={`chat-message ${
-                    message.from === nickname ? 'user-message' : 'other-message'
-                  }`}
-                >
-                  <div className="chat-bubble">
-                    <small className="text-muted">
-                      {message.from}: {message.message}
-                    </small>
-                  </div>
-                </div>
-              ))
-            )
-          ) : (
-            <p>Cargando mensajes...</p>
-          )}
         </div>
         <form onSubmit={handlerSubmit} className="form-chat">
           <input
