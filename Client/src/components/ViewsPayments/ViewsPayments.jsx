@@ -34,6 +34,7 @@ function ViewsPayments() {
     return acc;
   }, {});
 
+
   const handleCommentBoxToggle = (professionalId) => {
     setOpenCommentBoxId((prevId) =>
       prevId === professionalId ? null : professionalId
@@ -44,16 +45,11 @@ function ViewsPayments() {
     setOpenCommentBoxId(null);
   };
 
-  useEffect(() => {
-    const userNameGoogle = usersGoogle && usersGoogle.userName;
-    const userNameLocal = usersLocal && usersLocal.userName;
-    if (userNameGoogle) {
-      setUserName(userNameGoogle);
-    }
-    if (userNameLocal) {
-      setUserName(userNameLocal);
-    }
-  }, []);
+
+    
+    useEffect(() => {
+      
+      
 
   useEffect(() => {
     if (search) {
@@ -148,7 +144,10 @@ function ViewsPayments() {
   return (
     <div className={style.contentAll}>
       <Navbar />
-      <ButtonBack />
+      <div className={style.contButtonBack}>
+          <ButtonBack />
+      </div>
+
       <div className={style.contentAll}>
         <div className={style.contTitle}>
           <h2>Historial de pagos</h2>
@@ -179,4 +178,3 @@ function ViewsPayments() {
   );
 }
 
-export default ViewsPayments;

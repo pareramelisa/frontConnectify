@@ -1,4 +1,6 @@
+
 /* eslint-disable react-hooks/exhaustive-deps */
+
 import { IoMdRefresh } from 'react-icons/io';
 import { MdPersonSearch } from 'react-icons/md';
 import Obrero from '../../assets/Obrero.gif';
@@ -23,6 +25,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import { fetchUserLoginWithGoogle } from '../../redux/Slices/loginGoogleSlice';
 import Cover from '../../components/Cover/Cover';
 import { IconButton } from '@mui/material';
+
 
 const Home = () => {
   //* Declaraciones de variables
@@ -97,18 +100,7 @@ const Home = () => {
 
     const savedSortPrice = localStorage.getItem('sortPrice');
     if (savedSortPrice && adsFiltered.length > 0) {
-      setSortPrice(savedSortPrice);
-    }
-    // dispatch(
-    //   fetchFilter({
-    //     profession: '',
-    //     locationProf: '',
-    //     workLocation: '',
-    //     minPrice: 1000,
-    //     maxPrice: 10000,
-    //     sortPrice: '',
-    //   })
-    // );
+      setSortPrice(savedSortPrice)
   }, []);
 
   useEffect(() => {
@@ -172,16 +164,7 @@ const Home = () => {
     setPriceRange([1000, 10000]);
     setWorkLocation('');
     dispatch(fetchAds());
-    // dispatch(
-    //   fetchFilter({
-    //     profession: '',
-    //     locationProf: '',
-    //     workLocation: '',
-    //     minPrice: 1000,
-    //     maxPrice: 10000,
-    //     sortPrice: '',
-    //   })
-    // );
+
 
     localStorage.setItem('locationProf', '');
     localStorage.setItem('profession', '');
@@ -233,12 +216,14 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
+    <div >
       <Cover />
       <Navbar setContainerLogin={setContainerLogin} />
       <div className={styles.container111}>
         {containerLogin ? (
-          <Login setContainerLogin={setContainerLogin} />
+          <Login
+            setContainerLogin={setContainerLogin}
+          />
         ) : null}
         <div className={styles.filterStyle}>
           <div className={styles.contProfesionales}>
@@ -304,9 +289,7 @@ const Home = () => {
           </div>
 
           <div className={styles.contOrdenar}>
-            {/* <label>
-                Orden
-              </label> */}
+          
             <select
               className={`${styles.selectCss} ${styles.selectOrder}`}
               id="sortPrice"
@@ -317,16 +300,9 @@ const Home = () => {
               <option value="asc">Ascendente</option>
               <option value="desc">Descendente</option>
             </select>
-            {/* <FormControl sx={{ m: 1, minWidth: 170, maxWidth: 200 }}>
-                <InputLabel>Orden por Precio</InputLabel>
-                <Select id="sortPrice" onChange={handlesortPrice} value={sortPrice}>
-                  <MenuItem value="asc">Ascendente</MenuItem>
-                  <MenuItem value="desc">Descendente</MenuItem>
-                </Select>
-              </FormControl> */}
+           
           </div>
-          {/* <FormControl sx={{ m: 1, minWidth: 170, maxWidth: 200 }}>
-              <InputLabel>Trabajo</InputLabel> */}
+          
           <div className={styles.contRemoto}>
             <select
               className={`${styles.selectCss} ${styles.selectRemoto}`}
@@ -338,7 +314,7 @@ const Home = () => {
               <option value="Remoto">Remoto</option>
               <option value="Presencial">Presencial</option>
             </select>
-            {/* </FormControl> */}
+            
           </div>
           <div className={styles.contButtons}>
             <div className={styles.contButton}>
@@ -352,15 +328,7 @@ const Home = () => {
                 />
               </button>
 
-              {/* <Fab
-                color="primary"
-                onClick={applyFilters}
-                style={{
-                  zIndex: '1',
-                }}
-              >
-                <MdPersonSearch style={{ fontSize: '2.5em' }} />
-              </Fab> */}
+        
             </div>
             <div className={styles.contClear}>
               <button
@@ -432,8 +400,7 @@ const Home = () => {
           )}
         </div>
         {currentAds.length !== 0 || adsFiltered.length !== 0 ? (
-          <Pagination
-            className={styles.paginado}
+          <Pagination className={styles.paginado}
             currentPage={currentPage}
             adsPerPage={adsPerPage}
             totalAds={adsFiltered.length}
